@@ -17,18 +17,25 @@ export default function InputForm() {
     const kiloWattHourPerYearPerKWp = 1632
     const kiloWattHourPerYearPerPanel = kiloWattHourPerYearPerKWp * kiloWattPeakPerPanel
 
+    const baseMonthlyCosts = useMemo(() => {
+        return 40 * (connectionPower / 1000) *  1500
+    }, [connectionPower]);
 
     const consumptionPerYearInKwh = useMemo(() => {
-        const costsPerMonth = consumption
+        const costsPerMonth = consumption - baseMonthlyCosts
         const costsPerYear = costsPerMonth * 12
         const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
 
         return costsPerYear / pricePerKwh
-    }, [consumption, connectionPower]);
+    }, [consumption, connectionPower, baseMonthlyCosts]);
 
-    const multiplied = useMemo(() => {
+
+
+    const numberOfPanels = useMemo(() => {
         return consumptionPerYearInKwh / kiloWattHourPerYearPerPanel
-    }, [consumptionPerYearInKwh]);
+    }, [consumptionPerYearInKwh, kiloWattHourPerYearPerPanel]);
+
+
 
 
     const changeConsumption = (val?: string, name?: string) => {
@@ -47,7 +54,7 @@ export default function InputForm() {
             <table>
                 <tr>
                     <td>Monthly Electricity bill</td>
-                    <td align="right"><CurrencyInput prefix={'Rp. '} value={consumption} onValueChange={changeConsumption} /></td>
+                    <td align="right"><CurrencyInput prefix={'Rp. '} value={consumption} onValueChange={changeConsumption} inputMode="numeric" autoComplete="off" /></td>
                 </tr>
                 <tr>
                     <td>Electricity Connection</td>
@@ -57,14 +64,17 @@ export default function InputForm() {
                         </select>
                     </td>
                 </tr>
+            </table>
+
+            <table className="results">
                 <tr>
-                    <td>Konsumsi Listrik</td>
-                    <td align="right">
-                        <input type="range" min="0" max="1" step="0.1" defaultValue={0.5} />
-                    </td>
+                    <td>Yearly Consumption</td><td>{Math.round(consumptionPerYearInKwh)} kWh</td>
                 </tr>
                 <tr>
-                    <td>Yearly Consumption {Math.round(consumptionPerYearInKwh)} kWh</td><td>Panels: {Math.round(multiplied)}</td>
+                    <td>Panels</td><td>{Math.round(numberOfPanels)}</td>
+                </tr>
+                <tr>
+                    <td>Base costs</td><td>{Math.round(baseMonthlyCosts)}</td>
                 </tr>
             </table>
         </div>

@@ -43,3 +43,15 @@
   padding: .25rem;
   width: 7em;
 }
+
+.results {
+  font-size: 0.5em;
+}
+
+.results td:nth-child(1) {
+  text-align: left;
+}
+
+.results td:nth-child(2) {
+  text-align: right;
+}
