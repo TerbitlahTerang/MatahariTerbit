@@ -10,15 +10,21 @@ export default function InputForm() {
 
 
     const lowTariff = 1352
+    // add tax
     const highTariff = 1444.70
 
     // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1
+    // Square meters 450. 225 Watts / m2. Maybe add effective m2 needed vs panel surface
+
     const kiloWattPeakPerPanel = 0.330
+    // Either mountains vs coast or map location selecgtion
     const kiloWattHourPerYearPerKWp = 1632
     const kiloWattHourPerYearPerPanel = kiloWattHourPerYearPerKWp * kiloWattPeakPerPanel
 
+    // 4.4 kWh output / per 1 kWp (in Sanur)
+
     const baseMonthlyCosts = useMemo(() => {
-        return 40 * (connectionPower / 1000) *  1500
+        return 40 * (connectionPower / 1000) * 1500 // * 0.9 because kVa + taxes
     }, [connectionPower]);
 
     const consumptionPerYearInKwh = useMemo(() => {
@@ -29,13 +35,13 @@ export default function InputForm() {
         return costsPerYear / pricePerKwh
     }, [consumption, connectionPower, baseMonthlyCosts]);
 
+    // commercial, small business, residential
+    // capping based on meter size
 
 
     const numberOfPanels = useMemo(() => {
         return consumptionPerYearInKwh / kiloWattHourPerYearPerPanel
     }, [consumptionPerYearInKwh, kiloWattHourPerYearPerPanel]);
-
-
 
 
     const changeConsumption = (val?: string, name?: string) => {
@@ -54,13 +60,15 @@ export default function InputForm() {
             <table>
                 <tr>
                     <td>Monthly Electricity bill</td>
-                    <td align="right"><CurrencyInput prefix={'Rp. '} value={consumption} onValueChange={changeConsumption} inputMode="numeric" autoComplete="off" /></td>
+                    <td align="right"><CurrencyInput prefix={'Rp. '} value={consumption}
+                                                     onValueChange={changeConsumption} inputMode="numeric"
+                                                     autoComplete="off"/></td>
                 </tr>
                 <tr>
                     <td>Electricity Connection</td>
                     <td align="right">
                         <select value={connectionPower} onChange={changeConnection}>
-                            {powerOptions.map(option => (<option value={option}>{option} Watt</option>))}
+                            {powerOptions.map(option => (<option value={option}>{option} KVA</option>))}
                         </select>
                     </td>
                 </tr>
@@ -68,13 +76,16 @@ export default function InputForm() {
 
             <table className="results">
                 <tr>
-                    <td>Yearly Consumption</td><td>{Math.round(consumptionPerYearInKwh)} kWh</td>
+                    <td>Yearly Consumption</td>
+                    <td>{Math.round(consumptionPerYearInKwh)} kWh</td>
                 </tr>
                 <tr>
-                    <td>Panels</td><td>{Math.round(numberOfPanels)}</td>
+                    <td>Panels</td>
+                    <td>{Math.round(numberOfPanels)}</td>
                 </tr>
                 <tr>
-                    <td>Base costs</td><td>{Math.round(baseMonthlyCosts)}</td>
+                    <td>Base costs</td>
+                    <td>{Math.round(baseMonthlyCosts)}</td>
                 </tr>
             </table>
         </div>
