@@ -4,19 +4,21 @@
   "scripts": {
     "serve": "snowpack dev",
     "build": "snowpack build",
+    "deploy": "yarn build && yarn firebase deploy",
     "test": "echo \"This template does not include a test runner by default.\" && exit 1"
   },
   "dependencies": {
     "antd": "^4.16.13",
     "react": "17.0.2",
-    "react-currency-input-field": "^3.6.0",
     "react-dom": "17.0.2",
+    "react-is": "^17.0.2",
     "snowpack": "^3.8.8"
   },
   "devDependencies": {
     "@types/node": "16.11.6",
     "@types/react": "17.0.34",
     "eslint": "7",
-    "typescript": "4.4.4"
+    "typescript": "4.4.4",
+    "firebase-tools": "^9.22.0"
   }
 }

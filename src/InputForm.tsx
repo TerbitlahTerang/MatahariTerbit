@@ -1,9 +1,28 @@
-// import { Select } from 'antd'
+import { InputNumber, Select } from 'antd'
 import React, { useMemo, useState } from 'react'
-import CurrencyInput from "react-currency-input-field"
+
+export interface PowerOption {
+  name: string
+  value: number
+}
 
 export default function InputForm() {
-  const powerOptions = [450, 900, 1300, 2200, 3500, 3900, 4400, 5500, 6600, 7700, 10600, 11000, 13200, 16500]
+  const powerOptions: PowerOption[] = [
+    { name: '450 KVA', value: 450 },
+    { name: '900 KVA', value: 900 },
+    { name: '1300 KVA', value: 1300 },
+    { name: '2200 KVA', value: 2200 },
+    { name: '3500 KVA', value: 3500 },
+    { name: '3900 KVA', value: 3900 },
+    { name: '4400 KVA', value: 4400 },
+    { name: '5500 KVA', value: 5500 },
+    { name: '6600 KVA', value: 6600 },
+    { name: '7700 KVA', value: 7700 },
+    { name: '10600 KVA', value: 10600 },
+    { name: '11000 KVA', value: 11000 },
+    { name: '13200 KVA', value: 13200 },
+    { name: '16500 KVA', value: 16500 }
+  ]
 
   const [consumption, setConsumption] = useState(1000000)
 
@@ -45,49 +64,55 @@ export default function InputForm() {
   }, [consumptionPerYearInKwh, kiloWattHourPerYearPerPanel])
 
 
-  const changeConsumption = (val?: string, name?: string) => {
-    if (val) {
-      setConsumption(parseInt(val))
-    } else setConsumption(0)
+  const changeConsumption = (value: number) => {
+    setConsumption(value)
   }
 
-  const changeConnection = (event: any) => {
-    setConnectionPower(event.target.value)
+  const changeConnection = (value: number) => {
+    setConnectionPower(value)
   }
 
   return (
     <div>
-      <h1>Hey Roy</h1>
+      <h1>Solar panel calculator</h1>
       <table>
-        <tr>
-          <td>Monthly Electricity bill</td>
-          <td align="right"><CurrencyInput prefix={'Rp. '} value={consumption}
-            onValueChange={changeConsumption} inputMode="numeric"
-            autoComplete="off" /></td>
-        </tr>
-        <tr>
-          <td>Electricity Connection</td>
-          <td align="right">
-            <select value={connectionPower} onChange={changeConnection}>
-              {powerOptions.map(option => (<option value={option}>{option} KVA</option>))}
-            </select>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Monthly Electricity bill</td>
+            <td align="right">
+              <InputNumber style={{ width: 140, textAlign: 'right' }}
+                defaultValue={consumption}
+                onChange={changeConsumption}
+                formatter={(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} />
+            </td>
+          </tr>
+          <tr>
+            <td>Electricity Connection</td>
+            <td align="right">
+              <Select value={connectionPower} onChange={changeConnection} >
+                {powerOptions.map(option => (<Select.Option key={option.value} value={option.value}>{option.name}</Select.Option>))}
+              </Select>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       <table className="results">
-        <tr>
-          <td>Yearly Consumption</td>
-          <td>{Math.round(consumptionPerYearInKwh)} kWh</td>
-        </tr>
-        <tr>
-          <td>Panels</td>
-          <td>{Math.round(numberOfPanels)}</td>
-        </tr>
-        <tr>
-          <td>Base costs</td>
-          <td>{Math.round(baseMonthlyCosts)}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Yearly Consumption</td>
+            <td>{Math.round(consumptionPerYearInKwh)} kWh</td>
+          </tr>
+          <tr>
+            <td>Panels</td>
+            <td>{Math.round(numberOfPanels)}</td>
+          </tr>
+          <tr>
+            <td>Base costs</td>
+            <td>{Math.round(baseMonthlyCosts)}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   )
