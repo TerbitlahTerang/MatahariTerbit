@@ -13,7 +13,7 @@ export default function App() {
     return (
         <div className="container">
             <Card title={t('languageSelector')}>
-                <Select onChange={changeLanguage}>
+                <Select onChange={changeLanguage} defaultValue={i18n.language}>
                     <Select.Option key="en" value="en-US">🇺🇸 EN</Select.Option>
                     <Select.Option key="id" value="id-ID">🇮🇩 ID</Select.Option>
                 </Select>
