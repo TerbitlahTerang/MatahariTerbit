@@ -77,17 +77,16 @@ export default function InputForm() {
       <Form layout="vertical" name="calculator">
         <Row gutter={16}>
           <Col xs={24} sm={12}>
-            <Form.Item name="bill" label="Monthly Electricity bill">
+            <Form.Item name="bill" label="Monthly Electricity bill" initialValue={consumption}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }}
-                defaultValue={consumption}
                 onChange={changeConsumption}
                 formatter={(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
-            <Form.Item name="connection" label="Electricity Connection">
-              <Select style={{ width: '100%' }} value={connectionPower} onChange={changeConnection} >
+            <Form.Item name="connection" label="Electricity Connection" initialValue={connectionPower}>
+              <Select style={{ width: '100%' }} onChange={changeConnection} >
                 {powerOptions.map(option => (<Select.Option key={option.value} value={option.value}>{option.name}</Select.Option>))}
               </Select>
             </Form.Item>
