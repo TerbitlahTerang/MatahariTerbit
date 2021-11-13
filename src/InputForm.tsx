@@ -1,4 +1,4 @@
-import { InputNumber, Select } from 'antd'
+import { Col, Form, InputNumber, Row, Select } from 'antd'
 import React, { useMemo, useState } from 'react'
 
 export interface PowerOption {
@@ -74,30 +74,26 @@ export default function InputForm() {
 
   return (
     <div>
-      <h1>Solar panel calculator</h1>
-      <table>
-        <tbody>
-          <tr>
-            <td>Monthly Electricity bill</td>
-            <td align="right">
-              <InputNumber style={{ width: 140, textAlign: 'right' }}
+      <Form layout="vertical" name="calculator">
+        <Row gutter={16}>
+          <Col xs={24} sm={12}>
+            <Form.Item name="bill" label="Monthly Electricity bill">
+              <InputNumber style={{ width: '100%', textAlign: 'right' }}
                 defaultValue={consumption}
                 onChange={changeConsumption}
                 formatter={(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} />
-            </td>
-          </tr>
-          <tr>
-            <td>Electricity Connection</td>
-            <td align="right">
-              <Select value={connectionPower} onChange={changeConnection} >
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={12}>
+            <Form.Item name="connection" label="Electricity Connection">
+              <Select style={{ width: '100%' }} value={connectionPower} onChange={changeConnection} >
                 {powerOptions.map(option => (<Select.Option key={option.value} value={option.value}>{option.name}</Select.Option>))}
               </Select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
       <table className="results">
         <tbody>
           <tr>

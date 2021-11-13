@@ -1,6 +1,7 @@
 import 'antd/dist/antd.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import InputForm from './InputForm'
+import App from './App'
+import './index.css'
 
-ReactDOM.render(<div><InputForm /></div>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
