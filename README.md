@@ -1,3 +1,21 @@
+## Plans
+
+### Irradiance
+ - [ ] Current location selection
+ - [ ] Determine yearly irradiance for a coordinate
+
+### Calculations
+ - [X] Subtract minimum costs from number of panels
+ - [ ] Cap production based on connection size
+ - [ ] Include taxes
+ - [ ] Enhanced vs simple mode
+
+### Explanation
+ - [ ] Show ROI graph
+ - [ ] Display costs breakdown
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
