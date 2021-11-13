@@ -13,7 +13,6 @@
 ### Explanation
  - [ ] Show ROI graph
  - [ ] Display costs breakdown
- - 
 
 ## Dependencies & Libraries
 - Snowpack
