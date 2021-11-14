@@ -1,4 +1,17 @@
 {
   "title": "Solar panel Calculator",
-  "languageSelector": "Select Language"
+  "languageSelector": "Select Language",
+  "resultTable": {
+    "recommendedPanels": "Recommended # of Panels",
+    "monthlyProduction": "Monthly Production",
+    "monthlyConsumption": "Monthly Consumption",
+    "remainingMonthlyCosts": "Remaining monthly costs",
+    "currentMonthlyCosts": "Current monthly costs",
+    "monthlyProfit": "Monthly profit",
+    "yearlyProfit": "Yearly profit"
+  },
+  "inputForm": {
+    "monthlyBill": "Monthly Electricity bill",
+    "connectionPower": "Electricity Connection Power"
+  }
 }

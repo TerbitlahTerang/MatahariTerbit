@@ -1,6 +1,6 @@
 import React from 'react'
 import { Line } from 'react-chartjs-2'
-import { ResultData } from '../util/calculations'
+import { ResultData } from '../services/CalculationService'
 
 export interface ROIChartProps {
   data: ResultData

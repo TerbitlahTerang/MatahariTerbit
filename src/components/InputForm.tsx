@@ -1,6 +1,8 @@
 import { Col, Form, InputNumber, Row, Select } from 'antd'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
+import { formatRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
 
 export interface PowerOption {
@@ -9,7 +11,7 @@ export interface PowerOption {
 }
 
 export interface InputData {
-  consumption: number
+  monthlyCostEstimateInRupiah: number
   connectionPower: number
   location: MapState
 }
@@ -20,21 +22,24 @@ export interface InputFormProps {
 }
 
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
+
+  const { t } = useTranslation()
+
   const powerOptions: PowerOption[] = [
-    { name: '450 KVA', value: 450 },
-    { name: '900 KVA', value: 900 },
-    { name: '1300 KVA', value: 1300 },
-    { name: '2200 KVA', value: 2200 },
-    { name: '3500 KVA', value: 3500 },
-    { name: '3900 KVA', value: 3900 },
-    { name: '4400 KVA', value: 4400 },
-    { name: '5500 KVA', value: 5500 },
-    { name: '6600 KVA', value: 6600 },
-    { name: '7700 KVA', value: 7700 },
-    { name: '10600 KVA', value: 10600 },
-    { name: '11000 KVA', value: 11000 },
-    { name: '13200 KVA', value: 13200 },
-    { name: '16500 KVA', value: 16500 }
+    { name: '450 VA', value: 450 },
+    { name: '900 VA', value: 900 },
+    { name: '1.300 VA', value: 1300 },
+    { name: '2.200 VA', value: 2200 },
+    { name: '3.500 VA', value: 3500 },
+    { name: '3.900 VA', value: 3900 },
+    { name: '4.400 VA', value: 4400 },
+    { name: '5.500 VA', value: 5500 },
+    { name: '6.600 VA', value: 6600 },
+    { name: '7.700 VA', value: 7700 },
+    { name: '10.600 VA', value: 10600 },
+    { name: '11.000 VA', value: 11000 },
+    { name: '13.200 VA', value: 13200 },
+    { name: '16.500 VA', value: 16500 }
   ]
 
   const [form] = Form.useForm()
@@ -49,18 +54,21 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         const consumption = form.getFieldValue('consumption')
         const connectionPower = form.getFieldValue('connectionPower')
         const location = form.getFieldValue('location') as MapState
-        props.onChange({ consumption, connectionPower, location })
+        props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, location })
       }}>
         <Row gutter={16}>
           <Col xs={24} sm={12}>
-            <Form.Item name="consumption" label="Monthly Electricity bill" initialValue={props.initialValue.consumption}>
+            <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
+              initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }}
-                formatter={(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} />
+                formatter={(value) => formatRupiah(value)}
+                parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
+                step={100000} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
-            <Form.Item name="connectionPower" label="Electricity Connection" initialValue={props.initialValue.connectionPower}>
+            <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
+              initialValue={props.initialValue.connectionPower}>
               <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
             </Form.Item>
           </Col>

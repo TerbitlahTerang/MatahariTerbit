@@ -6,7 +6,7 @@ import { InputData, InputForm } from './components/InputForm'
 import { ResultTable } from './components/ResultTable'
 import { ROIChart } from './components/ROIChart'
 import { INITIAL_INPUT_DATA } from './constants'
-import { calculateResultData } from './util/calculations'
+import { calculateResultData } from './services/CalculationService'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -24,7 +24,7 @@ export const App: React.FunctionComponent = () => {
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
       </Card>
       <Card title="Results">
-        <ResultTable data={resultData} />
+        <ResultTable results={resultData} />
       </Card>
       <Card title="Return on Investment">
         <ROIChart data={resultData} />

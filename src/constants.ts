@@ -4,7 +4,7 @@ export const GOOGLE_MAPS_KEY = 'AIzaSyA191Lgk8nZhKo4E81LbtwUHCz7-wl3Ea0'
 export const DEFAULT_ZOOM = 6
 
 export const INITIAL_INPUT_DATA: InputData = {
-  consumption: 1000000,
+  monthlyCostEstimateInRupiah: 1000000,
   connectionPower: 7700,
   location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' }
 }

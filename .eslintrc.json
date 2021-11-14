@@ -23,6 +23,9 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "indent": ["error", 2],
+    "object-curly-spacing": [ "error", "always" ],
+    "@typescript-eslint/object-curly-spacing": ["error", "always"],
     "prefer-const": "error",
     "import/no-unresolved": "off",
     "no-mixed-operators": "off",
@@ -34,7 +37,7 @@
     "no-return-await": "error",
     "no-array-constructor": "error",
     "@typescript-eslint/array-type": "off",
-    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",

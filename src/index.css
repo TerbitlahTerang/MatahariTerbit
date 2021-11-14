@@ -16,3 +16,7 @@ body {
   max-width: 480px;
   margin-bottom: 16px;
 }
+
+.results td:nth-child(2) {
+  text-align: right;
+}
