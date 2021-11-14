@@ -6,9 +6,6 @@ export interface MapMarkerProps {
 }
 
 export const MapMarker: React.FunctionComponent<MapMarkerProps> = (props) => {
-  props.lat
-  props.lng
-  props.children
   return (
     <div>
       MARKER: {props.lat} x {props.lng}
