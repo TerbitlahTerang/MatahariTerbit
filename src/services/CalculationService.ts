@@ -7,13 +7,17 @@ export interface ResultData {
   numberOfPanels: number
   remainingMonthlyCosts: number
   currentMonthlyCosts: number
+  totalSystemCosts: number
+  yearlyProfit: number
 }
 
 export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower }: InputData): ResultData {
   const { lowTariff, highTariff, kiloWattPeakPerPanel, kiloWattHourPerYearPerKWp } = CALCULATOR_VALUES
   // 4.4 kWh output / per 1 kWp (in Sanur)
+  const pricePerPanelInRupiahs = 6000000
   const energyTax = 0.1 + 0.05 //PPN + PPJ
   const taxFactor = 1.0 + energyTax
+
   const minimalMonthlyConsumption = 40 * (connectionPower / 1000)
   const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * 1500.0 * taxFactor
   const kiloWattHourPerMonthPerPanel = kiloWattHourPerYearPerKWp * kiloWattPeakPerPanel / 12
@@ -24,12 +28,16 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const effectiveConsumptionPerMonthInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
   const numberOfPanels = Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel)
+  const yearlyProfit = (monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax) * 12
+
 
   return {
     consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
     numberOfPanels,
     productionPerMonthInKwh: expectedMonthlyProduction,
     remainingMonthlyCosts: minimalMonthlyCostsIncludingTax,
-    currentMonthlyCosts: monthlyCostEstimateInRupiah
+    currentMonthlyCosts: monthlyCostEstimateInRupiah,
+    totalSystemCosts: numberOfPanels * pricePerPanelInRupiahs,
+    yearlyProfit: yearlyProfit
   }
 }

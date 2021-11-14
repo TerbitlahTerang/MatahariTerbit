@@ -1,23 +1,28 @@
 import React from 'react'
-import { Line } from 'react-chartjs-2'
-import { ResultData } from '../services/CalculationService'
+import { Bar } from 'react-chartjs-2'
 
 export interface ROIChartProps {
-  data: ResultData
+  totalSystemCosts: number
+  yearlyProfit: number
 }
 
 export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
+  const years = Array.from(Array(25).keys()).map(x => x + 1)
+
+  const profit = years.map(x => Math.round((-props.totalSystemCosts + (x * props.yearlyProfit)) / 1000000))
+  const colors = profit.map((value) => value < 0 ? 'rgb(255, 99, 132)' : 'rgb(99, 255, 132)')
+
   const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
+    labels: years,
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: 'Jt. Rupiah',
+        data: profit,
         fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
+        backgroundColor: colors,
         borderColor: 'rgba(255, 99, 132, 0.2)'
       }
     ]
   }
-  return <Line data={data} />
+  return <Bar data={data} />
 }

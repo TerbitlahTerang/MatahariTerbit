@@ -27,7 +27,7 @@ export const App: React.FunctionComponent = () => {
         <ResultTable results={resultData} />
       </Card>
       <Card title={t('roiTitle')}>
-        <ROIChart data={resultData} />
+        <ROIChart totalSystemCosts={resultData.totalSystemCosts} yearlyProfit={resultData.yearlyProfit} />
       </Card>
     </div>
   )
