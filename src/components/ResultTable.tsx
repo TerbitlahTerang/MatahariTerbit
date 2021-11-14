@@ -20,12 +20,12 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
           <td>{formatNumber(results.numberOfPanels, i18n.language)}</td>
         </tr>
         <tr>
-          <td>{t('resultTable.monthlyProduction')}</td>
-          <td>{formatNumber(results.productionPerMonthInKwh, i18n.language)} kWh</td>
-        </tr>
-        <tr>
           <td>{t('resultTable.monthlyConsumption')}</td>
           <td>{formatNumber(results.consumptionPerMonthInKwh, i18n.language)} kWh</td>
+        </tr>
+        <tr>
+          <td>{t('resultTable.monthlyProduction')}</td>
+          <td>{formatNumber(results.productionPerMonthInKwh, i18n.language)} kWh</td>
         </tr>
         <tr><td colSpan={2}><Divider /></td></tr>
         <tr>
