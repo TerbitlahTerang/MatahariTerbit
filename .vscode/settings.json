@@ -5,6 +5,7 @@
     "source.fixAll": true,
     "source.organizeImports": true
   },
+  "editor.formatOnSave": true,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "files.exclude": {
