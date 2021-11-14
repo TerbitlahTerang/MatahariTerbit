@@ -12,6 +12,10 @@
     "monthlyProfit": "Keuntungan bulanan",
     "yearlyProfit": "Keuntungan tahunan"
   },
+  "chart": {
+    "labelYear": "Tahun",
+    "labelProfit": "Keuntungan IDR"
+  },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",
     "connectionPower": "Daya"

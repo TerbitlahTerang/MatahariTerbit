@@ -12,6 +12,10 @@
     "monthlyProfit": "Monthly profit",
     "yearlyProfit": "Yearly profit"
   },
+  "chart": {
+    "labelYear": "Year",
+    "labelProfit": "Profit in IDR"
+  },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
     "connectionPower": "Electricity Connection Power"

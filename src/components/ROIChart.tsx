@@ -1,6 +1,7 @@
 import React from 'react'
 import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions } from 'chart.js'
+import { useTranslation } from 'react-i18next'
 
 export interface ROIChartProps {
   totalSystemCosts: number
@@ -8,6 +9,8 @@ export interface ROIChartProps {
 }
 
 export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
+  const { t } = useTranslation()
+
   const years = Array.from(Array(20).keys()).map(x => x + 1)
 
   const profit = years.map(x => Math.round((-props.totalSystemCosts + (x * props.yearlyProfit)) / 1000000))
@@ -29,7 +32,7 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
     scales: {
       y: {
         title: {
-          text: 'Profit IDR',
+          text: t('chart.labelProfit'),
           display: true
         },
         ticks: {
@@ -40,12 +43,12 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
       },
       x: {
         title: {
-          text: 'Tahun',
+          text: t('chart.labelYear'),
           display: true
         }
       }
     }
   }
-  
+
   return <Bar data={data} options={options} />
 }
