@@ -7,7 +7,7 @@ export interface PowerOption {
 }
 
 export interface InputData {
-  consumption: number
+  monthlyCostEstimateInRupiah: number
   connectionPower: number
 }
 
@@ -45,11 +45,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
         const consumption = form.getFieldValue('consumption')
         const connectionPower = form.getFieldValue('connectionPower')
-        props.onChange({ consumption, connectionPower })
+        props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower })
       }}>
         <Row gutter={16}>
           <Col xs={24} sm={12}>
-            <Form.Item name="consumption" label="Monthly Electricity bill" initialValue={props.initialValue.consumption}>
+            <Form.Item name="consumption" label="Monthly Electricity bill" initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }}
                 formatter={(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} />

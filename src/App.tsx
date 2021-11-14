@@ -28,7 +28,7 @@ export const App: React.FunctionComponent = () => {
         <MapPicker />
       </Card>
       <Card title="Results">
-        <ResultTable data={resultData} />
+        <ResultTable results={resultData} />
       </Card>
       <Card title="Return on Investment">
         <ROIChart data={resultData} />
