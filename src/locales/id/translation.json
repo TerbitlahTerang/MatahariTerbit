@@ -1,6 +1,8 @@
 {
   "title": "Kalkulasi Solar Panel",
   "languageSelector": "Pilih Bahasa",
+  "resultsTitle": "Perhitungan",
+  "roiTitle": "Tingkat pemngembalian investasi",
   "resultTable": {
     "recommendedPanels": "Jumlah panel yang direkomendasikan",
     "monthlyProduction": "Produksi bulanan",

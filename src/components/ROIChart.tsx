@@ -19,5 +19,5 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
       }
     ]
   }
-  return <Line data={data}></Line>
+  return <Line data={data} />
 }

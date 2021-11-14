@@ -23,10 +23,10 @@ export const App: React.FunctionComponent = () => {
       )}>
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
       </Card>
-      <Card title="Results">
+      <Card title={t('resultsTitle')}>
         <ResultTable results={resultData} />
       </Card>
-      <Card title="Return on Investment">
+      <Card title={t('roiTitle')}>
         <ROIChart data={resultData} />
       </Card>
     </div>

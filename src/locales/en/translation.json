@@ -1,6 +1,8 @@
 {
   "title": "Solar panel Calculator",
   "languageSelector": "Select Language",
+  "resultsTitle": "Estimation",
+  "roiTitle": "Return on Investment",
   "resultTable": {
     "recommendedPanels": "Recommended # of Panels",
     "monthlyProduction": "Monthly Production",
