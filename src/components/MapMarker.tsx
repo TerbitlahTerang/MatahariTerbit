@@ -1,4 +1,5 @@
 import React from 'react'
+import MarkerIcon from '../assets/icons/marker.svg'
 
 export interface MapMarkerProps {
   lat: number
@@ -7,9 +8,8 @@ export interface MapMarkerProps {
 
 export const MapMarker: React.FunctionComponent<MapMarkerProps> = (props) => {
   return (
-    <div>
-      MARKER: {props.lat} x {props.lng}
-      {props.children}
+    <div style={{ width: 32, height: 48, cursor: 'pointer', transform: 'translate(-16px, -48px)' }}>
+      <MarkerIcon />
     </div>
   )
 }

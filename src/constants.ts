@@ -1,7 +1,10 @@
+import { Coords } from 'google-map-react'
 import { InputData } from './components/InputForm'
 
 export const GOOGLE_MAPS_KEY = 'AIzaSyA191Lgk8nZhKo4E81LbtwUHCz7-wl3Ea0'
 export const INITIAL_INPUT_DATA: InputData = { consumption: 1000000, connectionPower: 7700 }
+export const DEFAULT_LOCATION: Coords = { lat: -6.174903208804339, lng: 106.82721867845525 }
+export const DEFAULT_ZOOM = 6
 
 export const CALCULATOR_VALUES = {
   lowTariff: 1352,
