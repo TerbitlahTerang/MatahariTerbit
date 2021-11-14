@@ -1,4 +1,10 @@
 {
   "title": "Solar panel Calculator",
-  "languageSelector": "Select Language"
+  "languageSelector": "Select Language",
+  "resultTable": {
+    "recommendedPanels": "Recommended # of Panels",
+    "monthlyProduction": "Monthly Production",
+    "monthlyConsumption": "Monthly Consumption",
+    "minimalMonthlyCosts": "Monthly Minimal Costs"
+  }
 }

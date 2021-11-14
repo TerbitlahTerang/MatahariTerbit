@@ -1,4 +1,10 @@
 {
   "title": "Kalkulasi Solar Panel",
-  "languageSelector": "Pilih Bahasa"
+  "languageSelector": "Pilih Bahasa",
+  "resultTable": {
+    "recommendedPanels": "Jumlah panel yang direkomendasikan",
+    "monthlyProduction": "Produksi bulanan",
+    "monthlyConsumption": "Konsumsi bulanan",
+    "minimalMonthlyCosts": "Biaya bulanan minimal"
+  }
 }

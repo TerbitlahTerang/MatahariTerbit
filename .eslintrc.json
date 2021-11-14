@@ -23,6 +23,8 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "object-curly-spacing": [ "error", "always" ],
+    "@typescript-eslint/object-curly-spacing": ["error", "always"],
     "prefer-const": "error",
     "import/no-unresolved": "off",
     "no-mixed-operators": "off",

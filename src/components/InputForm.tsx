@@ -1,5 +1,6 @@
 import { Col, Form, InputNumber, Row, Select } from 'antd'
 import React from 'react'
+import { formatRupiah } from './Formatters' 
 
 export interface PowerOption {
   name: string
@@ -51,8 +52,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Col xs={24} sm={12}>
             <Form.Item name="consumption" label="Monthly Electricity bill" initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }}
-                formatter={(value) => `Rp. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} />
+                formatter={(value) => formatRupiah(value)}
+                parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} step={100000} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>

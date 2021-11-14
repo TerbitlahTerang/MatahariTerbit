@@ -2,7 +2,8 @@ import { InputData } from '../components/InputForm'
 import { CALCULATOR_VALUES } from '../constants'
 
 export interface ResultData {
-  consumptionPerYearInKwh: number
+  consumptionPerMonthInKwh: number
+  productionPerMonthInKwh: number
   numberOfPanels: number
   minimalMonthlyCosts: number
 }
@@ -10,12 +11,16 @@ export interface ResultData {
 export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower }: InputData): ResultData {
   const { lowTariff, highTariff, kiloWattPeakPerPanel, kiloWattHourPerYearPerKWp } = CALCULATOR_VALUES
   // 4.4 kWh output / per 1 kWp (in Sanur)
-  const minimalMonthlyCosts = 40 * (connectionPower / 1000) * 1500
+  const minimalMonthlyConsumption = 40 * (connectionPower / 1000)
+  const minimalMonthlyCosts = minimalMonthlyConsumption * 1500
   const kiloWattHourPerYearPerPanel = kiloWattHourPerYearPerKWp * kiloWattPeakPerPanel
   const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCosts
-  const costsPerYear = effectiveCostsPerMonth * 12
+
   const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
-  const effectiveConsumptionPerYearInKwh = costsPerYear / pricePerKwh
+  const expectedMonthlyProduction = effectiveCostsPerMonth / pricePerKwh
+
+  const effectiveConsumptionPerYearInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
   const numberOfPanels = Math.max(0, effectiveConsumptionPerYearInKwh / kiloWattHourPerYearPerPanel)
-  return { numberOfPanels, consumptionPerYearInKwh: effectiveConsumptionPerYearInKwh, minimalMonthlyCosts: minimalMonthlyCosts }
+
+  return { consumptionPerMonthInKwh: effectiveConsumptionPerYearInKwh, numberOfPanels, productionPerMonthInKwh: expectedMonthlyProduction, minimalMonthlyCosts: minimalMonthlyCosts }
 }
