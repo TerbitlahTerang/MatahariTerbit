@@ -6,5 +6,9 @@
     "monthlyProduction": "Monthly Production",
     "monthlyConsumption": "Monthly Consumption",
     "minimalMonthlyCosts": "Monthly Minimal Costs"
+  },
+  "inputForm": {
+    "monthlyBill": "Monthly Electricity bill",
+    "connectionPower": "Electricity Connection Power"
   }
 }

@@ -1,6 +1,7 @@
 import { Col, Form, InputNumber, Row, Select } from 'antd'
 import React from 'react'
-import { formatRupiah } from './Formatters' 
+import { formatRupiah } from './Formatters'
+import { useTranslation } from 'react-i18next'
 
 export interface PowerOption {
   name: string
@@ -18,6 +19,9 @@ export interface InputFormProps {
 }
 
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
+
+  const { t, i18n } = useTranslation()
+
   const powerOptions: PowerOption[] = [
     { name: '450 VA', value: 450 },
     { name: '900 VA', value: 900 },
@@ -50,14 +54,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       }}>
         <Row gutter={16}>
           <Col xs={24} sm={12}>
-            <Form.Item name="consumption" label="Monthly Electricity bill" initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
+            <Form.Item name="consumption" label={t('inputForm.monthlyBill')} initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }}
                 formatter={(value) => formatRupiah(value)}
                 parser={(value) => value ? +value.replace(/Rp\.\s?|(,*)/g, '') : 0} step={100000} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
-            <Form.Item name="connectionPower" label="Electricity Connection" initialValue={props.initialValue.connectionPower}>
+            <Form.Item name="connectionPower" label={t('inputForm.connectionPower')} initialValue={props.initialValue.connectionPower}>
               <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
             </Form.Item>
           </Col>

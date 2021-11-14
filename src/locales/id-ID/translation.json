@@ -6,5 +6,9 @@
     "monthlyProduction": "Produksi bulanan",
     "monthlyConsumption": "Konsumsi bulanan",
     "minimalMonthlyCosts": "Biaya bulanan minimal"
+  },
+  "inputForm": {
+    "monthlyBill": "Biaya bulanan",
+    "connectionPower": "Daya"
   }
 }
