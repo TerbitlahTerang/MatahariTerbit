@@ -1,9 +1,8 @@
 import 'antd/dist/antd.css'
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { App } from './App'
-import './index.css'
 import './i18n'
-import { Suspense } from 'react'
+import './index.css'
 
-ReactDOM.render(<Suspense fallback="loading..." ><App /></Suspense>, document.getElementById('root'));
+ReactDOM.render(<Suspense fallback="loading..." ><App /></Suspense>, document.getElementById('root'))

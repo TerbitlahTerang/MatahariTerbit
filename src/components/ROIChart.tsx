@@ -15,9 +15,9 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
         data: [12, 19, 3, 5, 2, 3],
         fill: false,
         backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.2)',
-      },
-    ],
-  };
+        borderColor: 'rgba(255, 99, 132, 0.2)'
+      }
+    ]
+  }
   return <Line data={data}></Line>
 }

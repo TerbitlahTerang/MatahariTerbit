@@ -15,6 +15,9 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/node_modules": true,
-    "**/build": true
+    "**/build": true,
+    "**/.huskyx": true,
+    "**/.firebase": true,
+    "**/.github": true
   }
 }
