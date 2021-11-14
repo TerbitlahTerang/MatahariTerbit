@@ -16,7 +16,7 @@
     "**/Thumbs.db": true,
     "**/node_modules": true,
     "**/build": true,
-    "**/.huskyx": true,
+    "**/.husky": true,
     "**/.firebase": true,
     "**/.github": true
   }

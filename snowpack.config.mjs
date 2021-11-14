@@ -1,7 +1,7 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
   mount: { src: '/' },
-  plugins: [],
+  plugins: [['snowpack-plugin-svgr']],
   routes: [],
   optimize: {},
   packageOptions: {},

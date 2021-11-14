@@ -24,14 +24,14 @@ export const App: React.FunctionComponent = () => {
       )}>
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
       </Card>
+      <Card title="Choose your Location" bodyStyle={{ padding: 0 }}>
+        <MapPicker />
+      </Card>
       <Card title="Results">
         <ResultTable data={resultData} />
       </Card>
       <Card title="Return on Investment">
         <ROIChart data={resultData} />
-      </Card>
-      <Card title="Choose your Location" bodyStyle={{ padding: 0 }}>
-        <MapPicker />
       </Card>
     </div>
   )
