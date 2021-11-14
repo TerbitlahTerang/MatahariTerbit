@@ -3,7 +3,6 @@ import { Card, Select } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InputData, InputForm } from './components/InputForm'
-import { MapPicker } from './components/MapPicker'
 import { ResultTable } from './components/ResultTable'
 import { ROIChart } from './components/ROIChart'
 import { INITIAL_INPUT_DATA } from './constants'
@@ -23,9 +22,6 @@ export const App: React.FunctionComponent = () => {
         </Select>
       )}>
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
-      </Card>
-      <Card title="Choose your Location" bodyStyle={{ padding: 0 }}>
-        <MapPicker />
       </Card>
       <Card title="Results">
         <ResultTable results={resultData} />
