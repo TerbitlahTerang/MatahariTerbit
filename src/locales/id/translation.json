@@ -1,6 +1,8 @@
 {
   "title": "Kalkulasi Solar Panel",
   "languageSelector": "Pilih Bahasa",
+  "resultsTitle": "Perhitungan",
+  "roiTitle": "Tingkat pengembalian investasi",
   "resultTable": {
     "recommendedPanels": "Jumlah panel yang direkomendasikan",
     "monthlyProduction": "Produksi bulanan",
@@ -9,6 +11,10 @@
     "currentMonthlyCosts": "Biaya bulanan saat ini",
     "monthlyProfit": "Keuntungan bulanan",
     "yearlyProfit": "Keuntungan tahunan"
+  },
+  "chart": {
+    "labelYear": "Tahun",
+    "labelProfit": "Keuntungan IDR"
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",

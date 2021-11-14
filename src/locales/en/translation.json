@@ -1,6 +1,8 @@
 {
   "title": "Solar panel Calculator",
   "languageSelector": "Select Language",
+  "resultsTitle": "Estimation",
+  "roiTitle": "Return on Investment",
   "resultTable": {
     "recommendedPanels": "Recommended # of Panels",
     "monthlyProduction": "Monthly Production",
@@ -9,6 +11,10 @@
     "currentMonthlyCosts": "Current monthly costs",
     "monthlyProfit": "Monthly profit",
     "yearlyProfit": "Yearly profit"
+  },
+  "chart": {
+    "labelYear": "Year",
+    "labelProfit": "Profit in IDR"
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",

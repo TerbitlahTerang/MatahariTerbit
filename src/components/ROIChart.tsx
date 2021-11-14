@@ -1,23 +1,54 @@
 import React from 'react'
-import { Line } from 'react-chartjs-2'
-import { ResultData } from '../services/CalculationService'
+import { Bar } from 'react-chartjs-2'
+import { ChartData, ChartOptions } from 'chart.js'
+import { useTranslation } from 'react-i18next'
 
 export interface ROIChartProps {
-  data: ResultData
+  totalSystemCosts: number
+  yearlyProfit: number
 }
 
 export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
-  const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
+  const { t } = useTranslation()
+
+  const years = Array.from(Array(20).keys()).map(x => x + 1)
+
+  const profit = years.map(x => Math.round((-props.totalSystemCosts + (x * props.yearlyProfit)) / 1000000))
+  const colors = profit.map((value) => value < 0 ? 'rgb(255, 99, 132)' : 'rgb(99, 255, 132)')
+
+  const data: ChartData<'bar', number[]> = {
+    labels: years,
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
+        label: 'Jt. Rupiah',
+        data: profit,
+        backgroundColor: colors,
         borderColor: 'rgba(255, 99, 132, 0.2)'
       }
     ]
   }
-  return <Line data={data}></Line>
+
+  const options: ChartOptions<'bar'> = {
+    scales: {
+      y: {
+        title: {
+          text: t('chart.labelProfit'),
+          display: true
+        },
+        ticks: {
+          callback: (val: number| string): string => {
+            return 'Jt. ' + val
+          }
+        }
+      },
+      x: {
+        title: {
+          text: t('chart.labelYear'),
+          display: true
+        }
+      }
+    }
+  }
+
+  return <Bar data={data} options={options} />
 }
