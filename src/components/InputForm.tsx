@@ -1,5 +1,7 @@
 import { Col, Form, InputNumber, Row, Select } from 'antd'
 import React from 'react'
+import { MapState } from '../util/mapStore'
+import { MapPicker } from './MapPicker'
 
 export interface PowerOption {
   name: string
@@ -9,6 +11,7 @@ export interface PowerOption {
 export interface InputData {
   consumption: number
   connectionPower: number
+  location: MapState
 }
 
 export interface InputFormProps {
@@ -45,7 +48,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
         const consumption = form.getFieldValue('consumption')
         const connectionPower = form.getFieldValue('connectionPower')
-        props.onChange({ consumption, connectionPower })
+        const location = form.getFieldValue('location') as MapState
+        props.onChange({ consumption, connectionPower, location })
       }}>
         <Row gutter={16}>
           <Col xs={24} sm={12}>
@@ -61,6 +65,9 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             </Form.Item>
           </Col>
         </Row>
+        <Form.Item name="location" label="Location" initialValue={props.initialValue} style={{ marginBottom: 0 }}>
+          <MapPicker />
+        </Form.Item>
       </Form>
     </div>
   )

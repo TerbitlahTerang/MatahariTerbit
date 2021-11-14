@@ -3,14 +3,13 @@ import { Card, Select } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InputData, InputForm } from './components/InputForm'
-import { MapPicker } from './components/MapPicker'
 import { ResultTable } from './components/ResultTable'
 import { ROIChart } from './components/ROIChart'
 import { INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData } from './util/calculations'
 
 export const App: React.FunctionComponent = () => {
-  const {t, i18n} = useTranslation()
+  const { t, i18n } = useTranslation()
   const changeLanguage = (value: string) => { i18n.changeLanguage(value) }
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
   const resultData = useMemo(() => calculateResultData(inputData), [inputData])
@@ -23,9 +22,6 @@ export const App: React.FunctionComponent = () => {
         </Select>
       )}>
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
-      </Card>
-      <Card title="Choose your Location" bodyStyle={{ padding: 0 }}>
-        <MapPicker />
       </Card>
       <Card title="Results">
         <ResultTable data={resultData} />

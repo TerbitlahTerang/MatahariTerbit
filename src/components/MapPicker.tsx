@@ -1,42 +1,79 @@
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 import GoogleMapReact, { Coords, Point } from 'google-map-react'
-import React, { useEffect, useState } from 'react'
-import { DEFAULT_LOCATION, DEFAULT_ZOOM, GOOGLE_MAPS_KEY } from '../constants'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY } from '../constants'
+import { MapState, mapStore } from '../util/mapStore'
 import { MapMarker } from './MapMarker'
+import './MapPicker.css'
+
+export interface MapPickerProps {
+  value?: MapState
+  onChange?: (value: MapState) => void
+}
 
 const distanceToMouse = (pt: Point, { x, y }: Point) => Math.sqrt((pt.x - x) * (pt.x - x) + (pt.y - 24 - y) * (pt.y - 24 - y))
 
-export const MapPicker: React.FunctionComponent = () => {
-  const [position, setPosition] = useState<Coords>(DEFAULT_LOCATION)
-  const [center, setCenter] = useState<Coords>(DEFAULT_LOCATION)
+export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
+  const [position, setPosition] = useState<Coords>(props.value!.location)
+  const [center, setCenter] = useState<Coords>(props.value!.location)
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
   const [draggable, setDraggable] = useState<boolean>(true)
+  const [mapState, setMapState] = useState<MapState>(props.value!)
+  const [collapsed, setCollapsed] = useState<boolean>(true)
 
-  const onMouseDrag = (childKey: string, childProps: unknown, coords: Coords) => {
+  useLayoutEffect(() => {
+    mapStore.subscribe((value) => {
+      setMapState(value)
+      if (props.onChange) { props.onChange(value) }
+    })
+  }, [])
+
+  const updatePosition = async (location: Coords) => {
+    mapStore.setLocation(location)
+    setPosition(location)
+  }
+
+  const onMouseDrag = (childKey: string, childProps: unknown, location: Coords) => {
     setDraggable(false)
-    setPosition(coords)
+    updatePosition(location)
   }
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const latLng = { lat: coords.latitude, lng: coords.longitude }
-      setPosition(latLng)
-      setCenter(latLng)
+      const location = { lat: coords.latitude, lng: coords.longitude }
+      updatePosition(location)
+      setCenter(location)
       setZoom(16)
     })
-  })
+  }, [])
 
   return (
-    <div style={{ height: '400px', width: '100%' }}>
-      <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-        options={{ mapTypeControl: true }}
-        yesIWantToUseGoogleMapApiInternals
-        onChildMouseDown={onMouseDrag}
-        onChildMouseUp={() => { setDraggable(true) }}
-        onChildMouseMove={onMouseDrag}
-        onClick={({ lat, lng }) => setPosition({ lat, lng }) }
-        distanceToMouse={distanceToMouse}>
-        <MapMarker lat={position.lat} lng={position.lng} />
-      </GoogleMapReact>
+    <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
+      <div className="ant-input map-picker-header">
+        <div className="map-picker-address" onClick={() => { setCollapsed(false) }}>
+          {mapState.address ?? 'Choose your address ...'}
+        </div>
+        <Button
+          style={{ color: '#bfbfbf' }}
+          icon={collapsed ? <DownOutlined /> : <UpOutlined />}
+          type="text"
+          loading={false}
+          size="small"
+          onClick={() => { setCollapsed(!collapsed) }} />
+      </div>
+      <div className="map-picker-view">
+        <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
+          options={{ mapTypeControl: true }}
+          yesIWantToUseGoogleMapApiInternals
+          onChildMouseDown={onMouseDrag}
+          onChildMouseUp={() => { setDraggable(true) }}
+          onChildMouseMove={onMouseDrag}
+          onClick={({ lat, lng }) => updatePosition({ lat, lng })}
+          distanceToMouse={distanceToMouse}>
+          <MapMarker lat={position.lat} lng={position.lng} />
+        </GoogleMapReact>
+      </div>
     </div>
   )
 }

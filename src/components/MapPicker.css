@@ -1,0 +1,47 @@
+.map-picker {
+  overflow: hidden;
+  transition: height 250ms;
+}
+
+.map-picker.expanded {
+  height: 394px;
+}
+
+.map-picker.collapsed {
+  height: 34px;
+}
+
+.map-picker:hover {
+  border-color: #40a9ff;
+  border-right-width: 1px !important;
+}
+
+.map-picker-header {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  display: flex;
+  flex-direction: row;
+  padding-right: 4px;
+}
+
+.map-picker-header > button.ant-btn-sm > span {
+  font-size: 12px;
+}
+
+.map-picker-address {
+  flex: 1;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-wrap: break-word;
+}
+
+.map-picker-view {
+  position: relative;
+  height: 360px;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  background-color: #F5F5F5;
+}
