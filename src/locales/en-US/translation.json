@@ -5,7 +5,10 @@
     "recommendedPanels": "Recommended # of Panels",
     "monthlyProduction": "Monthly Production",
     "monthlyConsumption": "Monthly Consumption",
-    "minimalMonthlyCosts": "Monthly Minimal Costs"
+    "remainingMonthlyCosts": "Remaining monthly costs"
+    "currentMonthlyCosts": "Current monthly costs",
+    "monthlyProfit": "Monthly profit",
+    "yearlyProfit": "Yearly profit"
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",

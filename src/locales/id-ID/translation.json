@@ -5,7 +5,10 @@
     "recommendedPanels": "Jumlah panel yang direkomendasikan",
     "monthlyProduction": "Produksi bulanan",
     "monthlyConsumption": "Konsumsi bulanan",
-    "minimalMonthlyCosts": "Biaya bulanan minimal"
+    "remainingMonthlyCosts": "Sisa biaya bulanan",
+    "currentMonthlyCosts": "Biaya bulanan saat ini",
+    "monthlyProfit": "Keuntungan bulanan",
+    "yearlyProfit": "Keuntungan tahunan"
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",

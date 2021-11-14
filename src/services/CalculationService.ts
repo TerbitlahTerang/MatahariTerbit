@@ -5,22 +5,31 @@ export interface ResultData {
   consumptionPerMonthInKwh: number
   productionPerMonthInKwh: number
   numberOfPanels: number
-  minimalMonthlyCosts: number
+  remainingMonthlyCosts: number
+  currentMonthlyCosts: number
 }
 
 export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower }: InputData): ResultData {
   const { lowTariff, highTariff, kiloWattPeakPerPanel, kiloWattHourPerYearPerKWp } = CALCULATOR_VALUES
   // 4.4 kWh output / per 1 kWp (in Sanur)
+  const energyTax = 0.1 + 0.05 //PPN + PPJ
+  const taxFactor = 1.0 + energyTax
   const minimalMonthlyConsumption = 40 * (connectionPower / 1000)
-  const minimalMonthlyCosts = minimalMonthlyConsumption * 1500
-  const kiloWattHourPerYearPerPanel = kiloWattHourPerYearPerKWp * kiloWattPeakPerPanel
-  const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCosts
+  const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * 1500.0 * taxFactor
+  const kiloWattHourPerMonthPerPanel = kiloWattHourPerYearPerKWp * kiloWattPeakPerPanel / 12
+  const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
 
   const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
-  const expectedMonthlyProduction = effectiveCostsPerMonth / pricePerKwh
+  const expectedMonthlyProduction = effectiveCostsPerMonth / (pricePerKwh * taxFactor)
 
-  const effectiveConsumptionPerYearInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
-  const numberOfPanels = Math.max(0, effectiveConsumptionPerYearInKwh / kiloWattHourPerYearPerPanel)
+  const effectiveConsumptionPerMonthInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
+  const numberOfPanels = Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel)
 
-  return { consumptionPerMonthInKwh: effectiveConsumptionPerYearInKwh, numberOfPanels, productionPerMonthInKwh: expectedMonthlyProduction, minimalMonthlyCosts: minimalMonthlyCosts }
+  return {
+    consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
+    numberOfPanels,
+    productionPerMonthInKwh: expectedMonthlyProduction,
+    remainingMonthlyCosts: minimalMonthlyCostsIncludingTax,
+    currentMonthlyCosts: monthlyCostEstimateInRupiah
+  }
 }
