@@ -3,7 +3,9 @@ import { Button } from 'antd'
 import GoogleMapReact, { Coords, Point } from 'google-map-react'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY } from '../constants'
+import i18n from '../i18n'
 import { MapState, mapStore } from '../util/mapStore'
+import { formatNumber } from './Formatters'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
 
@@ -54,6 +56,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
         <div className="map-picker-address" onClick={() => { setCollapsed(false) }}>
           {mapState.address ?? 'Choose your address ...'}
         </div>
+        {mapState.info && (<div className="map-picker-irradiation">{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div>)}
         <Button
           style={{ color: '#bfbfbf' }}
           icon={collapsed ? <DownOutlined /> : <UpOutlined />}

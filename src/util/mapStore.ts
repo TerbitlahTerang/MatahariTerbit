@@ -1,11 +1,12 @@
 import { Coords } from 'google-map-react'
-import { debounceTime, map, mergeMap, Subject, tap } from 'rxjs'
+import { debounceTime, forkJoin, map, mergeMap, Subject } from 'rxjs'
 import { INITIAL_INPUT_DATA } from '../constants'
-import { geocode } from './maps'
+import { geocode, irradiance, IrradianceInfo } from './maps'
 
 export interface MapState {
   location: Coords
   address?: string
+  info?: IrradianceInfo
 }
 
 type SetStateFn = (state: MapState) => void
@@ -18,12 +19,14 @@ export const mapStore = {
   subscribe: (setState: SetStateFn) => {
     subject.pipe(
       debounceTime(500),
-      tap(() => { console.log('geocode') }),
-      mergeMap(({ location }) => geocode(location)),
-      map(({ results }) => results[0]),
-      map(({ formatted_address, geometry }) => ({
-        location: { lat: geometry.location.lat(), lng: geometry.location.lng() },
-        address: formatted_address
+      mergeMap(({ location }) => forkJoin([
+        geocode(location),
+        irradiance(location)
+      ])),
+      map(([geo, info]) => ({
+        location: { lat: geo.geometry.location.lat(), lng: geo.geometry.location.lng() },
+        address: geo.formatted_address,
+        info
       }))
     ).subscribe(setState)
   },

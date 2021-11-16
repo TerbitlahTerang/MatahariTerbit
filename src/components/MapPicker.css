@@ -24,6 +24,11 @@
   padding-right: 4px;
 }
 
+.map-picker-irradiation {
+  color: #40a9ff;
+  margin-left: 4px;
+}
+
 .map-picker-header > button.ant-btn-sm > span {
   font-size: 12px;
 }
