@@ -1,13 +1,13 @@
 ## Plans
 
 ### Irradiance
- - [ ] Current location selection
- - [ ] Determine yearly irradiance for a coordinate
+ - [X] Current location selection
+ - [X] Determine yearly irradiance for a coordinate
 
 ### Calculations
  - [X] Subtract minimum costs from number of panels
  - [ ] Cap production based on connection size
- - [ ] Include taxes
+ - [X] Include taxes
  - [ ] Enhanced vs simple mode
 
 ### Explanation

@@ -9,6 +9,7 @@ export async function geocode(location: Coords) {
 export interface LtaResponse {
   annual: {
     data: {
+      PVOUT_csi: number
       DIF: number
       DNI: number
       ELE: number
@@ -21,6 +22,8 @@ export interface LtaResponse {
 }
 
 export interface IrradianceInfo {
+  // [PVOUT] Yield in kWh per kWp installed PV
+  pvout: number
   // [DNI] Direct normal irradiation in kWh/m2
   dni: number
   // [GHI] Global horizontal irradiation in kWh/m2
@@ -45,6 +48,6 @@ export async function irradiance({ lat, lng }: Coords): Promise<IrradianceInfo> 
   if (result.status < 200 || result.status >= 300) { throw new Error(result.statusText) }
   const response: LtaResponse = await result.json()
   if (!response?.annual?.data) { throw new Error('Invalid data') }
-  const { DNI: dni, GHI: ghi, DIF: dif, GTI_opta: gtio, OPTA: opta, TEMP: temperature, ELE: elevation } = response.annual.data
-  return { dni, ghi, dif, gtio, opta, temperature, elevation }
+  const { PVOUT_csi: pvout,  DNI: dni, GHI: ghi, DIF: dif, GTI_opta: gtio, OPTA: opta, TEMP: temperature, ELE: elevation } = response.annual.data
+  return { pvout, dni, ghi, dif, gtio, opta, temperature, elevation }
 }
