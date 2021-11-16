@@ -29,6 +29,11 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
   }
 
   const options: ChartOptions<'bar'> = {
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
     scales: {
       y: {
         title: {

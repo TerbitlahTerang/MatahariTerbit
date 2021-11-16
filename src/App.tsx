@@ -16,9 +16,9 @@ export const App: React.FunctionComponent = () => {
   return (
     <div className="container">
       <Card title={t('title')} extra={(
-        <Select size="small" onChange={changeLanguage} defaultValue={i18n.language}>
-          <Select.Option key="en" value="en-US">🇺🇸 EN</Select.Option>
-          <Select.Option key="id" value="id-ID">🇮🇩 ID</Select.Option>
+        <Select size="small" onChange={changeLanguage} defaultValue={i18n.language.split('-')[0]}>
+          <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
+          <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
         </Select>
       )}>
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />

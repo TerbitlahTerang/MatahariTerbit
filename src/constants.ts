@@ -15,6 +15,7 @@ export const CALCULATOR_VALUES = {
   // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1
   // Square meters 450. 225 Watts / m2. Maybe add effective m2 needed vs panel surface
   kiloWattPeakPerPanel: 0.330,
+  kiloWattHourPerYearPerKWp: 1732,
   // Either mountains vs coast or map location selecgtion
-  kiloWattHourPerYearPerKWp: 1632
+  lossFromInverter: 0.9
 }

@@ -11,8 +11,12 @@ export interface ResultData {
   yearlyProfit: number
 }
 
-export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower }: InputData): ResultData {
-  const { lowTariff, highTariff, kiloWattPeakPerPanel, kiloWattHourPerYearPerKWp } = CALCULATOR_VALUES
+export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, location }: InputData): ResultData {
+  const { lowTariff, highTariff, kiloWattPeakPerPanel, kiloWattHourPerYearPerKWp, lossFromInverter } = CALCULATOR_VALUES
+
+  const pvOutputInkWhPerkWpPerYear = location.info?.pvout
+  const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ? pvOutputInkWhPerkWpPerYear : kiloWattHourPerYearPerKWp) * lossFromInverter
+
   // 4.4 kWh output / per 1 kWp (in Sanur)
   const pricePerPanelInRupiahs = 6000000
   const energyTax = 0.1 + 0.05 //PPN + PPJ
@@ -20,7 +24,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const minimalMonthlyConsumption = 40 * (connectionPower / 1000)
   const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * 1500.0 * taxFactor
-  const kiloWattHourPerMonthPerPanel = kiloWattHourPerYearPerKWp * kiloWattPeakPerPanel / 12
+  const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / 12
   const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
 
   const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
