@@ -4,12 +4,16 @@ import './SolarPanelsPane.css'
 
 interface SolarPanelProps {
   width: number
+  index: number
 }
 
 const SolarPanel: React.FunctionComponent<SolarPanelProps> = (props) => {
   return (
-    <div style={{ float: 'left' }} >
+    <div className='panel' >
       <img width={props.width} src={panelImage} />
+      <div className="number-overlay">
+        <span aria-hidden="true">{props.index}</span>
+      </div>
     </div>
   )
 }
@@ -19,7 +23,7 @@ export interface SolarPanelsPaneProps {
 }
 
 const renderPanel = (index: number) => {
-  return <SolarPanel width={50} key={index} />
+  return <SolarPanel width={50} key={index} index={index} />
 }
 
 export const SolarPanelsPane: React.FunctionComponent<SolarPanelsPaneProps> = (props) => {
