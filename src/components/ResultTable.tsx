@@ -22,11 +22,11 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
           </tr>
           <tr>
             <td>{t('resultTable.monthlyConsumption')}</td>
-            <td>{formatNumber(results.consumptionPerMonthInKwh, i18n.language)} kWh</td>
+            <td><span>{`${formatNumber(results.consumptionPerMonthInKwh, i18n.language)} kWh`}</span></td>
           </tr>
           <tr>
             <td>{t('resultTable.monthlyProduction')}</td>
-            <td>{formatNumber(results.productionPerMonthInKwh, i18n.language)} kWh</td>
+            <td>{`${formatNumber(results.productionPerMonthInKwh, i18n.language)} kWh`}</td>
           </tr>
         </tbody>
       </table>

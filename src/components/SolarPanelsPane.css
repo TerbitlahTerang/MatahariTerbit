@@ -1,0 +1,28 @@
+.panelPane {
+    display: inline-block;
+}
+
+.panelPane .panel {
+    color: white;
+    position: relative;
+    height:auto;
+    display:block;
+    margin:auto;
+    float: left;
+    cursor:pointer;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.panelPane .panel .number-overlay {
+    position: absolute;
+    font-size: 38px;
+    color: #E5E5E5;
+    text-align: center;
+    left: -3px;
+    right: 0;
+    top: -webkit-calc(50% - 28px);
+    top: -moz-calc(50% - 28px);
+    top: calc(50% - 28px);
+}

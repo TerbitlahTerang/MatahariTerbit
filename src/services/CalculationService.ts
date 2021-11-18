@@ -31,7 +31,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   const expectedMonthlyProduction = effectiveCostsPerMonth / (pricePerKwh * taxFactor)
 
   const effectiveConsumptionPerMonthInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
-  const numberOfPanels = Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel)
+  const numberOfPanels = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
   const yearlyProfit = (monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax) * 12
 
 

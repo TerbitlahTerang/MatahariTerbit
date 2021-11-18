@@ -18,5 +18,6 @@ body {
 }
 
 .results td:nth-child(2) {
+  white-space: nowrap;
   text-align: right;
 }

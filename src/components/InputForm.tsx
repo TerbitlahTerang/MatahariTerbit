@@ -60,7 +60,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Col xs={24} sm={12}>
             <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
               initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
-              <InputNumber style={{ width: '100%', textAlign: 'right' }}
+              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete={'off'}
                 formatter={(value) => formatRupiah(value)}
                 parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
                 step={100000} />
