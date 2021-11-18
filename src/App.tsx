@@ -1,5 +1,5 @@
 
-import { Card, Select } from 'antd'
+import { Card, Divider, Select } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InputData, InputForm } from './components/InputForm'
@@ -7,6 +7,7 @@ import { ResultTable } from './components/ResultTable'
 import { ROIChart } from './components/ROIChart'
 import { INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData } from './services/CalculationService'
+import { SolarPanelsPane } from './components/SolarPanelsPane'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -23,11 +24,13 @@ export const App: React.FunctionComponent = () => {
       )}>
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
       </Card>
+      <Card title={t('roiTitle')}>
+        <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
+        <Divider />
+        <ROIChart totalSystemCosts={resultData.totalSystemCosts} yearlyProfit={resultData.yearlyProfit} />
+      </Card>
       <Card title={t('resultsTitle')}>
         <ResultTable results={resultData} />
-      </Card>
-      <Card title={t('roiTitle')}>
-        <ROIChart totalSystemCosts={resultData.totalSystemCosts} yearlyProfit={resultData.yearlyProfit} />
       </Card>
     </div>
   )
