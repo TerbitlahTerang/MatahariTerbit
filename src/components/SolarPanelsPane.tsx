@@ -1,5 +1,6 @@
 import React from 'react'
-import PanelImage from '../assets/images/panel.svg'
+import panelImage from '../assets/images/panel-monocrystaline.png'
+import './SolarPanelsPane.css'
 
 interface SolarPanelProps {
   width: number
@@ -8,7 +9,7 @@ interface SolarPanelProps {
 const SolarPanel: React.FunctionComponent<SolarPanelProps> = (props) => {
   return (
     <div style={{ float: 'left' }} >
-      <PanelImage style={{ width: props.width, height: props.width * 1.41429, transform: 'translate(-10, 0)' }} />
+      <img width={props.width} src={panelImage} />
     </div>
   )
 }
@@ -25,7 +26,7 @@ export const SolarPanelsPane: React.FunctionComponent<SolarPanelsPaneProps> = (p
   const number = props.numberOfPanels || 1
   const panels = Array.from(Array(number).keys()).map(x => x + 1)
   return (
-    <div>
+    <div className="panelPane">
       {panels.map(renderPanel)}
     </div>
   )
