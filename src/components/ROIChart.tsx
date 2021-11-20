@@ -2,26 +2,25 @@ import React from 'react'
 import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions } from 'chart.js'
 import { useTranslation } from 'react-i18next'
+import { YearlyResult } from '../services/CalculationService'
 
 export interface ROIChartProps {
-  totalSystemCosts: number
-  yearlyProfit: number
+  yearly: YearlyResult[]
 }
+
+
 
 export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
   const { t } = useTranslation()
 
-  const years = Array.from(Array(20).keys()).map(x => x + 1)
-
-  const profit = years.map(x => Math.round((-props.totalSystemCosts + (x * props.yearlyProfit)) / 1000000))
-  const colors = profit.map((value) => value < 0 ? 'rgb(255, 99, 132)' : 'rgb(99, 255, 132)')
+  const colors = props.yearly.map((value) => value.cumulativeProfit < 0 ? 'rgb(255, 99, 132)' : 'rgb(99, 255, 132)')
 
   const data: ChartData<'bar', number[]> = {
-    labels: years,
+    labels: props.yearly.map(x => x.year),
     datasets: [
       {
         label: 'Jt. Rupiah',
-        data: profit,
+        data: props.yearly.map((x) => x.cumulativeProfit / 1000000),
         backgroundColor: colors,
         borderColor: 'rgba(255, 99, 132, 0.2)'
       }
@@ -55,5 +54,5 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
     }
   }
 
-  return <Bar data={data} options={options} />
+  return (<Bar data={data} options={options} />)
 }

@@ -1,0 +1,9 @@
+.roiBreakdown {
+  font-size: 10px;
+}
+
+.roiBreakdown .roiRow {
+
+  white-space: nowrap;
+  text-align: right;
+}

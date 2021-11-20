@@ -5,6 +5,10 @@ export const formatRupiah = (value: string | number | undefined): string => {
 }
 
 export const formatNumber = (value: number | undefined, locale: string): string => {
+  return formatDigits(value, 0, locale)
+}
+
+export const formatDigits = (value: number | undefined, digits: number | undefined, locale: string): string => {
   const amount = value ?? 0
-  return Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(amount)
+  return Intl.NumberFormat(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(amount)
 }

@@ -2,7 +2,8 @@ import { Divider } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
-import { formatNumber, formatRupiah } from './Formatters'
+import { formatDigits, formatNumber, formatRupiah } from './Formatters'
+import { CALCULATOR_VALUES } from '../constants'
 
 export interface ResultTableProps {
   results?: ResultData
@@ -17,8 +18,12 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       <table className="results">
         <tbody>
           <tr>
-            <td>{t('resultTable.recommendedPanels')}</td>
-            <td>{formatNumber(results.numberOfPanels, i18n.language)}</td>
+            <td>{t('resultTable.installedCapacity')}</td>
+            <td>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel, 2, i18n.language)} kWp</td>
+          </tr>
+          <tr>
+            <td>{t('resultTable.areaRequired')}</td>
+            <td>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.areaPerPanel, 0, i18n.language)} ㎡</td>
           </tr>
           <tr>
             <td>{t('resultTable.monthlyConsumption')}</td>

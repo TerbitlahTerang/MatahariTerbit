@@ -1,12 +1,14 @@
 {
   "title": "Kalkulasi Solar Panel",
   "languageSelector": "Pilih Bahasa",
-  "resultsTitle": "Perhitungan",
+  "resultsTitle": "Karakteristik sistem",
   "roiTitle": "Tingkat pengembalian investasi",
   "resultTable": {
+    "installedCapacity": "Kapasitas terpasang",
     "recommendedPanels": "Jumlah panel yang direkomendasikan",
+    "areaRequired": "Permukaan yang dibutuhkan",
     "monthlyProduction": "Produksi bulanan",
-    "monthlyConsumption": "Konsumsi bulanan",
+    "monthlyConsumption": "Konsumsi minimal bulanan",
     "remainingMonthlyCosts": "Sisa biaya bulanan",
     "currentMonthlyCosts": "Biaya bulanan saat ini",
     "monthlyProfit": "Keuntungan bulanan",
