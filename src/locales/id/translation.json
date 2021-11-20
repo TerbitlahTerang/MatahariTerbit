@@ -21,5 +21,13 @@
   "inputForm": {
     "monthlyBill": "Biaya bulanan",
     "connectionPower": "Daya"
+  },
+  "roiTable" : {
+    "year": "Tahun",
+    "output": "Produksi",
+    "tariff": "Tarif",
+    "income": "Penghasilan",
+    "profit": "Keuntungan",
+    "percentage": "Sisa"
   }
 }
