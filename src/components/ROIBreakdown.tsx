@@ -29,11 +29,6 @@ export const ROIBreakdown: React.FunctionComponent<ROIBreakdownProps> = (props) 
       render: ((tariff: number) => formatRupiah(tariff))
     },
     {
-      title: t('roiTable.income'),
-      dataIndex: 'income',
-      render: ((income: number) => formatRupiah(income))
-    },
-    {
       title: t('roiTable.profit'),
       dataIndex: 'cumulativeProfit',
       render: ((cumulativeProfit: number) => formatRupiah(cumulativeProfit))
