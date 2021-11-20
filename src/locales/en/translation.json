@@ -21,5 +21,13 @@
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
     "connectionPower": "Electricity Connection Power"
+  },
+  "roiTable" : {
+    "year": "Year",
+    "output": "Output",
+    "tariff": "Tariff",
+    "income": "Income",
+    "profit": "Profit",
+    "percentage": "Output"
   }
 }
