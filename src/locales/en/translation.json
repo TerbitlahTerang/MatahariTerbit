@@ -1,10 +1,12 @@
 {
   "title": "Solar panel Calculator",
   "languageSelector": "Select Language",
-  "resultsTitle": "Estimation",
+  "resultsTitle": "System characteristics",
   "roiTitle": "Return on Investment",
   "resultTable": {
+    "installedCapacity": "Installed capacity",
     "recommendedPanels": "Recommended # of Panels",
+    "areaRequired": "Area required",
     "monthlyProduction": "Monthly Production",
     "monthlyConsumption": "Monthly Consumption",
     "remainingMonthlyCosts": "Remaining monthly costs",

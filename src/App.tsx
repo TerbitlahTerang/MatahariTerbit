@@ -6,14 +6,16 @@ import { InputData, InputForm } from './components/InputForm'
 import { ResultTable } from './components/ResultTable'
 import { ROIChart } from './components/ROIChart'
 import { INITIAL_INPUT_DATA } from './constants'
-import { calculateResultData } from './services/CalculationService'
+import { calculateResultData, yearlyProjection } from './services/CalculationService'
 import { SolarPanelsPane } from './components/SolarPanelsPane'
+import { ROIBreakdown } from './components/ROIBreakdown'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
   const changeLanguage = (value: string) => { i18n.changeLanguage(value) }
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
   const resultData = useMemo(() => calculateResultData(inputData), [inputData])
+  const projection = useMemo(() => yearlyProjection(30, resultData), [resultData])
   return (
     <div className="container">
       <Card title={t('title')} extra={(
@@ -24,13 +26,14 @@ export const App: React.FunctionComponent = () => {
       )}>
         <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
       </Card>
-      <Card title={t('roiTitle')}>
-        <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
-        <Divider />
-        <ROIChart totalSystemCosts={resultData.totalSystemCosts} yearlyProfit={resultData.yearlyProfit} />
-      </Card>
       <Card title={t('resultsTitle')}>
+        <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
         <ResultTable results={resultData} />
+      </Card>
+      <Card title={t('roiTitle')}>
+        <ROIChart yearly={projection} />
+        <Divider />
+        <ROIBreakdown yearly={projection} />
       </Card>
     </div>
   )
