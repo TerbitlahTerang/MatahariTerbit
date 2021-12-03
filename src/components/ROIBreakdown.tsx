@@ -37,7 +37,7 @@ export const ROIBreakdown: React.FunctionComponent<ROIBreakdownProps> = (props) 
 
 
   return (
-    <Table dataSource={props.yearly} columns={columns} className='roiBreakdown' pagination={false}>
+    <Table dataSource={props.yearly} columns={columns} className='roiBreakdown' pagination={false} rowKey={res => res.year}>
       <Table.Summary fixed={true} />
     </Table>
   )
