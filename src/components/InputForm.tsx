@@ -1,9 +1,11 @@
-import { Col, Form, InputNumber, Row, Select } from 'antd'
+import { Card, Col, Form, InputNumber, Row, Select } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
 import { formatRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { MonthlyCosts } from './infoscreens/MonthlyCosts'
 
 export interface PowerOption {
   name: string
@@ -59,7 +61,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         <Row gutter={16}>
           <Col xs={24} sm={12}>
             <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
-              initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
+              initialValue={props.initialValue.monthlyCostEstimateInRupiah} tooltip={{
+                title: 'Tooltip with customized icon',
+                overlay: <MonthlyCosts />,
+                icon: <InfoCircleOutlined />
+              }}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete={'off'}
                 formatter={(value) => formatRupiah(value)}
                 parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
