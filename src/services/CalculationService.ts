@@ -20,7 +20,7 @@ function panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit: number,
   return Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000)
 }
 
-export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, location }: InputData): ResultData {
+export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut }: InputData): ResultData {
   const {
     lowTariff,
     highTariff,
@@ -30,7 +30,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     lossFromInverter
   } = CALCULATOR_VALUES
 
-  const pvOutputInkWhPerkWpPerYear = location.info?.pvout
+  const pvOutputInkWhPerkWpPerYear = pvOut
   const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ? pvOutputInkWhPerkWpPerYear : kiloWattHourPerYearPerKWp) * lossFromInverter
 
   // 4.4 kWh output / per 1 kWp (in Sanur)
