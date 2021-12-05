@@ -4,6 +4,7 @@ const config: Config.InitialOptions = {
     '<rootDir>/src/**/*.spec.ts',
     '<rootDir>/src/**/*.spec.tsx'
   ],
-  verbose: true
+  verbose: true,
+  reporters: ['default', 'jest-junit']
 }
 export default config

@@ -8,9 +8,21 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: yarn && yarn build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: 'Check out'
+        uses: actions/checkout@v2
+      - name: 'Load dependencies'
+        run: yarn
+      - name: 'Run tests'
+        run: yarn test-ci
+      - name: Publish Test Report
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always() # always run even if the previous step fails
+        with:
+          files: 'build/test-results/test/*.xml'
+      - name: 'Build'
+        run: yarn build
+      - name: 'Publish'
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MATAHARITERBIT }}'
