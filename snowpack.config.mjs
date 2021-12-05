@@ -6,7 +6,8 @@ export default {
   optimize: {
     bundle: true,
     minify: true,
-    treeshake: true
+    treeshake: true,
+    manifest: true
   },
   packageOptions: {},
   devOptions: {},
