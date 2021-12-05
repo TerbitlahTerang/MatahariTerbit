@@ -4,7 +4,6 @@ import { CALCULATOR_VALUES } from '../constants'
 export interface ResultData {
   consumptionPerMonthInKwh: number
   taxedPricePerKwh: number
-  kiloWattHourPerMonthPerPanel: number
   productionPerMonthInKwh: number
   numberOfPanels: number
   remainingMonthlyCosts: number
@@ -22,7 +21,14 @@ function panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit: number,
 }
 
 export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, location }: InputData): ResultData {
-  const { lowTariff, highTariff, pricePerPanel, kiloWattPeakPerPanel, kiloWattHourPerYearPerKWp, lossFromInverter } = CALCULATOR_VALUES
+  const {
+    lowTariff,
+    highTariff,
+    pricePerPanel,
+    kiloWattPeakPerPanel,
+    kiloWattHourPerYearPerKWp,
+    lossFromInverter
+  } = CALCULATOR_VALUES
 
   const pvOutputInkWhPerkWpPerYear = location.info?.pvout
   const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ? pvOutputInkWhPerkWpPerYear : kiloWattHourPerYearPerKWp) * lossFromInverter
@@ -51,7 +57,6 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   return {
     consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
     taxedPricePerKwh: taxedPricePerKwh,
-    kiloWattHourPerMonthPerPanel: kiloWattHourPerMonthPerPanel,
     productionPerMonthInKwh,
     numberOfPanels,
     remainingMonthlyCosts: effectiveCostsPerMonth,
@@ -77,15 +82,12 @@ interface InvestmentParameters {
   totalSystemCosts: number
 }
 
-export const fromResultData = (r: ResultData): InvestmentParameters => {
-  const {
-    productionPerMonthInKwh,
-    taxedPricePerKwh,
-    totalSystemCosts,
-    yearlyProfit
-  } = r
-  return { taxedPricePerKwh, productionPerMonthInKwh, yearlyProfit, totalSystemCosts }
-}
+export const fromResultData = (r: ResultData): InvestmentParameters => ({
+  taxedPricePerKwh: r.taxedPricePerKwh,
+  productionPerMonthInKwh: r.productionPerMonthInKwh,
+  yearlyProfit: r.yearlyProfit,
+  totalSystemCosts: r.totalSystemCosts
+})
 
 
 export function yearlyProjection(numberOfYears: number, result: InvestmentParameters): YearlyResult[] {
