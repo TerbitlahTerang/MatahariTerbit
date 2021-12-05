@@ -6,7 +6,11 @@ import { InputData, InputForm } from './components/InputForm'
 import { ResultTable } from './components/ResultTable'
 import { ROIChart } from './components/ROIChart'
 import { INITIAL_INPUT_DATA } from './constants'
-import { calculateResultData, yearlyProjection } from './services/CalculationService'
+import {
+  calculateResultData,
+  fromResultData,
+  yearlyProjection
+} from './services/CalculationService'
 import { SolarPanelsPane } from './components/SolarPanelsPane'
 import { ROIBreakdown } from './components/ROIBreakdown'
 
@@ -15,7 +19,7 @@ export const App: React.FunctionComponent = () => {
   const changeLanguage = (value: string) => { i18n.changeLanguage(value) }
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
   const resultData = useMemo(() => calculateResultData(inputData), [inputData])
-  const projection = useMemo(() => yearlyProjection(30, resultData), [resultData])
+  const projection = useMemo(() => yearlyProjection(30, fromResultData(resultData)), [resultData])
   return (
     <div className="container">
       <Card title={t('title')} extra={(

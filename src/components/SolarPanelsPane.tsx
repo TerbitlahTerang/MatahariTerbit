@@ -29,7 +29,7 @@ const renderPanel = (index: number) => {
 }
 
 export const SolarPanelsPane: React.FunctionComponent<SolarPanelsPaneProps> = (props) => {
-  const number = props.numberOfPanels || 1
+  const number = props.numberOfPanels
   const panels = Array.from(Array(number).keys()).map(x => x + 1)
   return (
     <div className="panelPane">
