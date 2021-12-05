@@ -3,10 +3,7 @@ export default {
   mount: { src: '/' },
   plugins: [['snowpack-plugin-svgr']],
   routes: [],
-  optimize: {
-    bundle: true,
-    target: 'es2018',
-  },
+  optimize: {},
   packageOptions: {},
   devOptions: {},
   buildOptions: {}
