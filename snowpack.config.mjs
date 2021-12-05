@@ -3,7 +3,11 @@ export default {
   mount: { src: '/' },
   plugins: [['snowpack-plugin-svgr']],
   routes: [],
-  optimize: {},
+  optimize: {
+    bundle: true,
+    minify: true,
+    treeshake: true
+  },
   packageOptions: {},
   devOptions: {},
   buildOptions: {}
