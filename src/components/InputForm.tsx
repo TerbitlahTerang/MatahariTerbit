@@ -4,16 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
 import { formatRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
-
-export interface PowerOption {
-  name: string
-  value: number
-}
+import { PowerOption, powerOptions } from '../constants'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
   connectionPower: number
-  location: MapState
+  pvOut?: number
 }
 
 export interface InputFormProps {
@@ -24,24 +20,6 @@ export interface InputFormProps {
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
   const { t } = useTranslation()
-
-  const powerOptions: PowerOption[] = [
-    { name: '450 VA', value: 450 },
-    { name: '900 VA', value: 900 },
-    { name: '1.300 VA', value: 1300 },
-    { name: '2.200 VA', value: 2200 },
-    { name: '3.500 VA', value: 3500 },
-    { name: '3.900 VA', value: 3900 },
-    { name: '4.400 VA', value: 4400 },
-    { name: '5.500 VA', value: 5500 },
-    { name: '6.600 VA', value: 6600 },
-    { name: '7.700 VA', value: 7700 },
-    { name: '10.600 VA', value: 10600 },
-    { name: '11.000 VA', value: 11000 },
-    { name: '13.200 VA', value: 13200 },
-    { name: '16.500 VA', value: 16500 }
-  ]
-
   const [form] = Form.useForm()
 
   const renderOption = (option: PowerOption) => {
@@ -54,7 +32,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         const consumption = form.getFieldValue('consumption')
         const connectionPower = form.getFieldValue('connectionPower')
         const location = form.getFieldValue('location') as MapState
-        props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, location })
+        const pvOut = location.info?.pvout
+        props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut })
       }}>
         <Row gutter={16}>
           <Col xs={24} sm={12}>

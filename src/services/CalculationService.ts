@@ -4,7 +4,6 @@ import { CALCULATOR_VALUES } from '../constants'
 export interface ResultData {
   consumptionPerMonthInKwh: number
   taxedPricePerKwh: number
-  kiloWattHourPerMonthPerPanel: number
   productionPerMonthInKwh: number
   numberOfPanels: number
   remainingMonthlyCosts: number
@@ -13,10 +12,25 @@ export interface ResultData {
   yearlyProfit: number
 }
 
-export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, location }: InputData): ResultData {
-  const { lowTariff, highTariff, pricePerPanel, kiloWattPeakPerPanel, kiloWattHourPerYearPerKWp, lossFromInverter } = CALCULATOR_VALUES
+const monthsInYear = 12.0
 
-  const pvOutputInkWhPerkWpPerYear = location.info?.pvout
+function panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit: number, kiloWattPeakPerPanel: number, connectionPower: number) {
+  const suggestedCapacity = numberOfPanelsWithoutConnectionLimit * kiloWattPeakPerPanel
+  const installableCapacity = Math.min(suggestedCapacity * 1000, connectionPower)
+  return Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000)
+}
+
+export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut }: InputData): ResultData {
+  const {
+    lowTariff,
+    highTariff,
+    pricePerPanel,
+    kiloWattPeakPerPanel,
+    kiloWattHourPerYearPerKWp,
+    lossFromInverter
+  } = CALCULATOR_VALUES
+
+  const pvOutputInkWhPerkWpPerYear = pvOut
   const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ? pvOutputInkWhPerkWpPerYear : kiloWattHourPerYearPerKWp) * lossFromInverter
 
   // 4.4 kWh output / per 1 kWp (in Sanur)
@@ -25,7 +39,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const minimalMonthlyConsumption = 40 * (connectionPower / 1000)
   const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * 1500.0 * taxFactor
-  const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / 12
+  const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
   const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
 
   const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
@@ -33,17 +47,19 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   const expectedMonthlyProduction = effectiveCostsPerMonth / taxedPricePerKwh
 
   const effectiveConsumptionPerMonthInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
-  const numberOfPanels = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
-  const yearlyProfit = (monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax) * 12
+  const numberOfPanelsWithoutConnectionLimit = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
+  const numberOfPanels = panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit, kiloWattPeakPerPanel, connectionPower)
+  const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
+
+  const yearlyProfit = ((taxedPricePerKwh * productionPerMonthInKwh) - minimalMonthlyCostsIncludingTax) * monthsInYear
 
 
   return {
     consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
     taxedPricePerKwh: taxedPricePerKwh,
-    kiloWattHourPerMonthPerPanel: kiloWattHourPerMonthPerPanel,
-    productionPerMonthInKwh: expectedMonthlyProduction,
+    productionPerMonthInKwh,
     numberOfPanels,
-    remainingMonthlyCosts: minimalMonthlyCostsIncludingTax,
+    remainingMonthlyCosts: effectiveCostsPerMonth,
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
     totalSystemCosts: numberOfPanels * pricePerPanel,
     yearlyProfit: yearlyProfit
@@ -59,12 +75,35 @@ export interface YearlyResult {
   pvOutputPercentage: number
 }
 
-export function yearlyProjection(numberOfYears: number, result: ResultData): YearlyResult[] {
+interface InvestmentParameters {
+  taxedPricePerKwh: number
+  productionPerMonthInKwh: number
+  yearlyProfit: number
+  totalSystemCosts: number
+}
+
+export const fromResultData = (r: ResultData): InvestmentParameters => ({
+  taxedPricePerKwh: r.taxedPricePerKwh,
+  productionPerMonthInKwh: r.productionPerMonthInKwh,
+  yearlyProfit: r.yearlyProfit,
+  totalSystemCosts: r.totalSystemCosts
+})
+
+
+export function yearlyProjection(numberOfYears: number, result: InvestmentParameters): YearlyResult[] {
   const years = Array.from(Array(numberOfYears).keys()).map(x => x + 1)
   const electricityPriceInflation = 1.05
   const capacityLoss = 0.995
 
-  return years.reduce((acc, currentValue, currentIndex, array) => {
+  const startYear = {
+    year: 0,
+    tariff: result.taxedPricePerKwh,
+    output: result.productionPerMonthInKwh * monthsInYear,
+    income: result.productionPerMonthInKwh * monthsInYear * result.taxedPricePerKwh,
+    cumulativeProfit: result.yearlyProfit - result.totalSystemCosts,
+    pvOutputPercentage: 1.0
+  } as YearlyResult
+  return years.reduce((acc, currentValue, currentIndex) => {
     const previous = acc[currentIndex]
     return acc.concat({
       year: currentValue,
@@ -74,14 +113,7 @@ export function yearlyProjection(numberOfYears: number, result: ResultData): Yea
       cumulativeProfit: previous.cumulativeProfit + (previous.income * electricityPriceInflation),
       pvOutputPercentage: previous.pvOutputPercentage * capacityLoss
     } as YearlyResult)
-  }, [{
-    year: 0,
-    tariff: result.taxedPricePerKwh,
-    output: result.productionPerMonthInKwh * 12.0,
-    income: result.productionPerMonthInKwh * 12.0 * result.taxedPricePerKwh,
-    cumulativeProfit: result.yearlyProfit - result.totalSystemCosts,
-    pvOutputPercentage: 1.0
-  } as YearlyResult])
+  }, [startYear])
 
 }
 

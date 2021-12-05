@@ -15,6 +15,10 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../Library/Caches/JetBrains/IntelliJIdea2021.3/javascript/typings/jest/27.0.3/node_modules/@types/jest/index.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

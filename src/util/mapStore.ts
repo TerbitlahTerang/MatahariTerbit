@@ -34,5 +34,5 @@ export const mapStore = {
     state = { ...state, location }
     subject.next(state)
   },
-  initialState: INITIAL_INPUT_DATA.location
+  initialState: INITIAL_INPUT_DATA.pvOut
 }
