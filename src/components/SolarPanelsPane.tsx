@@ -27,7 +27,6 @@ const SolarPanel: React.FunctionComponent<SolarPanelProps> = (props) => {
       panels.push({ x: x, y: y })
     }
   }
-  console.log(panels)
   return (
     <div className='panel' >
       <div>

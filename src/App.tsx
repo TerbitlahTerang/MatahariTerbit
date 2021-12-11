@@ -13,6 +13,7 @@ import {
 } from './services/CalculationService'
 import { SolarPanelsPane } from './components/SolarPanelsPane'
 import { ROIBreakdown } from './components/ROIBreakdown'
+import ServiceWorkerIntegration from './services/ServiceWorkerIntegration'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -22,6 +23,7 @@ export const App: React.FunctionComponent = () => {
   const projection = useMemo(() => yearlyProjection(30, fromResultData(resultData)), [resultData])
   return (
     <div className="container">
+      <ServiceWorkerIntegration />
       <Card title={t('title')} extra={(
         <Select size="small" onChange={changeLanguage} defaultValue={i18n.language.split('-')[0]}>
           <Select.Option key="en" value="en" label="English" >🇺🇸 EN</Select.Option>
