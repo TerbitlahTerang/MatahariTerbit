@@ -1,17 +1,18 @@
-/** @type {import("snowpack").SnowpackUserConfig } */
 process.env.SNOWPACK_PUBLIC_PACKAGE_VERSION = '1.0.0'
 process.env.SNOWPACK_PUBLIC_SERVICE_WORKER = 'sw.js'
+import pkg from 'glob';
+const { glob } = pkg;
+import { InjectManifest } from 'workbox-webpack-plugin'
 
+// /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
   mount: { src: '/' },
-  plugins: [['snowpack-plugin-svgr'],[
+  plugins: ['snowpack-plugin-svgr',
     '@snowpack/plugin-typescript',
     [
       '@snowpack/plugin-webpack',
       {
         extendConfig: (config) => {
-          const { glob } = require('glob')
-          const { InjectManifest } = require('workbox-webpack-plugin')
           const additionalManifestEntries = [
             ...glob.sync('*.{png,html,json,txt}', { cwd: './build' })
           ].map((e) => ({ url: e, revision: process.env.SNOWPACK_PUBLIC_PACKAGE_VERSION }))
@@ -20,7 +21,7 @@ export default {
             new InjectManifest({
               'mode': 'development',
               'additionalManifestEntries': additionalManifestEntries,
-              'swSrc': 'serviceWorker.js',
+              'swSrc': './serviceWorker.js',
               'swDest': process.env.SNOWPACK_PUBLIC_SERVICE_WORKER
             })
           )
@@ -28,18 +29,20 @@ export default {
         }
       }
     ]
-  ]
   ],
   routes: [
     {"match": "routes", "src": ".*", "dest": "/index.html"},
   ],
   optimize: {
-    bundle: true,
-    minify: true,
-    treeshake: true,
-    manifest: true
   },
-  packageOptions: {},
+  packageOptions: {
+    polyfillNode: true
+  },
+  rollup: {
+
+  },
   devOptions: {},
-  buildOptions: {}
+  buildOptions: {
+    sourcemap: false
+  }
 }
