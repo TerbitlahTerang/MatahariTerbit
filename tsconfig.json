@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ESNext",
+    "lib": ["dom", "dom.iterable", "ESNext", "WebWorker"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -13,12 +13,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../../Library/Caches/JetBrains/IntelliJIdea2021.3/javascript/typings/jest/27.0.3/node_modules/@types/jest/index.d.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "build"]
 }
