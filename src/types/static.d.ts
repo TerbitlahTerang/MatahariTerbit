@@ -3,6 +3,8 @@ declare module '*.svg' {
   export default ref
 }
 
+declare module '*.webp'
+
 declare module '*.md' {
   const ref: { body: string }
   export default ref

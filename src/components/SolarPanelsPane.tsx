@@ -2,6 +2,7 @@ import React from 'react'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import panelImage from '../assets/images/panel-monocrystaline.png'
+import panelImageWebp from '../assets/images/panel-monocrystaline.webp'
 import './SolarPanelsPane.css'
 
 interface SolarPanelProps {
@@ -12,7 +13,11 @@ interface SolarPanelProps {
 const SolarPanel: React.FunctionComponent<SolarPanelProps> = (props) => {
   return (
     <div className='panel' >
-      <img width={props.width} src={panelImage} />
+      <picture >
+        <source type="image/webp"  srcSet={panelImageWebp} />
+        <img width={props.width} src={panelImage} />
+      </picture>
+
       <div className="number-overlay">
         <span aria-hidden="true">{props.index}</span>
       </div>

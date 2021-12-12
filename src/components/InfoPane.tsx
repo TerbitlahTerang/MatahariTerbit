@@ -15,5 +15,10 @@ export const InfoPane: React.FunctionComponent<InfoPaneProps> = (props) => {
     return { __html: body }
   }
 
-  return (<Card size={'small'} className='documentation'><div className={Documentation[props.documentation]} dangerouslySetInnerHTML={createMarkup(documentation(i18n.language as Locale, props.documentation))} /></Card>)
+  return (
+    <Card size={'small'} className='documentation'>
+      <div className={Documentation[props.documentation]}
+        dangerouslySetInnerHTML={createMarkup(documentation(i18n.language as Locale, props.documentation))} />
+    </Card>
+  )
 }
