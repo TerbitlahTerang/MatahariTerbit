@@ -4,6 +4,7 @@ declare module '*.svg' {
 }
 
 declare module '*.webp'
+declare module '*.png'
 
 declare module '*.md' {
   const ref: { body: string }
