@@ -6,8 +6,8 @@ import { formatRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
 import { PowerOption, powerOptions } from '../constants'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import ConnectionPowerMarkdown from '../assets/documentation/inputform/ConnectionPower.md'
 import { InfoPane } from './InfoPane'
+import { Documentation } from '../services/DocumentationService'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -51,7 +51,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Col xs={24} sm={12}>
             <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
               initialValue={props.initialValue.connectionPower} tooltip={{
-                overlay: <InfoPane body={ConnectionPowerMarkdown.body} />,
+                overlay: <InfoPane documentation={Documentation.ConnectionPower} />,
                 icon: <InfoCircleOutlined/> }}>
               <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
             </Form.Item>
