@@ -1,6 +1,19 @@
 {
   "title": "Kalkulasi Solar Panel",
   "languageSelector": "Pilih Bahasa",
+  "wizard": {
+    "next": "Selanjutnya",
+    "prev": "Kembali",
+    "information": {
+      "title": "Informasi Anda"
+    },
+    "characteristics": {
+      "title": "Karakteristik Sistem"
+    },
+    "roi": {
+      "title": "Penghasilan"
+    }
+  },
   "resultsTitle": "Karakteristik sistem",
   "roiTitle": "Tingkat pengembalian investasi",
   "resultTable": {
