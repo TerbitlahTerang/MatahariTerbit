@@ -1,8 +1,19 @@
 {
   "title": "Solar panel Calculator",
   "languageSelector": "Select Language",
-  "resultsTitle": "System characteristics",
-  "roiTitle": "Return on Investment",
+  "wizard": {
+    "next": "Continue",
+    "prev": "Back",
+    "information": {
+      "title": "Your Information"
+    },
+    "characteristics": {
+      "title": "System Characteristics"
+    },
+    "roi": {
+      "title": "Return on Investment"
+    }
+  },
   "resultTable": {
     "installedCapacity": "Installed capacity",
     "recommendedPanels": "Recommended # of Panels",
@@ -22,7 +33,7 @@
     "monthlyBill": "Monthly Electricity bill",
     "connectionPower": "Electricity Connection Power"
   },
-  "roiTable" : {
+  "roiTable": {
     "year": "Year",
     "output": "Output",
     "tariff": "Tariff",

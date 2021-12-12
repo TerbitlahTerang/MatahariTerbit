@@ -1,18 +1,15 @@
-
-import { Card, Divider, Select } from 'antd'
+import { DollarOutlined, EditOutlined, PieChartOutlined } from '@ant-design/icons'
+import { Button, Col, Divider, Row, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Logo from './assets/icons/logo.svg'
 import { InputData, InputForm } from './components/InputForm'
 import { ResultTable } from './components/ResultTable'
-import { ROIChart } from './components/ROIChart'
-import { INITIAL_INPUT_DATA } from './constants'
-import {
-  calculateResultData,
-  fromResultData,
-  yearlyProjection
-} from './services/CalculationService'
-import { SolarPanelsPane } from './components/SolarPanelsPane'
 import { ROIBreakdown } from './components/ROIBreakdown'
+import { ROIChart } from './components/ROIChart'
+import { SolarPanelsPane } from './components/SolarPanelsPane'
+import { INITIAL_INPUT_DATA } from './constants'
+import { calculateResultData, fromResultData, yearlyProjection } from './services/CalculationService'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -20,25 +17,50 @@ export const App: React.FunctionComponent = () => {
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
   const resultData = useMemo(() => calculateResultData(inputData), [inputData])
   const projection = useMemo(() => yearlyProjection(30, fromResultData(resultData)), [resultData])
+
+  const [current, setCurrent] = useState<number>(0)
+
   return (
     <div className="container">
-      <Card title={t('title')} extra={(
-        <Select size="small" onChange={changeLanguage} defaultValue={i18n.resolvedLanguage}>
-          <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
-          <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
-        </Select>
-      )}>
-        <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
-      </Card>
-      <Card title={t('resultsTitle')}>
-        <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
-        <ResultTable results={resultData} />
-      </Card>
-      <Card title={t('roiTitle')}>
-        <ROIChart yearly={projection} />
-        <Divider />
-        <ROIBreakdown yearly={projection} />
-      </Card>
+      <nav className="app-nav">
+        <div className="app-nav-logo"><Logo width={40} height={40} viewBox="0 0 32 32" /></div>
+        <Typography.Title ellipsis>{t('title')}</Typography.Title>
+        <div className="app-nav-extra">
+          <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false} style={{ color: '#FFFFFF' }} size="large">
+            <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
+            <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
+          </Select>
+        </div>
+      </nav>
+      <div className="card">
+        <div className="card-header">
+          <Steps size="small" current={current} onChange={setCurrent}>
+            <Steps.Step icon={<EditOutlined />} title={t('wizard.information.title')} />
+            <Steps.Step icon={<PieChartOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.characteristics.title')} />
+            <Steps.Step icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')} />
+          </Steps>
+        </div>
+        {current === 0 && <div className="card-body">
+          <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
+        </div>}
+        {current === 1 && <div className="card-body">
+          <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
+          <ResultTable results={resultData} />
+        </div>}
+        {current === 2 && <div className="card-body">
+          <ROIChart yearly={projection} />
+          <Divider />
+          <ROIBreakdown yearly={projection} />
+        </div>}
+
+        <div className="card-footer">
+          <Row>
+            <Col>{current > 0 && <Button size="large" type="link" onClick={() => { setCurrent(current - 1) }}>{t('wizard.prev')}</Button>}</Col>
+            <Col flex="1"/>
+            <Col>{current < 2 && <Button disabled={!inputData.pvOut} size="large" type="primary" onClick={() => { setCurrent(current + 1) }}>{t('wizard.next')}</Button>}</Col>
+          </Row>
+        </div>
+      </div>
     </div>
   )
 }
