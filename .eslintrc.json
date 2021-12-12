@@ -23,7 +23,7 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "indent": ["error", 2],
+    "indent": "off",
     "object-curly-spacing": [ "error", "always" ],
     "@typescript-eslint/object-curly-spacing": ["error", "always"],
     "prefer-const": "error",
