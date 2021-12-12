@@ -41,7 +41,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         <Row gutter={16}>
           <Col xs={24} sm={12}>
             <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
-              initialValue={props.initialValue.monthlyCostEstimateInRupiah}>
+              initialValue={props.initialValue.monthlyCostEstimateInRupiah}
+              tooltip={{
+                overlay: <InfoPane documentation={Documentation.MonthlyBill}  />,
+                overlayStyle: { maxWidth: '400px' },
+                icon: <InfoCircleOutlined/> }}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete={'off'}
                 formatter={(value) => formatRupiah(value)}
                 parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
@@ -52,7 +56,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
               initialValue={props.initialValue.connectionPower} tooltip={{
                 overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
-                overlayStyle: { maxWidth: '550px' },
+                overlayStyle: { maxWidth: '400px' },
                 icon: <InfoCircleOutlined/> }}>
               <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
             </Form.Item>

@@ -1,4 +1,4 @@
-# Daya
+## Daya
 Kenapa penting *banget* itu?
 
 ![image](assets/documentation/images/daya.png)

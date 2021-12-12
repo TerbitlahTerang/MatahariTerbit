@@ -1,11 +1,7 @@
 import React from 'react'
 import { Card } from 'antd'
-import { documentation, Locale } from '../services/DocumentationService'
+import { Documentation, documentation, Locale } from '../services/DocumentationService'
 import { useTranslation } from 'react-i18next'
-
-enum Documentation {
-  ConnectionPower
-}
 
 interface InfoPaneProps {
   documentation: Documentation
@@ -19,5 +15,5 @@ export const InfoPane: React.FunctionComponent<InfoPaneProps> = (props) => {
     return { __html: body }
   }
 
-  return (<Card className='documentation'><div className={Documentation[props.documentation]} dangerouslySetInnerHTML={createMarkup(documentation(i18n.language as Locale, props.documentation))} /></Card>)
+  return (<Card size={'small'} className='documentation'><div className={Documentation[props.documentation]} dangerouslySetInnerHTML={createMarkup(documentation(i18n.language as Locale, props.documentation))} /></Card>)
 }
