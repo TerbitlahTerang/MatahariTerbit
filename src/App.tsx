@@ -41,14 +41,14 @@ export const App: React.FunctionComponent = () => {
             <Steps.Step icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')} />
           </Steps>
         </div>
-        <div className="card-body" style={{ display: current === 0 ? 'inherit' : 'none' }} >
+        <div className="card-body" style={{ display: current >= 0 ? 'inherit' : 'none' }} >
           <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
         </div>
-        <div className="card-body" style={{ display: current === 1 ? 'inherit' : 'none' }}>
+        <div className="card-body" style={{ display: current >= 1 ? 'inherit' : 'none' }}>
           <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
           <ResultTable results={resultData} />
         </div>
-        <div className="card-body" style={{ display: current === 2 ? 'inherit' : 'none' }}>
+        <div className="card-body" style={{ display: current >= 2 ? 'inherit' : 'none' }}>
           <ROIChart yearly={projection} />
           <Divider />
           <ROIBreakdown yearly={projection} />
