@@ -32,6 +32,7 @@ export const App: React.FunctionComponent = () => {
           </Select>
         </div>
       </nav>
+
       <div className="card">
         <div className="card-header">
           <Steps size="small" current={current} onChange={setCurrent}>
@@ -40,18 +41,18 @@ export const App: React.FunctionComponent = () => {
             <Steps.Step icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')} />
           </Steps>
         </div>
-        {current === 0 && <div className="card-body">
+        <div className="card-body" style={{ display: current === 0 ? 'inherit' : 'none' }} >
           <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
-        </div>}
-        {current === 1 && <div className="card-body">
+        </div>
+        <div className="card-body" style={{ display: current === 1 ? 'inherit' : 'none' }}>
           <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
           <ResultTable results={resultData} />
-        </div>}
-        {current === 2 && <div className="card-body">
+        </div>
+        <div className="card-body" style={{ display: current === 2 ? 'inherit' : 'none' }}>
           <ROIChart yearly={projection} />
           <Divider />
           <ROIBreakdown yearly={projection} />
-        </div>}
+        </div>
 
         <div className="card-footer">
           <Row>
