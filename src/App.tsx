@@ -23,7 +23,7 @@ export const App: React.FunctionComponent = () => {
   return (
     <div className="container">
       <Card title={t('title')} extra={(
-        <Select size="small" onChange={changeLanguage} defaultValue={i18n.language.split('-')[0]}>
+        <Select size="small" onChange={changeLanguage} defaultValue={i18n.resolvedLanguage}>
           <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
           <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
         </Select>
