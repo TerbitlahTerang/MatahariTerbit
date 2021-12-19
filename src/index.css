@@ -63,9 +63,16 @@ body {
   font-weight: 600;
   line-height: 40px;
 }
-.ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
-  margin-right: 5px;
+@media screen and (max-width: 40em) {
+  .card > .card-header {
+    padding: 16px 12px;
+  }
+
+  .ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
+    margin-right: 0px;
+  }
 }
+
 .card-body .ant-steps-item-subtitle > div {
   margin-top: 10px;
   margin-bottom: 10px;
