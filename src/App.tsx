@@ -29,7 +29,8 @@ export const App: React.FunctionComponent = () => {
   const handleScroll: React.MouseEventHandler<HTMLElement> = (e) => {
     const moveTo = (ev: EventTarget & HTMLElement) => {
       return function ()  {
-        ev.scrollIntoView()
+        const y = ev.getBoundingClientRect().top + window.scrollY + -5
+        window.scrollTo({ top: y, behavior: 'smooth' })
       }
     }
     setTimeout(moveTo(e.currentTarget), 200)
