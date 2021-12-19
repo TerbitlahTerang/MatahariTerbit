@@ -63,3 +63,26 @@ body {
   font-weight: 600;
   line-height: 40px;
 }
+
+.ant-steps-item-subtitle > div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ant-steps-item-title .panelPane {
+  line-height: normal;
+}
+.ant-steps-item-title {
+  font-size: 16px;
+  width: 100%;
+}
+
+.ant-steps-item-title > span {
+  width: 100%;
+  float: left;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+.ant-steps-item-container {
+  padding-bottom: 30px;
+}

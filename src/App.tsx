@@ -35,31 +35,39 @@ export const App: React.FunctionComponent = () => {
 
       <div className="card">
         <div className="card-header">
-          <Steps size="small" current={current} onChange={setCurrent}>
-            <Steps.Step icon={<EditOutlined />} title={t('wizard.information.title')} />
-            <Steps.Step icon={<PieChartOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.characteristics.title')} />
-            <Steps.Step icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')} />
+          <Steps direction="vertical" size="small" current={current} onChange={setCurrent}>
+            <Steps.Step icon={<EditOutlined />}
+              title={<span>{t('wizard.information.title')}</span>}
+              subTitle={
+                <div className="card-body"
+                  style={{ display: current >= 0 ? 'block' : 'none' }}
+                >
+                  <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
+                </div>} />
+            <Steps.Step
+              icon={<PieChartOutlined />}
+              disabled={!inputData.pvOut}
+              status={inputData.pvOut ? undefined : 'wait'}
+              title={<span>{t('wizard.characteristics.title')}</span>}
+              subTitle={
+                <div className="card-body"
+                  style={{ display: current >= 1 ? 'block' : 'none' }}
+                >
+                  <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
+                  <ResultTable results={resultData} />
+                </div>}
+            />
+            <Steps.Step icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')}
+              subTitle={
+                <div className="card-body"
+                  style={{ display: current >= 2 ? 'block' : 'none' }}
+                >
+                  <ROIChart yearly={projection} />
+                  <Divider />
+                  <ROIBreakdown yearly={projection} />
+                </div>}
+            />
           </Steps>
-        </div>
-        <div className="card-body" style={{ display: current >= 0 ? 'inherit' : 'none' }} >
-          <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
-        </div>
-        <div className="card-body" style={{ display: current >= 1 ? 'inherit' : 'none' }}>
-          <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
-          <ResultTable results={resultData} />
-        </div>
-        <div className="card-body" style={{ display: current >= 2 ? 'inherit' : 'none' }}>
-          <ROIChart yearly={projection} />
-          <Divider />
-          <ROIBreakdown yearly={projection} />
-        </div>
-
-        <div className="card-footer">
-          <Row>
-            <Col>{current > 0 && <Button size="large" type="link" onClick={() => { setCurrent(current - 1) }}>{t('wizard.prev')}</Button>}</Col>
-            <Col flex="1"/>
-            <Col>{current < 2 && <Button disabled={!inputData.pvOut} size="large" type="primary" onClick={() => { setCurrent(current + 1) }}>{t('wizard.next')}</Button>}</Col>
-          </Row>
         </div>
       </div>
     </div>
