@@ -45,7 +45,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               overlay: <InfoPane documentation={Documentation.MonthlyBill}  />,
               overlayStyle: { maxWidth: '320px' },
               icon: <InfoCircleOutlined/> }}>
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete={'off'}
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete='off'
               formatter={(value) => formatRupiah(value)}
               parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
               step={100000} />

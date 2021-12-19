@@ -1,4 +1,4 @@
-import { DollarOutlined, EditOutlined, PieChartOutlined } from '@ant-design/icons'
+import Icon, { DollarOutlined, EditOutlined, PieChartOutlined } from '@ant-design/icons'
 import { Divider, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +8,7 @@ import { ResultTable } from './components/ResultTable'
 import { ROIBreakdown } from './components/ROIBreakdown'
 import { ROIChart } from './components/ROIChart'
 import { SolarPanelsPane } from './components/SolarPanelsPane'
+import SolarPanelIcon from './assets/icons/solar-panel.svg'
 import { INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData, fromResultData, yearlyProjection } from './services/CalculationService'
 
@@ -62,7 +63,7 @@ export const App: React.FunctionComponent = () => {
                 </div>} />
             <Steps.Step
               onClick={handleScroll}
-              icon={<PieChartOutlined />}
+              icon={<Icon component={() => (<SolarPanelIcon />)} />}
               disabled={!inputData.pvOut}
               status={inputData.pvOut ? undefined : 'wait'}
               title={<span>{t('wizard.characteristics.title')}</span>}
