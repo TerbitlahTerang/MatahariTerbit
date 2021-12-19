@@ -64,9 +64,14 @@ body {
   line-height: 40px;
 }
 
-.ant-steps-item-subtitle > div {
+.card-body .ant-steps-item-subtitle > div {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+div.ant-steps-item-subtitle {
+  float: left;
+  width: 100%;
 }
 
 .ant-steps-item-title .panelPane {
