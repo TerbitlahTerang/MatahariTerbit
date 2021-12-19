@@ -1,5 +1,5 @@
-import Icon, { DollarOutlined, EditOutlined, PieChartOutlined } from '@ant-design/icons'
-import { Divider, Select, Steps, Typography } from 'antd'
+import Icon, { DollarOutlined, EditOutlined } from '@ant-design/icons'
+import { Button, Divider, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Logo from './assets/icons/logo.svg'
@@ -60,6 +60,10 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
                   <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
+                  {current === 0 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"  onClick={() => { setCurrent(2) }}>
+                    Calculate
+                    <Icon component={() => (<SolarPanelIcon />)} />
+                  </Button>}
                 </div>} />
             <Steps.Step
               onClick={handleScroll}
