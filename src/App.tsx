@@ -55,6 +55,7 @@ export const App: React.FunctionComponent = () => {
             <Steps.Step icon={<EditOutlined />}
               onClick={handleScroll}
               title={<span>{t('wizard.information.title')}</span>}
+              status={inputData.pvOut ? undefined : 'wait'}
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
                   <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
