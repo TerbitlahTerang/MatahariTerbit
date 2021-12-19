@@ -17,7 +17,7 @@ export const App: React.FunctionComponent = () => {
   const changeLanguage = (value: string) => { i18n.changeLanguage(value) }
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
   const resultData = useMemo(() => calculateResultData(inputData), [inputData])
-  const projection = useMemo(() => yearlyProjection(30, fromResultData(resultData)), [resultData])
+  const projection = useMemo(() => yearlyProjection(25, fromResultData(resultData)), [resultData])
 
   const [current, setCurrent] = useState<number>(0)
 
@@ -60,7 +60,7 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
                   <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
-                  {current === 0 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"  onClick={() => { setCurrent(2) }}>
+                  {current === 0 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"  onClick={() => { setCurrent(1) }}>
                     Calculate
                     <Icon component={() => (<SolarPanelIcon />)} />
                   </Button>}
@@ -75,6 +75,10 @@ export const App: React.FunctionComponent = () => {
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
                   <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
                   <ResultTable results={resultData} />
+                  {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"  onClick={() => { setCurrent(2) }}>
+                    Calculate
+                    <DollarOutlined />
+                  </Button>}
                 </div>}
             />
             <Steps.Step 
