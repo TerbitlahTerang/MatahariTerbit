@@ -72,7 +72,12 @@ export const App: React.FunctionComponent = () => {
             />
             <Steps.Step 
               onClick={handleScroll}
-              icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')}
+              icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'}
+              title={
+                <span>
+                  {t('wizard.roi.title')}
+                </span>
+              }
               subTitle={
                 <div className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
                   <ROIChart yearly={projection} />
