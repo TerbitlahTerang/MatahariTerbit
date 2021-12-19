@@ -1,5 +1,5 @@
 import { DollarOutlined, EditOutlined, PieChartOutlined } from '@ant-design/icons'
-import { Button, Col, Divider, Row, Select, Steps, Typography } from 'antd'
+import { Divider, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Logo from './assets/icons/logo.svg'
@@ -20,6 +20,21 @@ export const App: React.FunctionComponent = () => {
 
   const [current, setCurrent] = useState<number>(0)
 
+  const setStep = (newNumber: number) => {
+    if (newNumber > current) {
+      setCurrent(newNumber)
+    }
+  }
+  
+  const handleScroll: React.MouseEventHandler<HTMLElement> = (e) => {
+    const moveTo = (ev: EventTarget & HTMLElement) => {
+      return function ()  {
+        ev.scrollIntoView()
+      }
+    }
+    setTimeout(moveTo(e.currentTarget), 200)
+  }
+
   return (
     <div className="container">
       <nav className="app-nav">
@@ -35,33 +50,31 @@ export const App: React.FunctionComponent = () => {
 
       <div className="card">
         <div className="card-header">
-          <Steps direction="vertical" size="small" current={current} onChange={setCurrent}>
+          <Steps direction="vertical" size="small" current={current} onChange={setStep}>
             <Steps.Step icon={<EditOutlined />}
+              onClick={handleScroll}
               title={<span>{t('wizard.information.title')}</span>}
               subTitle={
-                <div className="card-body"
-                  style={{ display: current >= 0 ? 'block' : 'none' }}
-                >
+                <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
                   <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
                 </div>} />
             <Steps.Step
+              onClick={handleScroll}
               icon={<PieChartOutlined />}
               disabled={!inputData.pvOut}
               status={inputData.pvOut ? undefined : 'wait'}
               title={<span>{t('wizard.characteristics.title')}</span>}
               subTitle={
-                <div className="card-body"
-                  style={{ display: current >= 1 ? 'block' : 'none' }}
-                >
+                <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
                   <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
                   <ResultTable results={resultData} />
                 </div>}
             />
-            <Steps.Step icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')}
+            <Steps.Step 
+              onClick={handleScroll}
+              icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'} title={t('wizard.roi.title')}
               subTitle={
-                <div className="card-body"
-                  style={{ display: current >= 2 ? 'block' : 'none' }}
-                >
+                <div className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
                   <ROIChart yearly={projection} />
                   <Divider />
                   <ROIBreakdown yearly={projection} />
