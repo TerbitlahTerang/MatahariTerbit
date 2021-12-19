@@ -63,10 +63,17 @@ body {
   font-weight: 600;
   line-height: 40px;
 }
-
+.ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
+  margin-right: 5px;
+}
 .card-body .ant-steps-item-subtitle > div {
   margin-top: 10px;
   margin-bottom: 10px;
+  margin-left: 0;
+}
+
+.ant-steps-item-subtitle {
+  margin-left: 0;
 }
 
 div.ant-steps-item-subtitle {
@@ -86,6 +93,7 @@ div.ant-steps-item-subtitle {
   width: 100%;
   float: left;
   padding-bottom: 10px;
+  margin-left: 10px;
   font-size: 16px;
 }
 .ant-steps-item-container {
