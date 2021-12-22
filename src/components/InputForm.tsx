@@ -30,42 +30,40 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   }
 
   return (
-    <div>
-      <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
-        const consumption = form.getFieldValue('consumption')
-        const connectionPower = form.getFieldValue('connectionPower')
-        const location = form.getFieldValue('location') as MapState
-        const pvOut = location.info?.pvout
-        props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut })
-      }}>
-        <Row gutter={16}>
-          <Col xs={24} sm={12}>
-            <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
-              initialValue={props.initialValue.monthlyCostEstimateInRupiah}
-              tooltip={{
-                overlay: <InfoPane documentation={Documentation.MonthlyBill}  />,
-                overlayStyle: { maxWidth: '320px' },
-                icon: <InfoCircleOutlined/> }}>
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete={'off'}
-                formatter={(value) => formatRupiah(value)}
-                parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
-                step={100000} />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={12}>
-            <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
-              initialValue={props.initialValue.connectionPower} tooltip={{
-                overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
-                overlayStyle: { maxWidth: '320px' },
-                icon: <InfoCircleOutlined/> }}>
-              <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item name="location" label="Location / Irradiation" initialValue={props.initialValue} style={{ marginBottom: 0 }}>
-          <MapPicker />
-        </Form.Item>
-      </Form>
-    </div>
+    <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
+      const consumption = form.getFieldValue('consumption')
+      const connectionPower = form.getFieldValue('connectionPower')
+      const location = form.getFieldValue('location') as MapState
+      const pvOut = location.info?.pvout
+      props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut })
+    }}>
+      <Row gutter={16}>
+        <Col xs={24} sm={12}>
+          <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
+            initialValue={props.initialValue.monthlyCostEstimateInRupiah}
+            tooltip={{
+              overlay: <InfoPane documentation={Documentation.MonthlyBill}  />,
+              overlayStyle: { maxWidth: '320px' },
+              icon: <InfoCircleOutlined/> }}>
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete='off'
+              formatter={(value) => formatRupiah(value)}
+              parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
+              step={100000} />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={12}>
+          <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
+            initialValue={props.initialValue.connectionPower} tooltip={{
+              overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
+              overlayStyle: { maxWidth: '320px' },
+              icon: <InfoCircleOutlined/> }}>
+            <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
+          </Form.Item>
+        </Col>
+      </Row>
+      <Form.Item name="location" label="Location / Irradiation" initialValue={props.initialValue} style={{ marginBottom: 0 }}>
+        <MapPicker />
+      </Form.Item>
+    </Form>
   )
 }

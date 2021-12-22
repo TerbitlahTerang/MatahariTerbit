@@ -22,7 +22,7 @@
     text-align: center;
     left: -3px;
     right: 0;
-    top: -webkit-calc(50% - 28px);
-    top: -moz-calc(50% - 28px);
-    top: calc(50% - 28px);
+    top: -webkit-calc(50% - 22px);
+    top: -moz-calc(50% - 22px);
+    top: calc(50% - 22px);
 }
