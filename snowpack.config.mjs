@@ -9,5 +9,7 @@ export default {
     optimize: {},
     packageOptions: {},
     devOptions: {},
-    buildOptions: {}
+    buildOptions: {
+        treeshake: true,
+    }
 }
