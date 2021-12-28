@@ -16,11 +16,6 @@ body {
   margin-bottom: 16px;
 }
 
-.results td:nth-child(2) {
-  white-space: nowrap;
-  text-align: right;
-}
-
 .card {
   box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
   border-radius: 4px;
@@ -38,6 +33,9 @@ body {
 .card > .card-footer {
   border-top: 1px solid #edf1f7;
   padding: 16px 20px;
+}
+.ant-col-9 {
+  text-align: right;
 }
 
 .app-nav {
