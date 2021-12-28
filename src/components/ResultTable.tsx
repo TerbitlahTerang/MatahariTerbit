@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
 import { formatDigits, formatNumber, formatRupiah } from './Formatters'
 import { CALCULATOR_VALUES } from '../constants'
+import { renderPanel } from './SolarPanel'
 
 export interface ResultTableProps {
   results?: ResultData
@@ -12,11 +13,22 @@ export interface ResultTableProps {
 export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) => {
   const { t, i18n } = useTranslation()
   const results = props.results
+  const panels = Array.from(Array(results?.numberOfPanels).keys()).map(x => x + 1)
   if (!results) { return <div>Invalid Data</div> }
   return (
     <div className="ant-table">
       <table className="results">
         <tbody>
+          <tr>
+            <td colSpan={2}>{t('resultTable.recommendedPanels')}:</td>
+          </tr>
+          <tr>
+            <td colSpan={2} className="panelPane">
+              <div className="panelContainer">
+                {panels.map(renderPanel)}
+              </div>
+            </td>
+          </tr>
           <tr>
             <td>{t('resultTable.installedCapacity')}</td>
             <td>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel, 2, i18n.language)} kWp</td>
