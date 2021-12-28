@@ -10,9 +10,6 @@ export default {
     packageOptions: {},
     devOptions: {},
     buildOptions: {
-        bundle: true,
-        minify: true,
         treeshake: true,
-        manifest: true
     }
 }
