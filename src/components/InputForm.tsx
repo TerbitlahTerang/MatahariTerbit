@@ -63,7 +63,13 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item name="location" label="Location / Irradiation" initialValue={props.initialValue} style={{ marginBottom: 0 }}>
+      <Form.Item name="location" label={t('inputForm.location')} initialValue={props.initialValue} style={{ marginBottom: 0 }}
+        tooltip={{
+          overlay: <InfoPane documentation={Documentation.Location} />,
+          overlayStyle: { maxWidth: '360px' },
+          trigger: 'click',
+          icon: <InfoCircleOutlined/> }}
+      >
         <MapPicker />
       </Form.Item>
     </Form>

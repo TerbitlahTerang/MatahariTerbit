@@ -31,7 +31,8 @@
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
-    "connectionPower": "Electricity Connection Power"
+    "connectionPower": "Electricity Connection Power",
+    "location": "Location / Irradiation"
   },
   "roiTable": {
     "year": "Year",
