@@ -1,10 +1,13 @@
-import { Col, Divider, Row } from 'antd'
+import { Col, Divider, Popover, Row } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
 import { formatDigits, formatNumber, formatRupiah } from './Formatters'
 import { CALCULATOR_VALUES } from '../constants'
 import { renderPanel } from './SolarPanel'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Documentation } from '../services/DocumentationService'
+import { InfoPane } from './InfoPane'
 
 export interface ResultTableProps {
   results?: ResultData
@@ -20,7 +23,13 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
   return (
     <div className="ant-table">
       <Row gutter={12} className="results">
-        <Col span={24}>{t('resultTable.recommendedPanels')}</Col>
+        <Col span={24}>{t('resultTable.recommendedPanels')}
+          &nbsp;
+          <Popover overlayStyle={{ maxWidth: '320px' }} content={<InfoPane documentation={Documentation.NumberOfPanels}  />}
+            trigger="click" >
+            <InfoCircleOutlined/>
+          </Popover>
+        </Col>
       </Row>
       <Row gutter={12} className="panelPane">
         <Col span={24} className="panelContainer">{panels.map(renderPanel)}</Col>

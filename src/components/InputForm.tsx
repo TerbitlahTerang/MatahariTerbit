@@ -44,6 +44,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             tooltip={{
               overlay: <InfoPane documentation={Documentation.MonthlyBill}  />,
               overlayStyle: { maxWidth: '320px' },
+              trigger: 'click',
               icon: <InfoCircleOutlined/> }}>
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete='off'
               formatter={(value) => formatRupiah(value)}
@@ -55,6 +56,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={props.initialValue.connectionPower} tooltip={{
               overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
+              trigger: 'click',
               overlayStyle: { maxWidth: '320px' },
               icon: <InfoCircleOutlined/> }}>
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
