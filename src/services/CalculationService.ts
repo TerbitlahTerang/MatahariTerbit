@@ -9,7 +9,10 @@ export interface ResultData {
   remainingMonthlyCosts: number
   currentMonthlyCosts: number
   totalSystemCosts: number
+  monthlyProfit: number
   yearlyProfit: number
+  minimalMonthlyCostsIncludingTax: number
+  yieldPerMonthFromPanelsInRupiah: number
 }
 
 const monthsInYear = 12.0
@@ -17,7 +20,7 @@ const monthsInYear = 12.0
 function panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit: number, kiloWattPeakPerPanel: number, connectionPower: number) {
   const suggestedCapacity = numberOfPanelsWithoutConnectionLimit * kiloWattPeakPerPanel
   const installableCapacity = Math.min(suggestedCapacity * 1000, connectionPower)
-  return Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000)
+  return Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000) + 1
 }
 
 export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut }: InputData): ResultData {
@@ -36,33 +39,38 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   // 4.4 kWh output / per 1 kWp (in Sanur)
   const energyTax = 0.1 + 0.05 //PPN + PPJ
   const taxFactor = 1.0 + energyTax
+  const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
+  const taxedPricePerKwh = pricePerKwh * taxFactor
 
   const minimalMonthlyConsumption = 40 * (connectionPower / 1000)
   const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * 1500.0 * taxFactor
+
   const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
   const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
-
-  const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
-  const taxedPricePerKwh = pricePerKwh * taxFactor
   const expectedMonthlyProduction = effectiveCostsPerMonth / taxedPricePerKwh
 
   const effectiveConsumptionPerMonthInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
   const numberOfPanelsWithoutConnectionLimit = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
   const numberOfPanels = panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit, kiloWattPeakPerPanel, connectionPower)
   const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
+  const yieldPerMonthFromPanelsInRupiah = productionPerMonthInKwh * taxedPricePerKwh
+  const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, monthlyCostEstimateInRupiah - yieldPerMonthFromPanelsInRupiah)
 
-  const yearlyProfit = ((taxedPricePerKwh * productionPerMonthInKwh) - minimalMonthlyCostsIncludingTax) * monthsInYear
-
+  const monthlyProfit = monthlyCostEstimateInRupiah - remainingMonthlyCosts
+  const yearlyProfit = monthlyProfit * monthsInYear
 
   return {
     consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
-    taxedPricePerKwh: taxedPricePerKwh,
+    taxedPricePerKwh,
     productionPerMonthInKwh,
-    numberOfPanels,
-    remainingMonthlyCosts: effectiveCostsPerMonth,
+    numberOfPanels: monthlyProfit < 0 ? 0 : numberOfPanels,
+    remainingMonthlyCosts,
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
     totalSystemCosts: numberOfPanels * pricePerPanel,
-    yearlyProfit: yearlyProfit
+    monthlyProfit,
+    yearlyProfit,
+    minimalMonthlyCostsIncludingTax: minimalMonthlyCostsIncludingTax,
+    yieldPerMonthFromPanelsInRupiah
   }
 }
 

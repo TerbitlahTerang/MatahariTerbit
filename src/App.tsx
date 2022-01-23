@@ -7,7 +7,6 @@ import { InputData, InputForm } from './components/InputForm'
 import { ResultTable } from './components/ResultTable'
 import { ROIBreakdown } from './components/ROIBreakdown'
 import { ROIChart } from './components/ROIChart'
-import { SolarPanelsPane } from './components/SolarPanelsPane'
 import SolarPanelIcon from './assets/icons/solar-panel.svg'
 import { INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData, fromResultData, yearlyProjection } from './services/CalculationService'
@@ -73,7 +72,6 @@ export const App: React.FunctionComponent = () => {
               title={<span>{t('wizard.characteristics.title')}</span>}
               subTitle={
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
-                  <SolarPanelsPane numberOfPanels={resultData.numberOfPanels} />
                   <ResultTable results={resultData} />
                   {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"  onClick={() => { setCurrent(2) }}>
                     Calculate

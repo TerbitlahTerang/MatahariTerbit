@@ -22,8 +22,8 @@
     "monthlyConsumption": "Monthly Consumption",
     "remainingMonthlyCosts": "Remaining monthly costs",
     "currentMonthlyCosts": "Current monthly costs",
-    "monthlyProfit": "Monthly profit",
-    "yearlyProfit": "Yearly profit"
+    "monthlyProfit": "Monthly result from panels",
+    "yearlyProfit": "Yearly result from panels"
   },
   "chart": {
     "labelYear": "Year",
@@ -31,7 +31,8 @@
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
-    "connectionPower": "Electricity Connection Power"
+    "connectionPower": "Electricity Connection Power",
+    "location": "Location / Irradiation"
   },
   "roiTable": {
     "year": "Year",

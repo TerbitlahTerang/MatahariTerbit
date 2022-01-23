@@ -33,7 +33,8 @@
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",
-    "connectionPower": "Daya"
+    "connectionPower": "Daya",
+    "location": "Lokasi / Penyinaran"
   },
   "roiTable" : {
     "year": "Tahun",
