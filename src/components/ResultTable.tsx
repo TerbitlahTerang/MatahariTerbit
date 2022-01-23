@@ -24,9 +24,10 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
     <div className="ant-table">
       <Row gutter={12} className="results">
         <Col span={24}>{t('resultTable.recommendedPanels')}
-          &nbsp;
-          <Popover overlayStyle={{ maxWidth: '320px' }} content={<InfoPane documentation={Documentation.NumberOfPanels}  />}
-            trigger="click" >
+                    &nbsp;
+          <Popover overlayStyle={{ maxWidth: '320px' }}
+            content={<InfoPane documentation={Documentation.NumberOfPanels}/>}
+            trigger="click">
             <InfoCircleOutlined/>
           </Popover>
         </Col>
@@ -40,7 +41,12 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
           span={9}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel, 2, i18n.language)} kWp</Col>
       </Row>
       <Row gutter={12} justify="center">
-        <Col span={15}>{t('resultTable.areaRequired')}</Col>
+        <Col span={15}>{t('resultTable.areaRequired')}&nbsp;
+          <Popover overlayStyle={{ maxWidth: '320px' }}
+            content={<InfoPane documentation={Documentation.AreaRequired}/>}
+            trigger="click">
+            <InfoCircleOutlined/>
+          </Popover></Col>
         <Col
           span={9}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.areaPerPanel, 0, i18n.language)} ㎡</Col>
       </Row>
@@ -59,17 +65,25 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         <Col span={9}>{formatRupiah(results.currentMonthlyCosts)}</Col>
       </Row>
       <Row gutter={12}>
-        <Col span={15}>{t('resultTable.remainingMonthlyCosts')}</Col>
-        <Col  span={9}>{formatRupiah(results.remainingMonthlyCosts)}</Col>
+        <Col span={15}>{t('resultTable.remainingMonthlyCosts')}&nbsp;
+          <Popover
+            overlayStyle={{ maxWidth: '320px' }}
+            content={<InfoPane documentation={Documentation.MinimalPayment}/>}
+            trigger="click">
+            <InfoCircleOutlined/>
+          </Popover>
+        </Col>
+        <Col span={9}>{formatRupiah(results.remainingMonthlyCosts)}</Col>
       </Row>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.monthlyProfit')}</Col>
-        <Col  span={9}>{formatRupiah(results.monthlyProfit)}</Col>
+        <Col span={9}>{formatRupiah(results.monthlyProfit)}</Col>
       </Row>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.yearlyProfit')}</Col>
-        <Col  span={9}>{formatRupiah(results.yearlyProfit)}</Col>
+        <Col span={9}>{formatRupiah(results.yearlyProfit)}</Col>
       </Row>
+      <Divider/>
     </div>
   )
 }
