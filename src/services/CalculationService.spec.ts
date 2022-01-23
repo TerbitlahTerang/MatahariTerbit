@@ -23,6 +23,14 @@ describe('Calculate system characteristics', () => {
     expect(result.numberOfPanels).toBe(6)
   })
 
+  it('Should recommend no panels if negative profit', async () => {
+    const bigConnection = 7700.0
+    const data: InputData = { monthlyCostEstimateInRupiah: 500000.0, connectionPower: bigConnection, pvOut: 885 }
+    const result = calculateResultData(data)
+    expect(result.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel).toBeLessThan(bigConnection)
+    expect(result.numberOfPanels).toBe(0)
+  })
+
   it('Should calculate all fields correctly', async () => {
     const smallConnection = 2200.0
     const data: InputData = { monthlyCostEstimateInRupiah: 1000000.0, connectionPower: smallConnection, pvOut: 1800 }

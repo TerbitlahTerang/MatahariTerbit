@@ -61,9 +61,9 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   return {
     consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
-    taxedPricePerKwh: taxedPricePerKwh,
+    taxedPricePerKwh,
     productionPerMonthInKwh,
-    numberOfPanels,
+    numberOfPanels: monthlyProfit < 0 ? 0 : numberOfPanels,
     remainingMonthlyCosts,
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
     totalSystemCosts: numberOfPanels * pricePerPanel,
