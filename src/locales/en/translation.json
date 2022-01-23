@@ -22,8 +22,8 @@
     "monthlyConsumption": "Monthly Consumption",
     "remainingMonthlyCosts": "Remaining monthly costs",
     "currentMonthlyCosts": "Current monthly costs",
-    "monthlyProfit": "Monthly profit",
-    "yearlyProfit": "Yearly profit"
+    "monthlyProfit": "Monthly result from panels",
+    "yearlyProfit": "Yearly result from panels"
   },
   "chart": {
     "labelYear": "Year",

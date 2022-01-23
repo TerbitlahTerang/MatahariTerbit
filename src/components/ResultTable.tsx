@@ -64,11 +64,11 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       </Row>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.monthlyProfit')}</Col>
-        <Col  span={9}>{formatRupiah(results.currentMonthlyCosts - results.remainingMonthlyCosts)}</Col>
+        <Col  span={9}>{formatRupiah(results.monthlyProfit)}</Col>
       </Row>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.yearlyProfit')}</Col>
-        <Col  span={9}>{formatRupiah((results.currentMonthlyCosts - results.remainingMonthlyCosts) * 12)}</Col>
+        <Col  span={9}>{formatRupiah(results.yearlyProfit)}</Col>
       </Row>
     </div>
   )
