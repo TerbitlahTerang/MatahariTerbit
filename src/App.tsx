@@ -9,14 +9,15 @@ import { ROIBreakdown } from './components/ROIBreakdown'
 import { ROIChart } from './components/ROIChart'
 import SolarPanelIcon from './assets/icons/solar-panel.svg'
 import { INITIAL_INPUT_DATA } from './constants'
-import { calculateResultData, fromResultData, yearlyProjection } from './services/CalculationService'
+import { calculateResultData, ResultData } from './services/CalculationService'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
-  const changeLanguage = (value: string) => { i18n.changeLanguage(value) }
+  const changeLanguage = (value: string) => {
+    i18n.changeLanguage(value)
+  }
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
-  const resultData = useMemo(() => calculateResultData(inputData), [inputData])
-  const projection = useMemo(() => yearlyProjection(25, fromResultData(resultData)), [resultData])
+  const resultData: ResultData = useMemo(() => calculateResultData(inputData), [inputData])
 
   const [current, setCurrent] = useState<number>(0)
 
@@ -25,10 +26,10 @@ export const App: React.FunctionComponent = () => {
       setCurrent(newNumber)
     }
   }
-  
+
   const handleScroll: React.MouseEventHandler<HTMLElement> = (e) => {
     const moveTo = (ev: EventTarget & HTMLElement) => {
-      return function ()  {
+      return function () {
         const y = ev.getBoundingClientRect().top + window.scrollY + -5
         window.scrollTo({ top: y, behavior: 'smooth' })
       }
@@ -39,10 +40,11 @@ export const App: React.FunctionComponent = () => {
   return (
     <div className="container">
       <nav className="app-nav">
-        <div className="app-nav-logo"><Logo width={40} height={40} viewBox="0 0 32 32" /></div>
+        <div className="app-nav-logo"><Logo width={40} height={40} viewBox="0 0 32 32"/></div>
         <Typography.Title ellipsis>{t('title')}</Typography.Title>
         <div className="app-nav-extra">
-          <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false} style={{ color: '#FFFFFF' }} size="large">
+          <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false}
+            style={{ color: '#FFFFFF' }} size="large">
             <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
             <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
           </Select>
@@ -52,36 +54,45 @@ export const App: React.FunctionComponent = () => {
       <div className="card">
         <div className="card-header">
           <Steps direction="vertical" size="small" current={current} onChange={setStep}>
-            <Steps.Step icon={<EditOutlined />}
+            <Steps.Step icon={<EditOutlined/>}
               onClick={handleScroll}
               title={<span>{t('wizard.information.title')}</span>}
               status={inputData.pvOut ? undefined : 'wait'}
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
-                  <InputForm initialValue={INITIAL_INPUT_DATA} onChange={(data) => setInputData(data)} />
-                  {current === 0 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"  onClick={() => { setCurrent(1) }}>
-                    Calculate
-                    <Icon component={() => (<SolarPanelIcon />)} />
-                  </Button>}
-                </div>} />
+                  <InputForm initialValue={INITIAL_INPUT_DATA}
+                    onChange={(data) => setInputData(data)}/>
+                  {current === 0 &&
+                                                <Button style={{ marginTop: '5px', float: 'right' }} size="large"
+                                                  onClick={() => {
+                                                    setCurrent(1)
+                                                  }}>
+                                                    Calculate
+                                                  <Icon component={() => (<SolarPanelIcon/>)}/>
+                                                </Button>}
+                </div>}/>
             <Steps.Step
               onClick={handleScroll}
-              icon={<Icon component={() => (<SolarPanelIcon />)} />}
+              icon={<Icon component={() => (<SolarPanelIcon/>)}/>}
               disabled={!inputData.pvOut}
               status={inputData.pvOut ? undefined : 'wait'}
               title={<span>{t('wizard.characteristics.title')}</span>}
               subTitle={
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
-                  <ResultTable results={resultData} />
-                  {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"  onClick={() => { setCurrent(2) }}>
-                    Calculate
-                    <DollarOutlined />
+                  <ResultTable results={resultData}/>
+                  {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"
+                    onClick={() => {
+                      setCurrent(2)
+                    }}>
+                                        Calculate
+                    <DollarOutlined/>
                   </Button>}
                 </div>}
             />
-            <Steps.Step 
+            <Steps.Step
               onClick={handleScroll}
-              icon={<DollarOutlined />} disabled={!inputData.pvOut} status={inputData.pvOut ? undefined : 'wait'}
+              icon={<DollarOutlined/>} disabled={!inputData.pvOut}
+              status={inputData.pvOut ? undefined : 'wait'}
               title={
                 <span>
                   {t('wizard.roi.title')}
@@ -89,9 +100,9 @@ export const App: React.FunctionComponent = () => {
               }
               subTitle={
                 <div className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
-                  <ROIChart yearly={projection} />
-                  <Divider />
-                  <ROIBreakdown yearly={projection} />
+                  <ROIChart yearly={resultData.projection}/>
+                  <Divider/>
+                  <ROIBreakdown yearly={resultData.projection}/>
                 </div>}
             />
           </Steps>
