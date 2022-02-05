@@ -10,6 +10,8 @@ import MinimalPaymentEn from '../assets/documentation/en/results/MinimalPayment.
 import MinimalPaymentId from '../assets/documentation/id/results/MinimalPayment.md'
 import LocationEn from '../assets/documentation/en/inputform/Location.md'
 import LocationId from '../assets/documentation/id/inputform/Location.md'
+import RoiExplanationEn from '../assets/documentation/en/results/RoiExplanation.md'
+import RoiExplanationId from '../assets/documentation/id/results/RoiExplanation.md'
 
 export enum Documentation {
   ConnectionPower,
@@ -17,7 +19,8 @@ export enum Documentation {
   Location,
   NumberOfPanels,
   AreaRequired,
-  MinimalPayment
+  MinimalPayment,
+  RoiExplanation
 }
 
 export enum Locale {
@@ -33,6 +36,7 @@ function getIndonesian(doc: Documentation): string {
     case Documentation.AreaRequired: return AreaRequiredId.body
     case Documentation.MinimalPayment: return MinimalPaymentId.body
     case Documentation.Location: return LocationId.body
+    case Documentation.RoiExplanation: return RoiExplanationId.body
   }
 }
 
@@ -44,6 +48,7 @@ function getEnglish(doc: Documentation): string {
     case Documentation.AreaRequired: return AreaRequiredEn.body
     case Documentation.MinimalPayment: return MinimalPaymentEn.body
     case Documentation.Location: return LocationEn.body
+    case Documentation.RoiExplanation: return RoiExplanationEn.body
   }
 }
 

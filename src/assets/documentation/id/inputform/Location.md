@@ -8,3 +8,12 @@ your panels will produce more or less electricity.
 Depending on your current location, we determine how much sunshine (irradiation) is 
 expected to reach your roof throughout the year, 
 using the [global solar atlas](https://globalsolaratlas.info/).
+
+<style>
+.documentation .Location img {
+    width: 250px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0.75);
+}
+</style>

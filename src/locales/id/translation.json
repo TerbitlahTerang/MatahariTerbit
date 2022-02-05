@@ -25,7 +25,9 @@
     "remainingMonthlyCosts": "Sisa biaya bulanan",
     "currentMonthlyCosts": "Biaya bulanan saat ini",
     "monthlyProfit": "Keuntungan bulanan",
-    "yearlyProfit": "Keuntungan tahunan"
+    "yearlyProfit": "Keuntungan tahunan",
+    "breakEven": "Periode pengembalian",
+    "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan"
   },
   "chart": {
     "labelYear": "Tahun",

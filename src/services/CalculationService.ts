@@ -11,8 +11,8 @@ export interface ResultData {
   totalSystemCosts: number
   monthlyProfit: number
   yearlyProfit: number
-  minimalMonthlyCostsIncludingTax: number
-  yieldPerMonthFromPanelsInRupiah: number
+  breakEvenPointInMonths: number
+  projection: ReturnOnInvestment[]
 }
 
 const monthsInYear = 12.0
@@ -58,6 +58,23 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const monthlyProfit = monthlyCostEstimateInRupiah - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
+  const totalSystemCosts = numberOfPanels * pricePerPanel
+
+
+  const range = 25
+  const projection: ReturnOnInvestment[] = roiProjection(range, {
+    taxedPricePerKwh,
+    productionPerMonthInKwh,
+    yearlyProfit,
+    totalSystemCosts
+  })
+  const firstMonthAboveZero = roiProjection(range, {
+    taxedPricePerKwh,
+    productionPerMonthInKwh,
+    yearlyProfit,
+    totalSystemCosts
+  }, monthsInYear).find(x => x.cumulativeProfit > 0)
+  const breakEvenPointInMonths = firstMonthAboveZero ? firstMonthAboveZero.index : range
 
   return {
     consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
@@ -66,21 +83,22 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     numberOfPanels: monthlyProfit < 0 ? 0 : numberOfPanels,
     remainingMonthlyCosts,
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
-    totalSystemCosts: numberOfPanels * pricePerPanel,
+    totalSystemCosts,
     monthlyProfit,
     yearlyProfit,
-    minimalMonthlyCostsIncludingTax: minimalMonthlyCostsIncludingTax,
-    yieldPerMonthFromPanelsInRupiah
+    projection,
+    breakEvenPointInMonths
   }
 }
 
-export interface YearlyResult {
-  year: number
+export interface ReturnOnInvestment {
+  index: number
   output: number
   tariff: number
   income: number
   cumulativeProfit: number
   pvOutputPercentage: number
+  stepSizeInMonths: number
 }
 
 interface InvestmentParameters {
@@ -97,31 +115,36 @@ export const fromResultData = (r: ResultData): InvestmentParameters => ({
   totalSystemCosts: r.totalSystemCosts
 })
 
+export function roiProjection(numberOfYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
+  const years = Array.from(Array(numberOfYears * divider).keys()).map(x => x + 1)
 
-export function yearlyProjection(numberOfYears: number, result: InvestmentParameters): YearlyResult[] {
-  const years = Array.from(Array(numberOfYears).keys()).map(x => x + 1)
-  const electricityPriceInflation = 1.05
-  const capacityLoss = 0.995
+  const electricityPriceInflationRate = 0.05 / divider
+  const capacityLossRate = 0.005 / divider
+
+  const electricityPriceInflation = 1.0 + electricityPriceInflationRate
+  const capacityLoss = 1.0 - capacityLossRate
 
   const startYear = {
-    year: 0,
+    index: 0,
     tariff: result.taxedPricePerKwh,
-    output: result.productionPerMonthInKwh * monthsInYear,
-    income: result.productionPerMonthInKwh * monthsInYear * result.taxedPricePerKwh,
+    output: result.productionPerMonthInKwh * (monthsInYear / divider),
+    income: result.productionPerMonthInKwh * (monthsInYear / divider) * result.taxedPricePerKwh,
     cumulativeProfit: result.yearlyProfit - result.totalSystemCosts,
     pvOutputPercentage: 1.0
-  } as YearlyResult
+  } as ReturnOnInvestment
   return years.reduce((acc, currentValue, currentIndex) => {
     const previous = acc[currentIndex]
     return acc.concat({
-      year: currentValue,
+      index: currentValue,
       tariff: previous.tariff * electricityPriceInflation,
       output: previous.output * capacityLoss,
       income: previous.income * electricityPriceInflation,
       cumulativeProfit: previous.cumulativeProfit + (previous.income * electricityPriceInflation),
-      pvOutputPercentage: previous.pvOutputPercentage * capacityLoss
-    } as YearlyResult)
+      pvOutputPercentage: previous.pvOutputPercentage * capacityLoss,
+      stepSizeInMonths: monthsInYear / divider
+    } as ReturnOnInvestment)
   }, [startYear])
 
 }
+
 

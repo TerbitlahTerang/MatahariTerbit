@@ -2,10 +2,10 @@ import React from 'react'
 import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions } from 'chart.js'
 import { useTranslation } from 'react-i18next'
-import { YearlyResult } from '../services/CalculationService'
+import { ReturnOnInvestment } from '../services/CalculationService'
 
 export interface ROIChartProps {
-  yearly: YearlyResult[]
+  yearly: ReturnOnInvestment[]
 }
 
 
@@ -16,7 +16,7 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
   const colors = props.yearly.map((value) => value.cumulativeProfit < 0 ? 'rgb(255, 99, 132)' : 'rgb(99, 255, 132)')
 
   const data: ChartData<'bar', number[]> = {
-    labels: props.yearly.map(x => x.year),
+    labels: props.yearly.map(x => x.index),
     datasets: [
       {
         label: 'Jt. Rupiah',

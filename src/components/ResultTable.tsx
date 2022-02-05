@@ -13,12 +13,22 @@ export interface ResultTableProps {
   results?: ResultData
 }
 
+interface BreakEvenPoint {
+  years: number
+  months: number
+}
+
 export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) => {
   const { t, i18n } = useTranslation()
-  const results = props.results
+  const results: ResultData | undefined = props.results
   const panels = Array.from(Array(results?.numberOfPanels).keys()).map(x => x + 1)
   if (!results) {
     return <div>Invalid Data</div>
+  }
+  const monthsInYear = 12
+  const breakEven: BreakEvenPoint = {
+    years: Math.floor(results.breakEvenPointInMonths / monthsInYear),
+    months: Math.round(results.breakEvenPointInMonths % monthsInYear)
   }
   return (
     <div className="ant-table">
@@ -82,6 +92,17 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.yearlyProfit')}</Col>
         <Col span={9}>{formatRupiah(results.yearlyProfit)}</Col>
+      </Row>
+      <Row gutter={12}>
+        <Col span={15}>{t('resultTable.breakEven')}&nbsp;
+          <Popover
+            overlayStyle={{ maxWidth: '400px' }}
+            content={<InfoPane documentation={Documentation.RoiExplanation}/>}
+            trigger="click">
+            <InfoCircleOutlined/>
+          </Popover>
+        </Col>
+        <Col span={9}>{t('resultTable.breakEvenExplanation', { breakEven })}</Col>
       </Row>
       <Divider/>
     </div>

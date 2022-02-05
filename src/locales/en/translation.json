@@ -23,7 +23,9 @@
     "remainingMonthlyCosts": "Remaining monthly costs",
     "currentMonthlyCosts": "Current monthly costs",
     "monthlyProfit": "Monthly result from panels",
-    "yearlyProfit": "Yearly result from panels"
+    "yearlyProfit": "Yearly result from panels",
+    "breakEven": "Payback period",
+    "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months"
   },
   "chart": {
     "labelYear": "Year",

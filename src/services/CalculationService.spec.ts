@@ -38,7 +38,6 @@ describe('Calculate system characteristics', () => {
 
     expect(results.currentMonthlyCosts).toBe(1000000)
     expect(results.numberOfPanels).toBe(6)
-    expect(results.minimalMonthlyCostsIncludingTax).toBe(151800)
     expect(Math.round(results.monthlyProfit)).toBe(575856)
     expect(Math.round(results.yearlyProfit)).toBe(Math.round(results.monthlyProfit * 12.0))
 
