@@ -11,8 +11,6 @@ export interface ResultData {
   totalSystemCosts: number
   monthlyProfit: number
   yearlyProfit: number
-  minimalMonthlyCostsIncludingTax: number
-  yieldPerMonthFromPanelsInRupiah: number
 }
 
 const monthsInYear = 12.0
@@ -68,9 +66,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
     totalSystemCosts: numberOfPanels * pricePerPanel,
     monthlyProfit,
-    yearlyProfit,
-    minimalMonthlyCostsIncludingTax: minimalMonthlyCostsIncludingTax,
-    yieldPerMonthFromPanelsInRupiah
+    yearlyProfit
   }
 }
 
