@@ -2,8 +2,7 @@
 
 There are many factors that influence the costs of a solar system.
 
-
-### Example
+### Example cost breakdown
 
 | Description        | Quantity | Unit Price |      Total Price |
 |--------------------|---------:|-----------:|-----------------:|
@@ -14,8 +13,25 @@ There are many factors that influence the costs of a solar system.
 | Installation costs |        1 | 15.000.000 |       15.000.000 |
 | _**Total costs**_  |          |            | _**58.216.475**_ |
 
-
+---
 
 ### Assumed average price
 
-For our calculations we have assumed the average price of a panel to be IDR 7.875.000
+For our calculations we have assumed the average price to be **IDR 7.875.000**
+per panel.
+
+<style>
+.documentation .RoiExplanation table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.documentation .RoiExplanation th {
+    border:2px solid #000000;
+    background: #d9d9d9;
+}
+
+.documentation .RoiExplanation td {
+    border:1px solid #000000;
+}
+</style>
