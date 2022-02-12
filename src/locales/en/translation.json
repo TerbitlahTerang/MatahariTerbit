@@ -29,7 +29,8 @@
   },
   "chart": {
     "labelYear": "Year",
-    "labelProfit": "Profit in IDR"
+    "labelProfit": "Profit in Rp.",
+    "tooltipTitle": "Year {{year}}"
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",

@@ -31,7 +31,8 @@
   },
   "chart": {
     "labelYear": "Tahun",
-    "labelProfit": "Keuntungan IDR"
+    "labelProfit": "Keuntungan Rp.",
+    "tooltipTitle": "Tahun {{year}}"
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",

@@ -14,4 +14,4 @@ There are many factors that influence the costs of a solar system.
 | _**Total costs**_  |          |            | _**58.216.475**_ |
 
 ### Assumed average price
-For our calculations we have assumed the average price of a panel to be IDR 7.875.000
+For our calculations we have assumed the average price of a panel to be Rp. 7.875.000

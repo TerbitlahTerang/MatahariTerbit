@@ -1,8 +1,9 @@
 import React from 'react'
 import { Bar } from 'react-chartjs-2'
-import { ChartData, ChartOptions } from 'chart.js'
+import { ChartData, ChartOptions, TooltipItem } from 'chart.js'
 import { useTranslation } from 'react-i18next'
 import { ReturnOnInvestment } from '../services/CalculationService'
+import { formatRupiah } from './Formatters'
 
 export interface ROIChartProps {
   yearly: ReturnOnInvestment[]
@@ -27,10 +28,25 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
     ]
   }
 
+  const title = (toolTipItems: TooltipItem<'bar'>[]) => {
+    const year = toolTipItems[0].label
+    return t('chart.tooltipTitle', { year })
+  }
+
+  const label = (toolTipItem: TooltipItem<'bar'>) => {
+    return formatRupiah((toolTipItem.raw as number) * 1000000)
+  }
+
   const options: ChartOptions<'bar'> = {
     plugins: {
       legend: {
         display: false
+      },
+      tooltip: {
+        callbacks: {
+          title: title,
+          label: label
+        }
       }
     },
     scales: {
