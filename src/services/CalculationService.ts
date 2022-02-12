@@ -108,21 +108,17 @@ interface InvestmentParameters {
   totalSystemCosts: number
 }
 
-export const fromResultData = (r: ResultData): InvestmentParameters => ({
-  taxedPricePerKwh: r.taxedPricePerKwh,
-  productionPerMonthInKwh: r.productionPerMonthInKwh,
-  yearlyProfit: r.yearlyProfit,
-  totalSystemCosts: r.totalSystemCosts
-})
-
 export function roiProjection(numberOfYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
   const years = Array.from(Array(numberOfYears * divider).keys()).map(x => x + 1)
 
   const electricityPriceInflationRate = 0.05 / divider
-  const capacityLossRate = 0.005 / divider
+  const capacityLossRate = 0.0075 / divider
 
   const electricityPriceInflation = 1.0 + electricityPriceInflationRate
   const capacityLoss = 1.0 - capacityLossRate
+  const lifetimeInverterInYears = CALCULATOR_VALUES.inverterLifetimeInYears
+  const priceOfInverter = (result.totalSystemCosts * 0.10)
+  const priceOfInverterIndexed = priceOfInverter * Math.pow(electricityPriceInflation, lifetimeInverterInYears)
 
   const startYear = {
     index: 0,
@@ -134,12 +130,13 @@ export function roiProjection(numberOfYears: number, result: InvestmentParameter
   } as ReturnOnInvestment
   return years.reduce((acc, currentValue, currentIndex) => {
     const previous = acc[currentIndex]
+    const invertReplacementCosts = currentIndex === (lifetimeInverterInYears * divider) ? priceOfInverterIndexed : 0
     return acc.concat({
       index: currentValue,
       tariff: previous.tariff * electricityPriceInflation,
       output: previous.output * capacityLoss,
       income: previous.income * electricityPriceInflation,
-      cumulativeProfit: previous.cumulativeProfit + (previous.income * electricityPriceInflation),
+      cumulativeProfit: previous.cumulativeProfit + (previous.income * electricityPriceInflation) - invertReplacementCosts,
       pvOutputPercentage: previous.pvOutputPercentage * capacityLoss,
       stepSizeInMonths: monthsInYear / divider
     } as ReturnOnInvestment)

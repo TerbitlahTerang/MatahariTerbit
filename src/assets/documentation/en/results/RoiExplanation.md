@@ -2,7 +2,7 @@
 
 There are many factors that influence the costs of a solar system.
 
-### Example cost breakdown
+### Example
 
 | Description        | Quantity | Unit Price |      Total Price |
 |--------------------|---------:|-----------:|-----------------:|
@@ -14,11 +14,10 @@ There are many factors that influence the costs of a solar system.
 | _**Total costs**_  |          |            | _**58.216.475**_ |
 
 ---
-
-### Assumed average price
-
-For our calculations we have assumed the average price to be **IDR 7.875.000**
-per panel.
+### Assumptions made for calculation
+* Price of a panel (including all costs mentioned above) is assumed to be Rp. 7.875.000
+* Inverters are expected to have a lifetime of 10 - 15 years. We have assumed the inverter to last 12 years.
+* Solar panels typically have a warranty of 25 or more years. We assume their loss in efficiency to be 0,75% per year
 
 <style>
 .documentation .RoiExplanation table {

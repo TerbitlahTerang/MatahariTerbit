@@ -32,7 +32,8 @@
   "chart": {
     "labelYear": "Tahun",
     "labelProfit": "Keuntungan Rp.",
-    "tooltipTitle": "Tahun {{year}}"
+    "tooltipTitle": "Tahun {{year}}",
+    "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year"
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",

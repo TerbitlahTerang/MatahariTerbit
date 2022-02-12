@@ -4,6 +4,7 @@ import { ChartData, ChartOptions, TooltipItem } from 'chart.js'
 import { useTranslation } from 'react-i18next'
 import { ReturnOnInvestment } from '../services/CalculationService'
 import { formatRupiah } from './Formatters'
+import { CALCULATOR_VALUES } from '../constants'
 
 export interface ROIChartProps {
   yearly: ReturnOnInvestment[]
@@ -37,6 +38,11 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
     return formatRupiah((toolTipItem.raw as number) * 1000000)
   }
 
+  const footer = (toolTipItems: TooltipItem<'bar'>[]) => {
+    const year = toolTipItems[0].label
+    return year === `${CALCULATOR_VALUES.inverterLifetimeInYears + 1}` ? t('chart.inverterReplacement')  : ''
+  }
+
   const options: ChartOptions<'bar'> = {
     plugins: {
       legend: {
@@ -45,7 +51,8 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
       tooltip: {
         callbacks: {
           title: title,
-          label: label
+          label: label,
+          footer: footer
         }
       }
     },

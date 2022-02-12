@@ -13,5 +13,24 @@ There are many factors that influence the costs of a solar system.
 | Installation costs |        1 | 15.000.000 |       15.000.000 |
 | _**Total costs**_  |          |            | _**58.216.475**_ |
 
-### Assumed average price
-For our calculations we have assumed the average price of a panel to be Rp. 7.875.000
+---
+### Assumptions made for calculation
+* Price of a panel (including all costs mentioned above) is assumed to be Rp. 7.875.000
+* Inverters are expected to have a lifetime of 10 - 15 years. We have assumed the inverter to last 12 years.
+* Solar panels typically have a warranty of 25 or more years. We assume their loss in efficiency to be 0,75% per year
+
+<style>
+.documentation .RoiExplanation table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.documentation .RoiExplanation th {
+    border:2px solid #000000;
+    background: #d9d9d9;
+}
+
+.documentation .RoiExplanation td {
+    border:1px solid #000000;
+}
+</style>
