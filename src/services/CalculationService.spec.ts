@@ -20,7 +20,7 @@ describe('Calculate system characteristics', () => {
     const data: InputData = { monthlyCostEstimateInRupiah: 1000000.0, connectionPower: smallConnection, pvOut: 885 }
     const result = calculateResultData(data)
     expect(result.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel).toBeLessThan(smallConnection)
-    expect(result.numberOfPanels).toBe(6)
+    expect(result.numberOfPanels).toBe(5)
   })
 
   it('Should recommend no panels if negative profit', async () => {
@@ -37,8 +37,8 @@ describe('Calculate system characteristics', () => {
     const results = calculateResultData(data)
 
     expect(results.currentMonthlyCosts).toBe(1000000)
-    expect(results.numberOfPanels).toBe(6)
-    expect(Math.round(results.monthlyProfit)).toBe(575856)
+    expect(results.numberOfPanels).toBe(5)
+    expect(Math.round(results.monthlyProfit)).toBe(479880)
     expect(Math.round(results.yearlyProfit)).toBe(Math.round(results.monthlyProfit * 12.0))
 
     expect(results.totalSystemCosts).toBe(results.numberOfPanels * CALCULATOR_VALUES.pricePerPanel)

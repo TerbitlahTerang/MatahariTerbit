@@ -17,10 +17,18 @@ export interface ResultData {
 
 const monthsInYear = 12.0
 
-function panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit: number, kiloWattPeakPerPanel: number, connectionPower: number) {
-  const suggestedCapacity = numberOfPanelsWithoutConnectionLimit * kiloWattPeakPerPanel
-  const installableCapacity = Math.min(suggestedCapacity * 1000, connectionPower)
-  return Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000) + 1
+export interface SuggestedPanels {
+  limitedByConnection: boolean
+  numberOfPanels: number
+}
+
+function panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit: number, kiloWattPeakPerPanel: number, connectionPower: number): SuggestedPanels {
+  const suggestedCapacity = numberOfPanelsWithoutConnectionLimit * kiloWattPeakPerPanel * 1000
+  const installableCapacity = Math.min(suggestedCapacity, connectionPower)
+  const limitedByConnection = suggestedCapacity > connectionPower
+  const suggestedPanels = Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000)
+  const numberOfPanels = limitedByConnection ? suggestedPanels : suggestedPanels + 1
+  return { limitedByConnection, numberOfPanels }
 }
 
 export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut }: InputData): ResultData {
@@ -51,7 +59,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const effectiveConsumptionPerMonthInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
   const numberOfPanelsWithoutConnectionLimit = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
-  const numberOfPanels = panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit, kiloWattPeakPerPanel, connectionPower)
+  const { numberOfPanels } = panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit, kiloWattPeakPerPanel, connectionPower)
   const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
   const yieldPerMonthFromPanelsInRupiah = productionPerMonthInKwh * taxedPricePerKwh
   const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, monthlyCostEstimateInRupiah - yieldPerMonthFromPanelsInRupiah)
