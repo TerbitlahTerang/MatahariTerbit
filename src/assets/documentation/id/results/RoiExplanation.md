@@ -15,9 +15,12 @@ There are many factors that influence the costs of a solar system.
 
 ---
 ### Assumptions made for calculation
-* Price of a panel (including all costs mentioned above) is assumed to be Rp. 7.875.000
-* Inverters are expected to have a lifetime of 10 - 15 years. We have assumed the inverter to last 12 years.
-* Solar panels typically have a warranty of 25 or more years. We assume their loss in efficiency to be 0,75% per year
+👉 Price of a panel (including all costs mentioned above) is assumed to be Rp. 7.875.000. The average
+price per panel tends to get lower the more panels you buy.
+
+👉 Inverters are expected to have a lifetime of 10 - 15 years. We have assumed the inverter to last 12 years.
+
+👉 Solar panels typically have a warranty of 25 or more years. We assume their loss in efficiency to be 0,75% per year
 
 <style>
 .documentation .RoiExplanation table {
