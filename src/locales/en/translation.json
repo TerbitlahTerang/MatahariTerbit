@@ -1,5 +1,5 @@
 {
-  "title": "Solar panel Calculator",
+  "title": "Solar panel Calculator for Indonesia \uD83C\uDDEE\uD83C\uDDE9",
   "languageSelector": "Select Language",
   "wizard": {
     "next": "Continue",
@@ -20,8 +20,8 @@
     "areaRequired": "Area required",
     "monthlyProduction": "Monthly Production",
     "monthlyConsumption": "Monthly Consumption",
-    "remainingMonthlyCosts": "Remaining monthly costs",
-    "currentMonthlyCosts": "Current monthly costs",
+    "remainingMonthlyCosts": "Remaining monthly bill",
+    "currentMonthlyCosts": "Current monthly bill",
     "monthlyProfit": "Monthly result from panels",
     "yearlyProfit": "Yearly result from panels",
     "breakEven": "Payback period",
