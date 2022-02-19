@@ -103,3 +103,12 @@ div.ant-steps-item-subtitle {
 .ant-steps-item-container {
   padding-bottom: 30px;
 }
+
+.ant-popover-inner-content {
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 6px 8px;
+}
+
+.anticon-info-circle {
+  color: rgba(0, 0, 0, 0.45);
+}
