@@ -6,7 +6,7 @@ import { formatDigits, formatNumber, formatRupiah } from './Formatters'
 import { CALCULATOR_VALUES } from '../constants'
 import { renderPanel } from './SolarPanel'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { Documentation } from '../services/DocumentationService'
+import { Documentation, toExplanation } from '../services/DocumentationService'
 import { InfoPane } from './InfoPane'
 
 export interface ResultTableProps {
@@ -49,6 +49,18 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         <Col span={15}>{t('resultTable.installedCapacity')}</Col>
         <Col
           span={9}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel, 2, i18n.language)} kWp</Col>
+      </Row>
+      <Row gutter={12} justify="end">
+        <Col span={15}>{t('resultTable.limitingFactor')}
+            &nbsp;
+          <Popover overlayStyle={{ maxWidth: '320px' }}
+            content={<InfoPane documentation={toExplanation(results.limitingFactor)}/>}
+            trigger="click">
+            <InfoCircleOutlined/>
+          </Popover>
+        </Col>
+        <Col
+          span={9}>{t('resultTable.limitingFactorEnum.' + results.limitingFactor)} </Col>
       </Row>
       <Row gutter={12} justify="center">
         <Col span={15}>{t('resultTable.areaRequired')}&nbsp;
