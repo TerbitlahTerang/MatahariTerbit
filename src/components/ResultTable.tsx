@@ -50,6 +50,11 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         <Col
           span={9}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel, 2, i18n.language)} kWp</Col>
       </Row>
+      <Row gutter={12} justify="end">
+        <Col span={15}>{t('resultTable.limitingFactor')}</Col>
+        <Col
+          span={9}>{results.limitingFactor} </Col>
+      </Row>
       <Row gutter={12} justify="center">
         <Col span={15}>{t('resultTable.areaRequired')}&nbsp;
           <Popover overlayStyle={{ maxWidth: '320px' }}

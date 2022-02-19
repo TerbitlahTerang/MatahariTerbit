@@ -1,6 +1,12 @@
 import { InputData } from '../components/InputForm'
 import { CALCULATOR_VALUES } from '../constants'
 
+enum LimitingFactor {
+  ConnectionSize = 'ConnectionSize',
+  Consumption = 'Consumption',
+  MinimumPayment = 'MinimumPayment'
+}
+
 export interface ResultData {
   consumptionPerMonthInKwh: number
   taxedPricePerKwh: number
@@ -12,6 +18,7 @@ export interface ResultData {
   monthlyProfit: number
   yearlyProfit: number
   breakEvenPointInMonths: number
+  limitingFactor: LimitingFactor
   projection: ReturnOnInvestment[]
 }
 
@@ -22,11 +29,13 @@ export interface SuggestedPanels {
   numberOfPanels: number
 }
 
-function panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit: number, kiloWattPeakPerPanel: number, connectionPower: number): SuggestedPanels {
+function panelsLimitedByConnection(expectedMonthlyProduction: number, kiloWattHourPerMonthPerPanel: number, kiloWattPeakPerPanel: number, connectionPower: number): SuggestedPanels {
+  const numberOfPanelsWithoutConnectionLimit = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
   const suggestedCapacity = numberOfPanelsWithoutConnectionLimit * kiloWattPeakPerPanel * 1000
   const installableCapacity = Math.min(suggestedCapacity, connectionPower)
-  const limitedByConnection = suggestedCapacity > connectionPower
   const suggestedPanels = Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000)
+
+  const limitedByConnection = (suggestedPanels + 1) * kiloWattPeakPerPanel * 1000 > connectionPower
   const numberOfPanels = limitedByConnection ? suggestedPanels : suggestedPanels + 1
   return { limitedByConnection, numberOfPanels }
 }
@@ -55,18 +64,25 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
   const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
-  const expectedMonthlyProduction = effectiveCostsPerMonth / taxedPricePerKwh
+  const requiredMonthlyProduction = effectiveCostsPerMonth / taxedPricePerKwh
 
-  const effectiveConsumptionPerMonthInKwh = expectedMonthlyProduction + minimalMonthlyConsumption
-  const numberOfPanelsWithoutConnectionLimit = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
-  const { numberOfPanels } = panelsLimitedByConnection(numberOfPanelsWithoutConnectionLimit, kiloWattPeakPerPanel, connectionPower)
+  const limited = panelsLimitedByConnection(requiredMonthlyProduction, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
+
+  const potentialMonthlyProduction = monthlyCostEstimateInRupiah / taxedPricePerKwh
+  const unlimited = panelsLimitedByConnection(potentialMonthlyProduction, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
+
+  const numberOfPanels = limited.numberOfPanels
+
   const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
   const yieldPerMonthFromPanelsInRupiah = productionPerMonthInKwh * taxedPricePerKwh
   const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, monthlyCostEstimateInRupiah - yieldPerMonthFromPanelsInRupiah)
+  const effectiveConsumptionPerMonthInKwh = requiredMonthlyProduction + minimalMonthlyConsumption
 
   const monthlyProfit = monthlyCostEstimateInRupiah - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
   const totalSystemCosts = numberOfPanels * pricePerPanel
+  const flooredNumberOfPanels = monthlyProfit < 0 ? 0 : numberOfPanels
+  const limitingFactor = limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.ConnectionSize : (!limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.Consumption: LimitingFactor.MinimumPayment)
 
 
   const range = 25
@@ -88,13 +104,14 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
     taxedPricePerKwh,
     productionPerMonthInKwh,
-    numberOfPanels: monthlyProfit < 0 ? 0 : numberOfPanels,
+    numberOfPanels: flooredNumberOfPanels,
     remainingMonthlyCosts,
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
     totalSystemCosts,
     monthlyProfit,
     yearlyProfit,
     projection,
+    limitingFactor,
     breakEvenPointInMonths
   }
 }

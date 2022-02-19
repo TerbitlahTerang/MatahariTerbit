@@ -18,6 +18,7 @@
   "roiTitle": "Tingkat pengembalian investasi",
   "resultTable": {
     "installedCapacity": "Kapasitas terpasang",
+    "limitingFactor": "Limiting factor",
     "recommendedPanels": "Jumlah panel yang direkomendasikan",
     "areaRequired": "Permukaan yang dibutuhkan",
     "monthlyProduction": "Produksi bulanan",

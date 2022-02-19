@@ -16,6 +16,7 @@
   },
   "resultTable": {
     "installedCapacity": "Installed capacity",
+    "limitingFactor": "Limiting factor",
     "recommendedPanels": "Recommended # of Panels",
     "areaRequired": "Area required",
     "monthlyProduction": "Monthly Production",
