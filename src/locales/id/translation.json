@@ -19,6 +19,11 @@
   "resultTable": {
     "installedCapacity": "Kapasitas terpasang",
     "limitingFactor": "Limiting factor",
+    "limitingFactorEnum": {
+      "ConnectionSize": "Connection size",
+      "Consumption": "Electricity consumption",
+      "MinimumPayment": "Minimal monthly payment"
+    },
     "recommendedPanels": "Jumlah panel yang direkomendasikan",
     "areaRequired": "Permukaan yang dibutuhkan",
     "monthlyProduction": "Produksi bulanan",

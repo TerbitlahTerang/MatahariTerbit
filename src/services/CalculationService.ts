@@ -1,7 +1,7 @@
 import { InputData } from '../components/InputForm'
 import { CALCULATOR_VALUES } from '../constants'
 
-enum LimitingFactor {
+export enum LimitingFactor {
   ConnectionSize = 'ConnectionSize',
   Consumption = 'Consumption',
   MinimumPayment = 'MinimumPayment'
