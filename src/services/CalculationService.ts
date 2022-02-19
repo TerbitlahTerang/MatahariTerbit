@@ -1,5 +1,5 @@
 import { InputData } from '../components/InputForm'
-import { CALCULATOR_VALUES } from '../constants'
+import { CALCULATOR_VALUES, OptimizationTarget } from '../constants'
 
 export enum LimitingFactor {
   ConnectionSize = 'ConnectionSize',
@@ -12,6 +12,8 @@ export interface ResultData {
   taxedPricePerKwh: number
   productionPerMonthInKwh: number
   numberOfPanels: number
+  numberOfPanelsFinancial: number
+  numberOfPanelsGreen: number
   remainingMonthlyCosts: number
   currentMonthlyCosts: number
   totalSystemCosts: number
@@ -40,7 +42,7 @@ function panelsLimitedByConnection(expectedMonthlyProduction: number, kiloWattHo
   return { limitedByConnection, numberOfPanels }
 }
 
-export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut }: InputData): ResultData {
+export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut, optimizationTarget }: InputData): ResultData {
   const {
     lowTariff,
     highTariff,
@@ -71,9 +73,9 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   const potentialMonthlyProduction = monthlyCostEstimateInRupiah / taxedPricePerKwh
   const unlimited = panelsLimitedByConnection(potentialMonthlyProduction, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
 
-  const numberOfPanels = limited.numberOfPanels
+  const numberOfPanels = optimizationTarget === OptimizationTarget.Money ? limited.numberOfPanels : unlimited.numberOfPanels
 
-  const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
+  const productionPerMonthInKwh = limited.numberOfPanels * kiloWattHourPerMonthPerPanel
   const yieldPerMonthFromPanelsInRupiah = productionPerMonthInKwh * taxedPricePerKwh
   const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, monthlyCostEstimateInRupiah - yieldPerMonthFromPanelsInRupiah)
   const effectiveConsumptionPerMonthInKwh = requiredMonthlyProduction + minimalMonthlyConsumption
@@ -105,6 +107,8 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     taxedPricePerKwh,
     productionPerMonthInKwh,
     numberOfPanels: flooredNumberOfPanels,
+    numberOfPanelsGreen: unlimited.numberOfPanels,
+    numberOfPanelsFinancial: limited.numberOfPanels,
     remainingMonthlyCosts,
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
     totalSystemCosts,

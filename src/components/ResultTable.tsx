@@ -3,8 +3,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
 import { formatDigits, formatNumber, formatRupiah } from './Formatters'
-import { CALCULATOR_VALUES } from '../constants'
-import { renderPanel } from './SolarPanel'
+import { CALCULATOR_VALUES, OptimizationTarget } from '../constants'
+import { Panel,  renderPanel } from './SolarPanel'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation, toExplanation } from '../services/DocumentationService'
 import { InfoPane } from './InfoPane'
@@ -18,13 +18,18 @@ interface BreakEvenPoint {
   months: number
 }
 
+
+
 export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) => {
   const { t, i18n } = useTranslation()
   const results: ResultData | undefined = props.results
-  const panels = Array.from(Array(results?.numberOfPanels).keys()).map(x => x + 1)
   if (!results) {
     return <div>Invalid Data</div>
   }
+
+  const panels: Panel[] = Array.from(Array(results?.numberOfPanels).keys())
+    .map(x =>{ return { index: (x + 1), panelType: x >= results.numberOfPanelsFinancial ? OptimizationTarget.Green: OptimizationTarget.Money } } )
+
   const monthsInYear = 12
   const breakEven: BreakEvenPoint = {
     years: Math.floor(results.breakEvenPointInMonths / monthsInYear),

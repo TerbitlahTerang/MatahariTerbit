@@ -1,10 +1,10 @@
-import { Col, Form, InputNumber, Row, Select } from 'antd'
+import { Col, Form, InputNumber, Row, Select, Radio } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
 import { formatRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
-import { PowerOption, powerOptions } from '../constants'
+import { OptimizationTarget, PowerOption, powerOptions } from '../constants'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { InfoPane } from './InfoPane'
 import { Documentation } from '../services/DocumentationService'
@@ -13,6 +13,7 @@ export interface InputData {
   monthlyCostEstimateInRupiah: number
   connectionPower: number
   pvOut?: number
+  optimizationTarget: OptimizationTarget
 }
 
 export interface InputFormProps {
@@ -35,10 +36,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const connectionPower = form.getFieldValue('connectionPower')
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
-      props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut })
+      const optimizationTarget = form.getFieldValue('optimizationTarget') as OptimizationTarget
+      props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut, optimizationTarget })
     }}>
       <Row gutter={16}>
-        <Col xs={24} sm={12}>
+        <Col xs={24} sm={9}>
           <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
             initialValue={props.initialValue.monthlyCostEstimateInRupiah}
             tooltip={{
@@ -52,7 +54,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               step={100000} />
           </Form.Item>
         </Col>
-        <Col xs={24} sm={12}>
+        <Col xs={24} sm={9}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={props.initialValue.connectionPower} tooltip={{
               overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
@@ -62,6 +64,22 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
+        <Col xs={24} sm={6}>
+          <Form.Item name="optimizationTarget" label={t('inputForm.priority')}
+            initialValue={OptimizationTarget.Money} tooltip={{
+              overlay: <InfoPane documentation={Documentation.Priority}  />,
+              trigger: 'click',
+              overlayStyle: { maxWidth: '320px' },
+              icon: <InfoCircleOutlined/> }}>
+            <Radio.Group >
+              <Radio value={OptimizationTarget.Money}>💰</Radio>
+              <Radio value={OptimizationTarget.Green}>🌱</Radio>
+            </Radio.Group>
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+
       </Row>
       <Form.Item name="location" label={t('inputForm.location')} initialValue={props.initialValue} style={{ marginBottom: 0 }}
         tooltip={{
@@ -72,6 +90,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       >
         <MapPicker />
       </Form.Item>
+
     </Form>
   )
 }
