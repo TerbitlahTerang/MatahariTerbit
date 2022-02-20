@@ -40,7 +40,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut, optimizationTarget })
     }}>
       <Row gutter={16}>
-        <Col xs={24} sm={9}>
+        <Col xs={24} sm={10}>
           <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
             initialValue={props.initialValue.monthlyCostEstimateInRupiah}
             tooltip={{
@@ -54,7 +54,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               step={100000} />
           </Form.Item>
         </Col>
-        <Col xs={16} sm={9}>
+        <Col xs={16} sm={10}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={props.initialValue.connectionPower} tooltip={{
               overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
@@ -64,8 +64,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
-        <Col xs={8} sm={6}>
-          <Form.Item name="optimizationTarget" valuePropName="checked" label={t('inputForm.priority')}
+        <Col xs={8} sm={4}>
+          <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true} label={t('inputForm.priority')}
             tooltip={{
               overlay: <InfoPane documentation={Documentation.Priority}  />,
               trigger: 'click',
