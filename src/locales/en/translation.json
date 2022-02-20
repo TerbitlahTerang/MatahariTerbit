@@ -18,9 +18,9 @@
     "installedCapacity": "Installed capacity",
     "limitingFactor": "Limiting factor",
     "limitingFactorEnum": {
-      "ConnectionSize": "connection size",
-      "Consumption": "electricity consumption",
-      "MinimumPayment": "minimal monthly payment"
+      "ConnectionSize": "Connection size",
+      "Consumption": "Electricity consumption",
+      "MinimumPayment": "Minimal monthly payment"
     },
     "recommendedPanels": "Recommended # of Panels",
     "areaRequired": "Area required",
@@ -41,8 +41,11 @@
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
-    "connectionPower": "Electricity Connection Power",
-    "location": "Location / Irradiation"
+    "connectionPower": "Connection Power",
+    "location": "Location / Irradiation",
+    "priority": "Priority",
+    "priorityMoney": "\uD83D\uDCB0 Money",
+    "priorityEarth": "CO₂ \uD83C\uDF0F"
   },
   "roiTable": {
     "year": "Year",

@@ -44,7 +44,10 @@
   "inputForm": {
     "monthlyBill": "Biaya bulanan",
     "connectionPower": "Daya",
-    "location": "Lokasi / Penyinaran"
+    "location": "Lokasi / Penyinaran",
+    "priority": "Prioritas",
+    "priorityMoney": "\uD83D\uDCB0 Uang",
+    "priorityEarth": "CO₂ \uD83C\uDF0F"
   },
   "roiTable" : {
     "year": "Tahun",

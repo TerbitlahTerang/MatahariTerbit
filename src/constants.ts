@@ -9,6 +9,11 @@ export interface PowerOption {
   value: number
 }
 
+export enum OptimizationTarget {
+  Money,
+  Green
+}
+
 export const powerOptions: PowerOption[] = [
   { name: '450 VA', value: 450 },
   { name: '900 VA', value: 900 },
@@ -33,7 +38,8 @@ interface InitialInputData extends InputData {
 export const INITIAL_INPUT_DATA: InitialInputData = {
   monthlyCostEstimateInRupiah: 1000000,
   connectionPower: 7700,
-  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' }
+  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' },
+  optimizationTarget: OptimizationTarget.Money
 }
 
 export const CALCULATOR_VALUES = {

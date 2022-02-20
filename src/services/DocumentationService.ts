@@ -18,6 +18,8 @@ import LocationEn from '../assets/documentation/en/inputform/Location.md'
 import LocationId from '../assets/documentation/id/inputform/Location.md'
 import RoiExplanationEn from '../assets/documentation/en/results/RoiExplanation.md'
 import RoiExplanationId from '../assets/documentation/id/results/RoiExplanation.md'
+import PriorityEn from '../assets/documentation/en/inputform/Priority.md'
+import PriorityId from '../assets/documentation/id/inputform/Priority.md'
 import { LimitingFactor } from './CalculationService'
 
 export enum Documentation {
@@ -30,7 +32,8 @@ export enum Documentation {
   NumberOfPanelsMinimumPayment,
   AreaRequired,
   MinimalPayment,
-  RoiExplanation
+  RoiExplanation,
+  Priority
 }
 
 export enum Locale {
@@ -50,6 +53,7 @@ function getIndonesian(doc: Documentation): string {
     case Documentation.NumberOfPanelsMinimumPayment: return NumberOfPanelsMinimumPaymentId.body
     case Documentation.Location: return LocationId.body
     case Documentation.RoiExplanation: return RoiExplanationId.body
+    case Documentation.Priority: return PriorityId.body
   }
 }
 
@@ -65,6 +69,8 @@ function getEnglish(doc: Documentation): string {
     case Documentation.NumberOfPanelsMinimumPayment: return NumberOfPanelsMinimumPaymentEn.body
     case Documentation.Location: return LocationEn.body
     case Documentation.RoiExplanation: return RoiExplanationEn.body
+    case Documentation.Priority: return PriorityEn.body
+
   }
 }
 
