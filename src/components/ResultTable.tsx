@@ -58,7 +58,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       <Row gutter={12} justify="end">
         <Col span={15}>{t('resultTable.limitingFactor')}
             &nbsp;
-          <Popover overlayStyle={{ maxWidth: '320px' }}
+          <Popover
             content={<InfoPane documentation={toExplanation(results.limitingFactor)}/>}
             trigger="click">
             <InfoCircleOutlined/>
@@ -69,7 +69,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       </Row>
       <Row gutter={12} justify="center">
         <Col span={15}>{t('resultTable.areaRequired')}&nbsp;
-          <Popover overlayStyle={{ maxWidth: '320px' }}
+          <Popover
             content={<InfoPane documentation={Documentation.AreaRequired}/>}
             trigger="click">
             <InfoCircleOutlined/>
@@ -94,7 +94,6 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.remainingMonthlyCosts')}&nbsp;
           <Popover
-            overlayStyle={{ maxWidth: '320px' }}
             content={<InfoPane documentation={Documentation.MinimalPayment}/>}
             trigger="click">
             <InfoCircleOutlined/>
@@ -113,7 +112,6 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.breakEven')}&nbsp;
           <Popover
-            overlayStyle={{ maxWidth: '400px' }}
             content={<InfoPane documentation={Documentation.RoiExplanation}/>}
             trigger="click">
             <InfoCircleOutlined/>

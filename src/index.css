@@ -1,121 +1,140 @@
 body {
-  font-family: sans-serif;
-  background-color: #1890ff;
+    font-family: sans-serif;
+    background-color: #1890ff;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 16px;
 }
 
 .container > .card {
-  width: 100%;
-  max-width: 736px;
-  margin-bottom: 16px;
+    width: 100%;
+    max-width: 736px;
+    margin-bottom: 16px;
 }
 
 .card {
-  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
-  border-radius: 4px;
-  background: #fff;
+    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+    border-radius: 4px;
+    background: #fff;
 }
 
 .card > .card-header {
-  padding: 16px 16px;
+    padding: 16px 16px;
 }
 
 .card > .card-body {
-  padding: 16px 20px;
+    padding: 16px 20px;
 }
 
 .card > .card-footer {
-  border-top: 1px solid #edf1f7;
-  padding: 16px 20px;
+    border-top: 1px solid #edf1f7;
+    padding: 16px 20px;
 }
+
 .ant-col-9 {
-  text-align: right;
+    text-align: right;
 }
 
 .app-nav {
-  width: 100%;
-  max-width: 736px;
-  display: flex;
-  flex-direction: row;
-  padding: 8px 0;
+    width: 100%;
+    max-width: 736px;
+    display: flex;
+    flex-direction: row;
+    padding: 8px 0;
 }
 
 .app-nav > .app-nav-logo {
-  display: block;
-  margin-right: 12px;
+    display: block;
+    margin-right: 12px;
 }
 
 .app-nav > h1 {
-  display: block;
-  flex: 1;
-  color: #FFFFFF;
-  margin-bottom: 0px;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 40px;
+    display: block;
+    flex: 1;
+    color: #FFFFFF;
+    margin-bottom: 0px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 40px;
 }
-@media screen and (max-width: 40em) {
-  .card > .card-header {
-    padding: 16px 12px;
-  }
 
-  .ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
-    margin-right: 0px;
-  }
+@media screen and (max-width: 40em) {
+    .card > .card-header {
+        padding: 16px 12px;
+    }
+
+    .ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
+        margin-right: 0px;
+    }
 }
 
 .card-body .ant-steps-item-subtitle > div {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0;
 }
 
 .ant-steps-item-subtitle {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 div.ant-steps-item-subtitle {
-  float: left;
-  width: 100%;
+    float: left;
+    width: 100%;
 }
 
 .ant-steps-item-title .panelPane {
-  line-height: normal;
+    line-height: normal;
 }
+
 .ant-steps-item-title {
-  font-size: 16px;
-  width: 100%;
+    font-size: 16px;
+    width: 100%;
 }
 
 .ant-steps-item-title > span {
-  width: 100%;
-  float: left;
-  padding-bottom: 10px;
-  margin-left: 10px;
-  font-size: 16px;
+    width: 100%;
+    float: left;
+    padding-bottom: 10px;
+    margin-left: 10px;
+    font-size: 16px;
 }
+
 .ant-steps-item-container {
-  padding-bottom: 30px;
+    padding-bottom: 30px;
 }
 
 .ant-popover-inner-content {
-  background-color: rgba(0, 0, 0, 0.75);
-  padding: 6px 8px;
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 6px 8px;
+    max-width: 500px;
+}
+
+.ant-tooltip {
+    max-width: 500px;
+}
+
+@media (max-width : 480px) {
+    .ant-popover-inner-content {
+        max-width: 360px;
+    }
+    .ant-tooltip {
+        max-width: 360px;
+    }
 }
 
 .anticon-info-circle {
-  color: rgba(0, 0, 0, 0.45);
+    color: rgba(0, 0, 0, 0.45);
 }
 
 .ant-switch.ant-switch-checked {
-  background-color: #1890ff;
+    background-color: #1890ff;
 }
+
 .ant-switch {
-  background-color: #46a171;
+    background-color: #46a171;
 }

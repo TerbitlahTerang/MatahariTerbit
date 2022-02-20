@@ -45,7 +45,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             initialValue={props.initialValue.monthlyCostEstimateInRupiah}
             tooltip={{
               overlay: <InfoPane documentation={Documentation.MonthlyBill}  />,
-              overlayStyle: { maxWidth: '320px' },
               trigger: 'click',
               icon: <InfoCircleOutlined/> }}>
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete='off'
@@ -59,7 +58,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             initialValue={props.initialValue.connectionPower} tooltip={{
               overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
               trigger: 'click',
-              overlayStyle: { maxWidth: '320px' },
               icon: <InfoCircleOutlined/> }}>
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
@@ -69,7 +67,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             tooltip={{
               overlay: <InfoPane documentation={Documentation.Priority}  />,
               trigger: 'click',
-              overlayStyle: { maxWidth: '320px' },
               icon: <InfoCircleOutlined/> }}>
             <Switch
               checkedChildren={t('inputForm.priorityMoney')}
@@ -85,7 +82,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Form.Item name="location" label={t('inputForm.location')} initialValue={props.initialValue} style={{ marginBottom: 0 }}
         tooltip={{
           overlay: <InfoPane documentation={Documentation.Location} />,
-          overlayStyle: { maxWidth: '360px' },
           trigger: 'click',
           icon: <InfoCircleOutlined/> }}
       >
