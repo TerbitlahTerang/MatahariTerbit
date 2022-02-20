@@ -1,4 +1,4 @@
-import { Col, Form, InputNumber, Row, Select, Radio } from 'antd'
+import { Col, Form, InputNumber, Row, Select, Switch } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
@@ -36,7 +36,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const connectionPower = form.getFieldValue('connectionPower')
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
-      const optimizationTarget = form.getFieldValue('optimizationTarget') as OptimizationTarget
+      const optimizationTarget = form.getFieldValue('optimizationTarget') ? OptimizationTarget.Money : OptimizationTarget.Green
       props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut, optimizationTarget })
     }}>
       <Row gutter={16}>
@@ -54,7 +54,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               step={100000} />
           </Form.Item>
         </Col>
-        <Col xs={24} sm={9}>
+        <Col xs={16} sm={9}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={props.initialValue.connectionPower} tooltip={{
               overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
@@ -64,17 +64,18 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
-        <Col xs={24} sm={6}>
-          <Form.Item name="optimizationTarget" label={t('inputForm.priority')}
-            initialValue={OptimizationTarget.Money} tooltip={{
+        <Col xs={8} sm={6}>
+          <Form.Item name="optimizationTarget" valuePropName="checked" label={t('inputForm.priority')}
+            tooltip={{
               overlay: <InfoPane documentation={Documentation.Priority}  />,
               trigger: 'click',
               overlayStyle: { maxWidth: '320px' },
               icon: <InfoCircleOutlined/> }}>
-            <Radio.Group >
-              <Radio value={OptimizationTarget.Money}>💰</Radio>
-              <Radio value={OptimizationTarget.Green}>🌱</Radio>
-            </Radio.Group>
+            <Switch
+              checkedChildren="💰 Money"
+              unCheckedChildren="CO₂ 🌏"
+              defaultChecked={true}
+            />
           </Form.Item>
         </Col>
       </Row>

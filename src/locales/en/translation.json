@@ -41,7 +41,7 @@
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
-    "connectionPower": "Electricity Connection Power",
+    "connectionPower": "Connection Power",
     "location": "Location / Irradiation",
     "priority": "Priority"
   },
