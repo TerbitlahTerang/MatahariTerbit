@@ -2,7 +2,7 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import GoogleMapReact, { Coords, Point } from 'google-map-react'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY } from '../constants'
+import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
 import i18n from '../i18n'
 import { MapState, mapStore } from '../util/mapStore'
 import { formatNumber } from './Formatters'
@@ -41,12 +41,18 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
     updatePosition(location)
   }
 
+  const setLocation = (coordinates: Coords) => {
+    updatePosition(coordinates)
+    setCenter(coordinates)
+    setZoom(16)
+  }
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const location = { lat: coords.latitude, lng: coords.longitude }
-      updatePosition(location)
-      setCenter(location)
-      setZoom(16)
+      const coordinates = { lat: coords.latitude, lng: coords.longitude } as Coords
+      setLocation(coordinates)
+    }, () => {
+      setLocation(INITIAL_INPUT_DATA.location.location)
     })
   }, [])
 
