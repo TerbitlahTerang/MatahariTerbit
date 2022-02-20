@@ -72,8 +72,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               overlayStyle: { maxWidth: '320px' },
               icon: <InfoCircleOutlined/> }}>
             <Switch
-              checkedChildren="💰 Money"
-              unCheckedChildren="CO₂ 🌏"
+              checkedChildren={t('inputForm.priorityMoney')}
+              unCheckedChildren={t('inputForm.priorityEarth')}
               defaultChecked={true}
             />
           </Form.Item>

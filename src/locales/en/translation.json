@@ -43,7 +43,9 @@
     "monthlyBill": "Monthly Electricity bill",
     "connectionPower": "Connection Power",
     "location": "Location / Irradiation",
-    "priority": "Priority"
+    "priority": "Priority",
+    "priorityMoney": "\uD83D\uDCB0 Money",
+    "priorityEarth": "CO₂ \uD83C\uDF0F"
   },
   "roiTable": {
     "year": "Year",
