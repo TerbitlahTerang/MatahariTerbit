@@ -35,15 +35,7 @@ body {
     padding: 16px 20px;
 }
 
-.ant-col-9 {
-    text-align: right;
-}
-
-.ant-col-12 {
-    text-align: right;
-}
-
-.ant-col-13 {
+.ant-col-9, .ant-col-12, .ant-col-13, .ant-col-14 {
     text-align: right;
 }
 
