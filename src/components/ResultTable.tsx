@@ -110,14 +110,14 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         <Col span={9}>{formatRupiah(results.yearlyProfit)}</Col>
       </Row>
       <Row gutter={12}>
-        <Col span={15}>{t('resultTable.breakEven')}&nbsp;
+        <Col span={11}>{t('resultTable.breakEven')}&nbsp;
           <Popover
             content={<InfoPane documentation={Documentation.RoiExplanation}/>}
             trigger="click">
             <InfoCircleOutlined/>
           </Popover>
         </Col>
-        <Col span={9}>{t('resultTable.breakEvenExplanation', { breakEven })}</Col>
+        <Col span={13}>{t('resultTable.breakEvenExplanation', { breakEven })}</Col>
       </Row>
       <Divider/>
     </div>

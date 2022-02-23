@@ -39,6 +39,14 @@ body {
     text-align: right;
 }
 
+.ant-col-12 {
+    text-align: right;
+}
+
+.ant-col-13 {
+    text-align: right;
+}
+
 .app-nav {
     width: 100%;
     max-width: 736px;
