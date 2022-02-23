@@ -53,7 +53,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               step={100000} />
           </Form.Item>
         </Col>
-        <Col xs={16} sm={10}>
+        <Col xs={16} sm={9}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={props.initialValue.connectionPower} tooltip={{
               overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
@@ -62,7 +62,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
-        <Col xs={8} sm={4}>
+        <Col xs={8} sm={5}>
           <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true} label={t('inputForm.priority')}
             tooltip={{
               overlay: <InfoPane documentation={Documentation.Priority}  />,
