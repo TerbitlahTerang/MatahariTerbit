@@ -67,6 +67,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
   const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
   const requiredMonthlyProduction = effectiveCostsPerMonth / taxedPricePerKwh
+  const totalMonthlyConsumption = monthlyCostEstimateInRupiah / taxedPricePerKwh
 
   const limited = panelsLimitedByConnection(requiredMonthlyProduction, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
 
@@ -78,7 +79,6 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   const productionPerMonthInKwh = limited.numberOfPanels * kiloWattHourPerMonthPerPanel
   const yieldPerMonthFromPanelsInRupiah = productionPerMonthInKwh * taxedPricePerKwh
   const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, monthlyCostEstimateInRupiah - yieldPerMonthFromPanelsInRupiah)
-  const effectiveConsumptionPerMonthInKwh = requiredMonthlyProduction + minimalMonthlyConsumption
 
   const monthlyProfit = monthlyCostEstimateInRupiah - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
@@ -103,7 +103,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   const breakEvenPointInMonths = firstMonthAboveZero ? firstMonthAboveZero.index : range
 
   return {
-    consumptionPerMonthInKwh: effectiveConsumptionPerMonthInKwh,
+    consumptionPerMonthInKwh: totalMonthlyConsumption,
     taxedPricePerKwh,
     productionPerMonthInKwh,
     numberOfPanels: flooredNumberOfPanels,

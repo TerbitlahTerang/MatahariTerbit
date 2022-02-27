@@ -3,9 +3,10 @@
 This recommendation is based on the following three factors.
 
 ### 1 Electricity bill
-It is not profitable to produce more electricity than you use.
-The national utility company (PLN) cannot pay you any money.
-Therefore, the best you can do is to reduce your monthly bill to be as small possible.
+It is not profitable to produce more electricity than you use. That is because the national 
+utility company (PLN) cannot pay you any money.
+Therefore, the best you can do is use solar panels to make your monthly bill to be as small
+possible, but not negative.
 
 ### 2 Connection size
 
