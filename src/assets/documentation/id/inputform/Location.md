@@ -10,8 +10,8 @@ reaches your roof throughout the year,
 using the [global solar atlas](https://globalsolaratlas.info/).
 
 <style>
-.documentation .Location img {
-    width: 250px;
+.Location img {
+    width: 300px;
     border-style: solid;
     border-width: 2px;
     border-color: rgba(0, 0, 0, 0.75);
