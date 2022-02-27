@@ -65,7 +65,7 @@ export const App: React.FunctionComponent = () => {
           </Select>
         </div>
       </nav>
-      <Drawer title={documentationTitle} visible={!!documentation} onClose={closeDocumentation} width="500px" >
+      <Drawer title={documentationTitle} visible={documentation !== null} onClose={closeDocumentation} width="500px" >
         <InfoPane documentation={documentation!}/>
       </Drawer>
       <div className="card">

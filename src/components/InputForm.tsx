@@ -56,7 +56,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={props.initialValue.connectionPower} tooltip={{
               trigger: 'click',
-              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.connectionPower'))} />
+              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))} />
             }}>
 
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
