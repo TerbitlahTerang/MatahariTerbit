@@ -1,4 +1,4 @@
-import Icon, { DollarOutlined, EditOutlined } from '@ant-design/icons'
+import Icon, { DollarOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -65,7 +65,7 @@ export const App: React.FunctionComponent = () => {
           </Select>
         </div>
       </nav>
-      <Drawer title={documentationTitle} visible={documentation !== null} onClose={closeDocumentation} width={window.innerWidth > 900 ? '40%' : '82%'} >
+      <Drawer title={(<div><InfoCircleOutlined size={24}/> {documentationTitle}</div>)} visible={documentation !== null} onClose={closeDocumentation} width={window.innerWidth > 900 ? '40%' : '82%'} >
         <InfoPane documentation={documentation!}/>
       </Drawer>
       <div className="card">
