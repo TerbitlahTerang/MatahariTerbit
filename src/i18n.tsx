@@ -14,6 +14,9 @@ i18n
   .use(LanguageDetector)
 // pass the i18n instance to react-i18next.
   .use(initReactI18next).init({
+    detection: {
+      order: ['querystring', 'navigator']
+    },
     fallbackLng: 'en',
     debug: false,
     load: 'languageOnly',
