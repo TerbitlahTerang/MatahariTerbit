@@ -1,5 +1,5 @@
-import Icon, { DollarOutlined, EditOutlined } from '@ant-design/icons'
-import { Button, Divider, Select, Steps, Typography } from 'antd'
+import Icon, { DollarOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { Button, Divider, Drawer, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Logo from './assets/icons/logo.svg'
@@ -10,6 +10,8 @@ import { ROIChart } from './components/ROIChart'
 import SolarPanelIcon from './assets/icons/solar-panel.svg'
 import { INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData, ResultData } from './services/CalculationService'
+import { Documentation } from './services/DocumentationService'
+import { InfoPane } from './components/InfoPane'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -18,6 +20,19 @@ export const App: React.FunctionComponent = () => {
   }
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
   const resultData: ResultData = useMemo(() => calculateResultData(inputData), [inputData])
+
+  const [documentation, setDocumentation] = useState<Documentation | null>(null)
+  const [documentationTitle, setDocumentationTitle] = useState<String | null>(null)
+
+  const closeDocumentation = () => {
+    setDocumentation(null)
+    setDocumentationTitle(null)
+  }
+
+  const openDocumentation = (doc: Documentation, title: String) => {
+    setDocumentation(doc)
+    setDocumentationTitle(title)
+  }
 
   const [current, setCurrent] = useState<number>(0)
 
@@ -50,7 +65,9 @@ export const App: React.FunctionComponent = () => {
           </Select>
         </div>
       </nav>
-
+      <Drawer title={(<div><InfoCircleOutlined size={24}/> {documentationTitle}</div>)} visible={documentation !== null} onClose={closeDocumentation} width={window.innerWidth > 900 ? '40%' : '82%'} >
+        <InfoPane documentation={documentation!}/>
+      </Drawer>
       <div className="card">
         <div className="card-header">
           <Steps direction="vertical" size="small" current={current} onChange={setStep}>
@@ -60,7 +77,7 @@ export const App: React.FunctionComponent = () => {
               status={inputData.pvOut ? undefined : 'wait'}
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
-                  <InputForm initialValue={INITIAL_INPUT_DATA}
+                  <InputForm initialValue={INITIAL_INPUT_DATA} onOpenDocumentation={openDocumentation}
                     onChange={(data) => setInputData(data)}/>
                   {current === 0 &&
                                                 <Button style={{ marginTop: '5px', float: 'right' }} size="large"
@@ -79,7 +96,7 @@ export const App: React.FunctionComponent = () => {
               title={<span>{t('wizard.characteristics.title')}</span>}
               subTitle={
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
-                  <ResultTable results={resultData}/>
+                  <ResultTable results={resultData} onOpenDocumentation={openDocumentation}/>
                   {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"
                     onClick={() => {
                       setCurrent(2)

@@ -6,7 +6,6 @@ import { formatRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
 import { OptimizationTarget, PowerOption, powerOptions } from '../constants'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { InfoPane } from './InfoPane'
 import { Documentation } from '../services/DocumentationService'
 
 export interface InputData {
@@ -17,7 +16,8 @@ export interface InputData {
 }
 
 export interface InputFormProps {
-  initialValue: InputData
+  initialValue: InputData,
+  onOpenDocumentation:  (d: Documentation, title: string) => void
   onChange: (data: InputData) => void
 }
 
@@ -44,9 +44,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
             initialValue={props.initialValue.monthlyCostEstimateInRupiah}
             tooltip={{
-              overlay: <InfoPane documentation={Documentation.MonthlyBill}  />,
               trigger: 'click',
-              icon: <InfoCircleOutlined/> }}>
+              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/> }}>
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete='off'
               formatter={(value) => formatRupiah(value)}
               parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
@@ -56,18 +55,18 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         <Col xs={16} sm={9}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={props.initialValue.connectionPower} tooltip={{
-              overlay: <InfoPane documentation={Documentation.ConnectionPower}  />,
               trigger: 'click',
-              icon: <InfoCircleOutlined/> }}>
+              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))} />
+            }}>
+
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
         <Col xs={8} sm={5}>
           <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true} label={t('inputForm.priority')}
             tooltip={{
-              overlay: <InfoPane documentation={Documentation.Priority}  />,
               trigger: 'click',
-              icon: <InfoCircleOutlined/> }}>
+              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/> }}>
             <Switch
               checkedChildren={t('inputForm.priorityMoney')}
               unCheckedChildren={t('inputForm.priorityEarth')}
@@ -81,9 +80,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       </Row>
       <Form.Item name="location" label={t('inputForm.location')} initialValue={props.initialValue} style={{ marginBottom: 0 }}
         tooltip={{
-          overlay: <InfoPane documentation={Documentation.Location} />,
           trigger: 'click',
-          icon: <InfoCircleOutlined/> }}
+          icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/> }}
       >
         <MapPicker />
       </Form.Item>

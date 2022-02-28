@@ -1,16 +1,16 @@
-import { Col, Divider, Popover, Row } from 'antd'
+import { Col, Divider, Row } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
 import { formatDigits, formatNumber, formatRupiah } from './Formatters'
 import { CALCULATOR_VALUES, OptimizationTarget } from '../constants'
-import { Panel,  renderPanel } from './SolarPanel'
+import { Panel, renderPanel } from './SolarPanel'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation, toExplanation } from '../services/DocumentationService'
-import { InfoPane } from './InfoPane'
 
 export interface ResultTableProps {
-  results?: ResultData
+  results?: ResultData,
+  onOpenDocumentation:  (d: Documentation, title: string) => void
 }
 
 interface BreakEvenPoint {
@@ -19,10 +19,9 @@ interface BreakEvenPoint {
 }
 
 
-
 export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) => {
   const { t, i18n } = useTranslation()
-  const results: ResultData | undefined = props.results
+  const { results, onOpenDocumentation }  = props
   if (!results) {
     return <div>Invalid Data</div>
   }
@@ -35,16 +34,13 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
     years: Math.floor(results.breakEvenPointInMonths / monthsInYear),
     months: Math.round(results.breakEvenPointInMonths % monthsInYear)
   }
+
   return (
     <div className="ant-table">
       <Row gutter={12} className="results">
         <Col span={24}>{t('resultTable.recommendedPanels')}
                     &nbsp;
-          <Popover overlayStyle={{ maxWidth: '320px' }}
-            content={<InfoPane documentation={Documentation.NumberOfPanels}/>}
-            trigger="click">
-            <InfoCircleOutlined/>
-          </Popover>
+          <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/>
         </Col>
       </Row>
       <Row gutter={12} className="panelPane">
@@ -58,22 +54,15 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       <Row gutter={12} justify="end">
         <Col span={10}>{t('resultTable.limitingFactor')}
             &nbsp;
-          <Popover
-            content={<InfoPane documentation={toExplanation(results.limitingFactor)}/>}
-            trigger="click">
-            <InfoCircleOutlined/>
-          </Popover>
+          <InfoCircleOutlined onClick={() => onOpenDocumentation(toExplanation(results.limitingFactor), t('resultTable.limitingFactor'))}/>
         </Col>
         <Col
           span={14}>{t('resultTable.limitingFactorEnum.' + results.limitingFactor)} </Col>
       </Row>
       <Row gutter={12} justify="center">
         <Col span={15}>{t('resultTable.areaRequired')}&nbsp;
-          <Popover
-            content={<InfoPane documentation={Documentation.AreaRequired}/>}
-            trigger="click">
-            <InfoCircleOutlined/>
-          </Popover></Col>
+          <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.AreaRequired,t('resultTable.areaRequired'))}/>
+        </Col>
         <Col
           span={9}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.areaPerPanel, 0, i18n.language)} ㎡</Col>
       </Row>
@@ -93,11 +82,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       </Row>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.remainingMonthlyCosts')}&nbsp;
-          <Popover
-            content={<InfoPane documentation={Documentation.MinimalPayment}/>}
-            trigger="click">
-            <InfoCircleOutlined/>
-          </Popover>
+          <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.MinimalPayment,t('resultTable.remainingMonthlyCosts'))}/>
         </Col>
         <Col span={9}>{formatRupiah(results.remainingMonthlyCosts)}</Col>
       </Row>
@@ -111,11 +96,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       </Row>
       <Row gutter={12}>
         <Col span={11}>{t('resultTable.breakEven')}&nbsp;
-          <Popover
-            content={<InfoPane documentation={Documentation.RoiExplanation}/>}
-            trigger="click">
-            <InfoCircleOutlined/>
-          </Popover>
+          <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.RoiExplanation,t('resultTable.breakEven'))}/>
         </Col>
         <Col span={13}>{t('resultTable.breakEvenExplanation', { breakEven })}</Col>
       </Row>
