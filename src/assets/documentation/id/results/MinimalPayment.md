@@ -1,8 +1,13 @@
-## Remaining monthly bill
+## Biaya listrik bulanan
 
-### Why do I still have an electricity bill?
-PLN requires you to buy a _minimal amount_ of electricity that depends on the size of your connection.
-You will need to buy this electricity, whether you use it or not.
+### Kenapa saya masih harus membayar listrik?
+Solar panel dapat digunakan secara off-grid (disimpan di baterai) atau _on-grid_ (tersambung dengan PLN). Penggunaan 
+_on-grid_ berarti Anda harus menggunakan meteran listrik pasca bayar.
 
-It is _not profitable_ to produce more electricity than the minimal amount you have to buy from PLN.
-This limits the amount of panels it is financially viable to install.
+Dengan meteran listrik pasca bayar, PLN mensyaratkan Anda untuk membayar jumlah 
+_minimum listrik_ yang tergantung dari 
+jumlah daya listrik di tempat Anda. Jumlah ini harus dibayar, meskipun dipakai ataupun tidak. Ini juga dikenal dengan 
+istilah membayar “abonemen” bulanan.
+
+Ini **tidak menguntungkan** untuk memproduksi listrik dengan solar panel yang melebihi
+jumlah minimal yang harus dibayar ke PLN tiap bulan. Jadi ini akan membatasi jumlah panel yang sebaiknya dipasang.
