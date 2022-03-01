@@ -1,39 +1,40 @@
-## Payback period
+## Periode pengembalian modal
 
-There are many factors that influence the costs of a solar system.
+Ada berbagai faktor yang mempengaruhi biaya pemasangan sistem tenaga surya.
 
-### Example
+### Contoh
 
-| Description        | Quantity | Unit Price |      Total Price |
-|--------------------|---------:|-----------:|-----------------:|
-| PV Panels          |        8 |  2.865.000 |       22.920.000 |
-| Inverter           |        1 |  7.496.475 |        7.496.475 |
-| Cabling            |      20m |     46.000 |        9.200.000 |
-| Mounting equipment |        8 |    450.000 |        3.600.000 |
-| Installation costs |        1 | 15.000.000 |       15.000.000 |
-| _**Total costs**_  |          |            | _**58.216.475**_ |
+| Deskripsi Barang  | Jumlah | Harga Unit |      Harga Total |
+|-------------------|-------:|-----------:|-----------------:|
+| Panel Surya (PV)  |      8 |  2.865.000 |       22.920.000 |
+| Alat inverter     |      1 |  7.496.475 |        7.496.475 |
+| Kabel-kabel       |    20m |     46.000 |        9.200.000 |
+| Alat pemasangan   |      8 |    450.000 |        3.600.000 |
+| Biaya instalasi   |      1 | 15.000.000 |       15.000.000 |
+| _**Biaya Total**_ |        |            | _**58.216.475**_ |
 
 ---
-### Assumptions made for calculation
-👉 Price of a panel (including all costs mentioned above) is assumed to be Rp. 7.875.000. The average
-price per panel tends to get lower the more panels you buy.
+### Asumsi dalam pembuatan kalkulasi
+👉 Harga per panel (termasuk semua biaya tersebut di atas) diasumsikan sebesar Rp. 7.875.000. Harga rata-rata per 
+panel biasanya akan lebih murah bila Anda membeli panel lebih banyak.
 
-👉 Inverters are expected to have a lifetime of 10 - 15 years. We have assumed the inverter to last 12 years.
+👉 Alat inverter diharapkan bertahan sampai 10 - 15 tahun. Dalam kalkulasi ini kami mengasumsikan inverter akan 
+bertahan 12 tahun.
 
-👉 Solar panels typically have a warranty of 25 or more years. We assume their loss in efficiency to be 0,75% per year
+👉 Panel surya biasanya mempunyai garansi 25 tahun atau lebih. Kami mengasumsikan pengurangan efisiensi 0,75% per tahun.
 
 <style>
-.documentation .RoiExplanation table {
+.RoiExplanation table {
     border-collapse: collapse;
     border-spacing: 0;
 }
 
-.documentation .RoiExplanation th {
+.RoiExplanation th {
     border:2px solid #000000;
     background: #d9d9d9;
 }
 
-.documentation .RoiExplanation td {
+.RoiExplanation td {
     border:1px solid #000000;
 }
 </style>

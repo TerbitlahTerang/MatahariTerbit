@@ -1,13 +1,12 @@
-## Location and Irradiation
+## Lokasi dan Penyinaran
 
-The sun doesn't shine as often or as strong everywhere. Depending on where you live,
-your panels will produce more or less electricity.
+Matahari tidak selalu bersinar dengan keseringan atau kekuatan yang sama di semua tempat. 
+Tergantung di mana Anda tinggal, panel surya Anda akan memproduksi listrik banyak atau sedikit.
 
 ![image](assets/documentation/images/irradiation.webp)
 
-Based on your location, we determine how much sunshine (irradiation)
-reaches your roof throughout the year,
-using the [global solar atlas](https://globalsolaratlas.info/).
+Berdasarkan lokasi Anda, kami bisa memperkirakan berapa banyak sinar matahari yang jatuh di atap 
+Anda sepanjang tahun, menggunakan [global solar atlas](https://globalsolaratlas.info/).
 
 <style>
 .Location img {

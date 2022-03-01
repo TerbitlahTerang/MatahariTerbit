@@ -1,10 +1,8 @@
-## Recommended number of panels
+## Rekomendasi jumlah panel surya
 
-The recommended number of panels is currently limited by the amount of electricity you consume.
+Jumlah panel yang direkomendasikan saat ini terbatas pada jumlah listrik yang Anda gunakan.
+### Konsumsi listrik
 
-### Electricity Consumption
-
-In your case, installing more solar panels means that you would start to produce more electricity than
-you consume on average.
-Because the national utility company (PLN) cannot pay you for the electricity you (over) produce,
-this is not a financially attractive option.
+Untuk kasus Anda, memasang lebih banyak panel akan memproduksi lebih banyak listrik daripada jumlah rata-rata 
+yang Anda gunakan. Karena PLN tidak akan “membeli” kelebihan listrik yang Anda produksi, maka ini tidak menarik 
+secara finansial.

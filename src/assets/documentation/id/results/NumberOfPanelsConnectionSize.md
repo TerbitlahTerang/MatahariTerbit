@@ -1,12 +1,12 @@
-## Recommended number of panels
+## Rekomendasi jumlah panel surya
 
-The recommended number of panels is currently limited by the _size_ of your electricity connection.
+umlah panel yang direkomendasikan saat ini terbatas pada _besarnya_ daya listrik Anda.
 
-### Connection size
+### Daya listrik
 
-PLN does not allow you to install more panels than the size of your electricity connection. For example,
-when you have a 2.200 VA (Watt) connection, you can install a solar system with up to 2.200 Wp capacity, or
-around 5 panels at most.
+PLN tidak mengizinkan Anda untuk memasang panel lebih dari daya listrik Anda. Contohnya, bila daya listrik Anda 
+2200 _VA_ (Watt), maka Anda hanya bisa memasang sistem panel surya dengan kapasitas maksimum sampai 2200 Wp, atau 
+sekitar 5 panel paling banyak.
 
-👉 Your monthly electricity consumption seems to be on the high side for the size of your
-connection. You might want to request a larger connection from PLN.
+👉 Penggunaan listrik bulanan Anda terlihat cukup tinggi untuk ukuran daya listrik Anda. Mungkin Anda mau untuk menambah
+daya listrik dari PLN.

@@ -1,3 +1,3 @@
-## Biaya bulanan
+## Rekening bulanan
 
-How high is your electricity bill per month on average?
+Berapa Anda membayar listrik per-bulan secara rata-rata (misal dalam xx bulan terakhir)?

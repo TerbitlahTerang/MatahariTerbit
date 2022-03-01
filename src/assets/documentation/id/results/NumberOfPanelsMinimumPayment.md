@@ -1,14 +1,15 @@
-## Recommended number of panels
+## Rekomendasi jumlah panel surya
 
-The recommended number of panels is currently limited by your minimal monthly payment.
+Jumlah panel yang direkomendasikan saat ini terbatas pada _daya listrik_ Anda.
 
-### Minimal Monthly Payment
+### Pembayaran Listrik Bulanan
 
-PLN requires you to buy a _minimal amount_ of electricity that depends on the size of your connection.
-You will need to buy this electricity, whether you use it or not.
+Dengan meteran listrik pasca bayar, PLN mensyaratkan Anda untuk membayar _jumlah minimum_ listrik yang 
+tergantung dari jumlah daya listrik di tempat Anda. Jumlah ini harus dibayar, meskipun dipakai ataupun tidak. Ini juga 
+dikenal dengan istilah membayar “abonemen” bulanan.
 
-It is _not profitable_ to produce more electricity than the minimal amount you have to buy from PLN.
-This limits the amount of panels it is financially viable to install.
+Ini _tidak menguntungkan_ untuk memproduksi listrik lebih dari jumlah minimal yang harus dibayar ke PLN tiap bulan. 
+Jadi ini akan membatasi jumlah panel yang sebaiknya dipasang.
 
-👉 Your connection seems to be rather large for the amount of electricity you consume.
-You could consider requesting a smaller connection from PLN in order to save money.
+👉 Daya listrik Anda terlihat agak terlalu besar dibanding dengan penggunaan listrik Anda. Jadi Anda bisa 
+mempertimbangkan untuk meminta PLN mengurangi besaran daya listrik agar bisa menghemat biaya.

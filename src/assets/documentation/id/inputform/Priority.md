@@ -1,9 +1,8 @@
 ## Priority
 
-### 💰 Return on investment
+### 💰 Pengembalian modal
 The number of recommended panels is chosen to have the shortest return on investment.
 
 
-### 🌏 CO₂ reduction
-The number of panels will be optimized to the maximal amount of green electricity produced
-disregarding financial concerns.
+### 🌏 Pengurangan jejak karbon (CO₂)
+Jumlah panel akan dioptimalkan untuk memproduksi sebanyak mungkin listrik ramah lingkungan, tanpa mementingkan biaya.
