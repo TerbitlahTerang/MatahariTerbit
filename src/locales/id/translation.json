@@ -39,7 +39,7 @@
     "labelYear": "Tahun",
     "labelProfit": "Keuntungan Rp.",
     "tooltipTitle": "Tahun {{year}}",
-    "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year"
+    "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini year"
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",

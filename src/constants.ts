@@ -47,7 +47,7 @@ export const CALCULATOR_VALUES = {
   highTariff: 1444.70,
   pricePerPanel: 7875000,
   areaPerPanel: 2,
-  inverterLifetimeInYears: 12,
+  inverterLifetimeInYears: 9,
   // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1
   // Square meters 450. 225 Watts / m2. Maybe add effective m2 needed vs panel surface
   kiloWattPeakPerPanel: 0.400,
