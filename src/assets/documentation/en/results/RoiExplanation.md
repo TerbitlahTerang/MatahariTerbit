@@ -23,17 +23,17 @@ price per panel tends to get lower the more panels you buy.
 👉 Solar panels typically have a warranty of 25 or more years. We assume their loss in efficiency to be 0,75% per year
 
 <style>
-.documentation .RoiExplanation table {
+.RoiExplanation table {
     border-collapse: collapse;
     border-spacing: 0;
 }
 
-.documentation .RoiExplanation th {
+.RoiExplanation th {
     border:2px solid #000000;
     background: #d9d9d9;
 }
 
-.documentation .RoiExplanation td {
+.RoiExplanation td {
     border:1px solid #000000;
 }
 </style>

@@ -18,14 +18,14 @@
   "roiTitle": "Tingkat pengembalian investasi",
   "resultTable": {
     "installedCapacity": "Kapasitas terpasang",
-    "limitingFactor": "Limiting factor",
+    "limitingFactor": "Terbatas oleh",
     "limitingFactorEnum": {
-      "ConnectionSize": "Connection size",
-      "Consumption": "Electricity consumption",
-      "MinimumPayment": "Minimal monthly payment"
+      "ConnectionSize": "Daya",
+      "Consumption": "Konsumpi listrik",
+      "MinimumPayment": "Abonemen bulanan"
     },
     "recommendedPanels": "Jumlah panel yang direkomendasikan",
-    "areaRequired": "Permukaan yang dibutuhkan",
+    "areaRequired": "Luas bidang yang dibutuhkan",
     "monthlyProduction": "Produksi bulanan",
     "monthlyConsumption": "Konsumsi minimal bulanan",
     "remainingMonthlyCosts": "Sisa biaya bulanan",

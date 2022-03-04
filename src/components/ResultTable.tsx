@@ -60,11 +60,11 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
           span={14}>{t('resultTable.limitingFactorEnum.' + results.limitingFactor)} </Col>
       </Row>
       <Row gutter={12} justify="center">
-        <Col span={15}>{t('resultTable.areaRequired')}&nbsp;
+        <Col span={20}>{t('resultTable.areaRequired')}&nbsp;
           <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.AreaRequired,t('resultTable.areaRequired'))}/>
         </Col>
         <Col
-          span={9}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.areaPerPanel, 0, i18n.language)} ㎡</Col>
+          span={4}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.areaPerPanel, 0, i18n.language)} ㎡</Col>
       </Row>
       <Row gutter={12} justify="center">
         <Col span={15}>{t('resultTable.monthlyConsumption')}</Col>

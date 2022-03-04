@@ -1,4 +1,4 @@
-## Priority
+## Prioritas
 
 ### 💰 Pengembalian modal
 The number of recommended panels is chosen to have the shortest return on investment.

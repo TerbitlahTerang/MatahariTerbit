@@ -1,4 +1,4 @@
-## Location and Irradiation
+## Lokasi dan penyinaran
 
 Matahari tidak selalu bersinar dengan keseringan atau kekuatan yang sama di semua tempat. 
 Tergantung di mana Anda tinggal, panel surya Anda akan memproduksi listrik banyak atau sedikit.
