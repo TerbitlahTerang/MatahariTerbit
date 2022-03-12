@@ -35,21 +35,48 @@ interface InitialInputData extends InputData {
   location: MapState
 }
 
-export interface CalculatorSettings {
+export interface PlnSettings {
   lowTariff: number
   highTariff: number,
+  lowTariffThreshold: number,
+  energyTax: number,
+  minimalMonthlyConsumptionHours: number,
+  minimalMonthlyConsumptionPrice: number
+}
+
+export interface PriceSettings {
   pricePerPanel: number,
+  electricityPriceInflationRate: number,
+  priceOfInverterFactor: number,
+  capacityLossRate: number
+}
+
+export interface CalculatorSettings {
+  plnSettings: PlnSettings
+  priceSettings: PriceSettings
   areaPerPanel: number,
   inverterLifetimeInYears: number,
   kiloWattPeakPerPanel: number,
   kiloWattHourPerYearPerKWp: number,
-  lossFromInverter: number
+  lossFromInverter: number,
 }
 
+
 export const CALCULATOR_SETTINGS : CalculatorSettings = {
-  lowTariff: 1352,
-  highTariff: 1444.70,
-  pricePerPanel: 7875000,
+  plnSettings: {
+    lowTariff: 1352,
+    highTariff: 1444.70,
+    lowTariffThreshold: 1300,
+    energyTax : 0.1 + 0.05, //PPN + PPJ
+    minimalMonthlyConsumptionHours: 40, // number of hours per month * connection power
+    minimalMonthlyConsumptionPrice: 1500.0 // energy price (untaxed) for minimal monthly consumption
+  },
+  priceSettings: {
+    pricePerPanel: 7875000,
+    electricityPriceInflationRate: 0.05,
+    priceOfInverterFactor: 0.10,
+    capacityLossRate: 0.0075
+  },
   areaPerPanel: 2,
   inverterLifetimeInYears: 9,
   // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1

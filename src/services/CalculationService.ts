@@ -1,5 +1,5 @@
 import { InputData } from '../components/InputForm'
-import { OptimizationTarget } from '../constants'
+import { OptimizationTarget, PriceSettings } from '../constants'
 
 export enum LimitingFactor {
   ConnectionSize = 'ConnectionSize',
@@ -44,26 +44,32 @@ function panelsLimitedByConnection(expectedMonthlyProduction: number, kiloWattHo
 
 export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut, optimizationTarget, calculatorSettings }: InputData): ResultData {
   const {
-    lowTariff,
-    highTariff,
-    pricePerPanel,
+    plnSettings,
+    priceSettings,
     inverterLifetimeInYears,
     kiloWattPeakPerPanel,
     kiloWattHourPerYearPerKWp,
     lossFromInverter
   } = calculatorSettings
 
+  const {
+    energyTax,
+    highTariff,
+    lowTariff,
+    lowTariffThreshold,
+    minimalMonthlyConsumptionHours,
+    minimalMonthlyConsumptionPrice
+  } = plnSettings
+
   const pvOutputInkWhPerkWpPerYear = pvOut
   const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ? pvOutputInkWhPerkWpPerYear : kiloWattHourPerYearPerKWp) * lossFromInverter
 
-  // 4.4 kWh output / per 1 kWp (in Sanur)
-  const energyTax = 0.1 + 0.05 //PPN + PPJ
   const taxFactor = 1.0 + energyTax
-  const pricePerKwh = connectionPower < 1300 ? lowTariff : highTariff
+  const pricePerKwh = connectionPower < lowTariffThreshold ? lowTariff : highTariff
   const taxedPricePerKwh = pricePerKwh * taxFactor
 
-  const minimalMonthlyConsumption = 40 * (connectionPower / 1000)
-  const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * 1500.0 * taxFactor
+  const minimalMonthlyConsumption = minimalMonthlyConsumptionHours * (connectionPower / 1000)
+  const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * minimalMonthlyConsumptionPrice * taxFactor
 
   const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
   const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
@@ -83,24 +89,20 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const monthlyProfit = monthlyCostEstimateInRupiah - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
-  const totalSystemCosts = numberOfPanels * pricePerPanel
+  const totalSystemCosts = numberOfPanels * priceSettings.pricePerPanel
   const flooredNumberOfPanels = monthlyProfit < 0 ? 0 : numberOfPanels
   const limitingFactor = limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.ConnectionSize : (!limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.Consumption: LimitingFactor.MinimumPayment)
 
-
   const range = 25
-  const projection: ReturnOnInvestment[] = roiProjection(range, inverterLifetimeInYears, {
+  const investmentParameters: InvestmentParameters = {
     taxedPricePerKwh,
     productionPerMonthInKwh,
     yearlyProfit,
-    totalSystemCosts
-  })
-  const firstMonthAboveZero = roiProjection(range, inverterLifetimeInYears,{
-    taxedPricePerKwh,
-    productionPerMonthInKwh,
-    yearlyProfit,
-    totalSystemCosts
-  }, monthsInYear).find(x => x.cumulativeProfit > 0)
+    totalSystemCosts,
+    priceSettings
+  }
+  const projection: ReturnOnInvestment[] = roiProjection(range, inverterLifetimeInYears, investmentParameters)
+  const firstMonthAboveZero = roiProjection(range, inverterLifetimeInYears,investmentParameters, monthsInYear).find(x => x.cumulativeProfit > 0)
   const breakEvenPointInMonths = firstMonthAboveZero ? firstMonthAboveZero.index : range
 
   return {
@@ -135,18 +137,22 @@ interface InvestmentParameters {
   taxedPricePerKwh: number
   productionPerMonthInKwh: number
   yearlyProfit: number
-  totalSystemCosts: number
+  totalSystemCosts: number,
+  priceSettings: PriceSettings
 }
 
 export function roiProjection(numberOfYears: number, lifetimeInverterInYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
   const years = Array.from(Array(numberOfYears * divider).keys()).map(x => x + 1)
 
-  const electricityPriceInflationRate = 0.05 / divider
-  const capacityLossRate = 0.0075 / divider
+  const {
+    electricityPriceInflationRate,
+    priceOfInverterFactor,
+    capacityLossRate
+  } = result.priceSettings
 
-  const electricityPriceInflation = 1.0 + electricityPriceInflationRate
-  const capacityLoss = 1.0 - capacityLossRate
-  const priceOfInverter = (result.totalSystemCosts * 0.10)
+  const electricityPriceInflation = 1.0 + (electricityPriceInflationRate / divider)
+  const capacityLoss = 1.0 - (capacityLossRate / divider)
+  const priceOfInverter = (result.totalSystemCosts * priceOfInverterFactor)
   const priceOfInverterIndexed = priceOfInverter * Math.pow(electricityPriceInflation, lifetimeInverterInYears)
 
   const startYear = {
