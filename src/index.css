@@ -89,6 +89,7 @@ div.ant-steps-item-subtitle {
 
 .ant-steps-item-title .panelPane {
     line-height: normal;
+    padding-bottom: 8px;
 }
 
 .ant-steps-item-title {
@@ -137,4 +138,9 @@ div.ant-steps-item-subtitle {
 
 .ant-switch {
     background-color: #46a171;
+}
+
+.ant-divider-horizontal.ant-divider-with-text {
+    margin-top: 16px;
+    margin-bottom: 10px;
 }

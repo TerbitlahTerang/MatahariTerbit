@@ -8,7 +8,7 @@
       "title": "Informasi Anda"
     },
     "characteristics": {
-      "title": "Jumlah panel"
+      "title": "Sistem Solar Panel"
     },
     "roi": {
       "title": "Penghasilan"
@@ -28,6 +28,7 @@
     "areaRequired": "Luas bidang yang dibutuhkan",
     "monthlyProduction": "Produksi bulanan",
     "monthlyConsumption": "Konsumsi minimal bulanan",
+    "financialHeading": "Keuangan",
     "remainingMonthlyCosts": "Sisa biaya bulanan",
     "currentMonthlyCosts": "Biaya bulanan saat ini",
     "monthlyProfit": "Keuntungan bulanan",
@@ -50,6 +51,7 @@
     "priorityEarth": "CO₂ \uD83C\uDF0F"
   },
   "roiTable" : {
+    "title": "Perincian keuangan per tahun",
     "year": "Tahun",
     "output": "Produksi",
     "tariff": "Tarif",

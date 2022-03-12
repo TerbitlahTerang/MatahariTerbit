@@ -118,7 +118,8 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
                   <ROIChart yearly={resultData.projection}/>
-                  <Divider/>
+                  <Divider orientation="left">{t('roiTable.title')}</Divider>
+                  <div>&nbsp;</div>
                   <ROIBreakdown yearly={resultData.projection}/>
                 </div>}
             />

@@ -37,12 +37,9 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
 
   return (
     <div className="ant-table">
-      <Row gutter={12} className="results">
-        <Col span={24}>{t('resultTable.recommendedPanels')}
-                    &nbsp;
-          <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/>
-        </Col>
-      </Row>
+      <Divider orientation="left">{t('resultTable.recommendedPanels')}&nbsp;
+        <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/>
+      </Divider>
       <Row gutter={12} className="panelPane">
         <Col span={24} className="panelContainer">{panels.map(renderPanel)}</Col>
       </Row>
@@ -75,7 +72,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         <Col span={15}>{t('resultTable.monthlyProduction')}</Col>
         <Col span={9}>{`${formatNumber(results.productionPerMonthInKwh, i18n.language)} kWh`}</Col>
       </Row>
-      <Divider/>
+      <Divider orientation="left">{t('resultTable.financialHeading')}</Divider>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.currentMonthlyCosts')}</Col>
         <Col span={9}>{formatRupiah(results.currentMonthlyCosts)}</Col>
@@ -100,7 +97,6 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         </Col>
         <Col span={13}>{t('resultTable.breakEvenExplanation', { breakEven })}</Col>
       </Row>
-      <Divider/>
     </div>
   )
 }

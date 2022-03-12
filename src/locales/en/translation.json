@@ -8,7 +8,7 @@
       "title": "Your Information"
     },
     "characteristics": {
-      "title": "Amount of panels"
+      "title": "Solar Panel System"
     },
     "roi": {
       "title": "Return on Investment"
@@ -29,6 +29,7 @@
     "remainingMonthlyCosts": "Remaining monthly bill",
     "currentMonthlyCosts": "Current monthly bill",
     "monthlyProfit": "Monthly result from panels",
+    "financialHeading": "Financial breakdown",
     "yearlyProfit": "Yearly result from panels",
     "breakEven": "Payback period",
     "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months"
@@ -48,6 +49,7 @@
     "priorityEarth": "CO₂ \uD83C\uDF0F"
   },
   "roiTable": {
+    "title": "Breakdown by year",
     "year": "Year",
     "output": "Output",
     "tariff": "Tariff",
