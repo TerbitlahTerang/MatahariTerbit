@@ -35,14 +35,18 @@ interface InitialInputData extends InputData {
   location: MapState
 }
 
-export const INITIAL_INPUT_DATA: InitialInputData = {
-  monthlyCostEstimateInRupiah: 1000000,
-  connectionPower: 7700,
-  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' },
-  optimizationTarget: OptimizationTarget.Money
+export interface CalculatorSettings {
+  lowTariff: number
+  highTariff: number,
+  pricePerPanel: number,
+  areaPerPanel: number,
+  inverterLifetimeInYears: number,
+  kiloWattPeakPerPanel: number,
+  kiloWattHourPerYearPerKWp: number,
+  lossFromInverter: number
 }
 
-export const CALCULATOR_VALUES = {
+export const CALCULATOR_SETTINGS : CalculatorSettings = {
   lowTariff: 1352,
   highTariff: 1444.70,
   pricePerPanel: 7875000,
@@ -55,3 +59,13 @@ export const CALCULATOR_VALUES = {
   // Based on https://globalsolaratlas.info PVOUT vs Annual average
   lossFromInverter: 0.9628
 }
+
+export const INITIAL_INPUT_DATA: InitialInputData = {
+  monthlyCostEstimateInRupiah: 1000000,
+  connectionPower: 7700,
+  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' },
+  optimizationTarget: OptimizationTarget.Money,
+  calculatorSettings: CALCULATOR_SETTINGS
+}
+
+

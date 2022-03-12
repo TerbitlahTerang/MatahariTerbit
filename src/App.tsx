@@ -96,7 +96,7 @@ export const App: React.FunctionComponent = () => {
               title={<span>{t('wizard.characteristics.title')}</span>}
               subTitle={
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
-                  <ResultTable results={resultData} onOpenDocumentation={openDocumentation}/>
+                  <ResultTable results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings}/>
                   {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"
                     onClick={() => {
                       setCurrent(2)

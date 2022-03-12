@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
 import { formatRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
-import { OptimizationTarget, PowerOption, powerOptions } from '../constants'
+import { CALCULATOR_SETTINGS, CalculatorSettings, OptimizationTarget, PowerOption, powerOptions } from '../constants'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
 
@@ -13,6 +13,7 @@ export interface InputData {
   connectionPower: number
   pvOut?: number
   optimizationTarget: OptimizationTarget
+  calculatorSettings: CalculatorSettings
 }
 
 export interface InputFormProps {
@@ -37,7 +38,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
       const optimizationTarget = form.getFieldValue('optimizationTarget') ? OptimizationTarget.Money : OptimizationTarget.Green
-      props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut, optimizationTarget })
+      props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut, optimizationTarget, calculatorSettings: CALCULATOR_SETTINGS })
     }}>
       <Row gutter={16}>
         <Col xs={24} sm={10}>

@@ -1,5 +1,5 @@
 import { InputData } from '../components/InputForm'
-import { CALCULATOR_VALUES, OptimizationTarget } from '../constants'
+import { OptimizationTarget } from '../constants'
 
 export enum LimitingFactor {
   ConnectionSize = 'ConnectionSize',
@@ -42,15 +42,16 @@ function panelsLimitedByConnection(expectedMonthlyProduction: number, kiloWattHo
   return { limitedByConnection, numberOfPanels }
 }
 
-export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut, optimizationTarget }: InputData): ResultData {
+export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut, optimizationTarget, calculatorSettings }: InputData): ResultData {
   const {
     lowTariff,
     highTariff,
     pricePerPanel,
+    inverterLifetimeInYears,
     kiloWattPeakPerPanel,
     kiloWattHourPerYearPerKWp,
     lossFromInverter
-  } = CALCULATOR_VALUES
+  } = calculatorSettings
 
   const pvOutputInkWhPerkWpPerYear = pvOut
   const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ? pvOutputInkWhPerkWpPerYear : kiloWattHourPerYearPerKWp) * lossFromInverter
@@ -88,13 +89,13 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
 
   const range = 25
-  const projection: ReturnOnInvestment[] = roiProjection(range, {
+  const projection: ReturnOnInvestment[] = roiProjection(range, inverterLifetimeInYears, {
     taxedPricePerKwh,
     productionPerMonthInKwh,
     yearlyProfit,
     totalSystemCosts
   })
-  const firstMonthAboveZero = roiProjection(range, {
+  const firstMonthAboveZero = roiProjection(range, inverterLifetimeInYears,{
     taxedPricePerKwh,
     productionPerMonthInKwh,
     yearlyProfit,
@@ -137,7 +138,7 @@ interface InvestmentParameters {
   totalSystemCosts: number
 }
 
-export function roiProjection(numberOfYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
+export function roiProjection(numberOfYears: number, lifetimeInverterInYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
   const years = Array.from(Array(numberOfYears * divider).keys()).map(x => x + 1)
 
   const electricityPriceInflationRate = 0.05 / divider
@@ -145,7 +146,6 @@ export function roiProjection(numberOfYears: number, result: InvestmentParameter
 
   const electricityPriceInflation = 1.0 + electricityPriceInflationRate
   const capacityLoss = 1.0 - capacityLossRate
-  const lifetimeInverterInYears = CALCULATOR_VALUES.inverterLifetimeInYears
   const priceOfInverter = (result.totalSystemCosts * 0.10)
   const priceOfInverterIndexed = priceOfInverter * Math.pow(electricityPriceInflation, lifetimeInverterInYears)
 
