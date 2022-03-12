@@ -48,7 +48,22 @@
     "location": "Lokasi / Penyinaran",
     "priority": "Prioritas",
     "priorityMoney": "\uD83D\uDCB0 Uang",
-    "priorityEarth": "CO₂ \uD83C\uDF0F"
+    "priorityEarth": "CO₂ \uD83C\uDF0F",
+    "expertMode": {
+      "lowTariff": "Low Tariff",
+      "highTariff": "High Tariff",
+      "lowTariffThreshold": "Threshold",
+      "energyTax": "Energy tax",
+      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
+      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
+      "pricePerPanel": "Price per panel",
+      "electricityPriceInflationRate": "Electricity price inflation",
+      "priceOfInverterFactor": "Inverter price",
+      "capacityLossRate": "Capacity loss per year",
+      "kiloWattPeakPerPanel": "kWp per panel",
+      "areaPerPanel": "Area per panel",
+      "lossFromInverter": "Loss from inverter"
+    }
   },
   "roiTable" : {
     "title": "Perincian keuangan per tahun",
