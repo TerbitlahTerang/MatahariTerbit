@@ -14,6 +14,11 @@ export enum OptimizationTarget {
   Green
 }
 
+export enum InverterPrice {
+  Absolute = 'Absolute',
+  Relative = 'Relative'
+}
+
 export const powerOptions: PowerOption[] = [
   { name: '450 VA', value: 450 },
   { name: '900 VA', value: 900 },
@@ -48,7 +53,10 @@ export interface PriceSettings {
   pricePerPanel: number,
   electricityPriceInflationRate: number,
   priceOfInverterFactor: number,
+  priceOfInverterAbsolute: number,
+  installationCosts: number,
   capacityLossRate: number
+  inverterPrice: InverterPrice
 }
 
 export interface CalculatorSettings {
@@ -75,7 +83,10 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
     pricePerPanel: 7875000,
     electricityPriceInflationRate: 0.05,
     priceOfInverterFactor: 0.10,
-    capacityLossRate: 0.0075
+    priceOfInverterAbsolute: 8000000,
+    installationCosts: 0,
+    capacityLossRate: 0.0075,
+    inverterPrice: InverterPrice.Relative
   },
   areaPerPanel: 2,
   inverterLifetimeInYears: 9,

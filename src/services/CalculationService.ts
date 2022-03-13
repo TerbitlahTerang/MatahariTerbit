@@ -1,5 +1,5 @@
 import { InputData } from '../components/InputForm'
-import { OptimizationTarget, PriceSettings } from '../constants'
+import { InverterPrice, OptimizationTarget, PriceSettings } from '../constants'
 
 export enum LimitingFactor {
   ConnectionSize = 'ConnectionSize',
@@ -89,7 +89,9 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
 
   const monthlyProfit = monthlyCostEstimateInRupiah - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
-  const totalSystemCosts = numberOfPanels * priceSettings.pricePerPanel
+  const panelsCosts = numberOfPanels * priceSettings.pricePerPanel
+  const inverterCosts = priceSettings.inverterPrice === InverterPrice.Relative ? (panelsCosts * priceSettings.priceOfInverterFactor) : priceSettings.priceOfInverterAbsolute
+
   const flooredNumberOfPanels = monthlyProfit < 0 ? 0 : numberOfPanels
   const limitingFactor = limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.ConnectionSize : (!limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.Consumption: LimitingFactor.MinimumPayment)
 
@@ -98,7 +100,8 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     taxedPricePerKwh,
     productionPerMonthInKwh,
     yearlyProfit,
-    totalSystemCosts,
+    panelsCosts,
+    inverterCosts,
     priceSettings
   }
   const projection: ReturnOnInvestment[] = roiProjection(range, inverterLifetimeInYears, investmentParameters)
@@ -114,7 +117,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     numberOfPanelsFinancial: limited.numberOfPanels,
     remainingMonthlyCosts,
     currentMonthlyCosts: monthlyCostEstimateInRupiah,
-    totalSystemCosts,
+    totalSystemCosts: panelsCosts,
     monthlyProfit,
     yearlyProfit,
     projection,
@@ -137,7 +140,8 @@ interface InvestmentParameters {
   taxedPricePerKwh: number
   productionPerMonthInKwh: number
   yearlyProfit: number
-  totalSystemCosts: number,
+  panelsCosts: number,
+  inverterCosts: number,
   priceSettings: PriceSettings
 }
 
@@ -146,21 +150,19 @@ export function roiProjection(numberOfYears: number, lifetimeInverterInYears: nu
 
   const {
     electricityPriceInflationRate,
-    priceOfInverterFactor,
     capacityLossRate
   } = result.priceSettings
 
   const electricityPriceInflation = 1.0 + (electricityPriceInflationRate / divider)
   const capacityLoss = 1.0 - (capacityLossRate / divider)
-  const priceOfInverter = (result.totalSystemCosts * priceOfInverterFactor)
-  const priceOfInverterIndexed = priceOfInverter * Math.pow(electricityPriceInflation, lifetimeInverterInYears)
+  const priceOfInverterIndexed = result.inverterCosts * Math.pow(electricityPriceInflation, lifetimeInverterInYears)
 
   const startYear = {
     index: 0,
     tariff: result.taxedPricePerKwh,
     output: result.productionPerMonthInKwh * (monthsInYear / divider),
     income: result.productionPerMonthInKwh * (monthsInYear / divider) * result.taxedPricePerKwh,
-    cumulativeProfit: result.yearlyProfit - result.totalSystemCosts,
+    cumulativeProfit: result.yearlyProfit - result.panelsCosts - result.inverterCosts - result.priceSettings.installationCosts,
     pvOutputPercentage: 1.0
   } as ReturnOnInvestment
   return years.reduce((acc, currentValue, currentIndex) => {

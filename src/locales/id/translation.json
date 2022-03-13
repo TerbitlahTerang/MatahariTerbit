@@ -58,11 +58,14 @@
       "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
       "pricePerPanel": "Price per panel",
       "electricityPriceInflationRate": "Electricity price inflation",
-      "priceOfInverterFactor": "Inverter price",
+      "priceOfInverterFactor": "Inverter price as % of total",
+      "priceOfInverterAbsolute": "Inverter price",
       "capacityLossRate": "Capacity loss per year",
       "kiloWattPeakPerPanel": "kWp per panel",
       "areaPerPanel": "Area per panel",
-      "lossFromInverter": "Loss from inverter"
+      "lossFromInverter": "Loss from inverter",
+      "inverterPrice": "Inverter price",
+      "installationCosts": "Installation costs"
     }
   },
   "roiTable" : {

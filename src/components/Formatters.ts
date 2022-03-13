@@ -4,6 +4,17 @@ export const formatRupiah = (value: string | number | undefined): string => {
   return `Rp. ${Math.round(amount)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
+export const parseRupiah = (value: string | number | undefined): number => {
+  if (value === undefined) {
+    return 0
+  }
+  if (typeof value === 'string') {
+    return +value.replace(/Rp\.\s?|(,*)/g, '')
+  }
+  return value
+}
+
+
 export const formatNumber = (value: string | number | undefined, locale: string): string => {
   return formatDigits(value, 0, locale)
 }

@@ -2,12 +2,20 @@ import { Col, Divider, Form, InputNumber, Row, Select, Switch } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
-import { formatDigits, formatPercentage, formatRupiah, parseNumber, parsePercentage } from './Formatters'
+import { formatDigits, formatPercentage, formatRupiah, parseNumber, parsePercentage, parseRupiah } from './Formatters'
 import { MapPicker } from './MapPicker'
-import { CALCULATOR_SETTINGS, CalculatorSettings, OptimizationTarget, PowerOption, powerOptions } from '../constants'
+import {
+  CALCULATOR_SETTINGS,
+  CalculatorSettings,
+  InverterPrice,
+  OptimizationTarget,
+  PowerOption,
+  powerOptions
+} from '../constants'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
+import { createEnumParam } from 'serialize-query-params/lib/params'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -19,7 +27,7 @@ export interface InputData {
 
 export interface InputFormProps {
   initialValue: InputData,
-  onOpenDocumentation:  (d: Documentation, title: string) => void
+  onOpenDocumentation: (d: Documentation, title: string) => void
   onChange: (data: InputData) => void,
   expertMode: boolean
 }
@@ -48,11 +56,15 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
   const [pricePerPanel, setPricePerPanel] = useQueryParam('pricePerPanel', withDefault(NumberParam, priceSettings.pricePerPanel))
   const [electricityPriceInflationRate, setElectricityPriceInflationRate] = useQueryParam('electricityPriceInflationRate', withDefault(NumberParam, priceSettings.electricityPriceInflationRate))
-  // const [priceOfInverterFactor, setPriceOfInverterFactor] = useQueryParam('priceOfInverterFactor', withDefault(NumberParam, priceSettings.priceOfInverterFactor))
   const [capacityLossRate, setCapacityLossRate] = useQueryParam('capacityLossRate', withDefault(NumberParam, priceSettings.capacityLossRate))
   const [kiloWattPeakPerPanel, setKiloWattPeakPerPanel] = useQueryParam('kiloWattPeakPerPanel', withDefault(NumberParam, calcSettings.kiloWattPeakPerPanel))
   const [areaPerPanel, setAreaPerPanel] = useQueryParam('areaPerPanel', withDefault(NumberParam, calcSettings.areaPerPanel))
   const [lossFromInverter, setLossFromInverter] = useQueryParam('lossFromInverter', withDefault(NumberParam, calcSettings.lossFromInverter))
+
+  const [inverterPrice, setInverterPrice] = useQueryParam('inverterPrice', withDefault(createEnumParam(Object.values(InverterPrice)), priceSettings.inverterPrice))
+  const [priceOfInverterFactor, setPriceOfInverterFactor] = useQueryParam('priceOfInverterFactor', withDefault(NumberParam, priceSettings.priceOfInverterFactor))
+  const [priceOfInverterAbsolute, setPriceOfInverterAbsolute] = useQueryParam('priceOfInverterAbsolute', withDefault(NumberParam, priceSettings.priceOfInverterAbsolute))
+  const [installationCosts, setInstallationCosts] = useQueryParam('installationCosts', withDefault(NumberParam, priceSettings.installationCosts))
 
   return (
     <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
@@ -62,27 +74,38 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const pvOut = location.info?.pvout
       const optimizationTarget = form.getFieldValue('optimizationTarget') ? OptimizationTarget.Money : OptimizationTarget.Green
 
-      const calculatorSettings: CalculatorSettings = props.expertMode ?  { plnSettings: {
-        lowTariff,
-        highTariff,
-        lowTariffThreshold,
-        energyTax,
-        minimalMonthlyConsumptionHours,
-        minimalMonthlyConsumptionPrice
-      },
-      priceSettings: {
-        pricePerPanel,
-        electricityPriceInflationRate,
-        priceOfInverterFactor: 0.10,
-        capacityLossRate
-      },
-      kiloWattPeakPerPanel,
-      areaPerPanel,
-      lossFromInverter
-      } as CalculatorSettings
-        : CALCULATOR_SETTINGS
+      const calculatorSettings: CalculatorSettings = props.expertMode ?  {
+        plnSettings: {
+          lowTariff,
+          highTariff,
+          lowTariffThreshold,
+          energyTax,
+          minimalMonthlyConsumptionHours,
+          minimalMonthlyConsumptionPrice
+        },
+        priceSettings: {
+          pricePerPanel,
+          electricityPriceInflationRate,
+          priceOfInverterFactor,
+          priceOfInverterAbsolute,
+          installationCosts,
+          capacityLossRate,
+          inverterPrice
+        },
+        kiloWattPeakPerPanel,
+        areaPerPanel,
+        lossFromInverter,
+        inverterLifetimeInYears: CALCULATOR_SETTINGS.inverterLifetimeInYears,
+        kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp
+      } : CALCULATOR_SETTINGS
 
-      props.onChange({ monthlyCostEstimateInRupiah: consumption, connectionPower, pvOut, optimizationTarget, calculatorSettings })
+      props.onChange({
+        monthlyCostEstimateInRupiah: consumption,
+        connectionPower,
+        pvOut,
+        optimizationTarget,
+        calculatorSettings
+      })
     }}>
       <Row gutter={16}>
         <Col xs={24} sm={10}>
@@ -90,28 +113,34 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             initialValue={init.monthlyCostEstimateInRupiah}
             tooltip={{
               trigger: 'click',
-              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/> }}>
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete='off'
-              formatter={(value) => formatRupiah(value)}
-              parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
-              step={100000} />
+              icon: <InfoCircleOutlined
+                onClick={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/>
+            }}>
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              formatter={formatRupiah}
+              parser={parseRupiah}
+              step={100000}/>
           </Form.Item>
         </Col>
         <Col xs={16} sm={9}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={init.connectionPower} tooltip={{
               trigger: 'click',
-              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))} />
+              icon: <InfoCircleOutlined
+                onClick={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))}/>
             }}>
 
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
         <Col xs={8} sm={5}>
-          <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true} label={t('inputForm.priority')}
+          <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
+            label={t('inputForm.priority')}
             tooltip={{
               trigger: 'click',
-              icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/> }}>
+              icon: <InfoCircleOutlined
+                onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
+            }}>
             <Switch
               checkedChildren={t('inputForm.priorityMoney')}
               unCheckedChildren={t('inputForm.priorityEarth')}
@@ -126,9 +155,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Form.Item name="location" label={t('inputForm.location')} initialValue={init} style={{ marginBottom: 0 }}
         tooltip={{
           trigger: 'click',
-          icon: <InfoCircleOutlined onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/> }}
+          icon: <InfoCircleOutlined
+            onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
+        }}
       >
-        <MapPicker />
+        <MapPicker/>
       </Form.Item>
       {props.expertMode && <><Divider orientation="left">PLN Settings</Divider>
         <Row gutter={16}>
@@ -138,8 +169,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
                 defaultValue={lowTariff}
-                formatter={(value) => formatRupiah(value)}
-                parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
+                formatter={formatRupiah}
+                parser={parseRupiah}
                 onChange={setLowTariff}
               />
             </Form.Item>
@@ -150,8 +181,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
                 defaultValue={highTariff}
-                formatter={(value) => formatRupiah(value)}
-                parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
+                formatter={formatRupiah}
+                parser={parseRupiah}
                 onChange={setHighTariff}
               />
             </Form.Item>
@@ -185,7 +216,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               initialValue={minimalMonthlyConsumptionHours}
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={minimalMonthlyConsumptionHours} onChange={setMinimalMonthlyConsumptionHours}
+                defaultValue={minimalMonthlyConsumptionHours}
+                onChange={setMinimalMonthlyConsumptionHours}
               />
             </Form.Item>
           </Col>
@@ -195,7 +227,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               initialValue={minimalMonthlyConsumptionPrice}
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={minimalMonthlyConsumptionPrice} onChange={setMinimalMonthlyConsumptionPrice}
+                defaultValue={minimalMonthlyConsumptionPrice}
+                onChange={setMinimalMonthlyConsumptionPrice}
               />
             </Form.Item>
           </Col>
@@ -206,8 +239,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
                 defaultValue={pricePerPanel}
-                formatter={(value) => formatRupiah(value)}
-                parser={(displayValue) => Number(displayValue ? +displayValue.replace(/Rp\.\s?|(,*)/g, '') : 0)}
+                formatter={formatRupiah}
+                parser={parseRupiah}
                 step={100000}
                 onChange={setPricePerPanel}
               />
@@ -224,19 +257,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                 parser={(displayValue) => parsePercentage(displayValue)}
                 step={0.01}
                 onChange={setElectricityPriceInflationRate}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={10}>
-            <Form.Item name="capacityLossRate" label={t('inputForm.expertMode.capacityLossRate')}
-              initialValue={capacityLossRate}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={capacityLossRate}
-                formatter={(value) => formatPercentage(value, i18n.language, 2)}
-                parser={(displayValue) => parsePercentage(displayValue)}
-                step={0.001}
-                onChange={setCapacityLossRate}
               />
             </Form.Item>
           </Col>
@@ -276,6 +296,73 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                 parser={(displayValue) => parseNumber(displayValue)}
                 step={0.1}
                 onChange={setLossFromInverter}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={6}>
+            <Form.Item name="capacityLossRate" label={t('inputForm.expertMode.capacityLossRate')}
+              initialValue={capacityLossRate}
+            >
+              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+                defaultValue={capacityLossRate}
+                formatter={(value) => formatPercentage(value, i18n.language, 2)}
+                parser={(displayValue) => parsePercentage(displayValue)}
+                step={0.001}
+                onChange={setCapacityLossRate}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col xs={24} sm={4}>
+            <Form.Item name="inverterPrice" valuePropName="checked" initialValue={inverterPrice === InverterPrice.Relative}
+              label={t('inputForm.expertMode.inverterPrice')}>
+              <Switch
+                checkedChildren={InverterPrice.Relative}
+                unCheckedChildren={InverterPrice.Absolute}
+                defaultChecked={inverterPrice === InverterPrice.Relative}
+                onChange={(newValue) => setInverterPrice(newValue ? InverterPrice.Relative : InverterPrice.Absolute)}
+              />
+            </Form.Item>
+          </Col>
+          { inverterPrice === InverterPrice.Absolute ?
+            <Col xs={24} sm={6}>
+              <Form.Item name="priceOfInverterAbsolute" label={t('inputForm.expertMode.priceOfInverterAbsolute')}
+                initialValue={priceOfInverterAbsolute}
+              >
+                <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+                  defaultValue={priceOfInverterAbsolute}
+                  formatter={formatRupiah}
+                  parser={parseRupiah}
+                  step={100000}
+                  onChange={setPriceOfInverterAbsolute}
+                />
+              </Form.Item>
+            </Col> :
+            <Col xs={24} sm={8}>
+              <Form.Item name="priceOfInverterFactor" label={t('inputForm.expertMode.priceOfInverterFactor')}
+                initialValue={priceOfInverterFactor}
+              >
+                <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+                  defaultValue={priceOfInverterFactor}
+                  formatter={(value) => formatPercentage(value, i18n.language)}
+                  parser={(displayValue) => parsePercentage(displayValue)}
+                  step={0.01}
+                  onChange={setPriceOfInverterFactor}
+                />
+              </Form.Item>
+            </Col>
+          }
+          <Col xs={24} sm={6}>
+            <Form.Item name="installationCosts" label={t('inputForm.expertMode.installationCosts')}
+              initialValue={installationCosts}
+            >
+              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+                defaultValue={installationCosts}
+                formatter={formatRupiah}
+                parser={parseRupiah}
+                step={100000}
+                onChange={setInstallationCosts}
               />
             </Form.Item>
           </Col>
