@@ -12,7 +12,7 @@ import {
   PowerOption,
   powerOptions
 } from '../constants'
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { FacebookOutlined, InfoCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { createEnumParam } from 'serialize-query-params/lib/params'
@@ -30,6 +30,15 @@ export interface InputFormProps {
   onOpenDocumentation: (d: Documentation, title: string) => void
   onChange: (data: InputData) => void,
   expertMode: boolean
+}
+
+const createLink = () => {
+  return `${window.location}`.replace('expertMode=1&', '')
+}
+
+const createFacebookLink = () => {
+  const link = createLink()
+  return `https://www.facebook.com/sharer.php?u=${encodeURI(link)}`
 }
 
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
@@ -232,7 +241,9 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               />
             </Form.Item>
           </Col>
-        </Row><Divider orientation="left">PLTS System settings</Divider><Row gutter={16}>
+        </Row>
+        <Divider orientation="left">PLTS System settings</Divider>
+        <Row gutter={16}>
           <Col xs={24} sm={6}>
             <Form.Item name="pricePerPanel" label={t('inputForm.expertMode.pricePerPanel')}
               initialValue={pricePerPanel}
@@ -365,6 +376,13 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                 onChange={setInstallationCosts}
               />
             </Form.Item>
+          </Col>
+        </Row>
+        <Divider orientation="left">Summary</Divider>
+        <Row>
+          <Col xs={24} sm={24}>
+            Share settings <a href={createLink()} target='_blank' ><ShareAltOutlined /></a>&nbsp;
+            <a href={createFacebookLink()} target='_blank'><FacebookOutlined /></a>
           </Col>
         </Row>
       </>
