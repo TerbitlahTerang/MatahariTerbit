@@ -147,7 +147,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               step={100000}/>
           </Form.Item>
         </Col>
-        <Col xs={16} sm={9}>
+        <Col xs={15} sm={9}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={init.connectionPower} tooltip={{
               trigger: 'click',
@@ -158,7 +158,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
-        <Col xs={8} sm={5}>
+        <Col xs={9} sm={5}>
           <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
             label={t('inputForm.priority')}
             tooltip={{
