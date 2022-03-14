@@ -46,7 +46,25 @@
     "location": "Location / Irradiation",
     "priority": "Priority",
     "priorityMoney": "\uD83D\uDCB0 Money",
-    "priorityEarth": "CO₂ \uD83C\uDF0F"
+    "priorityEarth": "CO₂ \uD83C\uDF0F",
+    "expertMode": {
+      "lowTariff": "Low Tariff",
+      "highTariff": "High Tariff",
+      "lowTariffThreshold": "Threshold",
+      "energyTax": "Energy tax",
+      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
+      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
+      "pricePerPanel": "Price per panel",
+      "electricityPriceInflationRate": "Electricity price inflation",
+      "priceOfInverterFactor": "Inverter price as % of total",
+      "priceOfInverterAbsolute": "Inverter price",
+      "capacityLossRate": "Capacity loss per year",
+      "kiloWattPeakPerPanel": "kWp per panel",
+      "areaPerPanel": "Area per panel",
+      "lossFromInverter": "Loss from inverter",
+      "inverterPrice": "Inverter price",
+      "installationCosts": "Installation costs"
+    }
   },
   "roiTable": {
     "title": "Breakdown by year",

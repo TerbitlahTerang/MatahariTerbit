@@ -3,13 +3,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
 import { formatDigits, formatNumber, formatRupiah } from './Formatters'
-import { CALCULATOR_VALUES, OptimizationTarget } from '../constants'
+import { CalculatorSettings, OptimizationTarget } from '../constants'
 import { Panel, renderPanel } from './SolarPanel'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation, toExplanation } from '../services/DocumentationService'
 
 export interface ResultTableProps {
   results?: ResultData,
+  calculatorSettings: CalculatorSettings,
   onOpenDocumentation:  (d: Documentation, title: string) => void
 }
 
@@ -21,7 +22,7 @@ interface BreakEvenPoint {
 
 export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) => {
   const { t, i18n } = useTranslation()
-  const { results, onOpenDocumentation }  = props
+  const { results, calculatorSettings, onOpenDocumentation }  = props
   if (!results) {
     return <div>Invalid Data</div>
   }
@@ -46,7 +47,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
       <Row gutter={12} justify="end">
         <Col span={15}>{t('resultTable.installedCapacity')}</Col>
         <Col
-          span={9}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.kiloWattPeakPerPanel, 2, i18n.language)} kWp</Col>
+          span={9}>{formatDigits(results.numberOfPanels * calculatorSettings.kiloWattPeakPerPanel, 2, i18n.language)} kWp</Col>
       </Row>
       <Row gutter={12} justify="end">
         <Col span={10}>{t('resultTable.limitingFactor')}
@@ -61,7 +62,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
           <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.AreaRequired,t('resultTable.areaRequired'))}/>
         </Col>
         <Col
-          span={4}>{formatDigits(results.numberOfPanels * CALCULATOR_VALUES.areaPerPanel, 0, i18n.language)} ㎡</Col>
+          span={4}>{formatDigits(results.numberOfPanels * calculatorSettings.areaPerPanel, 0, i18n.language)} ㎡</Col>
       </Row>
       <Row gutter={12} justify="center">
         <Col span={15}>{t('resultTable.monthlyConsumption')}</Col>

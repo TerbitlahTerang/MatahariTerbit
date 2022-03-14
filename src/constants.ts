@@ -14,6 +14,11 @@ export enum OptimizationTarget {
   Green
 }
 
+export enum InverterPrice {
+  Absolute = 'Absolute',
+  Relative = 'Relative'
+}
+
 export const powerOptions: PowerOption[] = [
   { name: '450 VA', value: 450 },
   { name: '900 VA', value: 900 },
@@ -35,17 +40,54 @@ interface InitialInputData extends InputData {
   location: MapState
 }
 
-export const INITIAL_INPUT_DATA: InitialInputData = {
-  monthlyCostEstimateInRupiah: 1000000,
-  connectionPower: 7700,
-  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' },
-  optimizationTarget: OptimizationTarget.Money
+export interface PlnSettings {
+  lowTariff: number
+  highTariff: number,
+  lowTariffThreshold: number,
+  energyTax: number,
+  minimalMonthlyConsumptionHours: number,
+  minimalMonthlyConsumptionPrice: number
 }
 
-export const CALCULATOR_VALUES = {
-  lowTariff: 1352,
-  highTariff: 1444.70,
-  pricePerPanel: 7875000,
+export interface PriceSettings {
+  pricePerPanel: number,
+  electricityPriceInflationRate: number,
+  priceOfInverterFactor: number,
+  priceOfInverterAbsolute: number,
+  installationCosts: number,
+  capacityLossRate: number
+  inverterPrice: InverterPrice
+}
+
+export interface CalculatorSettings {
+  plnSettings: PlnSettings
+  priceSettings: PriceSettings
+  areaPerPanel: number,
+  inverterLifetimeInYears: number,
+  kiloWattPeakPerPanel: number,
+  kiloWattHourPerYearPerKWp: number,
+  lossFromInverter: number,
+}
+
+
+export const CALCULATOR_SETTINGS : CalculatorSettings = {
+  plnSettings: {
+    lowTariff: 1352,
+    highTariff: 1444.70,
+    lowTariffThreshold: 1300,
+    energyTax : 0.1 + 0.05, //PPN + PPJ
+    minimalMonthlyConsumptionHours: 40, // number of hours per month * connection power
+    minimalMonthlyConsumptionPrice: 1500.0 // energy price (untaxed) for minimal monthly consumption
+  },
+  priceSettings: {
+    pricePerPanel: 7875000,
+    electricityPriceInflationRate: 0.05,
+    priceOfInverterFactor: 0.10,
+    priceOfInverterAbsolute: 8000000,
+    installationCosts: 0,
+    capacityLossRate: 0.0075,
+    inverterPrice: InverterPrice.Relative
+  },
   areaPerPanel: 2,
   inverterLifetimeInYears: 9,
   // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1
@@ -55,3 +97,13 @@ export const CALCULATOR_VALUES = {
   // Based on https://globalsolaratlas.info PVOUT vs Annual average
   lossFromInverter: 0.9628
 }
+
+export const INITIAL_INPUT_DATA: InitialInputData = {
+  monthlyCostEstimateInRupiah: 1000000,
+  connectionPower: 7700,
+  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' },
+  optimizationTarget: OptimizationTarget.Money,
+  calculatorSettings: CALCULATOR_SETTINGS
+}
+
+

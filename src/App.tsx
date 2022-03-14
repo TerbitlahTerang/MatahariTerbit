@@ -12,6 +12,8 @@ import { INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData, ResultData } from './services/CalculationService'
 import { Documentation } from './services/DocumentationService'
 import { InfoPane } from './components/InfoPane'
+import { useQueryParam } from 'use-query-params'
+import { BooleanParam } from 'serialize-query-params/lib/params'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -23,6 +25,9 @@ export const App: React.FunctionComponent = () => {
 
   const [documentation, setDocumentation] = useState<Documentation | null>(null)
   const [documentationTitle, setDocumentationTitle] = useState<String | null>(null)
+
+  const [expertMode] = useQueryParam('expertMode', BooleanParam)
+
 
   const closeDocumentation = () => {
     setDocumentation(null)
@@ -78,7 +83,7 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
                   <InputForm initialValue={INITIAL_INPUT_DATA} onOpenDocumentation={openDocumentation}
-                    onChange={(data) => setInputData(data)}/>
+                    onChange={(data) => setInputData(data)} expertMode={expertMode === true}/>
                   {current === 0 &&
                                                 <Button style={{ marginTop: '5px', float: 'right' }} size="large"
                                                   onClick={() => {
@@ -96,7 +101,7 @@ export const App: React.FunctionComponent = () => {
               title={<span>{t('wizard.characteristics.title')}</span>}
               subTitle={
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
-                  <ResultTable results={resultData} onOpenDocumentation={openDocumentation}/>
+                  <ResultTable results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings}/>
                   {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"
                     onClick={() => {
                       setCurrent(2)
