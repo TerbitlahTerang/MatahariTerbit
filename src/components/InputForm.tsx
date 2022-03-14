@@ -12,7 +12,13 @@ import {
   PowerOption,
   powerOptions
 } from '../constants'
-import { FacebookOutlined, InfoCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
+import {
+  FacebookOutlined,
+  InfoCircleOutlined,
+  LinkedinOutlined,
+  ShareAltOutlined,
+  TwitterOutlined
+} from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { createEnumParam } from 'serialize-query-params/lib/params'
@@ -39,6 +45,16 @@ const createLink = () => {
 const createFacebookLink = () => {
   const link = createLink()
   return `https://www.facebook.com/sharer.php?u=${encodeURI(link)}`
+}
+
+const createTwitterLink = () => {
+  const link = createLink()
+  return `https://twitter.com/intent/tweet?url=${encodeURI(link)}`
+}
+
+const createLinkedinLink = () => {
+  const link = createLink()
+  return `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURI(link)}`
 }
 
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
@@ -380,9 +396,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Row>
         <Divider orientation="left">Summary</Divider>
         <Row>
-          <Col xs={24} sm={24}>
+          <Col xs={24} sm={24} style={{ fontSize : 16 }}>
             Share settings <a href={createLink()} target='_blank' ><ShareAltOutlined /></a>&nbsp;
-            <a href={createFacebookLink()} target='_blank'><FacebookOutlined /></a>
+            <a href={createFacebookLink()} target='_blank'><FacebookOutlined  /></a>&nbsp;
+            <a href={createTwitterLink()} target='_blank'><TwitterOutlined  /></a>&nbsp;
+            <a href={createLinkedinLink()} target='_blank'><LinkedinOutlined  /></a>
           </Col>
         </Row>
       </>
