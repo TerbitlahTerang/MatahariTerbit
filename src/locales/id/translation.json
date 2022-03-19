@@ -63,7 +63,7 @@
       "capacityLossRate": "Capacity loss per year",
       "kiloWattPeakPerPanel": "kWp per panel",
       "areaPerPanel": "Area per panel",
-      "lossFromInverter": "Loss from inverter",
+      "lossFromInverter": "Inverter efficiency",
       "inverterPrice": "Inverter price",
       "installationCosts": "Installation costs"
     }

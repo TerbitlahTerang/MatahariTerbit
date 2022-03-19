@@ -23,7 +23,7 @@ describe('Calculate system characteristics', () => {
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const result = calculateResultData(data)
-    expect(result.numberOfPanels).toBe(11)
+    expect(result.numberOfPanels).toBe(10)
   })
 
   it('Should cap panels to connection size', async () => {
@@ -37,7 +37,7 @@ describe('Calculate system characteristics', () => {
     }
     const result = calculateResultData(data)
     expect(result.numberOfPanels * CALCULATOR_SETTINGS.kiloWattPeakPerPanel).toBeLessThan(smallConnection)
-    expect(result.numberOfPanels).toBe(5)
+    expect(result.numberOfPanels).toBe(4)
   })
 
   it('Should recommend no panels if negative profit', async () => {
@@ -66,8 +66,8 @@ describe('Calculate system characteristics', () => {
     const results = calculateResultData(data)
 
     expect(results.currentMonthlyCosts).toBe(1000000)
-    expect(results.numberOfPanels).toBe(5)
-    expect(Math.round(results.monthlyProfit)).toBe(479880)
+    expect(results.numberOfPanels).toBe(4)
+    expect(Math.round(results.monthlyProfit)).toBe(431892)
     expect(Math.round(results.yearlyProfit)).toBe(Math.round(results.monthlyProfit * 12.0))
 
     expect(results.totalSystemCosts).toBe(results.numberOfPanels * CALCULATOR_SETTINGS.priceSettings.pricePerPanel)

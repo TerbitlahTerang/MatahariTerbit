@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 
+// eslint-disable-next-line import/no-named-as-default-member
 i18n
 // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
 // learn more: https://github.com/i18next/i18next-http-backend
