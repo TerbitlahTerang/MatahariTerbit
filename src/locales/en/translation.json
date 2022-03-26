@@ -42,6 +42,7 @@
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
+    "monthlyUsage": "Monthly Usage",
     "connectionPower": "Connection Power",
     "location": "Location / Irradiation",
     "priority": "Priority",
@@ -69,7 +70,8 @@
       "lossFromInverter": "Inverter efficiency",
       "inverterPrice": "Inverter price",
       "installationCosts": "Installation costs",
-      "priorityEnabled": "Priority enabled"
+      "priorityEnabled": "Priority enabled",
+      "usageType": "Usage expressed in"
     }
   },
   "roiTable": {

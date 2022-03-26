@@ -42,6 +42,7 @@
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",
+    "monthlyUsage": "Monthly Usage",
     "connectionPower": "Daya",
     "location": "Lokasi / Penyinaran",
     "priority": "Prioritas",
@@ -69,7 +70,8 @@
       "lossFromInverter": "Inverter efficiency",
       "inverterPrice": "Inverter price",
       "installationCosts": "Installation costs",
-      "priorityEnabled": "Priority enabled"
+      "priorityEnabled": "Priority enabled",
+      "usageType": "Usage expressed in"
     }
   },
   "roiTable" : {

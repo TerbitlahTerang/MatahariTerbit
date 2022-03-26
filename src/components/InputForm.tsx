@@ -2,12 +2,20 @@ import { Col, Divider, Form, InputNumber, Row, Select, Switch } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
-import { formatDigits, formatPercentage, formatRupiah, parseNumber, parsePercentage, parseRupiah } from './Formatters'
+import {
+  formatDigits, formatKwh,
+  formatPercentage,
+  formatRupiah, parseKwh,
+  parseNumber,
+  parsePercentage,
+  parseRupiah
+} from './Formatters'
 import { MapPicker } from './MapPicker'
 import {
   CALCULATOR_SETTINGS,
   CalculatorSettings,
   InverterPrice,
+  MonthlyUsage,
   OptimizationTarget,
   PowerOption,
   powerOptions
@@ -25,6 +33,7 @@ import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
+  monthlyUsageInKwh: number
   connectionPower: number
   pvOut?: number
   optimizationTarget: OptimizationTarget
@@ -72,6 +81,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const priceSettings = calcSettings.priceSettings
 
   const [priorityEnabled, setPriorityEnabled] = useQueryParam('priorityEnabled', withDefault(BooleanParam, calcSettings.priorityEnabled))
+  const [monthlyUsageType, setMonthlyUsageType] = useQueryParam('monthlyUsageType', withDefault(createEnumParam(Object.values(MonthlyUsage)), priceSettings.monthlyUsageType))
 
 
   const [lowTariff, setLowTariff] = useQueryParam('lowTariff', withDefault(NumberParam, plnSettings.lowTariff))
@@ -97,7 +107,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
   return (
     <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
-      const consumption = form.getFieldValue('consumption')
+      const monthlyBill = form.getFieldValue('monthlyBill')
+      const monthlyUsageInKwh = form.getFieldValue('monthlyUsageInKwh')
       const connectionPower = form.getFieldValue('connectionPower')
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
@@ -120,7 +131,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           priceOfInverterAbsolute,
           installationCosts,
           capacityLossRate,
-          inverterPrice
+          inverterPrice,
+          monthlyUsageType
         },
         kiloWattPeakPerPanel,
         areaPerPanel,
@@ -131,7 +143,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       } : CALCULATOR_SETTINGS
 
       props.onChange({
-        monthlyCostEstimateInRupiah: consumption,
+        monthlyCostEstimateInRupiah: monthlyBill,
+        monthlyUsageInKwh,
         connectionPower,
         pvOut,
         optimizationTarget,
@@ -140,18 +153,27 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
     }}>
       <Row gutter={16}>
         <Col xs={24} sm={priorityEnabled ? 10 : 12}>
-          <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
-            initialValue={init.monthlyCostEstimateInRupiah}
-            tooltip={{
-              trigger: 'click',
-              icon: <InfoCircleOutlined
-                onClick={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/>
-            }}>
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              formatter={formatRupiah}
-              parser={parseRupiah}
-              step={100000}/>
-          </Form.Item>
+          {monthlyUsageType === MonthlyUsage.Rupiah ?
+            (<Form.Item name="monthlyBill" label={t('inputForm.monthlyBill')}
+              initialValue={init.monthlyCostEstimateInRupiah}
+              tooltip={{
+                trigger: 'click',
+                icon: <InfoCircleOutlined
+                  onClick={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/>
+              }}>
+              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+                formatter={formatRupiah}
+                parser={parseRupiah}
+                step={100000}/>
+            </Form.Item>) : (<Form.Item name="monthlyUsageInKwh" label={t('inputForm.monthlyUsage')}
+              initialValue={init.monthlyUsageInKwh}
+            >
+              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+                formatter={(value) => formatKwh(value)}
+                parser={(displayValue) => parseKwh(displayValue)}
+                step={10}/>
+            </Form.Item>)
+          }
         </Col>
         <Col xs={priorityEnabled ? 15 : 24} sm={priorityEnabled ? 9 : 12}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
@@ -405,18 +427,29 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       </Row>
       <Divider orientation="left">{t('inputForm.expertMode.title.appSettings')}</Divider>
       <Row>
-        <Col xs={24} sm={12} style={{ fontSize : 16 }}>
+        <Col xs={24} sm={8} style={{ fontSize : 16 }}>
             Share settings<br/> <a href={createLink()} target='_blank' ><ShareAltOutlined /></a>&nbsp;
           <a href={createFacebookLink()} target='_blank'><FacebookOutlined  /></a>&nbsp;
           <a href={createTwitterLink()} target='_blank'><TwitterOutlined  /></a>&nbsp;
           <a href={createLinkedinLink()} target='_blank'><LinkedinOutlined  /></a>
         </Col>
-        <Col xs={24} sm={12} >
+        <Col xs={24} sm={8} >
           <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={priorityEnabled}
             label={t('inputForm.expertMode.priorityEnabled')}>
             <Switch
               defaultChecked={priorityEnabled}
               onChange={(newValue) => setPriorityEnabled(newValue)}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8} >
+          <Form.Item name="usageType" valuePropName="checked" initialValue={monthlyUsageType === MonthlyUsage.Rupiah}
+            label={t('inputForm.expertMode.usageType')}>
+            <Switch
+              checkedChildren={MonthlyUsage.Rupiah}
+              unCheckedChildren={MonthlyUsage.KWh}
+              defaultChecked={monthlyUsageType === MonthlyUsage.Rupiah}
+              onChange={(newValue) => setMonthlyUsageType(newValue ? MonthlyUsage.Rupiah : MonthlyUsage.KWh)}
             />
           </Form.Item>
         </Col>
