@@ -21,7 +21,7 @@ import {
 } from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
-import { createEnumParam } from 'serialize-query-params/lib/params'
+import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -71,6 +71,9 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const plnSettings = calcSettings.plnSettings
   const priceSettings = calcSettings.priceSettings
 
+  const [priorityEnabled, setPriorityEnabled] = useQueryParam('priorityEnabled', withDefault(BooleanParam, calcSettings.priorityEnabled))
+
+
   const [lowTariff, setLowTariff] = useQueryParam('lowTariff', withDefault(NumberParam, plnSettings.lowTariff))
   const [highTariff, setHighTariff] = useQueryParam('highTariff', withDefault(NumberParam, plnSettings.highTariff))
   const [energyTax, setEnergyTax] = useQueryParam('energyTax', withDefault(NumberParam, plnSettings.energyTax))
@@ -90,6 +93,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const [priceOfInverterFactor, setPriceOfInverterFactor] = useQueryParam('priceOfInverterFactor', withDefault(NumberParam, priceSettings.priceOfInverterFactor))
   const [priceOfInverterAbsolute, setPriceOfInverterAbsolute] = useQueryParam('priceOfInverterAbsolute', withDefault(NumberParam, priceSettings.priceOfInverterAbsolute))
   const [installationCosts, setInstallationCosts] = useQueryParam('installationCosts', withDefault(NumberParam, priceSettings.installationCosts))
+
 
   return (
     <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
@@ -121,7 +125,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         areaPerPanel,
         lossFromInverter,
         inverterLifetimeInYears: CALCULATOR_SETTINGS.inverterLifetimeInYears,
-        kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp
+        kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp,
+        priorityEnabled
       } : CALCULATOR_SETTINGS
 
       props.onChange({
@@ -133,7 +138,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       })
     }}>
       <Row gutter={16}>
-        <Col xs={24} sm={10}>
+        <Col xs={24} sm={priorityEnabled ? 10 : 12}>
           <Form.Item name="consumption" label={t('inputForm.monthlyBill')}
             initialValue={init.monthlyCostEstimateInRupiah}
             tooltip={{
@@ -147,7 +152,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               step={100000}/>
           </Form.Item>
         </Col>
-        <Col xs={15} sm={9}>
+        <Col xs={priorityEnabled ? 15 : 24} sm={priorityEnabled ? 9 : 12}>
           <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
             initialValue={init.connectionPower} tooltip={{
               trigger: 'click',
@@ -158,21 +163,23 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
-        <Col xs={9} sm={5}>
-          <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
-            label={t('inputForm.priority')}
-            tooltip={{
-              trigger: 'click',
-              icon: <InfoCircleOutlined
-                onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
-            }}>
-            <Switch
-              checkedChildren={t('inputForm.priorityMoney')}
-              unCheckedChildren={t('inputForm.priorityEarth')}
-              defaultChecked={true}
-            />
-          </Form.Item>
-        </Col>
+        {priorityEnabled &&
+            <Col xs={9} sm={5}>
+              <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
+                label={t('inputForm.priority')}
+                tooltip={{
+                  trigger: 'click',
+                  icon: <InfoCircleOutlined
+                    onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
+                }}>
+                <Switch className='prioritySwitch'
+                  checkedChildren={t('inputForm.priorityMoney')}
+                  unCheckedChildren={t('inputForm.priorityEarth')}
+                  defaultChecked={true}
+                />
+              </Form.Item>
+            </Col>
+        }
       </Row>
       <Row gutter={16}>
 
@@ -394,13 +401,24 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             </Form.Item>
           </Col>
         </Row>
-        <Divider orientation="left">Summary</Divider>
+        <Divider orientation="left">App settings</Divider>
         <Row>
-          <Col xs={24} sm={24} style={{ fontSize : 16 }}>
-            Share settings <a href={createLink()} target='_blank' ><ShareAltOutlined /></a>&nbsp;
+          <Col xs={24} sm={12} style={{ fontSize : 16 }}>
+            Share settings<br/> <a href={createLink()} target='_blank' ><ShareAltOutlined /></a>&nbsp;
             <a href={createFacebookLink()} target='_blank'><FacebookOutlined  /></a>&nbsp;
             <a href={createTwitterLink()} target='_blank'><TwitterOutlined  /></a>&nbsp;
             <a href={createLinkedinLink()} target='_blank'><LinkedinOutlined  /></a>
+          </Col>
+          <Col xs={24} sm={12} >
+            <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={priorityEnabled}
+              label={t('inputForm.expertMode.priorityEnabled')}>
+              <Switch
+                checkedChildren='Enabled'
+                unCheckedChildren='Disabled'
+                defaultChecked={priorityEnabled}
+                onChange={(newValue) => setPriorityEnabled(newValue)}
+              />
+            </Form.Item>
           </Col>
         </Row>
       </>

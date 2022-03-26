@@ -63,7 +63,8 @@
       "areaPerPanel": "Area per panel",
       "lossFromInverter": "Inverter efficiency",
       "inverterPrice": "Inverter price",
-      "installationCosts": "Installation costs"
+      "installationCosts": "Installation costs",
+      "priorityEnabled": "Priority enabled"
     }
   },
   "roiTable": {

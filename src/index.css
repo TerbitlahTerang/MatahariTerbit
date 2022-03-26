@@ -132,11 +132,11 @@ div.ant-steps-item-subtitle {
     color: rgba(0, 0, 0, 0.45);
 }
 
-.ant-switch.ant-switch-checked {
+.prioritySwitch.ant-switch.ant-switch-checked {
     background-color: #1890ff;
 }
 
-.ant-switch {
+.prioritySwitch.ant-switch {
     background-color: #46a171;
 }
 
