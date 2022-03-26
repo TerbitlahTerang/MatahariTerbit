@@ -1,5 +1,5 @@
 import { InputData } from '../components/InputForm'
-import { InverterPrice, OptimizationTarget, PriceSettings } from '../constants'
+import { InverterPrice, MonthlyUsage, OptimizationTarget, PriceSettings } from '../constants'
 
 export enum LimitingFactor {
   ConnectionSize = 'ConnectionSize',
@@ -42,7 +42,14 @@ function panelsLimitedByConnection(expectedMonthlyProduction: number, kiloWattHo
   return { limitedByConnection, numberOfPanels }
 }
 
-export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPower, pvOut, optimizationTarget, calculatorSettings }: InputData): ResultData {
+export function calculateResultData({
+  monthlyCostEstimateInRupiah,
+  monthlyUsageInKwh,
+  connectionPower,
+  pvOut,
+  optimizationTarget,
+  calculatorSettings
+}: InputData): ResultData {
   const {
     plnSettings,
     priceSettings,
@@ -72,28 +79,27 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
   const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * minimalMonthlyConsumptionPrice * taxFactor
 
   const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
-  const effectiveCostsPerMonth = monthlyCostEstimateInRupiah - minimalMonthlyCostsIncludingTax
+  const costEstimate = priceSettings.monthlyUsageType === MonthlyUsage.Rupiah ? monthlyCostEstimateInRupiah : monthlyUsageInKwh * taxedPricePerKwh
+  const effectiveCostsPerMonth = costEstimate - minimalMonthlyCostsIncludingTax
   const requiredMonthlyProduction = effectiveCostsPerMonth / taxedPricePerKwh
-  const totalMonthlyConsumption = monthlyCostEstimateInRupiah / taxedPricePerKwh
+  const totalMonthlyConsumption = costEstimate / taxedPricePerKwh
 
   const limited = panelsLimitedByConnection(requiredMonthlyProduction, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
-
-  const potentialMonthlyProduction = monthlyCostEstimateInRupiah / taxedPricePerKwh
-  const unlimited = panelsLimitedByConnection(potentialMonthlyProduction, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
+  const unlimited = panelsLimitedByConnection(totalMonthlyConsumption, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
 
   const numberOfPanels = optimizationTarget === OptimizationTarget.Money ? limited.numberOfPanels : unlimited.numberOfPanels
 
   const productionPerMonthInKwh = limited.numberOfPanels * kiloWattHourPerMonthPerPanel
   const yieldPerMonthFromPanelsInRupiah = productionPerMonthInKwh * taxedPricePerKwh
-  const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, monthlyCostEstimateInRupiah - yieldPerMonthFromPanelsInRupiah)
+  const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, costEstimate - yieldPerMonthFromPanelsInRupiah)
 
-  const monthlyProfit = monthlyCostEstimateInRupiah - remainingMonthlyCosts
+  const monthlyProfit = costEstimate - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
   const panelsCosts = numberOfPanels * priceSettings.pricePerPanel
   const inverterCosts = priceSettings.inverterPrice === InverterPrice.Relative ? (panelsCosts * priceSettings.priceOfInverterFactor) : priceSettings.priceOfInverterAbsolute
 
   const flooredNumberOfPanels = monthlyProfit < 0 ? 0 : numberOfPanels
-  const limitingFactor = limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.ConnectionSize : (!limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.Consumption: LimitingFactor.MinimumPayment)
+  const limitingFactor = limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.ConnectionSize : (!limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.Consumption : LimitingFactor.MinimumPayment)
 
   const range = 25
   const investmentParameters: InvestmentParameters = {
@@ -105,7 +111,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     priceSettings
   }
   const projection: ReturnOnInvestment[] = roiProjection(range, inverterLifetimeInYears, investmentParameters)
-  const firstMonthAboveZero = roiProjection(range, inverterLifetimeInYears,investmentParameters, monthsInYear).find(x => x.cumulativeProfit > 0)
+  const firstMonthAboveZero = roiProjection(range, inverterLifetimeInYears, investmentParameters, monthsInYear).find(x => x.cumulativeProfit > 0)
   const breakEvenPointInMonths = firstMonthAboveZero ? firstMonthAboveZero.index : range
 
   return {
@@ -116,7 +122,7 @@ export function calculateResultData({ monthlyCostEstimateInRupiah, connectionPow
     numberOfPanelsGreen: unlimited.numberOfPanels,
     numberOfPanelsFinancial: limited.numberOfPanels,
     remainingMonthlyCosts,
-    currentMonthlyCosts: monthlyCostEstimateInRupiah,
+    currentMonthlyCosts: costEstimate,
     totalSystemCosts: panelsCosts,
     monthlyProfit,
     yearlyProfit,

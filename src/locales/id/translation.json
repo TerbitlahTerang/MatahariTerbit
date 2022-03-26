@@ -14,8 +14,6 @@
       "title": "Penghasilan"
     }
   },
-  "resultsTitle": "Karakteristik sistem",
-  "roiTitle": "Tingkat pengembalian investasi",
   "resultTable": {
     "installedCapacity": "Kapasitas terpasang",
     "limitingFactor": "Terbatas oleh",
@@ -44,12 +42,18 @@
   },
   "inputForm": {
     "monthlyBill": "Biaya bulanan",
+    "monthlyUsage": "Monthly Usage",
     "connectionPower": "Daya",
     "location": "Lokasi / Penyinaran",
     "priority": "Prioritas",
     "priorityMoney": "\uD83D\uDCB0 Uang",
     "priorityEarth": "CO₂ \uD83C\uDF0F",
     "expertMode": {
+      "title": {
+        "plnSettings": "PLN Settings",
+        "systemSettings": "PLTS System settings",
+        "appSettings": "App settings"
+      },
       "lowTariff": "Low Tariff",
       "highTariff": "High Tariff",
       "lowTariffThreshold": "Threshold",
@@ -61,11 +65,14 @@
       "priceOfInverterFactor": "Inverter price as % of total",
       "priceOfInverterAbsolute": "Inverter price",
       "capacityLossRate": "Capacity loss per year",
-      "kiloWattPeakPerPanel": "kWp per panel",
-      "areaPerPanel": "Area per panel",
+      "kiloWattPeakPerPanel": "kWp / panel",
+      "areaPerPanel": "Luas bidang / panel",
       "lossFromInverter": "Inverter efficiency",
       "inverterPrice": "Inverter price",
-      "installationCosts": "Installation costs"
+      "installationCosts": "Installation costs",
+      "inverterLifeTime": "Inverter lifetime in years",
+      "priorityEnabled": "Priority enabled",
+      "usageType": "Usage expressed in"
     }
   },
   "roiTable" : {

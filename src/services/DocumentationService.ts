@@ -20,6 +20,8 @@ import RoiExplanationEn from '../assets/documentation/en/results/RoiExplanation.
 import RoiExplanationId from '../assets/documentation/id/results/RoiExplanation.md'
 import PriorityEn from '../assets/documentation/en/inputform/Priority.md'
 import PriorityId from '../assets/documentation/id/inputform/Priority.md'
+import PlnSettingsEn from '../assets/documentation/en/expert/PLNSettings.md'
+import PlnSettingsId from '../assets/documentation/id/expert/PLNSettings.md'
 import { LimitingFactor } from './CalculationService'
 
 export enum Documentation {
@@ -33,7 +35,8 @@ export enum Documentation {
   AreaRequired,
   MinimalPayment,
   RoiExplanation,
-  Priority
+  Priority,
+  PlnSettings
 }
 
 export enum Locale {
@@ -54,6 +57,7 @@ function getIndonesian(doc: Documentation): string {
     case Documentation.Location: return LocationId.body
     case Documentation.RoiExplanation: return RoiExplanationId.body
     case Documentation.Priority: return PriorityId.body
+    case Documentation.PlnSettings: return PlnSettingsId.body
   }
 }
 
@@ -70,7 +74,7 @@ function getEnglish(doc: Documentation): string {
     case Documentation.Location: return LocationEn.body
     case Documentation.RoiExplanation: return RoiExplanationEn.body
     case Documentation.Priority: return PriorityEn.body
-
+    case Documentation.PlnSettings: return PlnSettingsEn.body
   }
 }
 

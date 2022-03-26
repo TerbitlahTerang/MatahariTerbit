@@ -42,12 +42,18 @@
   },
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
+    "monthlyUsage": "Monthly Usage",
     "connectionPower": "Connection Power",
     "location": "Location / Irradiation",
     "priority": "Priority",
     "priorityMoney": "\uD83D\uDCB0 Money",
     "priorityEarth": "CO₂ \uD83C\uDF0F",
     "expertMode": {
+      "title": {
+        "plnSettings": "PLN Settings",
+        "systemSettings": "Solar System settings",
+        "appSettings": "App settings"
+      },
       "lowTariff": "Low Tariff",
       "highTariff": "High Tariff",
       "lowTariffThreshold": "Threshold",
@@ -63,7 +69,10 @@
       "areaPerPanel": "Area per panel",
       "lossFromInverter": "Inverter efficiency",
       "inverterPrice": "Inverter price",
-      "installationCosts": "Installation costs"
+      "installationCosts": "Installation costs",
+      "inverterLifeTime": "Inverter lifetime in years",
+      "priorityEnabled": "Priority enabled",
+      "usageType": "Usage expressed in"
     }
   },
   "roiTable": {

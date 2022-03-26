@@ -57,3 +57,18 @@ export const formatDigits = (value: string | number | undefined, digits: number 
   const amount = value === undefined ? 0 : +value
   return Intl.NumberFormat(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(amount)
 }
+
+export const formatKwh = (value: string | number | undefined): string => {
+  const amount = +`${value ?? 0}`
+  return `kWh ${Math.round(amount)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+export const parseKwh = (value: string | number | undefined): number => {
+  if (value === undefined) {
+    return 0
+  }
+  if (typeof value === 'string') {
+    return +value.replace(/kWh\s?|(,*)/g, '')
+  }
+  return value
+}

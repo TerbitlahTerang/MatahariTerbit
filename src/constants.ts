@@ -19,6 +19,11 @@ export enum InverterPrice {
   Relative = 'Relative'
 }
 
+export enum MonthlyUsage {
+  Rupiah = 'Rupiah',
+  KWh = 'KWh'
+}
+
 export const powerOptions: PowerOption[] = [
   { name: '450 VA', value: 450 },
   { name: '900 VA', value: 900 },
@@ -55,8 +60,9 @@ export interface PriceSettings {
   priceOfInverterFactor: number,
   priceOfInverterAbsolute: number,
   installationCosts: number,
-  capacityLossRate: number
-  inverterPrice: InverterPrice
+  capacityLossRate: number,
+  inverterPrice: InverterPrice,
+  monthlyUsageType: MonthlyUsage
 }
 
 export interface CalculatorSettings {
@@ -67,12 +73,13 @@ export interface CalculatorSettings {
   kiloWattPeakPerPanel: number,
   kiloWattHourPerYearPerKWp: number,
   lossFromInverter: number,
+  priorityEnabled: boolean
 }
 
 
 export const CALCULATOR_SETTINGS : CalculatorSettings = {
   plnSettings: {
-    lowTariff: 1352,
+    lowTariff: 1300,
     highTariff: 1444.70,
     lowTariffThreshold: 1300,
     energyTax : 0.1 + 0.05, //PPN + PPJ
@@ -86,7 +93,8 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
     priceOfInverterAbsolute: 8000000,
     installationCosts: 0,
     capacityLossRate: 0.0075,
-    inverterPrice: InverterPrice.Relative
+    inverterPrice: InverterPrice.Relative,
+    monthlyUsageType: MonthlyUsage.Rupiah
   },
   areaPerPanel: 2,
   inverterLifetimeInYears: 9,
@@ -95,11 +103,13 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
   kiloWattPeakPerPanel: 0.450,
   kiloWattHourPerYearPerKWp: 1732,
   // Based on https://globalsolaratlas.info PVOUT vs Annual average
-  lossFromInverter: 0.9628
+  lossFromInverter: 0.9628,
+  priorityEnabled: true
 }
 
 export const INITIAL_INPUT_DATA: InitialInputData = {
   monthlyCostEstimateInRupiah: 1000000,
+  monthlyUsageInKwh: 1000,
   connectionPower: 7700,
   location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' },
   optimizationTarget: OptimizationTarget.Money,
