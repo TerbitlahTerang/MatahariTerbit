@@ -83,7 +83,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const [priorityEnabled, setPriorityEnabled] = useQueryParam('priorityEnabled', withDefault(BooleanParam, calcSettings.priorityEnabled))
   const [monthlyUsageType, setMonthlyUsageType] = useQueryParam('monthlyUsageType', withDefault(createEnumParam(Object.values(MonthlyUsage)), priceSettings.monthlyUsageType))
 
-
   const [lowTariff, setLowTariff] = useQueryParam('lowTariff', withDefault(NumberParam, plnSettings.lowTariff))
   const [highTariff, setHighTariff] = useQueryParam('highTariff', withDefault(NumberParam, plnSettings.highTariff))
   const [energyTax, setEnergyTax] = useQueryParam('energyTax', withDefault(NumberParam, plnSettings.energyTax))
@@ -109,13 +108,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
     <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
       const monthlyBill = form.getFieldValue('monthlyBill')
       const monthlyUsageInKwh = form.getFieldValue('monthlyUsageInKwh')
+
       const connectionPower = form.getFieldValue('connectionPower')
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
       const targetValue = form.getFieldValue('optimizationTarget')
       const optimizationTarget = targetValue === undefined || targetValue ? OptimizationTarget.Money : OptimizationTarget.Green
 
-      const calculatorSettings: CalculatorSettings = props.expertMode ?  {
+      const calculatorSettings: CalculatorSettings = {
         plnSettings: {
           lowTariff,
           highTariff,
@@ -140,7 +140,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         inverterLifetimeInYears: CALCULATOR_SETTINGS.inverterLifetimeInYears,
         kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp,
         priorityEnabled
-      } : CALCULATOR_SETTINGS
+      }
 
       props.onChange({
         monthlyCostEstimateInRupiah: monthlyBill,
