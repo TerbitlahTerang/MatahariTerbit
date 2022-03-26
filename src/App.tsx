@@ -48,6 +48,9 @@ export const App: React.FunctionComponent = () => {
   }
 
   const handleScroll: React.MouseEventHandler<HTMLElement> = (e) => {
+    if ((e.target as HTMLInputElement).tagName !== 'SPAN')
+      return
+
     const moveTo = (ev: EventTarget & HTMLElement) => {
       return function () {
         const y = ev.getBoundingClientRect().top + window.scrollY + -5
