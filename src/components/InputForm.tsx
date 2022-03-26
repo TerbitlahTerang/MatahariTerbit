@@ -99,6 +99,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const [lossFromInverter, setLossFromInverter] = useQueryParam('lossFromInverter', withDefault(NumberParam, calcSettings.lossFromInverter))
 
   const [inverterPrice, setInverterPrice] = useQueryParam('inverterPrice', withDefault(createEnumParam(Object.values(InverterPrice)), priceSettings.inverterPrice))
+  const [inverterLifetimeInYears, setInverterLifetimeInYears] = useQueryParam('inverterLifetimeInYears', withDefault(NumberParam, calcSettings.inverterLifetimeInYears))
   const [priceOfInverterFactor, setPriceOfInverterFactor] = useQueryParam('priceOfInverterFactor', withDefault(NumberParam, priceSettings.priceOfInverterFactor))
   const [priceOfInverterAbsolute, setPriceOfInverterAbsolute] = useQueryParam('priceOfInverterAbsolute', withDefault(NumberParam, priceSettings.priceOfInverterAbsolute))
   const [installationCosts, setInstallationCosts] = useQueryParam('installationCosts', withDefault(NumberParam, priceSettings.installationCosts))
@@ -137,7 +138,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         kiloWattPeakPerPanel,
         areaPerPanel,
         lossFromInverter,
-        inverterLifetimeInYears: CALCULATOR_SETTINGS.inverterLifetimeInYears,
+        inverterLifetimeInYears,
         kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp,
         priorityEnabled
       }
@@ -421,6 +422,19 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               parser={parseRupiah}
               step={100000}
               onChange={setInstallationCosts}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={6}>
+          <Form.Item name="inverterLifetime" label={t('inputForm.expertMode.inverterLifeTime')}
+            initialValue={inverterLifetimeInYears}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={inverterLifetimeInYears}
+              formatter={(value) => formatDigits(value, 1, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={1}
+              onChange={setInverterLifetimeInYears}
             />
           </Form.Item>
         </Col>

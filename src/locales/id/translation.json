@@ -70,6 +70,7 @@
       "lossFromInverter": "Inverter efficiency",
       "inverterPrice": "Inverter price",
       "installationCosts": "Installation costs",
+      "inverterLifeTime": "Inverter lifetime in years",
       "priorityEnabled": "Priority enabled",
       "usageType": "Usage expressed in"
     }
