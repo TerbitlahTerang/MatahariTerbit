@@ -73,7 +73,7 @@ export interface CalculatorSettings {
 
 export const CALCULATOR_SETTINGS : CalculatorSettings = {
   plnSettings: {
-    lowTariff: 1352,
+    lowTariff: 1300,
     highTariff: 1444.70,
     lowTariffThreshold: 1300,
     energyTax : 0.1 + 0.05, //PPN + PPJ

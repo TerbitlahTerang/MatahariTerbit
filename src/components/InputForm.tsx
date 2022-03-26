@@ -194,234 +194,233 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       >
         <MapPicker/>
       </Form.Item>
-      {props.expertMode && <><Divider orientation="left">PLN Settings</Divider>
-        <Row gutter={16}>
-          <Col xs={24} sm={8}>
-            <Form.Item name="lowTariff" label={t('inputForm.expertMode.lowTariff')}
-              initialValue={lowTariff}
+      {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
+        onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>
+      <Row gutter={16}>
+        <Col xs={24} sm={8}>
+          <Form.Item name="lowTariff" label={t('inputForm.expertMode.lowTariff')}
+            initialValue={lowTariff}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={lowTariff}
+              formatter={formatRupiah}
+              parser={parseRupiah}
+              onChange={setLowTariff}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="highTariff" label={t('inputForm.expertMode.highTariff')}
+            initialValue={highTariff}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={highTariff}
+              formatter={formatRupiah}
+              parser={parseRupiah}
+              onChange={setHighTariff}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="lowTariffThreshold" label={t('inputForm.expertMode.lowTariffThreshold')}
+            initialValue={lowTariffThreshold}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={lowTariffThreshold}
+              onChange={setLowTariffThreshold}
+            />
+          </Form.Item>
+        </Col>
+      </Row><Row gutter={16}>
+        <Col xs={24} sm={4}>
+          <Form.Item name="energyTax" label={t('inputForm.expertMode.energyTax')}
+            initialValue={energyTax}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={energyTax}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              onChange={setEnergyTax}
+              step={0.01}/>
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={10}>
+          <Form.Item name="minimalMonthlyConsumptionHours"
+            label={t('inputForm.expertMode.minimalMonthlyConsumptionHours')}
+            initialValue={minimalMonthlyConsumptionHours}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={minimalMonthlyConsumptionHours}
+              onChange={setMinimalMonthlyConsumptionHours}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={10}>
+          <Form.Item name="minimalMonthlyConsumptionPrice"
+            label={t('inputForm.expertMode.minimalMonthlyConsumptionPrice')}
+            initialValue={minimalMonthlyConsumptionPrice}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={minimalMonthlyConsumptionPrice}
+              onChange={setMinimalMonthlyConsumptionPrice}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Divider orientation="left">{t('inputForm.expertMode.title.systemSettings')}</Divider>
+      <Row gutter={16}>
+        <Col xs={24} sm={6}>
+          <Form.Item name="pricePerPanel" label={t('inputForm.expertMode.pricePerPanel')}
+            initialValue={pricePerPanel}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={pricePerPanel}
+              formatter={formatRupiah}
+              parser={parseRupiah}
+              step={100000}
+              onChange={setPricePerPanel}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="electricityPriceInflationRate"
+            label={t('inputForm.expertMode.electricityPriceInflationRate')}
+            initialValue={electricityPriceInflationRate}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={electricityPriceInflationRate}
+              formatter={(value) => formatPercentage(value, i18n.language, 2)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.01}
+              onChange={setElectricityPriceInflationRate}
+            />
+          </Form.Item>
+        </Col>
+      </Row><Row gutter={16}>
+        <Col xs={24} sm={6}>
+          <Form.Item name="kiloWattPeakPerPanel" label={t('inputForm.expertMode.kiloWattPeakPerPanel')}
+            initialValue={kiloWattPeakPerPanel}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={kiloWattPeakPerPanel}
+              formatter={(value) => formatDigits(value, 3, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              onChange={setKiloWattPeakPerPanel}
+              step={0.01}/>
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={6}>
+          <Form.Item name="areaPerPanel" label={t('inputForm.expertMode.areaPerPanel')}
+            initialValue={areaPerPanel}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={areaPerPanel}
+              formatter={(value) => formatDigits(value, 2, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={0.1}
+              onChange={setAreaPerPanel}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={6}>
+          <Form.Item name="lossFromInverter" label={t('inputForm.expertMode.lossFromInverter')}
+            initialValue={lossFromInverter}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={lossFromInverter}
+              formatter={(value) => formatDigits(value, 4, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={0.1}
+              onChange={setLossFromInverter}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={6}>
+          <Form.Item name="capacityLossRate" label={t('inputForm.expertMode.capacityLossRate')}
+            initialValue={capacityLossRate}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={capacityLossRate}
+              formatter={(value) => formatPercentage(value, i18n.language, 2)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.001}
+              onChange={setCapacityLossRate}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col xs={24} sm={4}>
+          <Form.Item name="inverterPrice" valuePropName="checked" initialValue={inverterPrice === InverterPrice.Relative}
+            label={t('inputForm.expertMode.inverterPrice')}>
+            <Switch
+              checkedChildren={InverterPrice.Relative}
+              unCheckedChildren={InverterPrice.Absolute}
+              defaultChecked={inverterPrice === InverterPrice.Relative}
+              onChange={(newValue) => setInverterPrice(newValue ? InverterPrice.Relative : InverterPrice.Absolute)}
+            />
+          </Form.Item>
+        </Col>
+        { inverterPrice === InverterPrice.Absolute ?
+          <Col xs={24} sm={6}>
+            <Form.Item name="priceOfInverterAbsolute" label={t('inputForm.expertMode.priceOfInverterAbsolute')}
+              initialValue={priceOfInverterAbsolute}
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={lowTariff}
+                defaultValue={priceOfInverterAbsolute}
                 formatter={formatRupiah}
                 parser={parseRupiah}
-                onChange={setLowTariff}
+                step={100000}
+                onChange={setPriceOfInverterAbsolute}
               />
             </Form.Item>
-          </Col>
+          </Col> :
           <Col xs={24} sm={8}>
-            <Form.Item name="highTariff" label={t('inputForm.expertMode.highTariff')}
-              initialValue={highTariff}
+            <Form.Item name="priceOfInverterFactor" label={t('inputForm.expertMode.priceOfInverterFactor')}
+              initialValue={priceOfInverterFactor}
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={highTariff}
-                formatter={formatRupiah}
-                parser={parseRupiah}
-                onChange={setHighTariff}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={8}>
-            <Form.Item name="lowTariffThreshold" label={t('inputForm.expertMode.lowTariffThreshold')}
-              initialValue={lowTariffThreshold}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={lowTariffThreshold}
-                onChange={setLowTariffThreshold}
-              />
-            </Form.Item>
-          </Col>
-        </Row><Row gutter={16}>
-          <Col xs={24} sm={4}>
-            <Form.Item name="energyTax" label={t('inputForm.expertMode.energyTax')}
-              initialValue={energyTax}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={energyTax}
+                defaultValue={priceOfInverterFactor}
                 formatter={(value) => formatPercentage(value, i18n.language)}
                 parser={(displayValue) => parsePercentage(displayValue)}
-                onChange={setEnergyTax}
-                step={0.01}/>
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={10}>
-            <Form.Item name="minimalMonthlyConsumptionHours"
-              label={t('inputForm.expertMode.minimalMonthlyConsumptionHours')}
-              initialValue={minimalMonthlyConsumptionHours}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={minimalMonthlyConsumptionHours}
-                onChange={setMinimalMonthlyConsumptionHours}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={10}>
-            <Form.Item name="minimalMonthlyConsumptionPrice"
-              label={t('inputForm.expertMode.minimalMonthlyConsumptionPrice')}
-              initialValue={minimalMonthlyConsumptionPrice}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={minimalMonthlyConsumptionPrice}
-                onChange={setMinimalMonthlyConsumptionPrice}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Divider orientation="left">PLTS System settings</Divider>
-        <Row gutter={16}>
-          <Col xs={24} sm={6}>
-            <Form.Item name="pricePerPanel" label={t('inputForm.expertMode.pricePerPanel')}
-              initialValue={pricePerPanel}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={pricePerPanel}
-                formatter={formatRupiah}
-                parser={parseRupiah}
-                step={100000}
-                onChange={setPricePerPanel}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={8}>
-            <Form.Item name="electricityPriceInflationRate"
-              label={t('inputForm.expertMode.electricityPriceInflationRate')}
-              initialValue={electricityPriceInflationRate}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={electricityPriceInflationRate}
-                formatter={(value) => formatPercentage(value, i18n.language, 2)}
-                parser={(displayValue) => parsePercentage(displayValue)}
                 step={0.01}
-                onChange={setElectricityPriceInflationRate}
+                onChange={setPriceOfInverterFactor}
               />
             </Form.Item>
           </Col>
-        </Row><Row gutter={16}>
-          <Col xs={24} sm={6}>
-            <Form.Item name="kiloWattPeakPerPanel" label={t('inputForm.expertMode.kiloWattPeakPerPanel')}
-              initialValue={kiloWattPeakPerPanel}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={kiloWattPeakPerPanel}
-                formatter={(value) => formatDigits(value, 3, i18n.language)}
-                parser={(displayValue) => parseNumber(displayValue)}
-                onChange={setKiloWattPeakPerPanel}
-                step={0.01}/>
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={6}>
-            <Form.Item name="areaPerPanel" label={t('inputForm.expertMode.areaPerPanel')}
-              initialValue={areaPerPanel}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={areaPerPanel}
-                formatter={(value) => formatDigits(value, 2, i18n.language)}
-                parser={(displayValue) => parseNumber(displayValue)}
-                step={0.1}
-                onChange={setAreaPerPanel}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={6}>
-            <Form.Item name="lossFromInverter" label={t('inputForm.expertMode.lossFromInverter')}
-              initialValue={lossFromInverter}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={lossFromInverter}
-                formatter={(value) => formatDigits(value, 4, i18n.language)}
-                parser={(displayValue) => parseNumber(displayValue)}
-                step={0.1}
-                onChange={setLossFromInverter}
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} sm={6}>
-            <Form.Item name="capacityLossRate" label={t('inputForm.expertMode.capacityLossRate')}
-              initialValue={capacityLossRate}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={capacityLossRate}
-                formatter={(value) => formatPercentage(value, i18n.language, 2)}
-                parser={(displayValue) => parsePercentage(displayValue)}
-                step={0.001}
-                onChange={setCapacityLossRate}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col xs={24} sm={4}>
-            <Form.Item name="inverterPrice" valuePropName="checked" initialValue={inverterPrice === InverterPrice.Relative}
-              label={t('inputForm.expertMode.inverterPrice')}>
-              <Switch
-                checkedChildren={InverterPrice.Relative}
-                unCheckedChildren={InverterPrice.Absolute}
-                defaultChecked={inverterPrice === InverterPrice.Relative}
-                onChange={(newValue) => setInverterPrice(newValue ? InverterPrice.Relative : InverterPrice.Absolute)}
-              />
-            </Form.Item>
-          </Col>
-          { inverterPrice === InverterPrice.Absolute ?
-            <Col xs={24} sm={6}>
-              <Form.Item name="priceOfInverterAbsolute" label={t('inputForm.expertMode.priceOfInverterAbsolute')}
-                initialValue={priceOfInverterAbsolute}
-              >
-                <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                  defaultValue={priceOfInverterAbsolute}
-                  formatter={formatRupiah}
-                  parser={parseRupiah}
-                  step={100000}
-                  onChange={setPriceOfInverterAbsolute}
-                />
-              </Form.Item>
-            </Col> :
-            <Col xs={24} sm={8}>
-              <Form.Item name="priceOfInverterFactor" label={t('inputForm.expertMode.priceOfInverterFactor')}
-                initialValue={priceOfInverterFactor}
-              >
-                <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                  defaultValue={priceOfInverterFactor}
-                  formatter={(value) => formatPercentage(value, i18n.language)}
-                  parser={(displayValue) => parsePercentage(displayValue)}
-                  step={0.01}
-                  onChange={setPriceOfInverterFactor}
-                />
-              </Form.Item>
-            </Col>
-          }
-          <Col xs={24} sm={6}>
-            <Form.Item name="installationCosts" label={t('inputForm.expertMode.installationCosts')}
-              initialValue={installationCosts}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={installationCosts}
-                formatter={formatRupiah}
-                parser={parseRupiah}
-                step={100000}
-                onChange={setInstallationCosts}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Divider orientation="left">App settings</Divider>
-        <Row>
-          <Col xs={24} sm={12} style={{ fontSize : 16 }}>
+        }
+        <Col xs={24} sm={6}>
+          <Form.Item name="installationCosts" label={t('inputForm.expertMode.installationCosts')}
+            initialValue={installationCosts}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={installationCosts}
+              formatter={formatRupiah}
+              parser={parseRupiah}
+              step={100000}
+              onChange={setInstallationCosts}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Divider orientation="left">{t('inputForm.expertMode.title.appSettings')}</Divider>
+      <Row>
+        <Col xs={24} sm={12} style={{ fontSize : 16 }}>
             Share settings<br/> <a href={createLink()} target='_blank' ><ShareAltOutlined /></a>&nbsp;
-            <a href={createFacebookLink()} target='_blank'><FacebookOutlined  /></a>&nbsp;
-            <a href={createTwitterLink()} target='_blank'><TwitterOutlined  /></a>&nbsp;
-            <a href={createLinkedinLink()} target='_blank'><LinkedinOutlined  /></a>
-          </Col>
-          <Col xs={24} sm={12} >
-            <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={priorityEnabled}
-              label={t('inputForm.expertMode.priorityEnabled')}>
-              <Switch
-                checkedChildren='Enabled'
-                unCheckedChildren='Disabled'
-                defaultChecked={priorityEnabled}
-                onChange={(newValue) => setPriorityEnabled(newValue)}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
+          <a href={createFacebookLink()} target='_blank'><FacebookOutlined  /></a>&nbsp;
+          <a href={createTwitterLink()} target='_blank'><TwitterOutlined  /></a>&nbsp;
+          <a href={createLinkedinLink()} target='_blank'><LinkedinOutlined  /></a>
+        </Col>
+        <Col xs={24} sm={12} >
+          <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={priorityEnabled}
+            label={t('inputForm.expertMode.priorityEnabled')}>
+            <Switch
+              defaultChecked={priorityEnabled}
+              onChange={(newValue) => setPriorityEnabled(newValue)}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
       </>
       }
     </Form>

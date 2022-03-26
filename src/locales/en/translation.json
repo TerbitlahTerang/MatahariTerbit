@@ -48,6 +48,11 @@
     "priorityMoney": "\uD83D\uDCB0 Money",
     "priorityEarth": "CO₂ \uD83C\uDF0F",
     "expertMode": {
+      "title": {
+        "plnSettings": "PLN Settings",
+        "systemSettings": "Solar System settings",
+        "appSettings": "App settings"
+      },
       "lowTariff": "Low Tariff",
       "highTariff": "High Tariff",
       "lowTariffThreshold": "Threshold",
