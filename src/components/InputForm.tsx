@@ -101,7 +101,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const connectionPower = form.getFieldValue('connectionPower')
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
-      const optimizationTarget = form.getFieldValue('optimizationTarget') ? OptimizationTarget.Money : OptimizationTarget.Green
+      const targetValue = form.getFieldValue('optimizationTarget')
+      const optimizationTarget = targetValue === undefined || targetValue ? OptimizationTarget.Money : OptimizationTarget.Green
 
       const calculatorSettings: CalculatorSettings = props.expertMode ?  {
         plnSettings: {
