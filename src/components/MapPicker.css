@@ -34,6 +34,7 @@
 }
 
 .map-picker-address {
+  cursor: pointer;
   flex: 1;
   width: 0;
   display: block;

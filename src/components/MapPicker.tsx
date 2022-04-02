@@ -59,7 +59,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
   return (
     <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
       <div className="ant-input map-picker-header">
-        <div className="map-picker-address" onClick={() => { setCollapsed(false) }}>
+        <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
           {mapState.address ?? 'Choose your address ...'}
         </div>
         {mapState.info && (<div className="map-picker-irradiation">{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div>)}
@@ -73,7 +73,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
       </div>
       <div className="map-picker-view">
         <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-          options={{ mapTypeControl: true }}
+          options={{ mapTypeControl: true, mapTypeId: 'satellite' }}
           yesIWantToUseGoogleMapApiInternals
           onChildMouseDown={onMouseDrag}
           onChildMouseUp={() => { setDraggable(true) }}
