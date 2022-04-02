@@ -38,6 +38,11 @@ body {
 .ant-col-9, .ant-col-12, .ant-col-13, .ant-col-14, .ant-col-4 {
     text-align: right;
 }
+.total {
+    border-top-color: black;
+    border-top-style: solid;
+    font-weight: bold;
+}
 
 .app-nav {
     width: 100%;

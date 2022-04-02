@@ -82,11 +82,14 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         <Col span={15}>{t('resultTable.remainingMonthlyCosts')}&nbsp;
           <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.MinimalPayment,t('resultTable.remainingMonthlyCosts'))}/>
         </Col>
-        <Col span={9}>{formatRupiah(results.remainingMonthlyCosts)}</Col>
+        <Col span={9}>- {formatRupiah(results.remainingMonthlyCosts)}</Col>
       </Row>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.monthlyProfit')}</Col>
-        <Col span={9}>{formatRupiah(results.monthlyProfit)}</Col>
+        <Col span={9} className='total'>{formatRupiah(results.monthlyProfit)}</Col>
+      </Row>
+      <Row gutter={12}>
+        <Col span={24} >&nbsp;</Col>
       </Row>
       <Row gutter={12}>
         <Col span={15}>{t('resultTable.yearlyProfit')}</Col>
@@ -97,6 +100,9 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
           <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.RoiExplanation,t('resultTable.breakEven'))}/>
         </Col>
         <Col span={13}>{t('resultTable.breakEvenExplanation', { breakEven })}</Col>
+      </Row>
+      <Row gutter={12}>
+        <Col span={24} />
       </Row>
     </div>
   )
