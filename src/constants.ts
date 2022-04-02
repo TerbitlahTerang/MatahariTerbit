@@ -2,7 +2,7 @@ import { InputData } from './components/InputForm'
 import { MapState } from './util/mapStore'
 
 export const GOOGLE_MAPS_KEY = 'AIzaSyA191Lgk8nZhKo4E81LbtwUHCz7-wl3Ea0'
-export const DEFAULT_ZOOM = 6
+export const DEFAULT_ZOOM = 16
 
 export interface PowerOption {
   name: string
