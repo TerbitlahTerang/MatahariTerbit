@@ -13,6 +13,7 @@ import {
   Code
 } from 'native-base'
 import NativeBaseIcon from './components/NativeBaseIcon'
+import { InputForm } from './components/InputForm'
 
 // Define the config
 const config = {
@@ -36,7 +37,7 @@ export default function App() {
         flex={1}
       >
         <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
+          <InputForm />
           <Heading size="lg">Welcome to NativeBase</Heading>
           <HStack space={2} alignItems="center">
             <Text>Edit</Text>
