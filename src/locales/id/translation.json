@@ -5,10 +5,12 @@
     "next": "Selanjutnya",
     "prev": "Kembali",
     "information": {
-      "title": "Informasi Anda"
+      "title": "Informasi Anda",
+      "button": "Hitung"
     },
     "characteristics": {
-      "title": "Sistem Solar Panel"
+      "title": "Sistem Solar Panel",
+      "button": "Keekonomian"
     },
     "roi": {
       "title": "Penghasilan"

@@ -93,7 +93,7 @@ export const App: React.FunctionComponent = () => {
                                                   onClick={() => {
                                                     setCurrent(1)
                                                   }}>
-                                                    Calculate
+                                                  {t('wizard.information.button')}
                                                   <Icon component={() => (<SolarPanelIcon/>)}/>
                                                 </Button>}
                 </div>}/>
@@ -110,7 +110,7 @@ export const App: React.FunctionComponent = () => {
                     onClick={() => {
                       setCurrent(2)
                     }}>
-                                        Calculate
+                    {t('wizard.characteristics.button')}
                     <DollarOutlined/>
                   </Button>}
                 </div>}

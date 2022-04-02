@@ -4,11 +4,14 @@
   "wizard": {
     "next": "Continue",
     "prev": "Back",
+    "calculate": "Calculate",
     "information": {
-      "title": "Your Information"
+      "title": "Your Information",
+      "button": "Calculate"
     },
     "characteristics": {
-      "title": "Solar Panel System"
+      "title": "Solar Panel System",
+      "button": "Next"
     },
     "roi": {
       "title": "Financials"
