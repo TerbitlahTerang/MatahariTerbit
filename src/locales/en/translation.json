@@ -11,7 +11,7 @@
       "title": "Solar Panel System"
     },
     "roi": {
-      "title": "Return on Investment"
+      "title": "Financials"
     }
   },
   "resultTable": {
@@ -25,7 +25,7 @@
     "recommendedPanels": "Recommended # of Panels",
     "areaRequired": "Area required",
     "monthlyProduction": "Monthly Production",
-    "monthlyConsumption": "Monthly Consumption",
+    "monthlyConsumption": "Minimal monthly Consumption",
     "remainingMonthlyCosts": "Remaining monthly bill",
     "currentMonthlyCosts": "Current monthly bill",
     "monthlyProfit": "Monthly result from panels",
@@ -35,6 +35,7 @@
     "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months"
   },
   "chart": {
+    "heading": "Return on Investment",
     "labelYear": "Year",
     "labelProfit": "Profit in Rp.",
     "tooltipTitle": "Year {{year}}",

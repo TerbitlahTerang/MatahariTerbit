@@ -14,6 +14,7 @@ import { Documentation } from './services/DocumentationService'
 import { InfoPane } from './components/InfoPane'
 import { useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
+import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -125,6 +126,8 @@ export const App: React.FunctionComponent = () => {
               }
               subTitle={
                 <div className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
+                  <FinancialResultBreakdown results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} />
+                  <Divider orientation="left">{t('chart.heading')}</Divider>
                   <ROIChart yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
                   <Divider orientation="left">{t('roiTable.title')}</Divider>
                   <div>&nbsp;</div>

@@ -35,6 +35,7 @@
     "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan"
   },
   "chart": {
+    "heading": "Pengembalian investasi",
     "labelYear": "Tahun",
     "labelProfit": "Keuntungan Rp.",
     "tooltipTitle": "Tahun {{year}}",
