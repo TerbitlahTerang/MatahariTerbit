@@ -73,7 +73,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
       </div>
       <div className="map-picker-view">
         <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-          options={{ mapTypeControl: true }}
+          options={{ mapTypeControl: true, mapTypeId: 'satellite' }}
           yesIWantToUseGoogleMapApiInternals
           onChildMouseDown={onMouseDrag}
           onChildMouseUp={() => { setDraggable(true) }}
