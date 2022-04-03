@@ -1,19 +1,7 @@
 import React from 'react'
-import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code
-} from 'native-base'
-import NativeBaseIcon from './components/NativeBaseIcon'
-import { InputForm } from './components/InputForm'
+import { extendTheme, HStack, Switch, Text, useColorMode, View } from 'native-base'
+import WebView from 'react-native-webview'
+import { Platform } from 'react-native'
 
 // Define the config
 const config = {
@@ -25,51 +13,16 @@ const config = {
 export const theme = extendTheme({ config })
 type MyThemeType = typeof theme
 declare module 'native-base' {
-  interface ICustomTheme extends MyThemeType {}
+  interface ICustomTheme extends MyThemeType {
+  }
 }
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <Center
-        _dark={{ bg: 'blueGray.900' }}
-        _light={{ bg: 'blueGray.50' }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <InputForm />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Code>App.tsx</Code>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={'xl'}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
-    </NativeBaseProvider>
-  )
-}
-
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode()
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === 'light'}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === 'light' ? 'switch to dark mode' : 'switch to light mode'
-        }
+    (Platform.OS === 'web' ? <iframe src="https://matahariterbit.web.app/" height={896} width={414}/> :
+      <View style={{ flex: 1 }}>:<WebView originWhitelist={['*']}
+        source={{ uri: 'https://matahariterbit.web.app/', baseUrl: '' }}
+        style={{ flex: 1, height: 2 }}
       />
-      <Text>Light</Text>
-    </HStack>
+      </View>)
   )
 }
