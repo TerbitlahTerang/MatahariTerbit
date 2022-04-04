@@ -12,7 +12,7 @@ import { INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData, ResultData } from './services/CalculationService'
 import { Documentation } from './services/DocumentationService'
 import { InfoPane } from './components/InfoPane'
-import { useQueryParam } from 'use-query-params'
+import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
 
@@ -28,6 +28,7 @@ export const App: React.FunctionComponent = () => {
   const [documentationTitle, setDocumentationTitle] = useState<String | null>(null)
 
   const [expertMode] = useQueryParam('expertMode', BooleanParam)
+  const [language] = useQueryParam('lng', StringParam)
 
 
   const closeDocumentation = () => {
@@ -66,13 +67,15 @@ export const App: React.FunctionComponent = () => {
       <nav className="app-nav">
         <div className="app-nav-logo"><Logo width={40} height={40} viewBox="0 0 32 32"/></div>
         <Typography.Title ellipsis>{t('title')}</Typography.Title>
-        <div className="app-nav-extra">
-          <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false}
-            style={{ color: '#FFFFFF' }} size="large">
-            <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
-            <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
-          </Select>
-        </div>
+        { language ? (<></>) :
+          (<div className="app-nav-extra">
+            <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false}
+              style={{ color: '#FFFFFF' }} size="large">
+              <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
+              <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
+            </Select>
+          </div>)
+        }
       </nav>
       <Drawer title={(<div><InfoCircleOutlined size={24}/> {documentationTitle}</div>)} visible={documentation !== null} onClose={closeDocumentation} width={window.innerWidth > 900 ? '40%' : '82%'} >
         <InfoPane documentation={documentation!}/>
