@@ -165,7 +165,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
                 formatter={formatRupiah}
                 parser={parseRupiah}
-                step={100000}/>
+                step={100000} inputMode="numeric"/>
             </Form.Item>) : (<Form.Item name="monthlyUsageInKwh" label={t('inputForm.monthlyUsage')}
               initialValue={init.monthlyUsageInKwh}
             >
