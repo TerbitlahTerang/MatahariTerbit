@@ -30,7 +30,6 @@ export const App: React.FunctionComponent = () => {
   const [expertMode] = useQueryParam('expertMode', BooleanParam)
   const [language] = useQueryParam('lng', StringParam)
 
-
   const closeDocumentation = () => {
     setDocumentation(null)
     setDocumentationTitle(null)
