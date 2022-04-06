@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultTableProps } from './ResultTable'
 import { Col, Divider, Row } from 'antd'
-import { formatRupiah } from './Formatters'
+import { formatRupiah } from '../services/Formatters'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
 

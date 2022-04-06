@@ -5,7 +5,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
 import i18n from '../i18n'
 import { MapState, mapStore } from '../util/mapStore'
-import { formatNumber } from './Formatters'
+import { formatNumber } from '../services/Formatters'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
 

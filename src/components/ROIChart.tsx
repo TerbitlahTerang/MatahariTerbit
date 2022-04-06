@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js'
 import { useTranslation } from 'react-i18next'
 import { ReturnOnInvestment } from '../services/CalculationService'
-import { formatRupiah } from './Formatters'
+import { formatRupiah } from '../services/Formatters'
 
 export interface ROIChartProps {
   yearly: ReturnOnInvestment[]
