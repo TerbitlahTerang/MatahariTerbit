@@ -17,13 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sjappelodorus.MatahariTerbit"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
-      }
+      },
+      "package": "com.sjappelodorus.MatahariTerbit"
     },
     "web": {
       "favicon": "./assets/favicon.png"
