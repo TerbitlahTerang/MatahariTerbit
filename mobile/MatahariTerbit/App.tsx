@@ -15,10 +15,11 @@ export default function App() {
 
 
   const langOnly = deviceLanguage.split('_')[0]
+  const baseUrl = 'https://matahariterbit--pr72-feature-71-improved-u4vtksnw.web.app/'
   return (
-    Platform.OS === 'web' ? <iframe src="https://matahariterbit.web.app/" height={896} width={414}/> :
+    Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor='#1890ff'><WebView originWhitelist={['*']}
-        source={{ uri: `https://matahariterbit.web.app?lng=${langOnly}&priorityEnabled=0`, baseUrl: '' }}
+        source={{ uri: `${baseUrl}?lng=${langOnly}&priorityEnabled=0`, baseUrl: '' }}
         style={{ flex: 1, height: 2 }}
       />
       </View></NativeBaseProvider>
