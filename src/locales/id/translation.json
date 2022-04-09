@@ -10,10 +10,10 @@
     },
     "characteristics": {
       "title": "Sistem Solar Panel",
-      "button": "Keekonomian"
+      "button": "Finansial"
     },
     "roi": {
-      "title": "Penghasilan"
+      "title": "Perhitungan Finansial"
     }
   },
   "resultTable": {
