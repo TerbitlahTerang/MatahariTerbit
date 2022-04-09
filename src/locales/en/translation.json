@@ -25,7 +25,8 @@
       "Consumption": "Electricity consumption",
       "MinimumPayment": "Minimal monthly payment"
     },
-    "recommendedPanels": "Recommended # of Panels",
+    "recommendedPanels": "Recommended solar panel system",
+    "numberOfPanels": "Number of panels: ",
     "areaRequired": "Area required",
     "monthlyProduction": "Monthly production from panels",
     "monthlyConsumption": "Monthly consumption",

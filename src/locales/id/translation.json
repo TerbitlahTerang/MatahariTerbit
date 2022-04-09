@@ -21,10 +21,11 @@
     "limitingFactor": "Terbatas oleh",
     "limitingFactorEnum": {
       "ConnectionSize": "Daya",
-      "Consumption": "Konsumpi listrik",
+      "Consumption": "Konsumpsi listrik",
       "MinimumPayment": "Abonemen bulanan"
     },
-    "recommendedPanels": "Jumlah panel yang direkomendasikan",
+    "recommendedPanels": "Sistem PLTS yang direkomendasikan",
+    "numberOfPanels": "Jumlah panel: ",
     "areaRequired": "Luas bidang yang dibutuhkan",
     "monthlyProduction": "Produksi bulanan dari panel",
     "monthlyConsumption": "Konsumsi bulanan",
