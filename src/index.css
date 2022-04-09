@@ -114,6 +114,7 @@ div.ant-steps-item-subtitle {
     padding-bottom: 40px;
 }
 
+
 .ant-popover-inner-content {
     background-color: rgba(0, 0, 0, 0.75);
     padding: 6px 8px;
@@ -145,7 +146,3 @@ div.ant-steps-item-subtitle {
     background-color: #46a171;
 }
 
-.ant-divider-horizontal.ant-divider-with-text {
-    margin-top: 16px;
-    margin-bottom: 10px;
-}
