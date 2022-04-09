@@ -91,7 +91,7 @@ export const App: React.FunctionComponent = () => {
                   <InputForm initialValue={INITIAL_INPUT_DATA} onOpenDocumentation={openDocumentation}
                     onChange={(data) => setInputData(data)} expertMode={expertMode === true}/>
                   {current === 0 &&
-                                                <Button style={{ marginTop: '5px', float: 'right' }} size="large"
+                                                <Button type="primary" style={{ marginTop: '15px', float: 'right' }} size="large"
                                                   onClick={() => {
                                                     setCurrent(1)
                                                   }}>
@@ -108,7 +108,7 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
                   <ResultTable results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings}/>
-                  {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"
+                  {current === 1 && <Button type="primary"  style={{ marginTop: '15px', float: 'right' }} size="large"
                     onClick={() => {
                       setCurrent(2)
                     }}>
