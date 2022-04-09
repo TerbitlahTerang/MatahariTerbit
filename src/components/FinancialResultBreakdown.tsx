@@ -26,7 +26,7 @@ export const FinancialResultBreakdown: React.FunctionComponent<ResultTableProps>
   }
 
   return (<div className="ant-table">
-    <Divider orientation="left">{t('resultTable.financialHeading')}</Divider>
+    <Divider style={{ marginTop: '1px' }} orientation="left">{t('resultTable.financialHeading')}</Divider>
     <Row gutter={12}>
       <Col span={15}>{t('resultTable.currentMonthlyCosts')}</Col>
       <Col span={9}>{formatRupiah(results.currentMonthlyCosts)}</Col>
