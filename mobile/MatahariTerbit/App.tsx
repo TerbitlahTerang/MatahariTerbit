@@ -18,8 +18,9 @@ export default function App() {
   const baseUrl = 'https://matahariterbit--pr72-feature-71-improved-u4vtksnw.web.app/'
   return (
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
-      <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor='#1890ff'><WebView originWhitelist={['*']}
+      <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor='#1890ff'><WebView originWhitelist={['https://*']}
         source={{ uri: `${baseUrl}?lng=${langOnly}&priorityEnabled=0`, baseUrl: '' }}
+        geolocationEnabled
         style={{ flex: 1, height: 2 }}
       />
       </View></NativeBaseProvider>
