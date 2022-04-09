@@ -11,6 +11,17 @@
     border-radius: 4px;
 }
 
+.panelPane .panel IMG {
+    width: 50px;
+}
+
+@media (max-width : 480px) {
+    .panelPane .panel IMG {
+        width: 25px;
+    }
+}
+
+
 .panelPane .panel .number-overlay {
     position: absolute;
     font-size: 38px;
@@ -21,4 +32,14 @@
     top: -webkit-calc(50% - 22px);
     top: -moz-calc(50% - 22px);
     top: calc(50% - 22px);
+}
+
+@media (max-width : 480px) {
+    .panelPane .panel .number-overlay {
+        font-size: 18px;
+        top: -webkit-calc(50% - 10px);
+        top: -moz-calc(50% - 10px);
+        top: calc(50% - 10px);
+        left: 0px;
+    }
 }

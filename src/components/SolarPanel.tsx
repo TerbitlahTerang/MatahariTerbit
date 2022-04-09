@@ -7,7 +7,6 @@ import './SolarPanel.css'
 import { OptimizationTarget } from '../constants'
 
 interface SolarPanelProps {
-  width: number
   index: number,
   panelType: OptimizationTarget
 }
@@ -25,7 +24,7 @@ const SolarPanel: React.FunctionComponent<SolarPanelProps> = (props) => {
     <div className='panel' >
       <picture >
         <source type="image/webp"  srcSet={imageWebp} />
-        <img width={props.width} src={image} />
+        <img  src={image} />
       </picture>
 
       <div className="number-overlay">
@@ -36,5 +35,5 @@ const SolarPanel: React.FunctionComponent<SolarPanelProps> = (props) => {
 }
 
 export const renderPanel = (panel: Panel) => {
-  return <SolarPanel width={50} key={panel.index} index={panel.index} panelType={panel.panelType} />
+  return <SolarPanel key={panel.index} index={panel.index} panelType={panel.panelType} />
 }
