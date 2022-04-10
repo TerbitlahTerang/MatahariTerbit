@@ -1,30 +1,30 @@
 import { Coords } from 'google-map-react'
 import { debounceTime, forkJoin, map, mergeMap, Subject } from 'rxjs'
 import { INITIAL_INPUT_DATA } from '../constants'
-import { geocode, irradiance, IrradianceInfo } from './maps'
+import { irradiance } from './maps'
+import { MapState, SetStateFn } from './mapStore'
 
-export interface MapState {
-  location: Coords
-  address?: string
-  info?: IrradianceInfo
-}
-
-export type SetStateFn = (state: MapState) => void
 
 const subject = new Subject<MapState>()
 
 let state: MapState = INITIAL_INPUT_DATA.location
 
-export const mapStore = {
+async function geocodeMobile(location: Coords) {
+  return {
+    location: location,
+    formatted_address: 'The address' }
+}
+
+export const mapStoreMobile = {
   subscribe: (setState: SetStateFn) => {
     subject.pipe(
       debounceTime(500),
       mergeMap(({ location }) => forkJoin([
-        geocode(location),
+        geocodeMobile(location),
         irradiance(location)
       ])),
       map(([geo, info]) => ({
-        location: { lat: geo.geometry.location.lat(), lng: geo.geometry.location.lng() },
+        location: { lat: geo.location.lat, lng: geo.location.lng },
         address: geo.formatted_address,
         info
       }))

@@ -2,7 +2,7 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import GoogleMapReact, { Coords, Point } from 'google-map-react'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, GOOGLE_MAPS_MOBILE_KEY, INITIAL_INPUT_DATA } from '../constants'
+import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
 import i18n from '../i18n'
 import { MapState, mapStore } from '../util/mapStore'
 import { formatNumber } from '../services/Formatters'
@@ -12,7 +12,6 @@ import './MapPicker.css'
 export interface MapPickerProps {
   value?: MapState
   onChange?: (value: MapState) => void
-  mobile: boolean
 }
 
 const distanceToMouse = (pt: Point, { x, y }: Point) => Math.sqrt((pt.x - x) * (pt.x - x) + (pt.y - 24 - y) * (pt.y - 24 - y))
@@ -73,7 +72,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
           onClick={() => { setCollapsed(!collapsed) }} />
       </div>
       <div className="map-picker-view">
-        <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: props.mobile ? GOOGLE_MAPS_MOBILE_KEY : GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
+        <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
           options={{ mapTypeControl: true, mapTypeId: 'hybrid' }}
           yesIWantToUseGoogleMapApiInternals
           onChildMouseDown={onMouseDrag}
