@@ -12,10 +12,11 @@ export interface MapPickerPropsMobile {
   onChange?: (value: MapState) => void
 }
 
-interface Address {
+export interface Address {
   street: string | null
   city: string | null
   region: string | null
+  name: string | null
 }
 
 export interface NativeLocation {

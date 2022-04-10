@@ -15,6 +15,7 @@ interface Address {
   street: string | null
   city: string | null
   region: string | null
+  name: string | null
 }
 
 interface Location {
@@ -39,7 +40,7 @@ export default function App() {
 
   const [location, setLocation] = useState<Location>({
     coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
-    address: { street: 'Monas', city: 'Jakarta', region: 'Java' }
+    address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
   })
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -60,20 +61,24 @@ export default function App() {
         longitude: coords.lng
       })
       const address = addresses[0]
-      setLocation({ coords: coords, address: { street: address.street, city: address.city, region: address.region } })
+      console.log(address)
+      setLocation({
+        coords: coords,
+        address: { street: address.street, city: address.city, region: address.region, name: address.name }
+      })
     })()
   }, [])
 
   console.log(errorMsg)
 
   const langOnly = deviceLanguage.split('_')[0]
-  const baseUrl = 'https://matahariterbit--pr72-feature-71-improved-u4vtksnw.web.app/'
+  const baseUrl = 'http://192.168.1.4:8080'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1&location=${JSON.stringify(location)}`
   console.log('uri', uri)
   return (
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor="#1890ff">
-        <WebView originWhitelist={['https://*']}
+        <WebView originWhitelist={['https://*', 'http://*']}
           source={{
             uri: uri,
             baseUrl: ''
