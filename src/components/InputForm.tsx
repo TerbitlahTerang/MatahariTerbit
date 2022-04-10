@@ -44,7 +44,8 @@ export interface InputFormProps {
   initialValue: InputData,
   onOpenDocumentation: (d: Documentation, title: string) => void
   onChange: (data: InputData) => void,
-  expertMode: boolean
+  expertMode: boolean,
+  mobile: boolean
 }
 
 const createLink = () => {
@@ -215,7 +216,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
         }}
       >
-        <MapPicker/>
+        <MapPicker mobile={props.mobile}/>
       </Form.Item>
       {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
         onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>

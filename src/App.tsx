@@ -29,6 +29,7 @@ export const App: React.FunctionComponent = () => {
 
   const [expertMode] = useQueryParam('expertMode', BooleanParam)
   const [language] = useQueryParam('lng', StringParam)
+  const [mobile] = useQueryParam('mobile', BooleanParam)
 
   const closeDocumentation = () => {
     setDocumentation(null)
@@ -89,7 +90,7 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
                   <InputForm initialValue={INITIAL_INPUT_DATA} onOpenDocumentation={openDocumentation}
-                    onChange={(data) => setInputData(data)} expertMode={expertMode === true}/>
+                    onChange={(data) => setInputData(data)} expertMode={expertMode === true} mobile={mobile === true}/>
                   {current === 0 &&
                                                 <Button type="primary" style={{ marginTop: '15px', float: 'right' }} size="large"
                                                   onClick={() => {
