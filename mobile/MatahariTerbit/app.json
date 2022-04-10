@@ -39,7 +39,8 @@
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
             "organization": "matahariterbit",
-            "project": "matahariterbit"
+            "project": "matahariterbit",
+            "authToken": "fe830848c59042a3bddc42cdf4d81b3f0dedf0d7dc164560bb56107425c46e65"
           }
         }
       ]
