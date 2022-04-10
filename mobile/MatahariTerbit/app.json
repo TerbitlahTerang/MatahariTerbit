@@ -29,6 +29,20 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "matahariterbit",
+            "project": "matahariterbit"
+          }
+        }
+      ]
     }
   }
 }
