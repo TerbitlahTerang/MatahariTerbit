@@ -38,16 +38,17 @@ Sentry.init({
 
 export default function App() {
 
-  const [location, setLocation] = useState<Location>({
-    coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
-    address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
-  })
+  const [location, setLocation] = useState<Location | undefined>(undefined)
   const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
+        setLocation({
+          coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
+          address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
+        })
         setErrorMsg('Permission to access location was denied')
         return
       }
@@ -61,7 +62,6 @@ export default function App() {
         longitude: coords.lng
       })
       const address = addresses[0]
-      console.log(address)
       setLocation({
         coords: coords,
         address: { street: address.street, city: address.city, region: address.region, name: address.name }
@@ -72,20 +72,20 @@ export default function App() {
   console.log(errorMsg)
 
   const langOnly = deviceLanguage.split('_')[0]
-  const baseUrl = 'http://192.168.1.4:8080'
+  const baseUrl = 'https://matahariterbit--pr72-feature-71-improved-u4vtksnw.web.app'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1&location=${JSON.stringify(location)}`
   console.log('uri', uri)
   return (
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor="#1890ff">
-        <WebView originWhitelist={['https://*', 'http://*']}
+        {location && <WebView originWhitelist={['https://*']}
           source={{
             uri: uri,
             baseUrl: ''
           }}
           geolocationEnabled
           style={{ flex: 1, height: 2 }}
-        />
+        />}
       </View></NativeBaseProvider>
   )
 }
