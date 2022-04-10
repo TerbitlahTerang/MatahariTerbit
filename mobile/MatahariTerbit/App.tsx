@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { View, NativeBaseProvider } from 'native-base'
+import { NativeBaseProvider, View } from 'native-base'
 import WebView from 'react-native-webview'
-import { Platform, NativeModules } from 'react-native'
+import { NativeModules, Platform } from 'react-native'
 import * as Location from 'expo-location'
+import { LocationGeocodedAddress } from 'expo-location'
 
 interface Coords {
   lat: number
   lng: number
+}
+
+interface Address {
+  street: string | null
+  city: string | null
+  region: string | null
+}
+
+interface Location {
+  coords: Coords
+  address: Address
 }
 
 const deviceLanguage =
@@ -17,7 +29,10 @@ const deviceLanguage =
 
 export default function App() {
 
-  const [location, setLocation] = useState<Coords>({ lat: 6.174903208804339, lng: 106.82721867845525 })
+  const [location, setLocation] = useState<Location>({
+    coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
+    address: { street: 'Monas', city: 'Jakarta', region: 'Java' }
+  })
   const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
@@ -29,18 +44,32 @@ export default function App() {
       }
 
       const loc = await Location.getCurrentPositionAsync({})
-      setLocation({ lat: loc.coords.latitude, lng: loc.coords.longitude })
+
+      const coords = { lat: loc.coords.latitude, lng: loc.coords.longitude }
+
+      const addresses: LocationGeocodedAddress[] = await Location.reverseGeocodeAsync({
+        latitude: coords.lat,
+        longitude: coords.lng
+      })
+      const address = addresses[0]
+      setLocation({ coords: coords, address: { street: address.street, city: address.city, region: address.region } })
     })()
   }, [])
 
+  console.log(errorMsg)
+
   const langOnly = deviceLanguage.split('_')[0]
-  const baseUrl = 'https://matahariterbit--pr72-feature-71-improved-u4vtksnw.web.app/'
+  const baseUrl = 'http://192.168.1.9:8080/'
+  const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1&location=${JSON.stringify(location)}`
+  console.log('uri', uri)
   return (
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
-      <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor='#1890ff'>
-        {errorMsg && <span>{errorMsg}</span>}
+      <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor="#1890ff">
         <WebView originWhitelist={['https://*', 'http://*']}
-          source={{ uri: `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1&location=${JSON.stringify(location)}`, baseUrl: '' }}
+          source={{
+            uri: uri,
+            baseUrl: ''
+          }}
           geolocationEnabled
           style={{ flex: 1, height: 2 }}
         />
