@@ -73,7 +73,7 @@ export default function App() {
   return (
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor="#1890ff">
-        <WebView originWhitelist={['https://*', 'http://*']}
+        <WebView originWhitelist={['https://*']}
           source={{
             uri: uri,
             baseUrl: ''
