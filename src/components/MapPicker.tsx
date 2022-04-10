@@ -24,6 +24,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
   const [mapState, setMapState] = useState<MapState>(props.value!)
   const [collapsed, setCollapsed] = useState<boolean>(true)
 
+  // const [radiation, setRadiation] = useQueryParam('radiation', withDefault(NumberParam, 1700))
+
   useLayoutEffect(() => {
     mapStore.subscribe((value) => {
       setMapState(value)
@@ -55,33 +57,50 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
       setLocation(INITIAL_INPUT_DATA.location.location)
     })
   }, [])
-
+  
   return (
-    <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
-      <div className="ant-input map-picker-header">
-        <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
-          {mapState.address ?? 'Choose your address ...'}
+    <div>
+      <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
+        <div className="ant-input map-picker-header">
+          <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
+            {mapState.address ?? 'Choose your address ...'}
+          </div>
+          {mapState.info && (<div className="map-picker-irradiation" onClick={() => setCollapsed(!collapsed)}>{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div>)}
+          <Button
+            style={{ color: '#bfbfbf' }}
+            icon={collapsed ? <DownOutlined /> : <UpOutlined />}
+            type="text"
+            loading={false}
+            size="small"
+            onClick={() => { setCollapsed(!collapsed) }} />
         </div>
-        {mapState.info && (<div className="map-picker-irradiation" onClick={() => setCollapsed(!collapsed)}>{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div>)}
-        <Button
-          style={{ color: '#bfbfbf' }}
-          icon={collapsed ? <DownOutlined /> : <UpOutlined />}
-          type="text"
-          loading={false}
-          size="small"
-          onClick={() => { setCollapsed(!collapsed) }} />
+        <div className="map-picker-view">
+          <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
+            options={{ mapTypeControl: true, mapTypeId: 'hybrid' }}
+            yesIWantToUseGoogleMapApiInternals
+            onChildMouseDown={onMouseDrag}
+            onChildMouseUp={() => { setDraggable(true) }}
+            onChildMouseMove={onMouseDrag}
+            onClick={({ lat, lng }) => updatePosition({ lat, lng })}
+            distanceToMouse={distanceToMouse}>
+            <MapMarker lat={position.lat} lng={position.lng} />
+          </GoogleMapReact>
+        </div>
       </div>
-      <div className="map-picker-view">
-        <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-          options={{ mapTypeControl: true, mapTypeId: 'hybrid' }}
-          yesIWantToUseGoogleMapApiInternals
-          onChildMouseDown={onMouseDrag}
-          onChildMouseUp={() => { setDraggable(true) }}
-          onChildMouseMove={onMouseDrag}
-          onClick={({ lat, lng }) => updatePosition({ lat, lng })}
-          distanceToMouse={distanceToMouse}>
-          <MapMarker lat={position.lat} lng={position.lng} />
-        </GoogleMapReact>
+      <div style={{ height: '20px' }} className="map-picker-irradiation-gauge">
+        <input style={{ height: '20px' }} type="range" min="600" max="2200" value={mapState?.info ? mapState.info.dni : 600} className="slider" list="tickmarks"
+          id="myRange" />
+      </div>
+      <div className="map-picker-irradiation-gauge-legend">
+        <span>600</span>
+        <span>800</span>
+        <span>1000</span>
+        <span>1200</span>
+        <span style={{ textAlign: 'right' }}>1400</span>
+        <span style={{ textAlign: 'right' }}>1600</span>
+        <span style={{ textAlign: 'right' }}>1800</span>
+        <span style={{ textAlign: 'right' }}>2000</span>
+        <span style={{ textAlign: 'right' }}>2200</span>
       </div>
     </div>
   )
