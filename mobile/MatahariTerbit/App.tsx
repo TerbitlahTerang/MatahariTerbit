@@ -72,7 +72,7 @@ export default function App() {
   console.log(errorMsg)
 
   const langOnly = deviceLanguage.split('_')[0]
-  const baseUrl = 'https://matahariterbit--pr72-feature-71-improved-u4vtksnw.web.app'
+  const baseUrl = 'https://matahariterbit--pr73-feature-71-improved-hpjk470p.web.app'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1&location=${JSON.stringify(location)}`
   console.log('uri', uri)
   return (
