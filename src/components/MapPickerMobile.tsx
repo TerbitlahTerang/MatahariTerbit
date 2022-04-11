@@ -53,11 +53,25 @@ export const MapPickerMobile: React.FunctionComponent<MapPickerPropsMobile> = (p
 
 
   return (
-    <div><span>
-      {mapState.info ? (<span>Irradiation at your location: {mapState.address}
-        <div
-          className="map-picker-irradiation">{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div></span>) :
-        <span>Fetching irradiation info...</span>}
-    </span></div>
+    <div>
+      <div style={{ height: '20px' }} className="map-picker-irradiation-gauge">
+        <input style={{ height: '20px' }} type="range" min="600" max="2200"
+          value={mapState?.info ? mapState.info.dni : 600} className="slider" list="tickmarks"
+          id="myRange"/>
+      </div>
+      <div className="map-picker-irradiation-gauge-legend">
+        <span>600</span>
+        <span>800</span>
+        <span>1000</span>
+        <span>1200</span>
+        <span style={{ textAlign: 'right' }}>1400</span>
+        <span style={{ textAlign: 'right' }}>1600</span>
+        <span style={{ textAlign: 'right' }}>1800</span>
+        <span style={{ textAlign: 'right' }}>2000</span>
+        <span style={{ textAlign: 'right' }}>2200</span>
+      </div>
+      {mapState.info && <div><span>{mapState.address} /</span><span
+        className="map-picker-irradiation">{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</span></div>}
+    </div>
   )
 }

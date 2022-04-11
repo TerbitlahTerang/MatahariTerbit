@@ -53,7 +53,7 @@ export default function App() {
         return
       }
 
-      const loc = await Location.getCurrentPositionAsync({})
+      const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
 
       const coords = { lat: loc.coords.latitude, lng: loc.coords.longitude }
 
