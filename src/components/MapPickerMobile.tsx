@@ -6,6 +6,7 @@ import { formatNumber } from '../services/Formatters'
 import i18n from '../i18n'
 import { Coords } from 'google-map-react'
 import { mapStoreMobile } from '../util/mapStoreMobile'
+import { IrradiationGauge } from './IrradiationGauge'
 
 export interface MapPickerPropsMobile {
   value?: MapState
@@ -59,17 +60,7 @@ export const MapPickerMobile: React.FunctionComponent<MapPickerPropsMobile> = (p
           value={mapState?.info ? mapState.info.dni : 600} className="slider" list="tickmarks"
           id="myRange"/>
       </div>
-      <div className="map-picker-irradiation-gauge-legend">
-        <span>600</span>
-        <span>800</span>
-        <span>1000</span>
-        <span>1200</span>
-        <span style={{ textAlign: 'right' }}>1400</span>
-        <span style={{ textAlign: 'right' }}>1600</span>
-        <span style={{ textAlign: 'right' }}>1800</span>
-        <span style={{ textAlign: 'right' }}>2000</span>
-        <span style={{ textAlign: 'right' }}>2200</span>
-      </div>
+      <IrradiationGauge value={mapState} />
       {mapState.info && <div><span>{mapState.address} /</span><span
         className="map-picker-irradiation">{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</span></div>}
     </div>
