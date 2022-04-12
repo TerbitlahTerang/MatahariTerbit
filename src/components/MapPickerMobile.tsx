@@ -56,8 +56,7 @@ export const MapPickerMobile: React.FunctionComponent<MapPickerPropsMobile> = (p
   return (
     <div>
       <IrradiationGauge value={mapState} />
-      {mapState.info && <div><span>{mapState.address} /</span><span
-        className="map-picker-irradiation">{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</span></div>}
+      {mapState.info && <div><span>{mapState.address}</span></div>}
     </div>
   )
 }
