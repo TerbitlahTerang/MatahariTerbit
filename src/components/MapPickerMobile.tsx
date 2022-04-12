@@ -55,11 +55,6 @@ export const MapPickerMobile: React.FunctionComponent<MapPickerPropsMobile> = (p
 
   return (
     <div>
-      <div style={{ height: '20px' }} className="map-picker-irradiation-gauge">
-        <input style={{ height: '20px' }} type="range" min="600" max="2200"
-          value={mapState?.info ? mapState.info.dni : 600} className="slider" list="tickmarks"
-          id="myRange"/>
-      </div>
       <IrradiationGauge value={mapState} />
       {mapState.info && <div><span>{mapState.address} /</span><span
         className="map-picker-irradiation">{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</span></div>}
