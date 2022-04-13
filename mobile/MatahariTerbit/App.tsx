@@ -41,14 +41,17 @@ export default function App() {
   const [location, setLocation] = useState<Location | undefined>(undefined)
   const [errorMsg, setErrorMsg] = useState('')
 
+  const defaultLocation = {
+    coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
+    address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
+  }
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
-        setLocation({
-          coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
-          address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
-        })
+
+        setLocation(defaultLocation)
         setErrorMsg('Permission to access location was denied')
         return
       }
@@ -61,7 +64,7 @@ export default function App() {
         latitude: coords.lat,
         longitude: coords.lng
       })
-      const address = addresses[0]
+      const address = addresses[0] || defaultLocation.address
       setLocation({
         coords: coords,
         address: { street: address.street, city: address.city, region: address.region, name: address.name }
