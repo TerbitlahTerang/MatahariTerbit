@@ -41,6 +41,7 @@ body {
 .total {
     border-top-color: black;
     border-top-style: solid;
+    border-top-width: 1px;
     font-weight: bold;
 }
 
@@ -90,13 +91,13 @@ body {
 div.ant-steps-item-subtitle {
     float: left;
     width: 100%;
+    margin-top: 10px;
 }
 
 .ant-steps-item-title .panelPane {
     line-height: normal;
     padding-bottom: 8px;
 }
-
 .ant-steps-item-title {
     font-size: 16px;
     width: 100%;
@@ -108,11 +109,13 @@ div.ant-steps-item-subtitle {
     padding-bottom: 10px;
     margin-left: 10px;
     font-size: 16px;
+    font-weight: bold
 }
 
 .ant-steps-item-container {
-    padding-bottom: 30px;
+    padding-bottom: 40px;
 }
+
 
 .ant-popover-inner-content {
     background-color: rgba(0, 0, 0, 0.75);
@@ -145,7 +148,3 @@ div.ant-steps-item-subtitle {
     background-color: #46a171;
 }
 
-.ant-divider-horizontal.ant-divider-with-text {
-    margin-top: 16px;
-    margin-bottom: 10px;
-}

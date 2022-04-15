@@ -30,6 +30,7 @@ import {
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
+import { MapPickerMobile } from './MapPickerMobile'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -44,7 +45,8 @@ export interface InputFormProps {
   initialValue: InputData,
   onOpenDocumentation: (d: Documentation, title: string) => void
   onChange: (data: InputData) => void,
-  expertMode: boolean
+  expertMode: boolean,
+  mobile: boolean
 }
 
 const createLink = () => {
@@ -67,6 +69,8 @@ const createLinkedinLink = () => {
 }
 
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
+
+  console.log(props)
 
   const { t, i18n } = useTranslation()
   const [form] = Form.useForm()
@@ -215,7 +219,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
         }}
       >
-        <MapPicker/>
+        {props.mobile ? <MapPickerMobile /> : <MapPicker/>}
       </Form.Item>
       {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
         onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>

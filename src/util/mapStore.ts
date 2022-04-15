@@ -9,7 +9,7 @@ export interface MapState {
   info?: IrradianceInfo
 }
 
-type SetStateFn = (state: MapState) => void
+export type SetStateFn = (state: MapState) => void
 
 const subject = new Subject<MapState>()
 

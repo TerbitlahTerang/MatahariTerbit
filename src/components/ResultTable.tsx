@@ -1,4 +1,4 @@
-import { Col, Divider, Row } from 'antd'
+import { Col, Row } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
@@ -26,11 +26,9 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
 
   return (
     <div className="ant-table">
-      <Divider orientation="left">{t('resultTable.recommendedPanels')}&nbsp;
-        <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/>
-      </Divider>
       <Row gutter={12} className="panelPane">
-        <Col span={24} className="panelContainer">{panels.map(renderPanel)}</Col>
+        <Col xs={10} sm={8} >{t('resultTable.numberOfPanels')} {panels.length} <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/></Col>
+        <Col xs={14} sm={16} className="panelContainer"><div style={{ float: 'right' }}>{panels.map(renderPanel)}</div></Col>
       </Row>
       <Row gutter={12} justify="end">
         <Col span={15}>{t('resultTable.installedCapacity')}</Col>

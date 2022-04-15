@@ -1,4 +1,4 @@
-import Icon, { DollarOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import Icon, { DollarOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -29,6 +29,7 @@ export const App: React.FunctionComponent = () => {
 
   const [expertMode] = useQueryParam('expertMode', BooleanParam)
   const [language] = useQueryParam('lng', StringParam)
+  const [mobile] = useQueryParam('mobile', BooleanParam)
 
   const closeDocumentation = () => {
     setDocumentation(null)
@@ -76,7 +77,7 @@ export const App: React.FunctionComponent = () => {
           </div>)
         }
       </nav>
-      <Drawer title={(<div><InfoCircleOutlined size={24}/> {documentationTitle}</div>)} visible={documentation !== null} onClose={closeDocumentation} width={window.innerWidth > 900 ? '40%' : '82%'} >
+      <Drawer title={(<div>{documentationTitle}</div>)} visible={documentation !== null} onClose={closeDocumentation} width={window.innerWidth > 900 ? '40%' : '82%'} >
         <InfoPane documentation={documentation!}/>
       </Drawer>
       <div className="card">
@@ -89,9 +90,9 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 0 ? 'block' : 'none' }}>
                   <InputForm initialValue={INITIAL_INPUT_DATA} onOpenDocumentation={openDocumentation}
-                    onChange={(data) => setInputData(data)} expertMode={expertMode === true}/>
+                    onChange={(data) => setInputData(data)} expertMode={expertMode === true} mobile={mobile === true}/>
                   {current === 0 &&
-                                                <Button style={{ marginTop: '5px', float: 'right' }} size="large"
+                                                <Button type="primary" style={{ marginTop: '15px', float: 'right' }} size="large"
                                                   onClick={() => {
                                                     setCurrent(1)
                                                   }}>
@@ -108,7 +109,7 @@ export const App: React.FunctionComponent = () => {
               subTitle={
                 <div className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
                   <ResultTable results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings}/>
-                  {current === 1 && <Button style={{ marginTop: '5px', float: 'right' }} size="large"
+                  {current === 1 && <Button type="primary"  style={{ marginTop: '15px', float: 'right' }} size="large"
                     onClick={() => {
                       setCurrent(2)
                     }}>
