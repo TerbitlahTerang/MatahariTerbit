@@ -41,19 +41,22 @@ export default function App() {
   const [location, setLocation] = useState<Location | undefined>(undefined)
   const [errorMsg, setErrorMsg] = useState('')
 
+  const defaultLocation = {
+    coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
+    address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
+  }
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
-        setLocation({
-          coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
-          address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
-        })
+
+        setLocation(defaultLocation)
         setErrorMsg('Permission to access location was denied')
         return
       }
 
-      const loc = await Location.getCurrentPositionAsync({})
+      const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
 
       const coords = { lat: loc.coords.latitude, lng: loc.coords.longitude }
 
@@ -61,7 +64,7 @@ export default function App() {
         latitude: coords.lat,
         longitude: coords.lng
       })
-      const address = addresses[0]
+      const address = addresses[0] || defaultLocation.address
       setLocation({
         coords: coords,
         address: { street: address.street, city: address.city, region: address.region, name: address.name }
@@ -72,7 +75,7 @@ export default function App() {
   console.log(errorMsg)
 
   const langOnly = deviceLanguage.split('_')[0]
-  const baseUrl = 'https://matahariterbit--pr72-feature-71-improved-u4vtksnw.web.app'
+  const baseUrl = 'https://matahariterbit--pr73-feature-71-improved-hpjk470p.web.app'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1&location=${JSON.stringify(location)}`
   console.log('uri', uri)
   return (

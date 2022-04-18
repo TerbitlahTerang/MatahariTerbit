@@ -8,6 +8,7 @@ import { MapState, mapStore } from '../util/mapStore'
 import { formatNumber } from '../services/Formatters'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
+import { IrradiationGauge } from './IrradiationGauge'
 
 export interface MapPickerProps {
   value?: MapState
@@ -22,7 +23,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
   const [draggable, setDraggable] = useState<boolean>(true)
   const [mapState, setMapState] = useState<MapState>(props.value!)
-  const [collapsed, setCollapsed] = useState<boolean>(true)
+  const [collapsed, setCollapsed] = useState<boolean>(false)
+
 
   useLayoutEffect(() => {
     mapStore.subscribe((value) => {
@@ -55,34 +57,37 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
       setLocation(INITIAL_INPUT_DATA.location.location)
     })
   }, [])
-
+  
   return (
-    <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
-      <div className="ant-input map-picker-header">
-        <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
-          {mapState.address ?? 'Choose your address ...'}
+    <div>
+      <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
+        <div className="ant-input map-picker-header">
+          <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
+            {mapState.address ?? 'Choose your address ...'}
+          </div>
+          {mapState.info && (<div className="map-picker-irradiation" onClick={() => setCollapsed(!collapsed)}>{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div>)}
+          <Button
+            style={{ color: '#bfbfbf' }}
+            icon={collapsed ? <DownOutlined /> : <UpOutlined />}
+            type="text"
+            loading={false}
+            size="small"
+            onClick={() => { setCollapsed(!collapsed) }} />
         </div>
-        {mapState.info && (<div className="map-picker-irradiation" onClick={() => setCollapsed(!collapsed)}>{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div>)}
-        <Button
-          style={{ color: '#bfbfbf' }}
-          icon={collapsed ? <DownOutlined /> : <UpOutlined />}
-          type="text"
-          loading={false}
-          size="small"
-          onClick={() => { setCollapsed(!collapsed) }} />
+        <div className="map-picker-view">
+          <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
+            options={{ mapTypeControl: true, mapTypeId: 'hybrid' }}
+            yesIWantToUseGoogleMapApiInternals
+            onChildMouseDown={onMouseDrag}
+            onChildMouseUp={() => { setDraggable(true) }}
+            onChildMouseMove={onMouseDrag}
+            onClick={({ lat, lng }) => updatePosition({ lat, lng })}
+            distanceToMouse={distanceToMouse}>
+            <MapMarker lat={position.lat} lng={position.lng} />
+          </GoogleMapReact>
+        </div>
       </div>
-      <div className="map-picker-view">
-        <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-          options={{ mapTypeControl: true, mapTypeId: 'hybrid' }}
-          yesIWantToUseGoogleMapApiInternals
-          onChildMouseDown={onMouseDrag}
-          onChildMouseUp={() => { setDraggable(true) }}
-          onChildMouseMove={onMouseDrag}
-          onClick={({ lat, lng }) => updatePosition({ lat, lng })}
-          distanceToMouse={distanceToMouse}>
-          <MapMarker lat={position.lat} lng={position.lng} />
-        </GoogleMapReact>
-      </div>
+      <IrradiationGauge value={mapState} />
     </div>
   )
 }
