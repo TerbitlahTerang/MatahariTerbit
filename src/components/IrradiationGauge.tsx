@@ -2,6 +2,7 @@ import { Animate } from 'react-move'
 import { easeExpOut } from 'd3-ease'
 import React from 'react'
 import { MapPickerProps } from './MapPicker'
+import './IrradiationGauge.css'
 
 export const IrradiationGauge: React.FunctionComponent<MapPickerProps> = (props) => {
   const mapState = props.value
