@@ -19,7 +19,10 @@ function geocodeMobile(address?: string) {
   }
 }
 
-const toString = (address: Address) : string => {
+const toString = (address?: Address) : string => {
+  if (address === undefined) {
+    return ''
+  }
   return address.street ? `${address.street} - ${address.city} - ${address.region}`: `${address.name} - ${address.city} - ${address.region}`
 }
 

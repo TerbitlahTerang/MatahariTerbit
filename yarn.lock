@@ -2958,6 +2958,11 @@ binary@~0.3.0:
     buffers "~0.1.1"
     chainsaw "~0.1.0"
 
+bingmaps-react@^1.2.10:
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/bingmaps-react/-/bingmaps-react-1.2.10.tgz#2d3176c3c39dfde3c920db96c8c7d31b120ae8ff"
+  integrity sha512-fM887Sr6OIlo6ThmSpGfNEDssSytdnsMrbDTDs+YH/43etf0dlfcR4oaJvygy+fwn21hpP2lVvwTHUDZvGxZqA==
+
 bl@^4.0.3:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/bl/-/bl-4.1.0.tgz#451535264182bec2fbbc83a62ab98cf11d9f7b3a"
