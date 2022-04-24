@@ -33,7 +33,6 @@ export const MapPickerMobile: React.FunctionComponent<MapPickerPropsMobile> = (p
 
   const setLocation = (location: NativeLocation) => {
     if (location) {
-      console.log(location)
       mapStoreMobile.setLocation(location)
     }
   }

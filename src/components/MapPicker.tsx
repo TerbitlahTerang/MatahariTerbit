@@ -9,6 +9,9 @@ import { formatNumber } from '../services/Formatters'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
 import { IrradiationGauge } from './IrradiationGauge'
+import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
 
 export interface MapPickerProps {
   value?: MapState
@@ -24,7 +27,6 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
   const [draggable, setDraggable] = useState<boolean>(true)
   const [mapState, setMapState] = useState<MapState>(props.value!)
   const [collapsed, setCollapsed] = useState<boolean>(false)
-
 
   useLayoutEffect(() => {
     mapStore.subscribe((value) => {
@@ -57,10 +59,35 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
       setLocation(INITIAL_INPUT_DATA.location.location)
     })
   }, [])
-  
+
+  function LocationMarker() {
+    const map = useMapEvents({
+      loading() {
+        map.locate()
+      },
+      click(e) {
+        setLocation(e.latlng)
+        map.flyTo(e.latlng, map.getZoom(), { animate: true })
+      },
+      locationfound(e) {
+        setPosition(e.latlng)
+        map.flyTo(e.latlng, map.getZoom(), { animate: false })
+      }
+    })
+    useEffect(() => {
+      map.locate()
+    })
+
+    return position ? (
+      <Marker position={position} icon={L.icon({ iconUrl: '../assets/images/logo.png' })}>
+        <Popup>You are here</Popup>
+      </Marker>
+    ): null
+  }
   return (
     <div>
       <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
+
         <div className="ant-input map-picker-header">
           <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
             {mapState.address ?? 'Choose your address ...'}
@@ -75,17 +102,33 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
             onClick={() => { setCollapsed(!collapsed) }} />
         </div>
         <div className="map-picker-view">
-          <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-            options={{ mapTypeControl: false, mapTypeId: 'hybrid' }}
-            yesIWantToUseGoogleMapApiInternals
-            onChildMouseDown={onMouseDrag}
-            onChildMouseUp={() => { setDraggable(true) }}
-            onChildMouseMove={onMouseDrag}
-            onClick={({ lat, lng }) => updatePosition({ lat, lng })}
-            distanceToMouse={distanceToMouse}>
-            <MapMarker lat={position.lat} lng={position.lng} />
-          </GoogleMapReact>
+          <MapContainer center={[center.lat, center.lng]} zoom={25} scrollWheelZoom={false} style={{ height: '400px' }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <LocationMarker />
+            {/*<Marker position={[defaultLocation.lat, defaultLocation.lng]} icon={ikoon}>*/}
+
+            {/*  /!*  <Popup>*!/*/}
+            {/*  /!*    A pretty CSS3 popup. <br /> Easily customizable.*!/*/}
+            {/*  /!*  </Popup>*!/*/}
+            {/*</Marker>*/}
+          </MapContainer>
         </div>
+      </div>
+      <div>
+        <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
+          options={{ mapTypeControl: false, mapTypeId: 'hybrid' }}
+          yesIWantToUseGoogleMapApiInternals
+          onChildMouseDown={onMouseDrag}
+          onChildMouseUp={() => { setDraggable(true) }}
+          onChildMouseMove={onMouseDrag}
+          onClick={({ lat, lng }) => updatePosition({ lat, lng })}
+          distanceToMouse={distanceToMouse}>
+          <MapMarker lat={position.lat} lng={position.lng} />
+        </GoogleMapReact>
       </div>
       <IrradiationGauge value={mapState} />
     </div>
