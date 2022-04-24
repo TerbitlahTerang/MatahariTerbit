@@ -11,6 +11,7 @@ import './MapPicker.css'
 import { IrradiationGauge } from './IrradiationGauge'
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
+import * as ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
 
 export interface MapPickerProps {
@@ -79,8 +80,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
     })
 
     return position ? (
-      <Marker position={position} icon={L.icon({ iconUrl: '../assets/images/logo.png' })}>
-        <Popup>You are here</Popup>
+      <Marker position={position} icon={L.divIcon({ className: 'custom-icon', html: ReactDOMServer.renderToString(<MapMarker />) })}>
       </Marker>
     ): null
   }
