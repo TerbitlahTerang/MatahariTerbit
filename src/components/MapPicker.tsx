@@ -102,19 +102,13 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
             onClick={() => { setCollapsed(!collapsed) }} />
         </div>
         <div className="map-picker-view">
-          <MapContainer center={[center.lat, center.lng]} zoom={25} scrollWheelZoom={false} style={{ height: '400px' }}
+          <MapContainer center={[center.lat, center.lng]} zoom={25} scrollWheelZoom={false} id='map'
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <LocationMarker />
-            {/*<Marker position={[defaultLocation.lat, defaultLocation.lng]} icon={ikoon}>*/}
-
-            {/*  /!*  <Popup>*!/*/}
-            {/*  /!*    A pretty CSS3 popup. <br /> Easily customizable.*!/*/}
-            {/*  /!*  </Popup>*!/*/}
-            {/*</Marker>*/}
           </MapContainer>
         </div>
       </div>
