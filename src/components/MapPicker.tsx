@@ -105,10 +105,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
           <MapContainer center={[center.lat, center.lng]} zoom={25} scrollWheelZoom={false} id='map'
           >
             <TileLayer
-              // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              url='https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
-              subdomains={['mt1','mt2','mt3']}
+              url='https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}'
+              subdomains={['mt0','mt1','mt2','mt3']}
             />
             <LocationMarker />
           </MapContainer>
