@@ -26,6 +26,7 @@
     "indent": "off",
     "object-curly-spacing": [ "error", "always" ],
     "@typescript-eslint/object-curly-spacing": ["error", "always"],
+    "@typescript-eslint/consistent-type-imports": "off",
     "prefer-const": "error",
     "import/no-unresolved": "off",
     "no-mixed-operators": "off",
