@@ -136,6 +136,14 @@ div.ant-steps-item-subtitle {
     }
 }
 
+.ant-form-item-label > label > .anticon {
+    font-size: 16px;
+}
+
+.anticon {
+    font-size: 16px;
+}
+
 .anticon-info-circle {
     color: rgba(0, 0, 0, 0.45);
 }
