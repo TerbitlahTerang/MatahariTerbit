@@ -24,7 +24,7 @@ export const mapStore = {
         irradiance(location)
       ])),
       map(([geo, info]) => ({
-        location: { lat: geo.geometry.location.lat(), lng: geo.geometry.location.lng() },
+        location: { lat: geo.geometry.location.lat, lng: geo.geometry.location.lng },
         address: geo.formatted_address,
         info
       }))

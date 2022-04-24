@@ -6,6 +6,7 @@ import { QueryParamProvider } from 'use-query-params'
 import './i18n'
 import './index.css'
 
+
 ReactDOM.render(<Suspense fallback="loading..." >
   <QueryParamProvider >
     <App />

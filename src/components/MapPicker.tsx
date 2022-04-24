@@ -1,15 +1,15 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import GoogleMapReact, { Coords, Point } from 'google-map-react'
+import { Coords, Point } from 'google-map-react'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
+import { DEFAULT_ZOOM, INITIAL_INPUT_DATA } from '../constants'
 import i18n from '../i18n'
 import { MapState, mapStore } from '../util/mapStore'
 import { formatNumber } from '../services/Formatters'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
 import { IrradiationGauge } from './IrradiationGauge'
-import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import * as ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
@@ -18,8 +18,6 @@ export interface MapPickerProps {
   value?: MapState
   onChange?: (value: MapState) => void
 }
-
-const distanceToMouse = (pt: Point, { x, y }: Point) => Math.sqrt((pt.x - x) * (pt.x - x) + (pt.y - 24 - y) * (pt.y - 24 - y))
 
 export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
   const [position, setPosition] = useState<Coords>(props.value!.location)
@@ -111,17 +109,6 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
             <LocationMarker />
           </MapContainer>
         </div>
-      </div>
-      <div>
-        <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-          options={{ mapTypeControl: false, mapTypeId: 'hybrid' }}
-          yesIWantToUseGoogleMapApiInternals
-          onChildMouseDown={onMouseDrag}
-          onChildMouseUp={() => { setDraggable(true) }}
-          onChildMouseMove={onMouseDrag}
-          onClick={({ lat, lng }) => updatePosition({ lat, lng })}
-          distanceToMouse={distanceToMouse}>
-        </GoogleMapReact>
       </div>
       <IrradiationGauge value={mapState} />
     </div>
