@@ -1,26 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { NativeBaseProvider, View } from 'native-base'
 import WebView from 'react-native-webview'
 import { NativeModules, Platform } from 'react-native'
-import * as Location from 'expo-location'
 import * as Sentry from 'sentry-expo'
-
-interface Coords {
-  lat: number
-  lng: number
-}
-
-interface Address {
-  street: string | null
-  city: string | null
-  region: string | null
-  name: string | null
-}
-
-interface Location {
-  coords: Coords
-  address: Address
-}
 
 const deviceLanguage =
     Platform.OS === 'ios'
@@ -37,29 +19,6 @@ Sentry.init({
 
 export default function App() {
 
-  const [location, setLocation] = useState<Location | undefined>(undefined)
-  const [errorMsg, setErrorMsg] = useState('')
-
-  const defaultLocation = {
-    coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
-    address: { street: 'Monas', city: 'Jakarta', region: 'Java', name: 'Gambir' }
-  }
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
-
-        setLocation(defaultLocation)
-        setErrorMsg('Permission to access location was denied')
-        return
-      }
-      setLocation(defaultLocation)
-    })()
-  }, [])
-
-  console.log(errorMsg)
-
   const langOnly = deviceLanguage.split('_')[0]
   const baseUrl = 'https://matahariterbit--pr74-feature-try-out-diff-vxrkthmo.web.app'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
@@ -67,14 +26,14 @@ export default function App() {
   return (
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider><View style={{ flex: 1 }} backgroundColor="#1890ff">
-        {location && <WebView originWhitelist={['https://*']}
+        <WebView originWhitelist={['https://*']}
           source={{
             uri: uri,
             baseUrl: ''
           }}
           geolocationEnabled
           style={{ flex: 1, height: 2 }}
-        />}
+        />
       </View></NativeBaseProvider>
   )
 }
