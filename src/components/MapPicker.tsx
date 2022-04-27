@@ -100,7 +100,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
           </MapContainer>
         </div>
       </div>
-      <IrradiationGauge value={mapState} />
+      <IrradiationGauge dni={mapState.info ? mapState.info.dni : 600} />
     </div>
   )
 }
