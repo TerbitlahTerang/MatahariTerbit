@@ -140,6 +140,14 @@ div.ant-steps-item-subtitle {
     color: rgba(0, 0, 0, 0.45);
 }
 
+.ant-form-item-label > label > .anticon {
+    font-size: 16px;
+}
+
+SPAN.anticon {
+    font-size: 16px;
+}
+
 .prioritySwitch.ant-switch.ant-switch-checked {
     background-color: #1890ff;
 }
