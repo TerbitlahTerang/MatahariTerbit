@@ -1,8 +1,9 @@
 import { Coords } from 'google-map-react'
+import Geocode from 'react-geocode'
+import { GOOGLE_MAPS_KEY } from '../constants'
 
 export async function geocode(location: Coords) {
-  const geocoder = new window.google.maps.Geocoder()
-  const { results } = await geocoder.geocode({ location })
+  const { results } = await Geocode.fromLatLng(location.lat.toString(), location.lng.toString(), GOOGLE_MAPS_KEY)
   return results[0]
 }
 
