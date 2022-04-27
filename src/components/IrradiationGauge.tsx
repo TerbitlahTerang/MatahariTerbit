@@ -1,11 +1,13 @@
 import { Animate } from 'react-move'
 import { easeExpOut } from 'd3-ease'
 import React from 'react'
-import { MapPickerProps } from './MapPicker'
 import './IrradiationGauge.css'
 
-export const IrradiationGauge: React.FunctionComponent<MapPickerProps> = (props) => {
-  const mapState = props.value
+interface IrradiationGaugeProps {
+  irradiation: number
+}
+
+export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = ({ irradiation }) => {
 
   return(
     <div>
@@ -13,7 +15,7 @@ export const IrradiationGauge: React.FunctionComponent<MapPickerProps> = (props)
         <Animate show={true}
           start={{ x: 600 }}
           update={() => ({
-            x: [mapState?.info ? mapState.info.dni : 600],
+            x: [irradiation],
             timing: { duration: 750, ease: easeExpOut }
           })}
         >

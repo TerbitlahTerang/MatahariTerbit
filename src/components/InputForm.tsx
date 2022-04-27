@@ -13,7 +13,7 @@ import {
 import { MapPicker } from './MapPicker'
 import {
   CALCULATOR_SETTINGS,
-  CalculatorSettings,
+  CalculatorSettings, INITIAL_INPUT_DATA,
   InverterPrice,
   MonthlyUsage,
   OptimizationTarget,
@@ -30,7 +30,6 @@ import {
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
-import { MapPickerMobile } from './MapPickerMobile'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -212,14 +211,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Row gutter={16}>
 
       </Row>
-      <Form.Item name="location" label={t('inputForm.location')} initialValue={init} style={{ marginBottom: 0 }}
+      <Form.Item name="location" label={t('inputForm.location')} initialValue={INITIAL_INPUT_DATA.location} style={{ marginBottom: 0 }}
         tooltip={{
           trigger: 'click',
           icon: <InfoCircleOutlined
             onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
         }}
       >
-        {props.mobile ? <MapPickerMobile /> : <MapPicker/>}
+        <MapPicker/>
       </Form.Item>
       {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
         onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>
