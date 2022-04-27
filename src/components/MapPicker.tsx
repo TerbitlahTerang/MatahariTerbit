@@ -17,19 +17,20 @@ export interface MapPickerProps {
 
 const distanceToMouse = (pt: Point, { x, y }: Point) => Math.sqrt((pt.x - x) * (pt.x - x) + (pt.y - 24 - y) * (pt.y - 24 - y))
 
-export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
-  const [position, setPosition] = useState<Coords>(props.value!.location)
-  const [center, setCenter] = useState<Coords>(props.value!.location)
+export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onChange }) => {
+
+  const [mapState, setMapState] = useState<MapState>(value!)
+  const [position, setPosition] = useState<Coords>(value!.location)
+  const [center, setCenter] = useState<Coords>(value!.location)
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
   const [draggable, setDraggable] = useState<boolean>(true)
-  const [mapState, setMapState] = useState<MapState>(props.value!)
   const [collapsed, setCollapsed] = useState<boolean>(false)
 
 
   useLayoutEffect(() => {
-    mapStore.subscribe((value) => {
-      setMapState(value)
-      if (props.onChange) { props.onChange(value) }
+    mapStore.subscribe((state) => {
+      setMapState(state)
+      if (onChange) { onChange(state) }
     })
   }, [])
 
@@ -87,7 +88,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = (props) => {
           </GoogleMapReact>
         </div>
       </div>
-      <IrradiationGauge value={mapState} />
+      <IrradiationGauge irradiation={mapState.info ? mapState.info.dni : 600} />
     </div>
   )
 }

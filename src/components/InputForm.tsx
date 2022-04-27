@@ -13,7 +13,7 @@ import {
 import { MapPicker } from './MapPicker'
 import {
   CALCULATOR_SETTINGS,
-  CalculatorSettings,
+  CalculatorSettings, INITIAL_INPUT_DATA,
   InverterPrice,
   MonthlyUsage,
   OptimizationTarget,
@@ -211,7 +211,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Row gutter={16}>
 
       </Row>
-      <Form.Item name="location" label={t('inputForm.location')} initialValue={init} style={{ marginBottom: 0 }}
+      <Form.Item name="location" label={t('inputForm.location')} initialValue={INITIAL_INPUT_DATA.location} style={{ marginBottom: 0 }}
         tooltip={{
           trigger: 'click',
           icon: <InfoCircleOutlined
