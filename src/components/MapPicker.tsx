@@ -1,7 +1,7 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { DEFAULT_ZOOM } from '../constants'
+import { DEFAULT_ZOOM, INITIAL_INPUT_DATA } from '../constants'
 import i18n from '../i18n'
 import { Coords, MapState, mapStore } from '../util/mapStore'
 import { formatNumber } from '../services/Formatters'
@@ -23,7 +23,6 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
 
   const [mapState, setMapState] = useState<MapState>(value!)
   const [position, setPosition] = useState<Coords>(value!.location)
-  const [center, setCenter] = useState<Coords>(value!.location)
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
   const [collapsed, setCollapsed] = useState<boolean>(false)
 
@@ -42,25 +41,27 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
 
   const setLocation = (coordinates: Coords) => {
     updatePosition(coordinates)
-    setCenter(coordinates)
     setZoom(16)
   }
 
   function LocationMarker() {
     const map = useMapEvents({
       click(e) {
-        // setLocation(e.latlng)
+        setLocation(e.latlng)
         map.flyTo(e.latlng, map.getZoom(), { animate: true })
       },
       locationfound(e) {
-        setPosition(e.latlng)
         console.log('locationfound', e)
-        map.flyTo(e.latlng, map.getZoom(), { animate: false })
+        setLocation(e.latlng)
+        console.log('flyto', e)
+        map.flyTo(e.latlng, map.getZoom(), { animate: true, duration: 1 })
       }
     })
     useEffect(() => {
-      console.log('useEffect')
-      // map.locate()
+      if (position === INITIAL_INPUT_DATA.location.location) {
+        console.log('locate')
+        map.locate()
+      }
     })
 
     return position ? (
@@ -68,7 +69,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       </Marker>
     ): null
   }
-  
+
   return (
     <div>
       <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
@@ -86,7 +87,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
             onClick={() => { setCollapsed(!collapsed) }} />
         </div>
         <div className="map-picker-view">
-          <MapContainer center={[center.lat, center.lng]} zoom={zoom} scrollWheelZoom={false} id='map'
+          <MapContainer center={[position.lat, position.lng]} zoom={zoom} scrollWheelZoom={false} id='map'
           >
             <TileLayer
               url='https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}'

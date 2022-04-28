@@ -69,8 +69,6 @@ const createLinkedinLink = () => {
 
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
-  console.log(props)
-
   const { t, i18n } = useTranslation()
   const [form] = Form.useForm()
 
