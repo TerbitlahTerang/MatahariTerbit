@@ -24,7 +24,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   const [mapState, setMapState] = useState<MapState>(value!)
   const [position, setPosition] = useState<Coords>(value!.location)
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
-  const [collapsed, setCollapsed] = useState<boolean>(false)
+  const [collapsed, setCollapsed] = useState<boolean>(true)
 
 
   useLayoutEffect(() => {

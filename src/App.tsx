@@ -66,7 +66,7 @@ export const App: React.FunctionComponent = () => {
     <div className="container">
       <nav className="app-nav">
         <div className="app-nav-logo"><Logo width={40} height={40} viewBox="0 0 32 32"/></div>
-        <Typography.Title ellipsis>{t('title')}</Typography.Title>
+        <Typography.Title ellipsis>{mobile ? t('titleMobile') : t('title')}</Typography.Title>
         { language ? (<></>) :
           (<div className="app-nav-extra">
             <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false}
