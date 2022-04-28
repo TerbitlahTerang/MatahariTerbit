@@ -1,21 +1,23 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import GoogleMapReact, { Coords, Point } from 'google-map-react'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
+import { DEFAULT_ZOOM } from '../constants'
 import i18n from '../i18n'
-import { MapState, mapStore } from '../util/mapStore'
+import { Coords, MapState, mapStore } from '../util/mapStore'
 import { formatNumber } from '../services/Formatters'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
 import { IrradiationGauge } from './IrradiationGauge'
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import * as ReactDOMServer from 'react-dom/server'
+import L from 'leaflet'
 
 export interface MapPickerProps {
   value?: MapState
   onChange?: (value: MapState) => void
 }
 
-const distanceToMouse = (pt: Point, { x, y }: Point) => Math.sqrt((pt.x - x) * (pt.x - x) + (pt.y - 24 - y) * (pt.y - 24 - y))
 
 export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onChange }) => {
 
@@ -23,7 +25,6 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   const [position, setPosition] = useState<Coords>(value!.location)
   const [center, setCenter] = useState<Coords>(value!.location)
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
-  const [draggable, setDraggable] = useState<boolean>(true)
   const [collapsed, setCollapsed] = useState<boolean>(false)
 
 
@@ -39,25 +40,34 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     setPosition(location)
   }
 
-  const onMouseDrag = (childKey: string, childProps: unknown, location: Coords) => {
-    setDraggable(false)
-    updatePosition(location)
-  }
-
   const setLocation = (coordinates: Coords) => {
     updatePosition(coordinates)
     setCenter(coordinates)
     setZoom(16)
   }
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const coordinates = { lat: coords.latitude, lng: coords.longitude } as Coords
-      setLocation(coordinates)
-    }, () => {
-      setLocation(INITIAL_INPUT_DATA.location.location)
+  function LocationMarker() {
+    const map = useMapEvents({
+      click(e) {
+        // setLocation(e.latlng)
+        map.flyTo(e.latlng, map.getZoom(), { animate: true })
+      },
+      locationfound(e) {
+        setPosition(e.latlng)
+        console.log('locationfound', e)
+        map.flyTo(e.latlng, map.getZoom(), { animate: false })
+      }
     })
-  }, [])
+    useEffect(() => {
+      console.log('useEffect')
+      // map.locate()
+    })
+
+    return position ? (
+      <Marker position={position} icon={L.divIcon({ className: 'custom-icon', html: ReactDOMServer.renderToString(<MapMarker />) })}>
+      </Marker>
+    ): null
+  }
   
   return (
     <div>
@@ -76,16 +86,14 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
             onClick={() => { setCollapsed(!collapsed) }} />
         </div>
         <div className="map-picker-view">
-          <GoogleMapReact draggable={draggable} bootstrapURLKeys={{ key: GOOGLE_MAPS_KEY }} center={center} zoom={zoom}
-            options={{ mapTypeControl: false, mapTypeId: 'hybrid' }}
-            yesIWantToUseGoogleMapApiInternals
-            onChildMouseDown={onMouseDrag}
-            onChildMouseUp={() => { setDraggable(true) }}
-            onChildMouseMove={onMouseDrag}
-            onClick={({ lat, lng }) => updatePosition({ lat, lng })}
-            distanceToMouse={distanceToMouse}>
-            <MapMarker lat={position.lat} lng={position.lng} />
-          </GoogleMapReact>
+          <MapContainer center={[center.lat, center.lng]} zoom={zoom} scrollWheelZoom={false} id='map'
+          >
+            <TileLayer
+              url='https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}'
+              subdomains={['mt0','mt1','mt2','mt3']}
+            />
+            <LocationMarker />
+          </MapContainer>
         </div>
       </div>
       <IrradiationGauge irradiation={mapState.info ? mapState.info.dni : 600} />

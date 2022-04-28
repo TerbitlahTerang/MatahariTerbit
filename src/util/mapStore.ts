@@ -1,7 +1,11 @@
-import { Coords } from 'google-map-react'
 import { debounceTime, forkJoin, map, mergeMap, Subject } from 'rxjs'
 import { INITIAL_INPUT_DATA } from '../constants'
 import { geocode, irradiance, IrradianceInfo } from './maps'
+
+export interface Coords {
+  lat: number
+  lng: number
+}
 
 export interface MapState {
   location: Coords
