@@ -2,8 +2,6 @@ import React from 'react'
 import MarkerIcon from '../assets/icons/marker.svg'
 
 export interface MapMarkerProps {
-  lat: number
-  lng: number
 }
 
 export const MapMarker: React.FunctionComponent<MapMarkerProps> = (props) => {
