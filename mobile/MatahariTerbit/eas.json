@@ -4,18 +4,34 @@
   },
   "build": {
     "development": {
+      "extends": "production",
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
+      "extends": "production",
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "ios": {
+        "autoIncrement": "buildNumber",
+        "credentialsSource": "local"
+      },
+      "android": {
+        "autoIncrement": "versionCode",
+        "credentialsSource": "local"
+      }
+    }
   },
   "submit": {
     "production": {
       "android": {
         "releaseStatus": "draft"
+      },
+      "ios": {
+        "appleId": "sam.theisens@gmail.com",
+        "ascAppId": "1618024702",
+        "appleTeamId": "WW9N847LA5"
       }
     }
   }
