@@ -20,7 +20,7 @@ Sentry.init({
 export default function App() {
 
   const langOnly = deviceLanguage.split('_')[0]
-  const baseUrl = 'https://matahariterbit--pr77-feature-try-out-diff-f37f6am0.web.app'
+  const baseUrl = 'https://matahariterbit.web.app'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
   console.log('uri', uri)
   return (
