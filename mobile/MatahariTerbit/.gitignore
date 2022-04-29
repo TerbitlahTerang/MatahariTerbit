@@ -12,3 +12,6 @@ web-build/
 # macOS
 .DS_Store
 pc-api-8977804663442977372-184-bbccdbf2b4ee.json
+credentials.json
+credentials/ios/dist-cert.p12
+credentials/ios/profile.mobileprovision
