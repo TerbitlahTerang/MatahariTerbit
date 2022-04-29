@@ -16,4 +16,10 @@ using the [global solar atlas](https://globalsolaratlas.info/).
     border-width: 2px;
     border-color: rgba(0, 0, 0, 0.75);
 }
+
+@media (max-width : 480px) {
+    .Location img {
+        width: 250px;
+    }
+}
 </style>
