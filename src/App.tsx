@@ -31,6 +31,8 @@ export const App: React.FunctionComponent = () => {
   const [language] = useQueryParam('lng', StringParam)
   const [mobile] = useQueryParam('mobile', BooleanParam)
 
+  const [cacheBuster, setCacheBuster] = useState<number>(0)
+
   const closeDocumentation = () => {
     setDocumentation(null)
     setDocumentationTitle(null)
@@ -112,6 +114,7 @@ export const App: React.FunctionComponent = () => {
                   {current === 1 && <Button type="primary"  style={{ marginTop: '15px', float: 'right' }} size="large"
                     onClick={() => {
                       setCurrent(2)
+                      setCacheBuster(Math.random)
                     }}>
                     {t('wizard.characteristics.button')}
                     <DollarOutlined/>
@@ -129,11 +132,11 @@ export const App: React.FunctionComponent = () => {
               }
               subTitle={
                 <div className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
+                  <div>{cacheBuster}</div>
                   <FinancialResultBreakdown results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} />
                   <Divider orientation="left">{t('chart.heading')}</Divider>
-                  <ROIChart yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
+                  <ROIChart cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
                   <Divider orientation="left">{t('roiTable.title')}</Divider>
-                  <div>&nbsp;</div>
                   <ROIBreakdown yearly={resultData.projection}/>
                 </div>}
             />
