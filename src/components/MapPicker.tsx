@@ -5,7 +5,7 @@ import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
 import { Coords, MapState, mapStore } from '../util/mapStore'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
-import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import * as ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
@@ -31,7 +31,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
 
   const [mapState, setMapState] = useState<MapState>(value!)
   const [position, setPosition] = useState<Coords>(value!.location)
-  const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
+  const [zoom] = useState<number>(DEFAULT_ZOOM)
   const [collapsed, setCollapsed] = useState<boolean>(true)
 
   const provider = new GoogleProvider({
