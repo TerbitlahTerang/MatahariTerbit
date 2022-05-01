@@ -30,7 +30,6 @@ import {
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
-import { IrradiationGauge } from './IrradiationGauge'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
