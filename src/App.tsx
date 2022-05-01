@@ -66,19 +66,21 @@ export const App: React.FunctionComponent = () => {
 
   return (
     <div className="container">
-      <nav className="app-nav">
-        <div className="app-nav-logo"><Logo width={40} height={40} viewBox="0 0 32 32"/></div>
-        <Typography.Title ellipsis>{mobile ? t('titleMobile') : t('title')}</Typography.Title>
-        { language ? (<></>) :
-          (<div className="app-nav-extra">
-            <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false}
-              style={{ color: '#FFFFFF' }} size="large">
-              <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
-              <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
-            </Select>
-          </div>)
-        }
-      </nav>
+      {!mobile &&
+          <nav className="app-nav">
+            <div className="app-nav-logo"><Logo width={40} height={40} viewBox="0 0 32 32"/></div>
+            <Typography.Title ellipsis>{t('title')}</Typography.Title>
+            {language ? (<></>) :
+              (<div className="app-nav-extra">
+                <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false}
+                  style={{ color: '#FFFFFF' }} size="large">
+                  <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
+                  <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
+                </Select>
+              </div>)
+            }
+          </nav>
+      }
       <Drawer title={(<div>{documentationTitle}</div>)} visible={documentation !== null} onClose={closeDocumentation} width={window.innerWidth > 900 ? '40%' : '82%'} >
         <InfoPane documentation={documentation!}/>
       </Drawer>
@@ -132,7 +134,6 @@ export const App: React.FunctionComponent = () => {
               }
               subTitle={
                 <div className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
-                  <div>{cacheBuster}</div>
                   <FinancialResultBreakdown results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} />
                   <Divider orientation="left">{t('chart.heading')}</Divider>
                   <ROIChart cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>

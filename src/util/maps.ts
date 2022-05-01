@@ -4,6 +4,7 @@ import { Coords } from './mapStore'
 
 export async function geocode(location: Coords) {
   const { results } = await Geocode.fromLatLng(location.lat.toString(), location.lng.toString(), GOOGLE_MAPS_KEY)
+  console.log('Got Geocode results', results)
   return results[0]
 }
 

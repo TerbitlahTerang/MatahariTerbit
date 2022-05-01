@@ -30,6 +30,7 @@ import {
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
+import { IrradiationGauge } from './IrradiationGauge'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -206,10 +207,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             </Col>
         }
       </Row>
-      <Row gutter={16}>
-
-      </Row>
-      <Form.Item name="location" label={t('inputForm.location')} initialValue={INITIAL_INPUT_DATA.location} style={{ marginBottom: 0 }}
+      <Row gutter={16} />
+      <Form.Item name="location" label={t('inputForm.location')} initialValue={INITIAL_INPUT_DATA.location}
         tooltip={{
           trigger: 'click',
           icon: <InfoCircleOutlined
@@ -217,6 +216,9 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         }}
       >
         <MapPicker/>
+      </Form.Item>
+      <Form.Item name="solarIntensity" label={t('inputForm.solarIntensity')} initialValue={INITIAL_INPUT_DATA.location} className='solarIntensity'>
+        <IrradiationGauge />
       </Form.Item>
       {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
         onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>

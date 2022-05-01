@@ -2,16 +2,14 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { DEFAULT_ZOOM, INITIAL_INPUT_DATA } from '../constants'
-import i18n from '../i18n'
 import { Coords, MapState, mapStore } from '../util/mapStore'
-import { formatNumber } from '../services/Formatters'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
-import { IrradiationGauge } from './IrradiationGauge'
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import * as ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
+import { useTranslation } from 'react-i18next'
 
 export interface MapPickerProps {
   value?: MapState
@@ -20,6 +18,8 @@ export interface MapPickerProps {
 
 
 export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onChange }) => {
+
+  const { t } = useTranslation()
 
   const [mapState, setMapState] = useState<MapState>(value!)
   const [position, setPosition] = useState<Coords>(value!.location)
@@ -44,6 +44,11 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     setZoom(16)
   }
 
+  const locationNotFound = () => {
+    console.log('no location')
+    setCollapsed(false)
+  }
+
   function LocationMarker() {
     const map = useMapEvents({
       click(e) {
@@ -55,12 +60,16 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
         setLocation(e.latlng)
         console.log('flyto', e)
         map.flyTo(e.latlng, map.getZoom(), { animate: true, duration: 1 })
+      },
+      locationerror(e) {
+        locationNotFound()
       }
     })
     useEffect(() => {
       if (position === INITIAL_INPUT_DATA.location.location) {
         console.log('locate')
-        map.locate()
+        const lok = map.locate()
+        console.log('lok', lok)
       }
     })
 
@@ -75,9 +84,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
         <div className="ant-input map-picker-header">
           <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
-            {mapState.address ?? 'Choose your address ...'}
+            {mapState.address === '' ? (mapState.info ? t('inputForm.findingLocation'): t('inputForm.chooseLocation')) : mapState.address}
           </div>
-          {mapState.info && (<div className="map-picker-irradiation" onClick={() => setCollapsed(!collapsed)}>{formatNumber(mapState.info.dni, i18n.language)}&nbsp;kWh/m2</div>)}
           <Button
             style={{ color: '#bfbfbf' }}
             icon={collapsed ? <DownOutlined /> : <UpOutlined />}
@@ -97,7 +105,6 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
           </MapContainer>
         </div>
       </div>
-      <IrradiationGauge irradiation={mapState.info ? mapState.info.dni : 600} />
     </div>
   )
 }

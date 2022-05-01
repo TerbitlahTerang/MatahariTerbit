@@ -1,3 +1,7 @@
+.solarIntensity .ant-form-item-label {
+    padding-bottom: 0;
+}
+
 .map-picker-irradiation-gauge {
     display: block;
     background-image: linear-gradient(to right, #48709d 1%, #a2eb7b 30%, #fcf967 40%, #c84430 75%, #2e0527 100% );
