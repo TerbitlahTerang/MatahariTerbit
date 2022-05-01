@@ -1,20 +1,27 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { DEFAULT_ZOOM, INITIAL_INPUT_DATA } from '../constants'
+import { AutoComplete, Button } from 'antd'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
 import { Coords, MapState, mapStore } from '../util/mapStore'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
-import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import * as ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
 import { useTranslation } from 'react-i18next'
+import { GoogleProvider } from 'leaflet-geosearch'
+import debounce from 'lodash/debounce'
 import { IrradiationGauge } from './IrradiationGauge'
 
 export interface MapPickerProps {
   value?: MapState
   onChange?: (value: MapState) => void
+}
+
+interface SurtsResult {
+  value: Coords
+  label: string
 }
 
 
@@ -26,6 +33,12 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   const [position, setPosition] = useState<Coords>(value!.location)
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
   const [collapsed, setCollapsed] = useState<boolean>(true)
+
+  const provider = new GoogleProvider({
+    params: {
+      key: GOOGLE_MAPS_KEY
+    }
+  })
 
 
   useLayoutEffect(() => {
@@ -41,39 +54,43 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     setPosition(location)
   }
 
-  const setLocation = (coordinates: Coords) => {
-    updatePosition(coordinates)
-    setZoom(16)
-  }
-
   const locationNotFound = () => {
     console.log('no location')
     setCollapsed(false)
+    setEditMode(true)
   }
 
   function LocationMarker() {
-    const map = useMapEvents({
+    const mapInstance: L.Map = useMapEvents({
       click(e) {
-        setLocation(e.latlng)
-        map.flyTo(e.latlng, map.getZoom(), { animate: true })
+        console.log('clickie')
+        // mapInstance.flyTo(e.latlng, mapInstance.getZoom(), { animate: true })
+        updatePosition(e.latlng)
+        console.log('fly')
       },
       locationfound(e) {
         console.log('locationfound', e)
-        setLocation(e.latlng)
-        console.log('flyto', e)
-        map.flyTo(e.latlng, map.getZoom(), { animate: true, duration: 1 })
+        updatePosition(e.latlng)
+        console.log('flyt', e)
+        console.log('flyto', position, mapInstance.getZoom())
+        mapInstance.flyTo(e.latlng, zoom, { animate: true, duration: 1 })
       },
       locationerror(e) {
         locationNotFound()
       }
     })
+
     useEffect(() => {
       if (position === INITIAL_INPUT_DATA.location.location) {
-        console.log('locate')
-        const lok = map.locate()
+        const lok = mapInstance.locate()
         console.log('lok', lok)
       }
     })
+
+    useMemo(() => {
+      console.log('memo', position, mapInstance.getZoom())
+      mapInstance.flyTo(position, mapInstance.getZoom(), { animate: true })
+    }, [position])
 
     return position ? (
       <Marker position={position} icon={L.divIcon({ className: 'custom-icon', html: ReactDOMServer.renderToString(<MapMarker />) })}>
@@ -81,13 +98,42 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     ): null
   }
 
+  const [options, setOptions] = useState<SurtsResult[]>([])
+  const previewOptions = useMemo(() => options.map((x) => {return { value: JSON.stringify(x.value), label : x.label }}), [options])
+
+  const findResults = async (s: string) => {
+    const results = await provider.search({ query:  s })
+    const res: SurtsResult[] = results.map((x) => {
+      const coords: Coords = { lat: x.y, lng: x.x }
+      return { value: coords, label:  `${x.label}` }  })
+    // setOptions(res)
+    setOptions(res)
+    // console.log(res)
+  }
+
+  const [editMode, setEditMode] = useState<boolean>(false)
+
   return (
     <div>
-      <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`}>
+      <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`} >
         <div className="ant-input map-picker-header">
-          <div className="map-picker-address" onClick={() => { setCollapsed(!collapsed) }}>
-            {mapState.address === '' ? (mapState.info ? t('inputForm.findingLocation'): t('inputForm.chooseLocation')) : mapState.address}
-          </div>
+          {editMode && !collapsed ?
+            <AutoComplete onSearch={debounce(findResults, 500)} options={previewOptions}
+              onSelect={(x: string) => {
+                console.log('x', x)
+                const coords = JSON.parse(x)
+                // console.log('coords', coords)
+                updatePosition(coords)
+                setEditMode(false)
+              }
+              }/> :
+            <div className="map-picker-address" onClick={() => {
+              setCollapsed(!collapsed)
+              setEditMode(true)
+            }}>
+              {mapState.address === '' ? (mapState.info ? t('inputForm.findingLocation') : t('inputForm.chooseLocation')) : mapState.address}
+            </div>
+          }
           <Button
             style={{ color: '#bfbfbf' }}
             icon={collapsed ? <DownOutlined /> : <UpOutlined />}
@@ -96,6 +142,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
             size="small"
             onClick={() => { setCollapsed(!collapsed) }} />
         </div>
+
         <div className="map-picker-view">
           <MapContainer center={[position.lat, position.lng]} zoom={zoom} scrollWheelZoom={false} id='map'
           >
