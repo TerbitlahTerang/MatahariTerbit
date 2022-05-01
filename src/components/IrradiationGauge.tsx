@@ -2,22 +2,20 @@ import { Animate } from 'react-move'
 import { easeExpOut } from 'd3-ease'
 import React from 'react'
 import './IrradiationGauge.css'
-import { MapState } from '../util/mapStore'
 
 interface IrradiationGaugeProps {
-  value?: MapState
-  onChange?: (value: MapState) => void
+  irradiation: number
 }
 
-export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = ({ value }) => {
+export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = ({ irradiation }) => {
 
   return(
     <div>
       <div style={{ height: '20px' }} className="map-picker-irradiation-gauge">
         <Animate show={true}
-          start={{ x: 600 }}
+          start={{ x: irradiation }}
           update={() => ({
-            x: [value?.info ? value.info.dni: 1500],
+            x: [irradiation],
             timing: { duration: 750, ease: easeExpOut }
           })}
         >

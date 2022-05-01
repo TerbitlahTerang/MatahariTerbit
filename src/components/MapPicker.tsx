@@ -10,6 +10,7 @@ import 'leaflet/dist/leaflet.css'
 import * as ReactDOMServer from 'react-dom/server'
 import L from 'leaflet'
 import { useTranslation } from 'react-i18next'
+import { IrradiationGauge } from './IrradiationGauge'
 
 export interface MapPickerProps {
   value?: MapState
@@ -36,6 +37,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
 
   const updatePosition = async (location: Coords) => {
     mapStore.setLocation(location)
+    console.log('mapStore.setLocation(location)', location)
     setPosition(location)
   }
 
@@ -105,6 +107,12 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
           </MapContainer>
         </div>
       </div>
+      <div className="ant-col ant-form-item-label solarIntensity">
+        <label>
+          {t('inputForm.solarIntensity')}
+        </label>
+      </div>
+      <IrradiationGauge irradiation={mapState.info ? mapState.info.dni : 600} />
     </div>
   )
 }

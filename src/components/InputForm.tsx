@@ -217,9 +217,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       >
         <MapPicker/>
       </Form.Item>
-      <Form.Item name="solarIntensity" label={t('inputForm.solarIntensity')} initialValue={INITIAL_INPUT_DATA.location} className='solarIntensity'>
-        <IrradiationGauge />
-      </Form.Item>
       {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
         onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>
       <Row gutter={16}>
