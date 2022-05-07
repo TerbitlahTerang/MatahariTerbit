@@ -153,6 +153,16 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         calculatorSettings
       })
     }}>
+      <Row gutter={16} />
+      <Form.Item name="location" label={t('inputForm.location')} initialValue={INITIAL_INPUT_DATA.location}
+        tooltip={{
+          trigger: 'click',
+          icon: <InfoCircleOutlined
+            onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
+        }}
+      >
+        <MapPicker/>
+      </Form.Item>
       <Row gutter={16}>
         <Col xs={24} sm={priorityEnabled ? 10 : 12}>
           {monthlyUsageType === MonthlyUsage.Rupiah ?
@@ -206,16 +216,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             </Col>
         }
       </Row>
-      <Row gutter={16} />
-      <Form.Item name="location" label={t('inputForm.location')} initialValue={INITIAL_INPUT_DATA.location}
-        tooltip={{
-          trigger: 'click',
-          icon: <InfoCircleOutlined
-            onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
-        }}
-      >
-        <MapPicker/>
-      </Form.Item>
+
       {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
         onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>
       <Row gutter={16}>

@@ -50,7 +50,7 @@
     "monthlyBill": "Monthly Electricity bill",
     "monthlyUsage": "Monthly Usage",
     "connectionPower": "Connection Power",
-    "location": "Your location",
+    "location": "Sunlight intensity at your location",
     "findingLocation": "Finding your location...",
     "chooseLocation": "Find your location...",
     "solarIntensity": "Sunlight intensity",

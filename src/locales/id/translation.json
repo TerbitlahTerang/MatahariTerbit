@@ -39,7 +39,7 @@
     "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan"
   },
   "chart": {
-    "heading": "Pengembalian investasi",
+    "heading": "Return on Investment (ROI)",
     "labelYear": "Tahun",
     "labelProfit": "Keuntungan Rp.",
     "tooltipTitle": "Tahun {{year}}",
@@ -49,7 +49,7 @@
     "monthlyBill": "Biaya bulanan",
     "monthlyUsage": "Monthly Usage",
     "connectionPower": "Daya",
-    "location": "Lokasi Anda",
+    "location": "Intensitas sinar matahari di lokasi Anda",
     "findingLocation": "Sedang cari lokasi Anda...",
     "chooseLocation": "Cari lokasi Anda...",
     "solarIntensity": "Intensitas sinar matahari",
@@ -84,7 +84,7 @@
     }
   },
   "roiTable" : {
-    "title": "Perincian keuangan per tahun",
+    "title": "ROI per tahun",
     "year": "Tahun",
     "output": "Produksi",
     "tariff": "Tarif",
