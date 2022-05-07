@@ -33,7 +33,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   const [mapState, setMapState] = useState<MapState>(value!)
   const [position, setPosition] = useState<Coords>(value!.location)
   const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
-  const [collapsed, setCollapsed] = useState<boolean>(true)
+  const [collapsed, setCollapsed] = useState<boolean>(false)
 
   const provider = new GoogleProvider({
     params: {
@@ -73,7 +73,6 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       locationfound(e) {
         updatePosition(e.latlng)
         console.log('locationfound', e)
-        // updatePosition(e.latlng)
         console.log('flyt', e)
         console.log('flyto', position, mapInstance.getZoom())
         // mapInstance.flyTo(e.latlng, zoom, { animate: true, duration: 1 })
@@ -91,8 +90,11 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     })
 
     useMemo(() => {
-      // console.log('memo', position, mapInstance.getZoom())
-      mapInstance.setView(position, zoom)
+      console.log('memo', position, mapInstance.getZoom())
+      if (mapInstance.getCenter() !== position || mapInstance.getZoom() !== zoom) {
+        console.log('memo-update', mapInstance.getCenter(), position, mapInstance.getZoom(), zoom)
+        mapInstance.setView(position, zoom)
+      }
       // mapInstance.flyTo(position, zoom)
     }, [position])
 
@@ -117,14 +119,12 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
 
   const [editMode, setEditMode] = useState<boolean>(false)
 
-  console.log('zoom', zoom)
-
   return (
     <div>
       <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`} >
         <div className="ant-input map-picker-header">
           {editMode && !collapsed ?
-            <AutoComplete onSearch={debounce(findResults, 500)} options={previewOptions}
+            <AutoComplete onSearch={debounce(findResults, 500)} options={previewOptions} autoFocus={true} onBlur={() => setEditMode(false)}
               onSelect={(x: string, y: DefaultOptionType) => {
                 console.log('x', x, y.label)
                 const coords = JSON.parse(x)
@@ -155,6 +155,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
         </div>
 
         <div className="map-picker-view">
+          <IrradiationGauge   irradiation={mapState.info ? mapState.info.dni : 600} />
           <MapContainer center={[position.lat, position.lng]} zoom={zoom} scrollWheelZoom={false} id='map'
           >
             <TileLayer
@@ -165,12 +166,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
           </MapContainer>
         </div>
       </div>
-      <div className="ant-col ant-form-item-label solarIntensity">
-        <label>
-          {t('inputForm.solarIntensity')}
-        </label>
-      </div>
-      <IrradiationGauge irradiation={mapState.info ? mapState.info.dni : 600} />
+
     </div>
   )
 }

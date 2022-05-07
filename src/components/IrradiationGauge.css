@@ -5,14 +5,26 @@
 
 .map-picker-irradiation-gauge {
     display: block;
+    position: absolute;
+    width: 100%;
+    top: 336px;
+    left: 0;
+    z-index: 10000;
     background-image: linear-gradient(to right, #48709d 1%, #a2eb7b 30%, #fcf967 40%, #c84430 75%, #2e0527 100% );
+}
+
+@media (max-width : 480px) {
+    .map-picker-irradiation-gauge {
+        top: 156px;
+    }
 }
 
 
 .map-picker-irradiation-gauge-legend {
     display: flex;
     justify-content: space-between;
-    position: relative;
+    background-color: white;
+    border-top: 1px solid #d9d9d9;
 }
 
 .map-picker-irradiation-gauge-legend > span {
@@ -29,7 +41,7 @@
 
 input[type=range] {
     width: 100%;
-    margin: 13.8px 0;
+    margin: 0 0 13.8px;
     background-color: transparent;
     -webkit-appearance: none;
 }
@@ -55,6 +67,7 @@ input[type=range]::-webkit-slider-thumb {
     border-style: solid;
     border-color: white;
     border-radius: 50%;
+    z-index: 200;
     background-image: url('../assets/images/logo.png');
     background-size: contain;
     background-position: center center;

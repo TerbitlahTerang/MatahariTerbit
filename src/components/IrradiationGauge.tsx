@@ -10,8 +10,8 @@ interface IrradiationGaugeProps {
 export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = ({ irradiation }) => {
 
   return(
-    <div>
-      <div style={{ height: '20px' }} className="map-picker-irradiation-gauge">
+    <div className="map-picker-irradiation-gauge">
+      <div style={{ height: '20px' }} >
         <Animate show={true}
           start={{ x: irradiation }}
           update={() => ({
