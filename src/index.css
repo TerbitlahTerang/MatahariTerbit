@@ -156,3 +156,6 @@ SPAN.anticon.anticon-info-circle {
     background-color: #46a171;
 }
 
+.ant-drawer {
+    z-index: 10000;
+}
