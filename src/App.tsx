@@ -2,7 +2,7 @@ import Icon, { DollarOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Select, Steps, Typography } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Logo from './assets/icons/logo.svg'
+import Logo from './assets/icons/logo-sunrise.svg'
 import { InputData, InputForm } from './components/InputForm'
 import { ResultTable } from './components/ResultTable'
 import { ROIBreakdown } from './components/ROIBreakdown'
@@ -15,6 +15,7 @@ import { InfoPane } from './components/InfoPane'
 import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
+import bgImage from './assets/images/background.svg'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -64,6 +65,7 @@ export const App: React.FunctionComponent = () => {
     setTimeout(moveTo(e.currentTarget), 200)
   }
 
+  console.log('BGImage ', bgImage)
   return (
     <div className="container">
       {!mobile &&
