@@ -3,7 +3,7 @@ import { MapState } from './util/mapStore'
 
 export const GOOGLE_MAPS_KEY = 'AIzaSyA191Lgk8nZhKo4E81LbtwUHCz7-wl3Ea0'
 export const GOOGLE_MAPS_MOBILE_KEY = 'AIzaSyCsXHX6Yd2tY8Ppz2STVOUgCn79T5Ut0Rw'
-export const DEFAULT_ZOOM = 20
+export const DEFAULT_ZOOM = 18
 
 export interface PowerOption {
   name: string
@@ -112,7 +112,7 @@ export const INITIAL_INPUT_DATA: InitialInputData = {
   monthlyCostEstimateInRupiah: 1000000,
   monthlyUsageInKwh: 1000,
   connectionPower: 7700,
-  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: 'Jakarta' },
+  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: '' },
   optimizationTarget: OptimizationTarget.Money,
   calculatorSettings: CALCULATOR_SETTINGS
 }

@@ -4,14 +4,14 @@ Ada berbagai faktor yang mempengaruhi biaya pemasangan sistem tenaga surya.
 
 ### Contoh
 
-| Deskripsi Barang  | Jumlah | Harga Unit |      Harga Total |
-|-------------------|-------:|-----------:|-----------------:|
-| Panel Surya (PV)  |      8 |  2.865.000 |       22.920.000 |
-| Alat inverter     |      1 |  7.496.475 |        7.496.475 |
-| Kabel-kabel       |    20m |     46.000 |        9.200.000 |
-| Alat pemasangan   |      8 |    450.000 |        3.600.000 |
-| Biaya instalasi   |      1 | 15.000.000 |       15.000.000 |
-| _**Biaya Total**_ |        |            | _**58.216.475**_ |
+| Deskripsi Barang  |   # | Harga Unit |      Harga Total |
+|-------------------|----:|-----------:|-----------------:|
+| Panel Surya (PV)  |   8 |  2.865.000 |       22.920.000 |
+| Alat inverter     |   1 |  7.496.475 |        7.496.475 |
+| Kabel-kabel       | 20m |     46.000 |        9.200.000 |
+| Alat pemasangan   |   8 |    450.000 |        3.600.000 |
+| Biaya instalasi   |   1 | 15.000.000 |       15.000.000 |
+| _**Biaya Total**_ |     |            | _**58.216.475**_ |
 
 ---
 ### Asumsi dalam pembuatan kalkulasi

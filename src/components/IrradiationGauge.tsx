@@ -10,10 +10,10 @@ interface IrradiationGaugeProps {
 export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = ({ irradiation }) => {
 
   return(
-    <div>
-      <div style={{ height: '20px' }} className="map-picker-irradiation-gauge">
+    <div className="map-picker-irradiation-gauge">
+      <div style={{ height: '20px' }} >
         <Animate show={true}
-          start={{ x: 600 }}
+          start={{ x: irradiation }}
           update={() => ({
             x: [irradiation],
             timing: { duration: 750, ease: easeExpOut }
@@ -21,7 +21,7 @@ export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = 
         >
           {(state) => {
             const { x } = state
-            return (<input style={{ height: '20px' }} type="range" min="600" max="2200"
+            return (<input style={{ height: '20px' }} type="range" min="600" max="2200" onChange={() => {}}
               value={x} className="slider" list="tickmarks"
               id="myRange"/>) }
           }

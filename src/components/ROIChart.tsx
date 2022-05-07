@@ -8,6 +8,7 @@ import { formatRupiah } from '../services/Formatters'
 export interface ROIChartProps {
   yearly: ReturnOnInvestment[]
   inverterLifetimeInYears: number
+  cacheBuster: number
 }
 
 
@@ -21,7 +22,7 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
     labels: props.yearly.map(x => x.index),
     datasets: [
       {
-        label: 'Jt. Rupiah',
+        label: 'Jt. Rupiah' + props.cacheBuster,
         data: props.yearly.map((x) => x.cumulativeProfit / 1000000),
         backgroundColor: colors,
         borderColor: 'rgba(255, 99, 132, 0.2)'
