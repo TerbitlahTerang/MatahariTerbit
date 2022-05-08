@@ -125,7 +125,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`} >
         <div className="ant-input map-picker-header">
           {editMode && !collapsed ?
-            <AutoComplete onSearch={() => { debounce(findResults, 500) }} options={previewOptions} autoFocus={true} onBlur={() => setEditMode(false)}
+            <AutoComplete onSearch={debounce(findResults, 500)} options={previewOptions} autoFocus={true} onBlur={() => setEditMode(false)}
               onSelect={(x: string, y: DefaultOptionType) => {
                 console.log('x', x, y.label)
                 const coords = JSON.parse(x)
