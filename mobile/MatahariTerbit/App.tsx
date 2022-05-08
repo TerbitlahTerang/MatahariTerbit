@@ -34,6 +34,9 @@ Sentry.init({
 export default function App() {
 
   const langOnly = deviceLanguage.split('_')[0]
+
+  const title = langOnly === 'id' ? 'Kalkulator Solar Panel': 'Solar Calculator'
+  const subTitle = langOnly === 'id' ? 'Menghitung PLTS on grid': 'How many panels do I need?'
   const baseUrl = 'https://matahariterbit--pr79-feature-styling-bran-yp4txjeu.web.app'
   // const baseUrl = 'http://192.168.1.4:8080'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
@@ -49,9 +52,8 @@ export default function App() {
               <HStack alignItems="center">
                 <SunriseLogo width={50} height={50} style={{ marginLeft: 5 }} />
                 <VStack style={{ marginLeft: 10 }}>
-
-                  <Heading size="lg" color='white' bold>Solar Calculator</Heading>
-                  <Heading size="xs" color='gray.300'>How many panels do I need?</Heading>
+                  <Heading size="lg" color='white' bold>{title}</Heading>
+                  <Heading size="xs" color='gray.300'>{subTitle}</Heading>
                 </VStack>
               </HStack>
               <HStack>
