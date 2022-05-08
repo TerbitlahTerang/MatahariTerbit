@@ -5,8 +5,9 @@ import { App } from './App'
 import { QueryParamProvider } from 'use-query-params'
 import './i18n'
 import './index.css'
+import { Spin } from 'antd'
 
-ReactDOM.render(<Suspense fallback="loading..." >
+ReactDOM.render(<Suspense fallback={<div className="container"><Spin size='large' /></div>} >
   <QueryParamProvider >
     <App />
   </QueryParamProvider>

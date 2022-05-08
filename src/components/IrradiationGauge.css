@@ -70,7 +70,7 @@ input[type=range]::-webkit-slider-thumb {
     border-color: white;
     border-radius: 50%;
     z-index: 200;
-    background-image: url('../assets/images/logo.png');
+    background-image: url('../assets/images/sunrise-logo.png');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;

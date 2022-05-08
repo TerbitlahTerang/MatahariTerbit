@@ -27,7 +27,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
   return (
     <div className="ant-table">
       <Row gutter={12} className="panelPane">
-        <Col xs={10} sm={8} >{t('resultTable.numberOfPanels')} {panels.length} <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/></Col>
+        <Col xs={10} sm={8} className='emphasis'>{t('resultTable.numberOfPanels')} {panels.length} <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/></Col>
         <Col xs={14} sm={16} className="panelContainer"><div style={{ float: 'right' }}>{panels.map(renderPanel)}</div></Col>
       </Row>
       <Row gutter={12} justify="end">

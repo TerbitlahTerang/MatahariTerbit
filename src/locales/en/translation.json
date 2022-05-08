@@ -7,7 +7,7 @@
     "prev": "Back",
     "calculate": "Calculate",
     "information": {
-      "title": "Your Information",
+      "title": "Three things we need to know",
       "button": "Calculate"
     },
     "characteristics": {
@@ -15,7 +15,7 @@
       "button": "Next"
     },
     "roi": {
-      "title": "Financials"
+      "title": "Investment"
     }
   },
   "resultTable": {
@@ -27,7 +27,7 @@
       "MinimumPayment": "Minimal monthly payment"
     },
     "recommendedPanels": "Recommended solar panel system",
-    "numberOfPanels": "# of panels: ",
+    "numberOfPanels": "Number of panels recommended: ",
     "areaRequired": "Area required",
     "monthlyProduction": "Monthly production from panels",
     "monthlyConsumption": "Monthly consumption",

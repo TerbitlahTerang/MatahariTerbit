@@ -1,13 +1,21 @@
 body {
     font-family: sans-serif;
-    background-color: #1890ff;
+    background-color: #FFF2BD;
+    background-image: linear-gradient(to top, #FFF2BD 1%, #F4D797 30%, #EBB58A 40%, #DA7F7D 75%, #B5728E 100% );
+    background-repeat: no-repeat;
 }
 
 .container {
+    /*background-image: url("assets/images/dithered-image2.png");*/
+    /*background-size: 120px;*/
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 24px 16px 16px;
+    /*background-position: -59px -325px, center top;*/
+    /*background-size: 510px;*/
+    background-repeat: repeat-x;
+    /*background-attachment: fixed;*/
 }
 
 .container > .card {
@@ -42,6 +50,10 @@ body {
     border-top-color: black;
     border-top-style: solid;
     border-top-width: 1px;
+    font-weight: bold;
+}
+
+.emphasis {
     font-weight: bold;
 }
 
@@ -149,7 +161,7 @@ SPAN.anticon.anticon-info-circle {
 }
 
 .prioritySwitch.ant-switch.ant-switch-checked {
-    background-color: #1890ff;
+    background-color: #5689CE;
 }
 
 .prioritySwitch.ant-switch {
@@ -158,4 +170,24 @@ SPAN.anticon.anticon-info-circle {
 
 .ant-drawer {
     z-index: 10000;
+}
+
+.ant-btn-primary {
+    border-color: #48709d;
+    background: #5689CE;
+}
+
+.ant-steps-icon {
+    color: #5689CE
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: #5689CE
+}
+.ant-steps-item-icon .ant-steps-icon {
+    color: #5689CE
+}
+
+.ant-drawer-header {
+    padding-left: 12px;
 }
