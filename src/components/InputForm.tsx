@@ -30,6 +30,7 @@ import {
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
+import './InputForm.css'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -154,7 +155,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       })
     }}>
       <Row gutter={16} />
-      <Form.Item name="location" label={t('inputForm.location')} initialValue={INITIAL_INPUT_DATA.location}
+      <Form.Item name="location" label={<div><span className="numberCircle"><span>1</span></span>&nbsp;{t('inputForm.location')}</div>} initialValue={INITIAL_INPUT_DATA.location}
         tooltip={{
           trigger: 'click',
           icon: <InfoCircleOutlined
@@ -166,7 +167,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Row gutter={16}>
         <Col xs={24} sm={priorityEnabled ? 10 : 12}>
           {monthlyUsageType === MonthlyUsage.Rupiah ?
-            (<Form.Item name="monthlyBill" label={t('inputForm.monthlyBill')}
+            (<Form.Item name="monthlyBill" label={<div><span className="numberCircle"><span>2</span></span>&nbsp;{t('inputForm.monthlyBill')}</div>}
               initialValue={init.monthlyCostEstimateInRupiah}
               tooltip={{
                 trigger: 'click',
@@ -188,7 +189,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           }
         </Col>
         <Col xs={priorityEnabled ? 15 : 24} sm={priorityEnabled ? 9 : 12}>
-          <Form.Item name="connectionPower" label={t('inputForm.connectionPower')}
+          <Form.Item name="connectionPower" label={<div><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.connectionPower')}</div>}
             initialValue={init.connectionPower} tooltip={{
               trigger: 'click',
               icon: <InfoCircleOutlined
