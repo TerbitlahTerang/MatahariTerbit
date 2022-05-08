@@ -37,7 +37,7 @@ export default function App() {
 
   const title = langOnly === 'id' ? 'Kalkulator Solar Panel': 'Solar Calculator'
   const subTitle = langOnly === 'id' ? 'Menghitung PLTS on grid': 'How many panels do I need?'
-  const baseUrl = 'https://matahariterbitweb.app'
+  const baseUrl = 'https://matahariterbit.web.app'
   // const baseUrl = 'http://192.168.1.4:8080'
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
   console.log('uri', uri)
@@ -63,7 +63,7 @@ export default function App() {
             </HStack>
               
 
-            <WebView originWhitelist={['https://*', 'http://*']}
+            <WebView originWhitelist={['https://*']}
               source={{
                 uri: uri,
                 baseUrl: ''
