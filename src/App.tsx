@@ -15,7 +15,6 @@ import { InfoPane } from './components/InfoPane'
 import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
-import bgImage from './assets/images/background.svg'
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
@@ -65,7 +64,6 @@ export const App: React.FunctionComponent = () => {
     setTimeout(moveTo(e.currentTarget), 200)
   }
 
-  console.log('BGImage ', bgImage)
   return (
     <div className="container">
       {!mobile &&
