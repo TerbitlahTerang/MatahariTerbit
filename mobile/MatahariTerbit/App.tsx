@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   Box,
   Heading,
@@ -10,13 +10,12 @@ import {
   VStack
 } from 'native-base'
 import WebView from 'react-native-webview'
-import { ImageBackground, NativeModules, Platform } from 'react-native'
+import { AppState, AppStateStatus, ImageBackground, NativeModules, Platform } from 'react-native'
 import * as Sentry from 'sentry-expo'
 import logo from './assets/dithered-image2.png'
-import Sunrise from './assets/logo-sunrise.svg'
-import { G, Path } from 'react-native-svg'
 import SunriseLogo from './components/SunriseLogo'
 import { MaterialIcons } from '@expo/vector-icons'
+import { WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes'
 
 const deviceLanguage =
     Platform.OS === 'ios'
@@ -32,6 +31,30 @@ Sentry.init({
 
 
 export default function App() {
+  const appState = useRef(AppState.currentState)
+
+  const webViewRef = useRef<WebView>(null)
+
+  useEffect(() => {
+    AppState.addEventListener('focus', _handleAppStateChange)
+    return () => {
+      AppState.removeEventListener('focus', _handleAppStateChange)
+    }
+  }, [])
+
+  const _handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+    }
+
+    appState.current = nextAppState
+    if (webViewRef.current !== null) {
+      console.log('Requesting focus on ', webViewRef.current)
+      webViewRef.current.requestFocus()
+    }
+
+    console.log('AppState', appState.current)
+  }
 
   const langOnly = deviceLanguage.split('_')[0]
 
@@ -42,6 +65,9 @@ export default function App() {
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
   console.log('uri', uri)
   const backGroundColor = '#0c4ac7'
+
+  const onError = (e: WebViewErrorEvent) => Sentry.Native.captureMessage(`Error from webview: ${JSON.stringify(e)}`)
+
   return (
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider >
@@ -64,13 +90,16 @@ export default function App() {
               
 
             <WebView originWhitelist={['https://*']}
+              ref={webViewRef}
               source={{
                 uri: uri,
                 baseUrl: ''
               }}
               geolocationEnabled
+              setSupportMultipleWindows={false}
               scrollEnabled={true}
               bounces={false}
+              onError={onError}
               style={{ flex: 1, height: 2, backgroundColor: '#5689CE'  }}
             />
           </ImageBackground>
