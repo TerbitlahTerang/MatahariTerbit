@@ -162,7 +162,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
         }}
       >
-        <MapPicker/>
+        <MapPicker mobile={props.mobile}/>
       </Form.Item>
       <Row gutter={16}>
         <Col xs={24} sm={priorityEnabled ? 10 : 12}>

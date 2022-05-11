@@ -17,12 +17,19 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "9",
+      "buildNumber": "10",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
       }
+    },
+    "locales": {
+      "id": "./i18n/bahasa_indonesia.json",
+      "en": "./i18n/english.json"
     },
     "android": {
       "versionCode": 4,

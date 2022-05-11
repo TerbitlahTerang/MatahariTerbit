@@ -18,6 +18,7 @@ import { DefaultOptionType } from 'rc-select/lib/Select'
 export interface MapPickerProps {
   value?: MapState
   onChange?: (value: MapState) => void
+  mobile: boolean
 }
 
 interface SurtsResult {
@@ -26,7 +27,7 @@ interface SurtsResult {
 }
 
 
-export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onChange }) => {
+export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onChange, mobile }) => {
 
   const { t } = useTranslation()
 
@@ -46,6 +47,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   useLayoutEffect(() => {
     mapStore.subscribe((state) => {
       setMapState(state)
+      setPosition(state.location)
       if (onChange) { onChange(state) }
     })
   }, [])
@@ -78,14 +80,21 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
         // mapInstance.flyTo(e.latlng, zoom, { animate: true, duration: 1 })
       },
       locationerror(e) {
-        locationNotFound()
+        if (!mobile) {
+          locationNotFound()
+        }
       }
     })
 
+
     useEffect(() => {
       if (position === INITIAL_INPUT_DATA.location.location) {
-        const lok = mapInstance.locate()
-        console.log('lok', lok)
+        if (mobile) {
+          window.postMessage('location')
+        } else {
+          const lok = mapInstance.locate()
+          console.log('lok', lok)
+        }
       }
     })
 
