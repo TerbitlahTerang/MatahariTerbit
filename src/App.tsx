@@ -1,6 +1,6 @@
 import Icon, { DollarOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Select, Steps, Typography } from 'antd'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Logo from './assets/icons/logo-sunrise.svg'
 import { InputData, InputForm } from './components/InputForm'
@@ -15,12 +15,33 @@ import { InfoPane } from './components/InfoPane'
 import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
+import { Coords, mapStore } from './util/mapStore'
+
+export enum MessageType {
+  LocationFound = 'LocationFound',
+  LocationDisabled = 'LocationDisabled',
+  InfoOpen = 'InfoOpen',
+  InfoClosed = 'InfoClosed'
+}
+
+interface Message {
+  messageType: MessageType,
+  payLoad?: object
+}
+
+interface LocationMessage {
+  messageType: MessageType,
+  payLoad: {
+    coords: Coords
+  }
+}
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
   const changeLanguage = (value: string) => {
     i18n.changeLanguage(value)
   }
+  
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
   const resultData: ResultData = useMemo(() => calculateResultData(inputData), [inputData])
 
@@ -32,6 +53,33 @@ export const App: React.FunctionComponent = () => {
   const [mobile] = useQueryParam('mobile', BooleanParam)
 
   const [cacheBuster, setCacheBuster] = useState<number>(0)
+
+  useEffect(() => {
+    if (mobile) {
+      window.addEventListener('message', function (event) {
+        const message: Message = JSON.parse(event.data)
+        switch (message.messageType) {
+          case MessageType.LocationFound: {
+            const mess: LocationMessage = JSON.parse(event.data)
+            mapStore.setLocation(mess.payLoad.coords)
+            break
+          }
+
+          case  MessageType.LocationDisabled:
+            mapStore.setLocation(INITIAL_INPUT_DATA.location.location)
+            break
+
+          case  MessageType.InfoOpen:
+            openDocumentation(Documentation.NumberOfPanels, t('wizard.information.title'))
+            break
+          case  MessageType.InfoClosed: {
+            closeDocumentation()
+            break
+          }
+        }
+      })
+    }
+  })
 
   const closeDocumentation = () => {
     setDocumentation(null)
@@ -88,7 +136,6 @@ export const App: React.FunctionComponent = () => {
         <div className="card-header">
           <Steps direction="vertical" size="small" current={current} onChange={setStep}>
             <Steps.Step icon={<EditOutlined/>}
-              onClick={handleScroll}
               title={<span>{t('wizard.information.title')}</span>}
               status={inputData.pvOut ? undefined : 'wait'}
               subTitle={

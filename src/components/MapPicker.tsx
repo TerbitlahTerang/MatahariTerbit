@@ -18,6 +18,7 @@ import { DefaultOptionType } from 'rc-select/lib/Select'
 export interface MapPickerProps {
   value?: MapState
   onChange?: (value: MapState) => void
+  mobile: boolean
 }
 
 interface SurtsResult {
@@ -26,13 +27,13 @@ interface SurtsResult {
 }
 
 
-export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onChange }) => {
+export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onChange, mobile }) => {
 
   const { t } = useTranslation()
 
   const [mapState, setMapState] = useState<MapState>(value!)
   const [position, setPosition] = useState<Coords>(value!.location)
-  const [zoom, setZoom] = useState<number>(DEFAULT_ZOOM)
+  const [zoom] = useState<number>(DEFAULT_ZOOM)
   const [collapsed, setCollapsed] = useState<boolean>(false)
 
   const provider = new GoogleProvider({
@@ -46,6 +47,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   useLayoutEffect(() => {
     mapStore.subscribe((state) => {
       setMapState(state)
+      setPosition(state.location)
       if (onChange) { onChange(state) }
     })
   }, [])
@@ -66,7 +68,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     const mapInstance: L.Map = useMapEvents({
       click(e) {
         console.log('clickie')
-        setZoom(mapInstance.getZoom())
+        // setZoom(mapInstance.getZoom())
         updatePosition(e.latlng)
         console.log('fly')
       },
@@ -78,14 +80,21 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
         // mapInstance.flyTo(e.latlng, zoom, { animate: true, duration: 1 })
       },
       locationerror(e) {
-        locationNotFound()
+        if (!mobile) {
+          locationNotFound()
+        }
       }
     })
 
+
     useEffect(() => {
       if (position === INITIAL_INPUT_DATA.location.location) {
-        const lok = mapInstance.locate()
-        console.log('lok', lok)
+        if (mobile) {
+          window.postMessage('location')
+        } else {
+          const lok = mapInstance.locate()
+          console.log('lok', lok)
+        }
       }
     })
 
@@ -93,7 +102,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       console.log('memo', position, mapInstance.getZoom())
       if (mapInstance.getCenter() !== position || mapInstance.getZoom() !== zoom) {
         console.log('memo-update', mapInstance.getCenter(), position, mapInstance.getZoom(), zoom)
-        mapInstance.setView(position, zoom)
+        mapInstance.setView(position, DEFAULT_ZOOM)
       }
       // mapInstance.flyTo(position, zoom)
     }, [position])
@@ -125,7 +134,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`} >
         <div className="ant-input map-picker-header">
           {editMode && !collapsed ?
-            <AutoComplete onSearch={debounce(findResults, 500)} options={previewOptions} autoFocus={true} onBlur={() => setEditMode(false)}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            <AutoComplete onSearch={ debounce(findResults, 500) } options={previewOptions} autoFocus={true} onBlur={() => setEditMode(false)}
               onSelect={(x: string, y: DefaultOptionType) => {
                 console.log('x', x, y.label)
                 const coords = JSON.parse(x)
