@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Solar Calculator Indonesia",
-    "slug": "SolarCalculatorIndonesia",
-    "version": "0.0.16",
+    "name": "Matahari Terbit",
+    "slug": "MatahariTerbit",
+    "version": "0.0.15",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,7 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "13",
+      "buildNumber": "14",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "config": {
