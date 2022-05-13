@@ -1,5 +1,5 @@
 ## Support
-If you have a problem setting-up or using Solar Panel Indonesia, or if you have any general questions about it, please contact me at matahari.terbit.appfgmail.com. Don't forget to specify the platform and version in question.
+If you have a problem setting-up or using Solar Panel Indonesia, or if you have any general questions about it, please contact me at matahari.terbit.app@gmail.com. Don't forget to specify the platform and version in question.
 
 
 ## Bug report
