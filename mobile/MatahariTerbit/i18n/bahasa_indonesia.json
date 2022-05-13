@@ -1,5 +1,6 @@
 {
   "NSLocationAlwaysUsageDescription": "Untuk pastikan intensitas sinar mata hari di rmah Anda",
   "NSLocationWhenInUseUsageDescription": "Untuk pastikan intensitas sinar mata hari di rumah Anda",
-  "CFBundleDisplayName": "Solar Panel Kalkulator"
+  "CFBundleDisplayName": "Solar Panel Kalkulator",
+  "CFBundleName": "Solar Panel Kalkulator"
 }

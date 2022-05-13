@@ -1,5 +1,6 @@
 {
   "NSLocationAlwaysUsageDescription": "To determine the amount of sunshine at your house ",
   "NSLocationWhenInUseUsageDescription": "To determine the amount of sunshine at your house ",
-  "CFBundleDisplayName": "Solar Calculator Indonesia"
+  "CFBundleDisplayName": "Solar Calculator Indonesia",
+  "CFBundleName": "Solar Calculator Indonesia"
 }

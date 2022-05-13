@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Matahari Terbit",
-    "slug": "MatahariTerbit",
+    "name": "Solar Calculator Indonesia",
+    "slug": "SolarCalculatorIndonesia",
     "version": "0.0.16",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
