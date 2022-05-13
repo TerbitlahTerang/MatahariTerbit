@@ -3,7 +3,9 @@
 
 ### Policies
  * [privacy](./policies/privacy.md)
- * [privacy](./policies/privacy_id.md)
+ * [privacy id](./policies/privacy_id.md)
+ * [support](./policies/support.md)
+ * [support id ](./policies/support_id.md)
  * [terms_and_conditions](./policies/terms_and_conditions.md)
 
 You can use the [editor on GitHub](https://github.com/SamTheisens/MatahariTerbit/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
