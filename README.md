@@ -1,4 +1,4 @@
-# Matahari Terbit ![image](src/assets/icons/marker.svg)
+# Matahari Terbit ![image](src/assets/icons/logo-sunrise.svg)
 
 ## Plans
 
@@ -8,13 +8,13 @@
 
 ### Calculations
  - [X] Subtract minimum costs from number of panels
- - [ ] Cap production based on connection size
- - [X] Include taxes
- - [ ] Enhanced vs simple mode
+ - [x] Cap production based on connection size
+ - [x] Include taxes
+ - [x] Enhanced vs simple mode
 
 ### Explanation
- - [ ] Show ROI graph
- - [ ] Display costs breakdown
+ - [x] Show ROI graph
+ - [x] Display costs breakdown
 
 ## Dependencies & Libraries
 - Snowpack
