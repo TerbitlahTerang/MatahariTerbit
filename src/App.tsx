@@ -61,12 +61,12 @@ export const App: React.FunctionComponent = () => {
         switch (message.messageType) {
           case MessageType.LocationFound: {
             const mess: LocationMessage = JSON.parse(event.data)
-            mapStore.setLocation(mess.payLoad.coords)
+            mapStore.setLocation(mess.payLoad.coords, true)
             break
           }
 
           case  MessageType.LocationDisabled:
-            mapStore.setLocation(INITIAL_INPUT_DATA.location.location)
+            mapStore.setLocation(INITIAL_INPUT_DATA.location.location, false)
             break
 
           case  MessageType.InfoOpen:

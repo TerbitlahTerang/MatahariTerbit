@@ -68,6 +68,24 @@ export default function App() {
   const webViewRef = useRef<WebView>(null)
   const [infoOpen, setInfoOpen] = useState(false)
   const [location, setLocation] = useState<Location | undefined>(undefined)
+  const [message, setMessage] = useState<Message| undefined>(undefined)
+  const [readyForLocation, setReadyForLocation] = useState(false)
+
+  const sendMessage = (toSend: Message) => {
+    if (webViewRef.current) {
+      webViewRef.current.postMessage(`${JSON.stringify(toSend)}`)
+    }
+  }
+
+  const sendLocationMessage = () => {
+    if (webViewRef.current && message && readyForLocation) {
+      webViewRef.current.postMessage(`${JSON.stringify(message)}`)
+    }
+  }
+
+  useEffect(() => {
+    sendLocationMessage()
+  }, [message, readyForLocation])
 
   const defaultLocation = {
     coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
@@ -78,8 +96,7 @@ export default function App() {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
-        setLocation(defaultLocation)
-        sendMessage({ messageType: MessageType.LocationDisabled })
+        setMessage({ messageType: MessageType.LocationDisabled })
         return
       }
 
@@ -99,22 +116,16 @@ export default function App() {
       }
 
       setLocation(foundLocation)
-      console.log('webViewRef.current.postMessage', foundLocation.coords)
+      setMessage({ messageType: MessageType.LocationFound, payLoad: foundLocation })
     })()
   }, [])
-
-  const sendMessage = (message: Message) => {
-    if (webViewRef.current) {
-      webViewRef.current.postMessage(`${JSON.stringify(message)}`)
-    }
-  }
 
   const langOnly = deviceLanguage.split('_')[0]
 
   const title = langOnly === 'id' ? 'Kalkulator Solar Panel': 'Solar Calculator'
   const subTitle = langOnly === 'id' ? 'Menghitung PLTS on grid': 'How many panels do I need?'
   const baseUrl = 'https://matahariterbit.web.app'
-  // const baseUrl = 'http://192.168.1.4:8080'
+  // const baseUrl = 'http://10.164.113.255:8080'
 
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
   console.log('uri', uri)
@@ -167,15 +178,10 @@ export default function App() {
               javaScriptEnabled={true}
               injectedJavaScript={injectedJavascript}
               onMessage={
-                (message) => {
-                  console.log('got da message!', message.nativeEvent.data)
-                  if (location && message.nativeEvent.data === 'location') {
-                    if (location === defaultLocation) {
-                      debounce(sendMessage, 200)({ messageType: MessageType.LocationDisabled })
-                    } else {
-                      debounce(sendMessage, 200)({ messageType: MessageType.LocationFound, payLoad: location })
-                    }
-                  }
+                (incomingMessage) => {
+                  console.log('got da message!', incomingMessage.nativeEvent.data)
+                  setReadyForLocation(true)
+                  sendLocationMessage()
                 }
               }
               style={{ flex: 1, height: 2, backgroundColor: '#5689CE'  }}

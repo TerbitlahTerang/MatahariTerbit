@@ -9,6 +9,7 @@ export interface Coords {
 
 export interface MapState {
   location: Coords
+  geoEnabled?: boolean
   address?: string
   info?: IrradianceInfo
 }
@@ -23,19 +24,21 @@ export const mapStore = {
   subscribe: (setState: SetStateFn) => {
     subject.pipe(
       debounceTime(500),
-      mergeMap(({ location }) => forkJoin([
+      mergeMap(({ location, geoEnabled }) => forkJoin([
         geocode(location),
-        irradiance(location)
+        irradiance(location),
+        Promise.resolve(geoEnabled)
       ])),
-      map(([geo, info]) => ({
+      map(([geo, info, enabled]) => ({
         location: { lat: geo.geometry.location.lat, lng: geo.geometry.location.lng } ,
+        geoEnabled: enabled,
         address: geo.formatted_address,
         info
       }))
     ).subscribe(setState)
   },
-  setLocation: (location: Coords) => {
-    state = { ...state, location }
+  setLocation: (location: Coords, geoEnabled?: boolean) => {
+    state = { ...state, location, geoEnabled }
     subject.next(state)
   },
   initialState: INITIAL_INPUT_DATA.pvOut

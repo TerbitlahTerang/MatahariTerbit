@@ -43,17 +43,19 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     }
   })
 
-
   useLayoutEffect(() => {
     mapStore.subscribe((state) => {
       setMapState(state)
       setPosition(state.location)
+      if (state.geoEnabled === false) {
+        setEditMode(true)
+      }
       if (onChange) { onChange(state) }
     })
   }, [])
 
-  const updatePosition = async (location: Coords) => {
-    mapStore.setLocation(location)
+  const updatePosition = async (location: Coords, enabled?: boolean) => {
+    mapStore.setLocation(location, enabled)
     console.log('mapStore.setLocation(location)', location)
     setPosition(location)
   }
@@ -69,11 +71,11 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       click(e) {
         console.log('clickie')
         // setZoom(mapInstance.getZoom())
-        updatePosition(e.latlng)
+        updatePosition(e.latlng, mapState.geoEnabled)
         console.log('fly')
       },
       locationfound(e) {
-        updatePosition(e.latlng)
+        updatePosition(e.latlng, mapState.geoEnabled)
         console.log('locationfound', e)
         console.log('flyt', e)
         console.log('flyto', position, mapInstance.getZoom())
