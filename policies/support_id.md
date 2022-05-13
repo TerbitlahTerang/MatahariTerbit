@@ -1,8 +1,8 @@
 ## Support
-Jika ada masalah dalam menyiapkan atau menggunakan Solar Panel Kalkulator, atau jika Anda punya pertanyaan umum tentangnya, silakan hubungi saya di matahari.terbit.app@gmail.com. Jangan lupa untuk menentukan platform dan versi yang dimaksud.
+Jika ada masalah dalam menyiapkan atau menggunakan Solar Panel Kalkulator, atau jika Anda punya pertanyaan umum tentangnya, silakan hubungi saya di [matahari.terbit.app@gmail.com](mailto:matahari.terbit.app@gmail.com). Jangan lupa untuk menentukan platform dan versi yang dimaksud.
 
 ## Laporkan bug
-Jika Anda yakin telah menemukan bug, kirimkan masalah di https://github.com/SamTheisens/MatahariTerbit/issues.
+Jika Anda yakin telah menemukan bug, kirimkan masalah di [https://github.com/SamTheisens/MatahariTerbit/issues](https://github.com/SamTheisens/MatahariTerbit/issues]).
 
 Harap sertakan informasi berikut dalam laporan bug yang Anda laporkan:
 
@@ -14,13 +14,13 @@ Harap sertakan informasi berikut dalam laporan bug yang Anda laporkan:
 
 ## Permintaan fitur
 
- Jika Anda melewatkan fitur atau hanya memiliki ide bagus, jangan ragu untuk mengirimkan permintaan fitur ke https://github.com/SamTheisens/MatahariTerbit/issues. 
+ Jika Anda melewatkan fitur atau hanya memiliki ide bagus, jangan ragu untuk mengirimkan permintaan fitur ke [https://github.com/SamTheisens/MatahariTerbit/issues](https://github.com/SamTheisens/MatahariTerbit/issues). 
  Harap dicatat bahwa saya tidak dapat menjanjikan bahwa salah satu dari permintaan ini akan dikomentari atau akan diterapkan, 
  tetapi saya selalu terbuka untuk ide-ide hebat! Atau, Anda dipersilakan untuk menyarankan ide-ide Anda melalui forum diskusi kami
 
 ## Media
 
-Jika Anda adalah anggota media dan ingin meminta salinan ulasan perangkat lunak saya, silakan kirimkan informasi berikut ke matahari.terbit.app@gmail.com dan pastikan subjek berisi "Permintaan media".
+Jika Anda adalah anggota media dan ingin meminta salinan ulasan perangkat lunak saya, silakan kirimkan informasi berikut ke [matahari.terbit.app@gmail.com](mailto:matahari.terbit.app@gmail.com) dan pastikan subjek berisi "Permintaan media".
 
  - Nama lengkap
  - Publikasi

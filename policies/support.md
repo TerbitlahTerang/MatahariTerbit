@@ -1,9 +1,9 @@
 ## Support
-If you have a problem setting-up or using Solar Panel Indonesia, or if you have any general questions about it, please contact me at matahari.terbit.app@gmail.com. Don't forget to specify the platform and version in question.
+If you have a problem setting-up or using Solar Panel Indonesia, or if you have any general questions about it, please contact me at [matahari.terbit.app@gmail.com](mailto:matahari.terbit.app@gmail.com). Don't forget to specify the platform and version in question.
 
 
 ## Bug report
-If you believe you have found a bug please submit an issue at https://github.com/SamTheisens/MatahariTerbit/issues.
+If you believe you have found a bug please submit an issue at [https://github.com/SamTheisens/MatahariTerbit/issues](https://github.com/SamTheisens/MatahariTerbit/issues).
 
 Please include the following information in your bug report you file:
 
