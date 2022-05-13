@@ -2,7 +2,7 @@
   "expo": {
     "name": "Matahari Terbit",
     "slug": "MatahariTerbit",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,7 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "10",
+      "buildNumber": "1",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "config": {
