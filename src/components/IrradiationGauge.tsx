@@ -51,7 +51,7 @@ export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = 
         }
       </Animate>
 
-      <div style={{ backgroundColor: 'white', marginLeft: -1, marginRight: -1  }}>&nbsp;</div>
+      <div style={{ backgroundColor: 'white', marginLeft: -1, marginRight: -1, height: '30px' }}>&nbsp;</div>
 
     </div>)
 }
