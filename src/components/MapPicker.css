@@ -3,12 +3,8 @@
   transition: height 250ms;
 }
 
-.map-picker.expanded {
-  height: 414px;
-}
-
 .map-picker.collapsed {
-  height: 34px;
+  height: 42px;
 }
 
 .map-picker:hover {
@@ -55,12 +51,16 @@
   background-color: #F5F5F5;
 }
 
+.map-picker.expanded {
+  height: 414px;
+}
+
 @media (max-width : 480px) {
   .map-picker-view {
     height: 200px;
   }
   .map-picker.expanded {
-    height: 234px;
+    height: 264px;
   }
 }
 
