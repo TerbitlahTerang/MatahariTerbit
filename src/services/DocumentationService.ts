@@ -22,6 +22,8 @@ import PriorityEn from '../assets/documentation/en/inputform/Priority.md'
 import PriorityId from '../assets/documentation/id/inputform/Priority.md'
 import PlnSettingsEn from '../assets/documentation/en/expert/PLNSettings.md'
 import PlnSettingsId from '../assets/documentation/id/expert/PLNSettings.md'
+import AppInfoEn from '../assets/documentation/en/app/AppInfo.md'
+import AppInfoId from '../assets/documentation/id/app/AppInfo.md'
 import { LimitingFactor } from './CalculationService'
 
 export enum Documentation {
@@ -36,7 +38,8 @@ export enum Documentation {
   MinimalPayment,
   RoiExplanation,
   Priority,
-  PlnSettings
+  PlnSettings,
+  AppInfo
 }
 
 export enum Locale {
@@ -58,6 +61,7 @@ function getIndonesian(doc: Documentation): string {
     case Documentation.RoiExplanation: return RoiExplanationId.body
     case Documentation.Priority: return PriorityId.body
     case Documentation.PlnSettings: return PlnSettingsId.body
+    case Documentation.AppInfo: return AppInfoId.body
   }
 }
 
@@ -75,6 +79,7 @@ function getEnglish(doc: Documentation): string {
     case Documentation.RoiExplanation: return RoiExplanationEn.body
     case Documentation.Priority: return PriorityEn.body
     case Documentation.PlnSettings: return PlnSettingsEn.body
+    case Documentation.AppInfo: return AppInfoEn.body
   }
 }
 

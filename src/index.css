@@ -3,6 +3,9 @@ body {
     background-color: #FFF2BD;
     background-image: linear-gradient(to top, #FFF2BD 1%, #F4D797 30%, #EBB58A 40%, #DA7F7D 75%, #B5728E 100% );
     background-repeat: no-repeat;
+    --min: 600;
+    --max: 2200;
+    --val: 1000;
 }
 
 .container {

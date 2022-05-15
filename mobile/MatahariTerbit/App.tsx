@@ -10,15 +10,14 @@ import {
   VStack
 } from 'native-base'
 import WebView from 'react-native-webview'
-import { ImageBackground, NativeModules, Platform } from 'react-native'
+import { ActivityIndicator, NativeModules, Platform } from 'react-native'
 import * as Sentry from 'sentry-expo'
-import logo from './assets/dithered-image2.png'
 import SunriseLogo from './components/SunriseLogo'
 import { MaterialIcons } from '@expo/vector-icons'
 import { WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes'
 import * as Location from 'expo-location'
 import { LocationGeocodedAddress } from 'expo-location'
-import { debounce } from 'lodash'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const deviceLanguage =
     Platform.OS === 'ios'
@@ -31,23 +30,6 @@ Sentry.init({
   enableInExpoDevelopment: true,
   debug: true // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 })
-
-interface Coords {
-  lat: number
-  lng: number
-}
-
-interface Address {
-  street: string | null
-  city: string | null
-  region: string | null
-  name: string | null
-}
-
-interface Location {
-  coords: Coords
-  address: Address
-}
 
 export enum MessageType {
   LocationFound = 'LocationFound',
@@ -67,9 +49,9 @@ export default function App() {
 
   const webViewRef = useRef<WebView>(null)
   const [infoOpen, setInfoOpen] = useState(false)
-  const [location, setLocation] = useState<Location | undefined>(undefined)
   const [message, setMessage] = useState<Message| undefined>(undefined)
   const [readyForLocation, setReadyForLocation] = useState(false)
+  const [show, setShow] = useState(false)
 
   const sendMessage = (toSend: Message) => {
     if (webViewRef.current) {
@@ -115,7 +97,6 @@ export default function App() {
         address: { street: address.street, city: address.city, region: address.region, name: address.name }
       }
 
-      setLocation(foundLocation)
       setMessage({ messageType: MessageType.LocationFound, payLoad: foundLocation })
     })()
   }, [])
@@ -125,7 +106,8 @@ export default function App() {
   const title = langOnly === 'id' ? 'Kalkulator Solar Panel': 'Solar Calculator'
   const subTitle = langOnly === 'id' ? 'Menghitung PLTS on grid': 'How many panels do I need?'
   const baseUrl = 'https://matahariterbit.web.app'
-  // const baseUrl = 'http://10.164.113.255:8080'
+  // const baseUrl = 'https://matahariterbit--pr82-feature-intensity-in-xs1iu3m8.web.app'
+  // const baseUrl = 'http://192.168.1.4:8080'
 
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
   console.log('uri', uri)
@@ -143,33 +125,34 @@ export default function App() {
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider >
         <View style={{ flex: 1 }} backgroundColor={backGroundColor}>
-          <ImageBackground resizeMode='repeat' source={logo} style={{ width: '100%', height: '100%' }} width={160} >
-            <Box safeAreaTop bg={backGroundColor} />
-            <HStack bg={backGroundColor} px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
-              <HStack alignItems="center">
-                <SunriseLogo width={50} height={50} style={{ marginLeft: 5 }} />
-                <VStack style={{ marginLeft: 10 }}>
-                  <Heading size="lg" color='white' bold>{title}</Heading>
-                  <Heading size="xs" color='gray.300'>{subTitle}</Heading>
-                </VStack>
-              </HStack>
-              <HStack>
-                <IconButton icon={<Icon as={MaterialIcons} name="info" size="sm" color="white" />}
-                  onPress={() => {
-                    sendMessage(infoOpen ? { messageType: MessageType.InfoClosed } : { messageType: MessageType.InfoOpen })
-                    setInfoOpen(!infoOpen)
-                  }}
-                />
-              </HStack>
+          <Box safeAreaTop bg={backGroundColor} />
+          <HStack bg={backGroundColor} px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
+            <HStack alignItems="center">
+              <SunriseLogo width={50} height={50} style={{ marginLeft: 5 }} />
+              <VStack style={{ marginLeft: 10 }}>
+                <Heading size="lg" color='white' bold>{title}</Heading>
+                <Heading size="xs" color='gray.300'>{subTitle}</Heading>
+              </VStack>
             </HStack>
-
-
+            <HStack>
+              <IconButton icon={<Icon as={MaterialIcons} name="info" size="sm" color="white" />}
+                onPress={() => {
+                  sendMessage(infoOpen ? { messageType: MessageType.InfoClosed } : { messageType: MessageType.InfoOpen })
+                  setInfoOpen(!infoOpen)
+                }}
+              />
+            </HStack>
+          </HStack>
+          <LinearGradient locations={[1.0, 0.75, 0.4, 0.3]} colors={['#F4D797', '#EBB58A', '#DA7F7D', '#B5728E']} style={{ width: '100%', height: '100%' }}>
             <WebView originWhitelist={['https://*']}
               ref={webViewRef}
               source={{
                 uri: uri,
                 baseUrl: ''
               }}
+              startInLoadingState={true}
+              renderLoading={() => <ActivityIndicator size="large" />}
+              onLoadEnd={() => setShow(true)}
               geolocationEnabled={true}
               setSupportMultipleWindows={false}
               scrollEnabled={true}
@@ -184,9 +167,9 @@ export default function App() {
                   sendLocationMessage()
                 }
               }
-              style={{ flex: 1, height: 2, backgroundColor: '#5689CE'  }}
+              style={{ flex: 1, height: 2, backgroundColor: '#5689CE', display: show ? 'flex' : 'none' }}
             />
-          </ImageBackground>
+          </LinearGradient>
         </View>
       </NativeBaseProvider>
   )

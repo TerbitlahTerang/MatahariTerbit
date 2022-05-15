@@ -101,12 +101,10 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     })
 
     useMemo(() => {
-      console.log('memo', position, mapInstance.getZoom())
       if (mapInstance.getCenter() !== position || mapInstance.getZoom() !== zoom) {
         console.log('memo-update', mapInstance.getCenter(), position, mapInstance.getZoom(), zoom)
         mapInstance.setView(position, DEFAULT_ZOOM)
       }
-      // mapInstance.flyTo(position, zoom)
     }, [position])
 
     return position ? (
@@ -168,9 +166,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
         </div>
 
         <div className="map-picker-view">
-          <IrradiationGauge   irradiation={mapState.info ? mapState.info.dni : 600} />
-          <MapContainer center={[position.lat, position.lng]} zoom={zoom} scrollWheelZoom={false} id='map'
-          >
+          <IrradiationGauge irradiation={mapState.info ? mapState.info.dni : 600} mobile={mobile} />
+          <MapContainer center={[position.lat, position.lng]} zoom={zoom} scrollWheelZoom={false} id='map'>
             <TileLayer
               url='https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}'
               subdomains={['mt0','mt1','mt2','mt3']}
