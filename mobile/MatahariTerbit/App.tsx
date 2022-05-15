@@ -31,23 +31,6 @@ Sentry.init({
   debug: true // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
 })
 
-interface Coords {
-  lat: number
-  lng: number
-}
-
-interface Address {
-  street: string | null
-  city: string | null
-  region: string | null
-  name: string | null
-}
-
-interface Location {
-  coords: Coords
-  address: Address
-}
-
 export enum MessageType {
   LocationFound = 'LocationFound',
   LocationDisabled = 'LocationDisabled',
@@ -122,8 +105,8 @@ export default function App() {
 
   const title = langOnly === 'id' ? 'Kalkulator Solar Panel': 'Solar Calculator'
   const subTitle = langOnly === 'id' ? 'Menghitung PLTS on grid': 'How many panels do I need?'
-  // const baseUrl = 'https://matahariterbit.web.app'
-  const baseUrl = 'https://matahariterbit--pr82-feature-intensity-in-xs1iu3m8.web.app'
+  const baseUrl = 'https://matahariterbit.web.app'
+  // const baseUrl = 'https://matahariterbit--pr82-feature-intensity-in-xs1iu3m8.web.app'
   // const baseUrl = 'http://192.168.1.4:8080'
 
   const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
@@ -161,7 +144,7 @@ export default function App() {
             </HStack>
           </HStack>
           <LinearGradient locations={[1.0, 0.75, 0.4, 0.3]} colors={['#F4D797', '#EBB58A', '#DA7F7D', '#B5728E']} style={{ width: '100%', height: '100%' }}>
-            <WebView originWhitelist={['https://*', 'http://*']}
+            <WebView originWhitelist={['https://*']}
               ref={webViewRef}
               source={{
                 uri: uri,

@@ -71,7 +71,7 @@ export const App: React.FunctionComponent = () => {
             break
 
           case  MessageType.InfoOpen:
-            openDocumentation(Documentation.NumberOfPanels, t('wizard.information.title'), true)
+            openDocumentation(Documentation.AppInfo, t('title'), true)
             break
           case  MessageType.InfoClosed: {
             closeDocumentation()
@@ -121,8 +121,6 @@ export const App: React.FunctionComponent = () => {
       setTimeout(moveTo(e), 200)
     }
   }
-
-
 
   const firstRef = useRef(null)
   const secondRef = useRef(null)
