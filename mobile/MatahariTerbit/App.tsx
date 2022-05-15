@@ -161,7 +161,7 @@ export default function App() {
             </HStack>
           </HStack>
           <LinearGradient locations={[1.0, 0.75, 0.4, 0.3]} colors={['#F4D797', '#EBB58A', '#DA7F7D', '#B5728E']} style={{ width: '100%', height: '100%' }}>
-            <WebView originWhitelist={['https://*']}
+            <WebView originWhitelist={['https://*', 'http://*']}
               ref={webViewRef}
               source={{
                 uri: uri,

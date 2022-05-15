@@ -11,7 +11,6 @@ interface IrradiationGaugeProps {
 export const IrradiationGauge: React.FunctionComponent<IrradiationGaugeProps> = ({ irradiation, mobile }) => {
   const min = 594
   const max = 2200
-  console.log('mobile', mobile)
   return(
     <div className="map-picker-irradiation-gauge js">
       <div className="map-picker-irradiation-gauge-legend">

@@ -101,12 +101,10 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     })
 
     useMemo(() => {
-      console.log('memo', position, mapInstance.getZoom())
       if (mapInstance.getCenter() !== position || mapInstance.getZoom() !== zoom) {
         console.log('memo-update', mapInstance.getCenter(), position, mapInstance.getZoom(), zoom)
         mapInstance.setView(position, DEFAULT_ZOOM)
       }
-      // mapInstance.flyTo(position, zoom)
     }, [position])
 
     return position ? (
