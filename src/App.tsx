@@ -36,6 +36,10 @@ interface LocationMessage {
   }
 }
 
+interface AndroidEvent {
+  data: string
+}
+
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
   const changeLanguage = (value: string) => {
@@ -55,29 +59,37 @@ export const App: React.FunctionComponent = () => {
 
   const [cacheBuster, setCacheBuster] = useState<number>(0)
 
+  function handleEvent(data: string) {
+    const message: Message = JSON.parse(data)
+    switch (message.messageType) {
+      case MessageType.LocationFound: {
+        const mess: LocationMessage = JSON.parse(data)
+        mapStore.setLocation(mess.payLoad.coords, true)
+        break
+      }
+
+      case  MessageType.LocationDisabled:
+        mapStore.setLocation(INITIAL_INPUT_DATA.location.location, false)
+        break
+
+      case  MessageType.InfoOpen:
+        openDocumentation(Documentation.AppInfo, t('title'), true)
+        break
+      case  MessageType.InfoClosed: {
+        closeDocumentation()
+        break
+      }
+    }
+  }
+
   useEffect(() => {
     if (mobile) {
-      window.addEventListener('message', function (event) {
-        const message: Message = JSON.parse(event.data)
-        switch (message.messageType) {
-          case MessageType.LocationFound: {
-            const mess: LocationMessage = JSON.parse(event.data)
-            mapStore.setLocation(mess.payLoad.coords, true)
-            break
-          }
-
-          case  MessageType.LocationDisabled:
-            mapStore.setLocation(INITIAL_INPUT_DATA.location.location, false)
-            break
-
-          case  MessageType.InfoOpen:
-            openDocumentation(Documentation.AppInfo, t('title'), true)
-            break
-          case  MessageType.InfoClosed: {
-            closeDocumentation()
-            break
-          }
-        }
+      window.addEventListener('message', (event) => {
+        handleEvent(event.data)
+      })
+      document.addEventListener('message', (evt: unknown) => {
+        const androidEvent = evt as AndroidEvent
+        handleEvent(androidEvent.data)
       })
     }
   })

@@ -88,12 +88,9 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
       }
     })
 
-
     useEffect(() => {
       if (position === INITIAL_INPUT_DATA.location.location) {
-        if (mobile) {
-          window.postMessage('location')
-        } else {
+        if (!mobile) {
           const lok = mapInstance.locate()
           console.log('lok', lok)
         }
