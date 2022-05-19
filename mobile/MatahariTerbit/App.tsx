@@ -164,6 +164,13 @@ export default function App() {
               onError={onError}
               javaScriptEnabled={true}
               injectedJavaScript={injectedJavascript}
+              onMessage={
+                (incomingMessage) => {
+                  console.log('got da message!', incomingMessage.nativeEvent.data)
+                  setReadyForLocation(true)
+                  sendLocationMessage()
+                }
+              }
               style={{ flex: 1, height: 2, backgroundColor: '#5689CE', display: show ? 'flex' : 'none' }}
             />
           </LinearGradient>
