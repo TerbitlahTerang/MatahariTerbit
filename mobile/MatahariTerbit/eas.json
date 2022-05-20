@@ -18,7 +18,8 @@
         "credentialsSource": "local"
       },
       "android": {
-        "autoIncrement": "versionCode"
+        "autoIncrement": "versionCode",
+        "credentialsSource": "local"
       }
     }
   },

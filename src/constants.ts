@@ -39,7 +39,11 @@ export const powerOptions: PowerOption[] = [
   { name: '10.600 VA', value: 10600 },
   { name: '11.000 VA', value: 11000 },
   { name: '13.200 VA', value: 13200 },
-  { name: '16.500 VA', value: 16500 }
+  { name: '16.500 VA', value: 16500 },
+  { name: '23.000 VA', value: 23000 },
+  { name: '33.000 VA', value: 33000 },
+  { name: '41.500 VA', value: 41500 },
+  { name: '53.000 VA', value: 53000 }
 ]
 
 interface InitialInputData extends InputData {
