@@ -46,9 +46,9 @@
     "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini"
   },
   "inputForm": {
-    "monthlyBill": "Biaya bulanan",
-    "monthlyUsage": "Monthly Usage",
-    "connectionPower": "Daya",
+    "monthlyBill": "Biaya Bulanan",
+    "monthlyUsage": "Konsumsi Bulanan",
+    "connectionPower": "Daya Listrik Terpasang (VA)",
     "location": "Intensitas sinar matahari di rumah Anda",
     "findingLocation": "Sedang cari lokasi Anda...",
     "chooseLocation": "Cari lokasi Anda...",

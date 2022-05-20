@@ -121,9 +121,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     const res: SurtsResult[] = results.map((x) => {
       const coords: Coords = { lat: x.y, lng: x.x }
       return { value: coords, label:  `${x.label}` }  })
-    // setOptions(res)
     setOptions(res)
-    // console.log(res)
   }
 
   const [editMode, setEditMode] = useState<boolean>(false)

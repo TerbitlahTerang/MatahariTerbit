@@ -49,7 +49,7 @@
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
     "monthlyUsage": "Monthly Usage",
-    "connectionPower": "Connection Power",
+    "connectionPower": "Connection Power (VA)",
     "location": "Sunlight intensity at your house",
     "findingLocation": "Finding your location...",
     "chooseLocation": "Find your location...",
