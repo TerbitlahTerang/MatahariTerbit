@@ -1,5 +1,11 @@
 # Matahari Terbit ![image](src/assets/icons/logo-sunrise.svg)
 
+Easily calculate how many solar panels you should buy for the best ROI. If you live in Indonesia 🇮🇩.
+
+ * 🌎 [Web](https://matahariterbit.web.app/)
+ * 🍏 [iOS](https://apps.apple.com/id/app/solar-calculator-indonesia/id1618024702)
+ * 🤖 Android
+
 ## Plans
 
 ### Irradiance
