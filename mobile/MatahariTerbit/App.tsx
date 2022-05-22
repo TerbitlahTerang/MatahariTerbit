@@ -17,7 +17,6 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes'
 import * as Location from 'expo-location'
 import { LocationGeocodedAddress } from 'expo-location'
-import { LinearGradient } from 'expo-linear-gradient'
 
 const deviceLanguage =
     Platform.OS === 'ios'
@@ -147,7 +146,7 @@ export default function App() {
           </View>
           <View style={{ flex:1 }}>
             <VStack style={{ width: '100%', height: '100%' }}>
-              <WebView originWhitelist={['https://*']}
+              <WebView originWhitelist={[baseUrl]}
                 ref={webViewRef}
                 source={{
                   uri: uri,
