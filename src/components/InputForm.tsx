@@ -31,6 +31,8 @@ import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
 import './InputForm.css'
+import * as Analytics from '../services/Analytics'
+import { Category } from '../services/Analytics'
 
 export interface InputData {
   monthlyCostEstimateInRupiah: number
@@ -108,7 +110,10 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
 
   return (
-    <Form form={form} layout="vertical" name="calculator" onFieldsChange={() => {
+    <Form form={form} layout="vertical" name="calculator"  onFieldsChange={(changedFields) => {
+      const firstFields = changedFields[0]
+      const name = JSON.stringify(firstFields.name).replace('["', '').replace('"]', '')
+      Analytics.event(Category.Form, name, JSON.stringify(firstFields.value) )
       const monthlyBill = form.getFieldValue('monthlyBill')
       const monthlyUsageInKwh = form.getFieldValue('monthlyUsageInKwh')
 

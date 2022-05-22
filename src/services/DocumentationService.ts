@@ -87,7 +87,7 @@ function getEnglish(doc: Documentation): string {
 
 
 export function documentation(locale: Locale, doc: Documentation): string {
-  Analytics.event(Category.Documentation, Documentation[doc].toString(), locale.toString())
+  Analytics.event(Category.Documentation, Documentation[doc], locale)
   switch (locale) {
     case Locale.Indonesian: return getIndonesian(doc)
     case Locale.English: return getEnglish(doc)

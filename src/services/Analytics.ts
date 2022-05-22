@@ -4,15 +4,17 @@ export enum Category {
   Documentation = 'Documentation',
   NativeEvent = 'NativeEvent',
   Wizard = 'Wizard',
-  Navigation = 'Navigation'
+  Navigation = 'Navigation',
+  Form = 'Form'
 }
 
 
 export const event = (category: Category, action: string, label?: string) => {
-  ReactGA.event({ category: 'documentation', action: action, label: label })
+  valueEvent(category, action, label, undefined)
 }
 
 export const valueEvent = (category: Category, action: string, label?: string, value?: number) => {
+  console.log('event', category, action, label, value)
   ReactGA.event({ category: 'documentation', action: action, label: label, value: value })
 }
 
