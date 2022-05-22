@@ -8,7 +8,7 @@ import { ResultTable } from './components/ResultTable'
 import { ROIBreakdown } from './components/ROIBreakdown'
 import { ROIChart } from './components/ROIChart'
 import SolarPanelIcon from './assets/icons/solar-panel.svg'
-import { INITIAL_INPUT_DATA } from './constants'
+import { GOOGLE_ANALYTICS_TRACKING_ID, INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData, ResultData } from './services/CalculationService'
 import { Documentation } from './services/DocumentationService'
 import { InfoPane } from './components/InfoPane'
@@ -16,6 +16,7 @@ import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
 import { Coords, mapStore } from './util/mapStore'
+import { initialize } from 'react-ga'
 
 export enum MessageType {
   LocationFound = 'LocationFound',
@@ -39,6 +40,8 @@ interface LocationMessage {
 interface AndroidEvent {
   data: string
 }
+
+initialize(GOOGLE_ANALYTICS_TRACKING_ID)
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
