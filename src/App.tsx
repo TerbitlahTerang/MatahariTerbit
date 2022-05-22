@@ -16,7 +16,9 @@ import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
 import { Coords, mapStore } from './util/mapStore'
-import { initialize } from 'react-ga'
+import * as ReactGA from 'react-ga'
+import * as Analytics from './services/Analytics'
+import { Category } from './services/Analytics'
 
 export enum MessageType {
   LocationFound = 'LocationFound',
@@ -41,16 +43,22 @@ interface AndroidEvent {
   data: string
 }
 
-initialize(GOOGLE_ANALYTICS_TRACKING_ID)
+ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_ID)
+ReactGA.pageview(window.location.pathname + window.location.search)
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
   const changeLanguage = (value: string) => {
+    Analytics.event(Category.Navigation, 'Language', value)
     i18n.changeLanguage(value)
   }
   
   const [inputData, setInputData] = useState<InputData>(INITIAL_INPUT_DATA)
-  const resultData: ResultData = useMemo(() => calculateResultData(inputData), [inputData])
+  const resultData: ResultData = useMemo(() => {
+    const res = calculateResultData(inputData)
+    Analytics.valueEvent(Category.Navigation, 'Calculate', 'Consumption', res.consumptionPerMonthInKwh)
+    return res
+  }, [inputData])
 
   const [documentation, setDocumentation] = useState<Documentation | null>(null)
   const [documentationTitle, setDocumentationTitle] = useState<String | null>(null)
@@ -64,6 +72,8 @@ export const App: React.FunctionComponent = () => {
 
   function handleEvent(data: string) {
     const message: Message = JSON.parse(data)
+
+    Analytics.event(Category.NativeEvent, message.messageType)
     switch (message.messageType) {
       case MessageType.LocationFound: {
         const mess: LocationMessage = JSON.parse(data)
@@ -112,6 +122,7 @@ export const App: React.FunctionComponent = () => {
   const [current, setCurrent] = useState<number>(0)
 
   useEffect(() => {
+    Analytics.event(Category.Wizard, 'Next', current.toString())
     if (current === 0) {
       handleScroll(firstRef.current)
     }

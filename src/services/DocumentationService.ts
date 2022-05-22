@@ -25,6 +25,8 @@ import PlnSettingsId from '../assets/documentation/id/expert/PLNSettings.md'
 import AppInfoEn from '../assets/documentation/en/app/AppInfo.md'
 import AppInfoId from '../assets/documentation/id/app/AppInfo.md'
 import { LimitingFactor } from './CalculationService'
+import * as Analytics from './Analytics'
+import { Category } from './Analytics'
 
 export enum Documentation {
   ConnectionPower,
@@ -85,6 +87,7 @@ function getEnglish(doc: Documentation): string {
 
 
 export function documentation(locale: Locale, doc: Documentation): string {
+  Analytics.event(Category.Documentation, Documentation[doc].toString(), locale.toString())
   switch (locale) {
     case Locale.Indonesian: return getIndonesian(doc)
     case Locale.English: return getEnglish(doc)
