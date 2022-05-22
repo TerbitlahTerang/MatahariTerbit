@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "519055258",
+    "project_id": "matahariterbit",
+    "storage_bucket": "matahariterbit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519055258:android:93a441c72ca8ac9ba4fc23",
+        "android_client_info": {
+          "package_name": "com.sjappelodorus.MatahariTerbit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519055258-4icf1nrs9p8mvdeig9rlr7og451916f6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sjappelodorus.MatahariTerbit",
+            "certificate_hash": "e35b941380cc60e60e9a11ac6e38e3836311f366"
+          }
+        },
+        {
+          "client_id": "519055258-eid6mb7m02obv47huqos2mtt77shudd9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe3yoW57MDaf0nbENAnHvvUTOIeT1VAME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519055258-eid6mb7m02obv47huqos2mtt77shudd9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "519055258-3mcfri56e3n396c00j4fc0mf75v0tmks.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sjappelodorus.MatahariTerbit",
+                "app_store_id": "1618024702"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

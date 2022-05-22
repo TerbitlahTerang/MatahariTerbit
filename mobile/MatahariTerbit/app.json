@@ -20,6 +20,7 @@
       "buildNumber": "23",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
+      "googleServicesFile": "./firebase/GoogleService-Info.plist",
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -37,7 +38,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
       },
-      "package": "com.sjappelodorus.MatahariTerbit"
+      "package": "com.sjappelodorus.MatahariTerbit",
+      "googleServicesFile": "./firebase/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
