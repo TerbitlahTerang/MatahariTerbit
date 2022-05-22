@@ -16,7 +16,7 @@ import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
 import { Coords, mapStore } from './util/mapStore'
-import * as ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 import * as Analytics from './services/Analytics'
 import { Category } from './services/Analytics'
 
@@ -44,7 +44,7 @@ interface AndroidEvent {
 }
 
 ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_ID)
-ReactGA.pageview(window.location.pathname + window.location.search)
+ReactGA.send('pageview')
 
 export const App: React.FunctionComponent = () => {
   const { t, i18n } = useTranslation()
