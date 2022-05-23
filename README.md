@@ -4,7 +4,7 @@ Easily calculate how many solar panels you should buy for the best ROI. If you l
 
  * 🌎 [Web](https://matahariterbit.web.app/)
  * 🍏 [iOS](https://apps.apple.com/id/app/solar-calculator-indonesia/id1618024702)
- * 🤖 Android
+ * 🤖 [Android](https://play.google.com/store/apps/details?id=com.sjappelodorus.MatahariTerbit)
 
 ## Plans
 
