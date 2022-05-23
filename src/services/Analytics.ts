@@ -15,7 +15,7 @@ export const event = (category: Category, action: string, label?: string) => {
 
 export const valueEvent = (category: Category, action: string, label?: string, value?: number) => {
   console.log('event', category, action, label, value)
-  ReactGA.event({ category: 'documentation', action: action, label: label, value: value })
+  ReactGA.event({ category: category, action: action, label: label, value: value })
 }
 
 

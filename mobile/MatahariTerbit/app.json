@@ -2,7 +2,7 @@
   "expo": {
     "name": "Solar Calculator Indonesia",
     "slug": "SolarCalculatorIndonesia",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,7 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "26",
+      "buildNumber": "28",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "googleServicesFile": "./firebase/GoogleService-Info.plist",
@@ -33,7 +33,7 @@
       "en": "./i18n/english.json"
     },
     "android": {
-      "versionCode": 18,
+      "versionCode": 20,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
