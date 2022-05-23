@@ -167,6 +167,7 @@ export default function App() {
                 onError={onError}
                 javaScriptEnabled={true}
                 injectedJavaScript={injectedJavascript}
+                onContentProcessDidTerminate={() => webViewRef.current?.reload()}
                 onMessage={
                   (incomingMessage) => {
                     console.log('got da message!', incomingMessage.nativeEvent.data)
