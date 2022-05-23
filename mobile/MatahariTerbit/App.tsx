@@ -17,7 +17,6 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes'
 import * as Location from 'expo-location'
 import { LocationGeocodedAddress } from 'expo-location'
-import { LinearGradient } from 'expo-linear-gradient'
 
 const deviceLanguage =
     Platform.OS === 'ios'
@@ -125,55 +124,60 @@ export default function App() {
     Platform.OS === 'web' ? <iframe src={baseUrl} height={896} width={414}/> :
       <NativeBaseProvider >
         <View style={{ flex: 1 }} backgroundColor={backGroundColor}>
-          <Box safeAreaTop bg={backGroundColor} />
-          <HStack bg={backGroundColor} px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
-            <HStack alignItems="center">
-              <SunriseLogo width={50} height={50} style={{ marginLeft: 5 }} />
-              <VStack style={{ marginLeft: 10 }}>
-                <Heading size="lg" color='white' bold>{title}</Heading>
-                <Heading size="xs" color='gray.300'>{subTitle}</Heading>
-              </VStack>
+          <View>
+            <Box safeAreaTop bg={backGroundColor} />
+            <HStack bg={backGroundColor} px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
+              <HStack alignItems="center">
+                <SunriseLogo width={50} height={50} style={{ marginLeft: 5 }} />
+                <VStack style={{ marginLeft: 10 }}>
+                  <Heading size="lg" color='white' bold>{title}</Heading>
+                  <Heading size="xs" color='gray.300'>{subTitle}</Heading>
+                </VStack>
+              </HStack>
+              <HStack>
+                <IconButton icon={<Icon as={MaterialIcons} name="info" size="sm" color="white" />}
+                  onPress={() => {
+                    sendMessage(infoOpen ? { messageType: MessageType.InfoClosed } : { messageType: MessageType.InfoOpen })
+                    setInfoOpen(!infoOpen)
+                  }}
+                />
+              </HStack>
             </HStack>
-            <HStack>
-              <IconButton icon={<Icon as={MaterialIcons} name="info" size="sm" color="white" />}
-                onPress={() => {
-                  sendMessage(infoOpen ? { messageType: MessageType.InfoClosed } : { messageType: MessageType.InfoOpen })
-                  setInfoOpen(!infoOpen)
+          </View>
+          <View style={{ flex:1 }}>
+            <VStack style={{ width: '100%', height: '100%' }}>
+              <WebView originWhitelist={[baseUrl]}
+                ref={webViewRef}
+                source={{
+                  uri: uri,
+                  baseUrl: ''
                 }}
-              />
-            </HStack>
-          </HStack>
-          <LinearGradient locations={[1.0, 0.75, 0.4, 0.3]} colors={['#F4D797', '#EBB58A', '#DA7F7D', '#B5728E']} style={{ width: '100%', height: '100%' }}>
-            <WebView originWhitelist={['https://*']}
-              ref={webViewRef}
-              source={{
-                uri: uri,
-                baseUrl: ''
-              }}
-              startInLoadingState={true}
-              renderLoading={() => <ActivityIndicator size="large" />}
-              onLoadEnd={() => {
-                setShow(true)
-                setReadyForLocation(true)
-                sendLocationMessage()
-              }}
-              geolocationEnabled={true}
-              setSupportMultipleWindows={false}
-              scrollEnabled={true}
-              bounces={false}
-              onError={onError}
-              javaScriptEnabled={true}
-              injectedJavaScript={injectedJavascript}
-              onMessage={
-                (incomingMessage) => {
-                  console.log('got da message!', incomingMessage.nativeEvent.data)
+                automaticallyAdjustContentInsets={false}
+                startInLoadingState={true}
+                renderLoading={() => <ActivityIndicator size="large" />}
+                onLoadEnd={() => {
+                  setShow(true)
                   setReadyForLocation(true)
                   sendLocationMessage()
+                }}
+                geolocationEnabled={true}
+                setSupportMultipleWindows={false}
+                scrollEnabled={true}
+                bounces={false}
+                onError={onError}
+                javaScriptEnabled={true}
+                injectedJavaScript={injectedJavascript}
+                onContentProcessDidTerminate={() => webViewRef.current?.reload()}
+                onMessage={
+                  (incomingMessage) => {
+                    console.log('got da message!', incomingMessage.nativeEvent.data)
+                    setReadyForLocation(true)
+                    sendLocationMessage()
+                  }
                 }
-              }
-              style={{ flex: 1, height: 2, backgroundColor: '#5689CE', display: show ? 'flex' : 'none' }}
-            />
-          </LinearGradient>
+              />
+            </VStack>
+          </View>
         </View>
       </NativeBaseProvider>
   )
