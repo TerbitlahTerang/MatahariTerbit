@@ -33,7 +33,7 @@
       "en": "./i18n/english.json"
     },
     "android": {
-      "versionCode": 20,
+      "versionCode": 22,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
