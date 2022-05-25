@@ -6,6 +6,14 @@ Easily calculate how many solar panels you should buy for the best ROI. If you l
  * 🍏 [iOS](https://apps.apple.com/id/app/solar-calculator-indonesia/id1618024702)
  * 🤖 [Android](https://play.google.com/store/apps/details?id=com.sjappelodorus.MatahariTerbit)
 
+On grid solar power can be very profitable in Indonesia. However, it is not so easy to calculate how many solar panels you should buy. This depends on three factors: 
+1. how much sunshine there is at your home
+2. how high your monthly electricity bill is
+3. the power of your electricity connection
+
+Based on these factors, this application calculates how many panels you should install. It will also estimate the return on investment, using up to date PLN tariffs.
+
+
 ## Plans
 
 ### Irradiance
@@ -21,6 +29,7 @@ Easily calculate how many solar panels you should buy for the best ROI. If you l
 ### Explanation
  - [x] Show ROI graph
  - [x] Display costs breakdown
+ - [ ] Add examples with embedding instructions
 
 ## Dependencies & Libraries
 - Snowpack
