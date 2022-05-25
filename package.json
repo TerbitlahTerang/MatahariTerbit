@@ -41,6 +41,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@snowpack/app-scripts-react": "^2.0.1",
+    "@snowpack/plugin-sass": "^1.4.0",
     "@types/d3-ease": "^3.0.0",
     "@types/jest": "^27.0.3",
     "@types/leaflet": "^1.7.9",

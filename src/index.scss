@@ -1,7 +1,10 @@
+@import './theme.scss';
+
+
 body {
     font-family: sans-serif;
-    background-color: #FFF2BD;
-    background-image: linear-gradient(to top, #FFF2BD 1%, #F4D797 30%, #EBB58A 40%, #DA7F7D 75%, #B5728E 100% );
+    background-color: $background;
+    background-image: linear-gradient(to top, $background 1%, #F4D797 30%, #EBB58A 40%, #DA7F7D 75%, #B5728E 100% );
     background-repeat: no-repeat;
     --min: 600;
     --max: 2200;
@@ -164,7 +167,7 @@ SPAN.anticon.anticon-info-circle {
 }
 
 .prioritySwitch.ant-switch.ant-switch-checked {
-    background-color: #5689CE;
+    background-color: $primary;
 }
 
 .prioritySwitch.ant-switch {
@@ -176,19 +179,19 @@ SPAN.anticon.anticon-info-circle {
 }
 
 .ant-btn-primary {
-    border-color: #48709d;
-    background: #5689CE;
+    border-color: $primary-dark;
+    background: $primary;
 }
 
 .ant-steps-icon {
-    color: #5689CE
+    color: $primary
 }
 
 .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
-    color: #5689CE
+    color: $primary
 }
 .ant-steps-item-icon .ant-steps-icon {
-    color: #5689CE
+    color: $primary
 }
 
 .ant-drawer-header {
