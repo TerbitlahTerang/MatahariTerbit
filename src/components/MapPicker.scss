@@ -1,3 +1,5 @@
+@import '../theme.scss';
+
 .map-picker {
   overflow: hidden;
   transition: height 250ms;
@@ -8,7 +10,7 @@
 }
 
 .map-picker:hover {
-  border-color: #40a9ff;
+  border-color: $primary-light;
   border-right-width: 1px !important;
 }
 
@@ -22,7 +24,7 @@
 }
 
 .map-picker-irradiation {
-  color: #40a9ff;
+  color: $primary-light;
   margin-left: 4px;
 }
 
@@ -45,9 +47,9 @@
 .map-picker-view {
   position: relative;
   height: 380px;
-  border-left: 1px solid #d9d9d9;
-  border-right: 1px solid #d9d9d9;
-  border-bottom: 1px solid #d9d9d9;
+  border-left: 1px solid $input-border;
+  border-right: 1px solid $input-border;
+  border-bottom: 1px solid $input-border;
   background-color: #F5F5F5;
 }
 

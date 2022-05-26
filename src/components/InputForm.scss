@@ -1,3 +1,5 @@
+@import '../theme.scss';
+
 .numberCircle {
     display: inline-block;
     line-height: 0;
@@ -5,7 +7,7 @@
     /*border-radius: 50%;*/
     /*border: 2px solid;*/
     font-size: 16px;
-    color: #5689CE
+    color: $primary
 }
 
 .numberCircle span {
