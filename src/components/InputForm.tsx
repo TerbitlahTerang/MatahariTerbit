@@ -160,9 +160,10 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       })
     }}>
       <Row gutter={16} />
-      <Form.Item name="location" label={<div><span className="numberCircle"><span>1</span></span>&nbsp;{t('inputForm.location')}</div>} initialValue={INITIAL_INPUT_DATA.location}
+      <Form.Item name="location" label={<div><><span className="numberCircle"><span>1</span></span>&nbsp;{t('inputForm.location')}</></div>} initialValue={INITIAL_INPUT_DATA.location}
         tooltip={{
           trigger: 'click',
+          overlay: '',
           icon: <InfoCircleOutlined
             onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
         }}
@@ -172,10 +173,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Row gutter={16}>
         <Col xs={24} sm={priorityEnabled ? 10 : 12}>
           {monthlyUsageType === MonthlyUsage.Rupiah ?
-            (<Form.Item name="monthlyBill" label={<div><span className="numberCircle"><span>2</span></span>&nbsp;{t('inputForm.monthlyBill')}</div>}
+            (<Form.Item name="monthlyBill" label={<div><><span className="numberCircle"><span>2</span></span>&nbsp;{t('inputForm.monthlyBill')}</></div>}
               initialValue={init.monthlyCostEstimateInRupiah}
               tooltip={{
                 trigger: 'click',
+                overlay: '',
                 icon: <InfoCircleOutlined
                   onClick={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/>
               }}>
@@ -183,7 +185,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                 formatter={formatRupiah}
                 parser={parseRupiah}
                 step={100000} inputMode="numeric"/>
-            </Form.Item>) : (<Form.Item name="monthlyUsageInKwh" label={t('inputForm.monthlyUsage')}
+            </Form.Item>) : (<Form.Item name="monthlyUsageInKwh" label={<>{t('inputForm.monthlyUsage')}</>}
               initialValue={init.monthlyUsageInKwh}
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -194,9 +196,10 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           }
         </Col>
         <Col xs={priorityEnabled ? 15 : 24} sm={priorityEnabled ? 9 : 12}>
-          <Form.Item name="connectionPower" label={<div><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.connectionPower')}</div>}
+          <Form.Item name="connectionPower" label={<div><><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.connectionPower')}</></div>}
             initialValue={init.connectionPower} tooltip={{
               trigger: 'click',
+              overlay: '',
               icon: <InfoCircleOutlined
                 onClick={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))}/>
             }}>
@@ -205,29 +208,30 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
         {priorityEnabled &&
-            <Col xs={9} sm={5}>
-              <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
-                label={t('inputForm.priority')}
-                tooltip={{
-                  trigger: 'click',
-                  icon: <InfoCircleOutlined
-                    onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
-                }}>
-                <Switch className='prioritySwitch'
-                  checkedChildren={t('inputForm.priorityMoney')}
-                  unCheckedChildren={t('inputForm.priorityEarth')}
-                  defaultChecked={true}
-                />
-              </Form.Item>
-            </Col>
+              <Col xs={9} sm={5}>
+                <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
+                  label={<>{t('inputForm.priority')}</>}
+                  tooltip={{
+                    overlay: '',
+                    trigger: 'click',
+                    icon: <InfoCircleOutlined
+                      onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
+                  }}>
+                  <Switch className='prioritySwitch'
+                    checkedChildren={<>{t('inputForm.priorityMoney')}</>}
+                    unCheckedChildren={<>{t('inputForm.priorityEarth')}</>}
+                    defaultChecked={true}
+                  />
+                </Form.Item>
+              </Col>
         }
       </Row>
 
-      {props.expertMode && <><Divider orientation="left">{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
-        onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></Divider>
+      {props.expertMode && <><Divider orientation="left"><>{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
+        onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></></Divider>
       <Row gutter={16}>
         <Col xs={24} sm={8}>
-          <Form.Item name="lowTariff" label={t('inputForm.expertMode.lowTariff')}
+          <Form.Item name="lowTariff" label={<>{t('inputForm.expertMode.lowTariff')}</>}
             initialValue={lowTariff}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -239,7 +243,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
         <Col xs={24} sm={8}>
-          <Form.Item name="highTariff" label={t('inputForm.expertMode.highTariff')}
+          <Form.Item name="highTariff" label={<>{t('inputForm.expertMode.highTariff')}</>}
             initialValue={highTariff}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -251,7 +255,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
         <Col xs={24} sm={8}>
-          <Form.Item name="lowTariffThreshold" label={t('inputForm.expertMode.lowTariffThreshold')}
+          <Form.Item name="lowTariffThreshold" label={<>{t('inputForm.expertMode.lowTariffThreshold')}</>}
             initialValue={lowTariffThreshold}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -262,7 +266,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
       </Row><Row gutter={16}>
         <Col xs={24} sm={4}>
-          <Form.Item name="energyTax" label={t('inputForm.expertMode.energyTax')}
+          <Form.Item name="energyTax" label={<>{t('inputForm.expertMode.energyTax')}</>}
             initialValue={energyTax}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -275,7 +279,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
         <Col xs={24} sm={10}>
           <Form.Item name="minimalMonthlyConsumptionHours"
-            label={t('inputForm.expertMode.minimalMonthlyConsumptionHours')}
+            label={<>{t('inputForm.expertMode.minimalMonthlyConsumptionHours')}</>}
             initialValue={minimalMonthlyConsumptionHours}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -286,7 +290,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
         <Col xs={24} sm={10}>
           <Form.Item name="minimalMonthlyConsumptionPrice"
-            label={t('inputForm.expertMode.minimalMonthlyConsumptionPrice')}
+            label={<>{t('inputForm.expertMode.minimalMonthlyConsumptionPrice')}</>}
             initialValue={minimalMonthlyConsumptionPrice}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -296,10 +300,10 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Divider orientation="left">{t('inputForm.expertMode.title.systemSettings')}</Divider>
+      <Divider orientation="left">{<>{t('inputForm.expertMode.title.systemSettings')}</>}</Divider>
       <Row gutter={16}>
         <Col xs={24} sm={6}>
-          <Form.Item name="pricePerPanel" label={t('inputForm.expertMode.pricePerPanel')}
+          <Form.Item name="pricePerPanel" label={<>{t('inputForm.expertMode.pricePerPanel')}</>}
             initialValue={pricePerPanel}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -313,7 +317,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
         <Col xs={24} sm={8}>
           <Form.Item name="electricityPriceInflationRate"
-            label={t('inputForm.expertMode.electricityPriceInflationRate')}
+            label={<>{t('inputForm.expertMode.electricityPriceInflationRate')}</>}
             initialValue={electricityPriceInflationRate}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -327,7 +331,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
       </Row><Row gutter={16}>
         <Col xs={24} sm={6}>
-          <Form.Item name="kiloWattPeakPerPanel" label={t('inputForm.expertMode.kiloWattPeakPerPanel')}
+          <Form.Item name="kiloWattPeakPerPanel" label={<>{t('inputForm.expertMode.kiloWattPeakPerPanel')}</>}
             initialValue={kiloWattPeakPerPanel}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -339,7 +343,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
-          <Form.Item name="areaPerPanel" label={t('inputForm.expertMode.areaPerPanel')}
+          <Form.Item name="areaPerPanel" label={<>{t('inputForm.expertMode.areaPerPanel')}</>}
             initialValue={areaPerPanel}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -352,7 +356,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
-          <Form.Item name="lossFromInverter" label={t('inputForm.expertMode.lossFromInverter')}
+          <Form.Item name="lossFromInverter" label={<>{t('inputForm.expertMode.lossFromInverter')}</>}
             initialValue={lossFromInverter}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -365,7 +369,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
-          <Form.Item name="capacityLossRate" label={t('inputForm.expertMode.capacityLossRate')}
+          <Form.Item name="capacityLossRate" label={<>{t('inputForm.expertMode.capacityLossRate')}</>}
             initialValue={capacityLossRate}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -381,7 +385,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Row gutter={16}>
         <Col xs={24} sm={4}>
           <Form.Item name="inverterPrice" valuePropName="checked" initialValue={inverterPrice === InverterPrice.Relative}
-            label={t('inputForm.expertMode.inverterPrice')}>
+            label={<>{t('inputForm.expertMode.inverterPrice')}</>}>
             <Switch
               checkedChildren={InverterPrice.Relative}
               unCheckedChildren={InverterPrice.Absolute}
@@ -392,7 +396,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
         { inverterPrice === InverterPrice.Absolute ?
           <Col xs={24} sm={6}>
-            <Form.Item name="priceOfInverterAbsolute" label={t('inputForm.expertMode.priceOfInverterAbsolute')}
+            <Form.Item name="priceOfInverterAbsolute" label={<>{t('inputForm.expertMode.priceOfInverterAbsolute')}</>}
               initialValue={priceOfInverterAbsolute}
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -405,7 +409,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             </Form.Item>
           </Col> :
           <Col xs={24} sm={8}>
-            <Form.Item name="priceOfInverterFactor" label={t('inputForm.expertMode.priceOfInverterFactor')}
+            <Form.Item name="priceOfInverterFactor" label={<>{t('inputForm.expertMode.priceOfInverterFactor')}</>}
               initialValue={priceOfInverterFactor}
             >
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -419,7 +423,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Col>
         }
         <Col xs={24} sm={6}>
-          <Form.Item name="installationCosts" label={t('inputForm.expertMode.installationCosts')}
+          <Form.Item name="installationCosts" label={<>{t('inputForm.expertMode.installationCosts')}</>}
             initialValue={installationCosts}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -432,7 +436,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
-          <Form.Item name="inverterLifetime" label={t('inputForm.expertMode.inverterLifeTime')}
+          <Form.Item name="inverterLifetime" label={<>{t('inputForm.expertMode.inverterLifeTime')}</>}
             initialValue={inverterLifetimeInYears}
           >
             <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
@@ -445,17 +449,17 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Divider orientation="left">{t('inputForm.expertMode.title.appSettings')}</Divider>
+      <Divider orientation="left">{<>{t('inputForm.expertMode.title.appSettings')}</>}</Divider>
       <Row>
         <Col xs={24} sm={8} style={{ fontSize : 16 }}>
-            Share settings<br/> <a href={createLink()} target='_blank' ><ShareAltOutlined /></a>&nbsp;
-          <a href={createFacebookLink()} target='_blank'><FacebookOutlined  /></a>&nbsp;
-          <a href={createTwitterLink()} target='_blank'><TwitterOutlined  /></a>&nbsp;
-          <a href={createLinkedinLink()} target='_blank'><LinkedinOutlined  /></a>
+              Share settings<br/> <a href={createLink()} target='_blank' rel="noreferrer" ><ShareAltOutlined /></a>&nbsp;
+          <a href={createFacebookLink()} target='_blank' rel="noreferrer"><FacebookOutlined  /></a>&nbsp;
+          <a href={createTwitterLink()} target='_blank' rel="noreferrer"><TwitterOutlined  /></a>&nbsp;
+          <a href={createLinkedinLink()} target='_blank' rel="noreferrer"><LinkedinOutlined  /></a>
         </Col>
         <Col xs={24} sm={8} >
           <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={priorityEnabled}
-            label={t('inputForm.expertMode.priorityEnabled')}>
+            label={<>{t('inputForm.expertMode.priorityEnabled')}</>}>
             <Switch
               defaultChecked={priorityEnabled}
               onChange={(newValue) => setPriorityEnabled(newValue)}
@@ -464,7 +468,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
         <Col xs={24} sm={8} >
           <Form.Item name="usageType" valuePropName="checked" initialValue={monthlyUsageType === MonthlyUsage.Rupiah}
-            label={t('inputForm.expertMode.usageType')}>
+            label={<>{t('inputForm.expertMode.usageType')}</>}>
             <Switch
               checkedChildren={MonthlyUsage.Rupiah}
               unCheckedChildren={MonthlyUsage.KWh}
