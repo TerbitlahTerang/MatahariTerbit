@@ -1,4 +1,4 @@
-@import '../theme.scss';
+@import '../../styles/theme.scss';
 
 .ant-form-item-label.solarIntensity {
     padding-bottom: 0;
@@ -89,7 +89,7 @@
     margin-top: -15px;
     box-sizing: border-box;
     z-index: 200;
-    background-image: url('../assets/images/sunrise-logo.png');
+    background-image: url('/images/sunrise-logo.png');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
