@@ -12,7 +12,7 @@
     "createDefaultProgram": true,
     "ecmaFeatures": {
       "ecmaVersion": 2017,
-      "jsx": false
+      "jsx": true
     },
     "noWatch": true
   },

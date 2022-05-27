@@ -1,0 +1,15 @@
+
+.roiBreakdown .ant-table table {
+  white-space: nowrap;
+  font-size: 10px;
+}
+
+.roiBreakdown .ant-table-thead > tr > th {
+  padding: 6px;
+}
+
+.roiBreakdown .ant-table-tbody > tr > td {
+  height: 5px;
+  text-align: right;
+  padding: 6px;
+}

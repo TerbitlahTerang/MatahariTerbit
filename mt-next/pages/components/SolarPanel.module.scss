@@ -1,0 +1,45 @@
+.panelPane .panel {
+    color: white;
+    position: relative;
+    height:auto;
+    display:block;
+    margin:auto;
+    float: left;
+    cursor:pointer;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.panelPane .panel div {
+    width: 50px;
+}
+
+@media (max-width : 480px) {
+    .panelPane .panel IMG {
+        width: 25px;
+    }
+}
+
+
+.panelPane .panel .number-overlay {
+    position: absolute;
+    font-size: 38px;
+    color: #E5E5E5;
+    text-align: center;
+    left: -3px;
+    right: 0;
+    top: -webkit-calc(50% - 22px);
+    top: -moz-calc(50% - 22px);
+    top: calc(50% - 22px);
+}
+
+@media (max-width : 480px) {
+    .panelPane .panel .number-overlay {
+        font-size: 18px;
+        top: -webkit-calc(50% - 10px);
+        top: -moz-calc(50% - 10px);
+        top: calc(50% - 10px);
+        left: 0px;
+    }
+}
