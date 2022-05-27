@@ -52,7 +52,7 @@
     font: 1em/1 arial, sans-serif;
 }
 
-[type=range] {
+.map-picker [type=range] {
     flex: 1;
     margin: 0;
     padding: 0;
@@ -61,31 +61,31 @@
     color: transparent;
     font: inherit;
 }
-[type=range], [type=range]::-webkit-slider-thumb {
+.map-picker [type=range], .map-picker [type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
 }
-[type=range]::-webkit-slider-runnable-track {
+.map-picker [type=range]::-webkit-slider-runnable-track {
     box-sizing: border-box;
     border: none;
     width: 12.5em;
     height: 0.25em;
     background: transparent;
 }
-[type=range]::-moz-range-track {
+.map-picker [type=range]::-moz-range-track {
     box-sizing: border-box;
     border: none;
     width: 12.5em;
     height: 0.25em;
     background: transparent;
 }
-[type=range]::-ms-track {
+.map-picker [type=range]::-ms-track {
     box-sizing: border-box;
     border: none;
     width: 12.5em;
     height: 0.25em;
     background: transparent;
 }
-[type=range]::-webkit-slider-thumb {
+.map-picker [type=range]::-webkit-slider-thumb {
     margin-top: -15px;
     box-sizing: border-box;
     z-index: 200;
@@ -99,7 +99,7 @@
     height: 30px;
     border-radius: 50%;
 }
-[type=range]::-moz-range-thumb {
+.map-picker [type=range]::-moz-range-thumb {
     box-sizing: border-box;
     border: none;
     width: 1.5em;
@@ -107,7 +107,7 @@
     border-radius: 50%;
     background: #f90;
 }
-[type=range]::-ms-thumb {
+.map-picker [type=range]::-ms-thumb {
     margin-top: 0;
     box-sizing: border-box;
     border: none;
@@ -116,10 +116,10 @@
     border-radius: 50%;
     background: #f90;
 }
-[type=range]::-ms-tooltip {
+.map-picker [type=range]::-ms-tooltip {
     display: none;
 }
-[type=range] ~ output {
+.map-picker [type=range] ~ output {
     display: none;
 }
 .map-picker-irradiation-gauge [type=range] ~ output {
