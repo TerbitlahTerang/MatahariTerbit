@@ -9,6 +9,8 @@ export default {
     routes: [],
     optimize: {
         minify: true,
+        preload: true,
+        treeshake: true,
         target: 'es2018'
     },
     packageOptions: {},
