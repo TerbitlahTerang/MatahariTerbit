@@ -34,7 +34,6 @@
     "react-router-dom": "^6.3.0",
     "rollup": "^2.60.0",
     "rxjs": "^7.5.5",
-    "snowpack": "3.7.0",
     "use-query-params": "^1.2.3"
   },
   "devDependencies": {
@@ -60,6 +59,7 @@
     "husky": "^7.0.4",
     "jest": "^27.4.3",
     "jest-junit": "^13.0.0",
+    "snowpack": "3.7.0",
     "snowpack-plugin-markdown": "^1.0.0",
     "snowpack-plugin-svgr": "^0.1.2",
     "ts-node": "^10.4.0",
