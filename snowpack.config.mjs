@@ -8,14 +8,11 @@ export default {
     ],
     routes: [],
     optimize: {
+        bundle: true,
         minify: true,
-        preload: true,
         treeshake: true,
         target: 'es2018'
     },
     packageOptions: {},
-    devOptions: {},
-    buildOptions: {
-        treeshake: true,
-    }
+    devOptions: {}
 }
