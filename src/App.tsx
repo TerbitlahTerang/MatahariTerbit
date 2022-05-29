@@ -223,7 +223,7 @@ export const App: React.FunctionComponent = () => {
                 <div ref={thirdRef}  className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
                   <FinancialResultBreakdown results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} />
                   <Divider orientation="left">{t('chart.heading')}</Divider>
-                  <ROIChart cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
+                  <ROIChart mobile={mobile === true} cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
                   <Divider orientation="left">{t('roiTable.title')}</Divider>
                   <ROIBreakdown yearly={resultData.projection}/>
                 </div>}

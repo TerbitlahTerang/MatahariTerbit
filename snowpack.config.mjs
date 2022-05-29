@@ -3,6 +3,7 @@ export default {
     mount: { src: '/' },
     plugins: [
         ['snowpack-plugin-svgr'],
+        ['@snowpack/plugin-react-refresh'],
         ['@snowpack/plugin-sass'],
         ['snowpack-plugin-markdown', {}]
     ],
