@@ -7,7 +7,12 @@ export default {
         ['snowpack-plugin-markdown', {}]
     ],
     routes: [],
-    optimize: {},
+    optimize: {
+        minify: true,
+        preload: true,
+        treeshake: true,
+        target: 'es2018'
+    },
     packageOptions: {},
     devOptions: {},
     buildOptions: {
