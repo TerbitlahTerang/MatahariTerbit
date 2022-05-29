@@ -9,6 +9,7 @@ export interface ROIChartProps {
   yearly: ReturnOnInvestment[]
   inverterLifetimeInYears: number
   cacheBuster: number
+  mobile: boolean
 }
 
 
@@ -45,6 +46,8 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
   }
 
   const options: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false
@@ -65,7 +68,7 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
         },
         ticks: {
           callback: (val: number| string): string => {
-            return 'Jt. ' + val
+            return `${val}`
           }
         }
       },
@@ -73,10 +76,15 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
         title: {
           text: t('chart.labelYear'),
           display: true
+        },
+        ticks: {
+          minRotation: 0,
+          maxRotation: 0
         }
       }
     }
   }
 
-  return (<Bar data={data} options={options} />)
+  const height = props.mobile ? 200 : 300
+  return (<div style={{ display: 'block', minHeight:  `${height}px` }}><Bar data={data} options={options} /></div>)
 }

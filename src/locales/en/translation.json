@@ -42,7 +42,7 @@
   "chart": {
     "heading": "Return on Investment",
     "labelYear": "Year",
-    "labelProfit": "Profit in Rp.",
+    "labelProfit": "Profit in Millions Rp.",
     "tooltipTitle": "Year {{year}}",
     "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year"
   },
