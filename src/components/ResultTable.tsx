@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
 import { formatDigits, formatNumber } from '../services/Formatters'
 import { CalculatorSettings, OptimizationTarget } from '../constants'
-import { Panel, renderPanel } from './SolarPanel'
+import { SolarPanelPane, Panel } from './SolarPanel'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation, toExplanation } from '../services/DocumentationService'
 
@@ -28,7 +28,7 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
     <div className="ant-table">
       <Row gutter={12} className="panelPane">
         <Col xs={10} sm={8} className='emphasis'>{t('resultTable.numberOfPanels')} {panels.length} <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.NumberOfPanels, t('resultTable.recommendedPanels'))}/></Col>
-        <Col xs={14} sm={16} className="panelContainer"><div style={{ float: 'right' }}>{panels.map(renderPanel)}</div></Col>
+        <Col xs={14} sm={16} className="panelContainer"><SolarPanelPane panels={panels}/></Col>
       </Row>
       <Row gutter={12} justify="end">
         <Col span={15}>{t('resultTable.installedCapacity')}</Col>

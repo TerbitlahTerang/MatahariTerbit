@@ -21,8 +21,7 @@
     }
 }
 
-
-.panelPane .panel .number-overlay {
+.panelPane .panel .numberOverlay {
     position: absolute;
     font-size: 38px;
     color: #E5E5E5;
@@ -35,7 +34,7 @@
 }
 
 @media (max-width : 480px) {
-    .panelPane .panel .number-overlay {
+    .panelPane .panel .numberOverlay {
         font-size: 18px;
         top: -webkit-calc(50% - 10px);
         top: -moz-calc(50% - 10px);
