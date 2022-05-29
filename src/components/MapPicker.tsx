@@ -36,6 +36,12 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   const [zoom] = useState<number>(DEFAULT_ZOOM)
   const [collapsed, setCollapsed] = useState<boolean>(true)
 
+  useEffect(() => {
+    const timer = setTimeout(() => setCollapsed(false), 1200)
+    return () => clearTimeout(timer)}, []
+  )
+
+
   const provider = new GoogleProvider({
     params: {
       key: GOOGLE_MAPS_KEY,
