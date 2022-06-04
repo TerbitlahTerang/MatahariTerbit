@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
-import { ChartData, ChartOptions, TooltipItem } from 'chart.js'
+import { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js'
 import { useTranslation } from 'react-i18next'
 import { ReturnOnInvestment } from '../services/CalculationService'
 import { formatRupiah } from '../services/Formatters'
@@ -17,7 +17,10 @@ export interface ROIChartProps {
 export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
   const { t } = useTranslation()
 
-  const colors = props.yearly.map((value) => value.cumulativeProfit < 0 ? 'rgb(255, 99, 132)' : 'rgb(99, 255, 132)')
+
+  const colors = props.yearly.map((value) => value.cumulativeProfit < 0 ? '#DA7F7D' : '#F4D797')
+
+  const mouseX = useRef<number>(0)
 
   const data: ChartData<'bar', number[]> = {
     labels: props.yearly.map(x => x.index),
@@ -53,6 +56,8 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
         display: false
       },
       tooltip: {
+        position: 'nearest',
+        intersect: false,
         callbacks: {
           title: title,
           label: label,
@@ -85,6 +90,30 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
     }
   }
 
+  const plugins: Plugin<'bar'>[] = [
+    {
+      id: 'verticalLine',
+      afterEvent: (chart, args) => {
+        const event = args.event
+        if (event.type === 'mousemove') {
+          mouseX.current = event.x ?? 0
+        }
+      },
+      afterDraw: (chart) => {
+        const x = mouseX.current
+        const yAxis = chart.scales.y
+        const ctx = chart.ctx
+        ctx.save()
+        ctx.beginPath()
+        ctx.moveTo(x, yAxis.top)
+        ctx.lineTo(x, yAxis.bottom)
+        ctx.lineWidth = 1
+        ctx.strokeStyle = '#48709d'
+        ctx.stroke()
+        ctx.restore()
+      }
+    }]
+
   const height = props.mobile ? 200 : 300
-  return (<div style={{ display: 'block', minHeight:  `${height}px` }}><Bar data={data} options={options} /></div>)
+  return (<div style={{ display: 'block', minHeight:  `${height}px` }}><Bar data={data} options={options} plugins={plugins}  /></div>)
 }
