@@ -5,6 +5,10 @@
   transition: height 250ms;
 }
 
+.map-picker .anticon {
+  color: $primary;
+}
+
 .map-picker.collapsed {
   height: 42px;
 }
