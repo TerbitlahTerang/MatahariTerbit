@@ -17,7 +17,6 @@ export interface ROIChartProps {
 export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
   const { t } = useTranslation()
 
-
   const colors = props.yearly.map((value) => value.cumulativeProfit < 0 ? '#DA7F7D' : '#F4D797')
 
   const mouseX = useRef<number>(0)
@@ -100,7 +99,9 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
         }
       },
       afterDraw: (chart) => {
-        const x = mouseX.current
+        const xAxis = chart.scales.x.left
+        const mouse = mouseX.current
+        const x = mouse < xAxis ? xAxis : mouse
         const yAxis = chart.scales.y
         const ctx = chart.ctx
         ctx.save()
