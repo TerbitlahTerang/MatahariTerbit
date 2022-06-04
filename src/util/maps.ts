@@ -5,7 +5,13 @@ import { Coords } from './mapStore'
 export async function geocode(location: Coords) {
   const { results } = await Geocode.fromLatLng(location.lat.toString(), location.lng.toString(), GOOGLE_MAPS_KEY)
   console.log('Got Geocode results', results)
-  return results[0]
+  const res = results[0]
+  const oriLoc = {
+    geometry: {
+      location: location
+    }
+  }
+  return { ...res, ...oriLoc }
 }
 
 export interface LtaResponse {
