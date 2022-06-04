@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { ChartData, ChartOptions, Plugin, TooltipItem } from 'chart.js'
 import { useTranslation } from 'react-i18next'
