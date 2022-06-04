@@ -1,4 +1,4 @@
-import { DownOutlined, UpOutlined } from '@ant-design/icons'
+import { DownOutlined, LoadingOutlined, UpOutlined } from '@ant-design/icons'
 import { AutoComplete, Button } from 'antd'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
@@ -157,7 +157,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
                 setEditMode(true)
               }
             }}>
-              {mapState.address === '' ? (mapState.info ? t('inputForm.findingLocation') : t('inputForm.chooseLocation')) : mapState.address}
+              {mapState.address === '' ? <><LoadingOutlined style={{ fontSize: 16 }} spin />&nbsp;&nbsp;</> : <></>}
+              {mapState.address === '' ? (mapState.info ?  t('inputForm.chooseLocation'): t('inputForm.findingLocation')) : mapState.address}
             </div>
           }
           <Button
