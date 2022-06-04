@@ -117,7 +117,7 @@ export const INITIAL_INPUT_DATA: InitialInputData = {
   monthlyCostEstimateInRupiah: 1000000,
   monthlyUsageInKwh: 1000,
   connectionPower: 7700,
-  location: { location: { lat: -6.174903208804339, lng: 106.82721867845525 }, address: '' },
+  location: { location: { lat: -6.175456973926256, lng: 106.82712256908418 }, address: '' },
   optimizationTarget: OptimizationTarget.Money,
   calculatorSettings: CALCULATOR_SETTINGS
 }
