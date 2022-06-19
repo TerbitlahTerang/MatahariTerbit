@@ -5,6 +5,7 @@
     "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "solarcalculatorindonesia",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
