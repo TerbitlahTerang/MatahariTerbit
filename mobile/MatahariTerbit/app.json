@@ -2,9 +2,10 @@
   "expo": {
     "name": "Solar Calculator Indonesia",
     "slug": "SolarCalculatorIndonesia",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "solarcalculatorindonesia",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
@@ -17,7 +18,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "28",
+      "buildNumber": "30",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "googleServicesFile": "./firebase/GoogleService-Info.plist",

@@ -1,28 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {
-  Box,
-  Heading,
-  NativeBaseProvider,
-  View,
-  Icon,
-  HStack,
-  IconButton,
-  VStack
-} from 'native-base'
+import { Box, Heading, HStack, Icon, IconButton, NativeBaseProvider, View, VStack } from 'native-base'
 import WebView from 'react-native-webview'
 import { ActivityIndicator, NativeModules, Platform } from 'react-native'
+import * as Linking from 'expo-linking'
 import * as Sentry from 'sentry-expo'
 import SunriseLogo from './components/SunriseLogo'
 import { MaterialIcons } from '@expo/vector-icons'
 import { WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes'
 import * as Location from 'expo-location'
 import { LocationGeocodedAddress } from 'expo-location'
+import { EventType, QueryParams } from 'expo-linking/src/Linking.types'
+import * as qs from 'qs'
 
 const deviceLanguage =
     Platform.OS === 'ios'
       ? NativeModules.SettingsManager.settings.AppleLocale ||
         NativeModules.SettingsManager.settings.AppleLanguages[0] //iOS 13
       : NativeModules.I18nManager.localeIdentifier
+const langOnly = deviceLanguage.replace('-', '_').split('_')[0]
 
 Sentry.init({
   dsn: 'https://998a4632c8bf4f38b7b43076af956f96@o1197651.ingest.sentry.io/6320411',
@@ -43,14 +38,13 @@ interface Message {
 }
 
 
-
 export default function App() {
 
   const webViewRef = useRef<WebView>(null)
   const [infoOpen, setInfoOpen] = useState(false)
   const [message, setMessage] = useState<Message| undefined>(undefined)
   const [readyForLocation, setReadyForLocation] = useState(false)
-  const [show, setShow] = useState(false)
+  const [urlParams, setUrlParams] = useState<QueryParams>({ 'lng' : langOnly, priorityEnabled: '0', mobile: '1' })
 
   const sendMessage = (toSend: Message) => {
     if (webViewRef.current) {
@@ -67,6 +61,21 @@ export default function App() {
   useEffect(() => {
     sendLocationMessage()
   }, [message, readyForLocation])
+
+
+  const _handleOpenURL : (event: EventType) => void = ({ url }) => {
+    const suppliedParams = Linking.parse(url).queryParams ?? {}
+
+    const params = { ...urlParams, ...suppliedParams }
+    setUrlParams(params)
+  }
+
+  useEffect(() => {
+    Linking.addEventListener('url', _handleOpenURL)
+    return () => {
+      Linking.removeEventListener('url', _handleOpenURL)
+    }
+  }, [])
 
   const defaultLocation = {
     coords: { lat: -6.174903208804339, lng: 106.82721867845525 },
@@ -100,7 +109,7 @@ export default function App() {
     })()
   }, [])
 
-  const langOnly = deviceLanguage.split('_')[0]
+
 
   const title = langOnly === 'id' ? 'Kalkulator Solar Panel': 'Solar Calculator'
   const subTitle = langOnly === 'id' ? 'Menghitung PLTS on grid': 'How many panels do I need?'
@@ -108,8 +117,8 @@ export default function App() {
   // const baseUrl = 'https://matahariterbit--pr82-feature-intensity-in-xs1iu3m8.web.app'
   // const baseUrl = 'http://192.168.1.4:8080'
 
-  const uri = `${baseUrl}?lng=${langOnly}&priorityEnabled=0&mobile=1`
-  console.log('uri', uri)
+  const uri = `${baseUrl}?${qs.stringify(urlParams)}`
+  console.log(uri)
   const backGroundColor = '#0c4ac7'
 
   const onError = (e: WebViewErrorEvent) => Sentry.Native.captureMessage(`Error from webview: ${JSON.stringify(e)}`)
@@ -156,7 +165,6 @@ export default function App() {
                 startInLoadingState={true}
                 renderLoading={() => <ActivityIndicator size="large" />}
                 onLoadEnd={() => {
-                  setShow(true)
                   setReadyForLocation(true)
                   sendLocationMessage()
                 }}
