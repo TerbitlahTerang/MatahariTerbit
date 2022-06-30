@@ -135,8 +135,6 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
 
   return (
     <div>
-      <a href='solarcalculatorindonesia:://link?hello=world'><h3>Link to App</h3></a>
-
       <div className={`map-picker ${collapsed ? 'collapsed' : 'expanded'}`} >
         <div className="ant-input map-picker-header">
           {editMode && !collapsed ?
