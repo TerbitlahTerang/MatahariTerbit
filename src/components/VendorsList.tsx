@@ -59,7 +59,7 @@ const vendors: Vendor[] = [
     }
   },
   {
-    icon: 'https://joeschmoe.io/api/v1/random',
+    icon: 'assets/vendors/taiyo/icon.png',
     description: 'The clean energy specialist',
     name: 'Taiyo Global',
     location: {
