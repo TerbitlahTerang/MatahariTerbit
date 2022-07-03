@@ -2,13 +2,13 @@ import { debounceTime, forkJoin, map, mergeMap, Subject } from 'rxjs'
 import { INITIAL_INPUT_DATA } from '../constants'
 import { geocode, irradiance, IrradianceInfo } from './maps'
 
-export interface Coords {
+export interface Coordinate {
   lat: number
   lng: number
 }
 
 export interface MapState {
-  location: Coords
+  location: Coordinate
   geoEnabled?: boolean
   address?: string
   info?: IrradianceInfo
@@ -37,7 +37,7 @@ export const mapStore = {
       }))
     ).subscribe(setState)
   },
-  setLocation: (location: Coords, geoEnabled?: boolean) => {
+  setLocation: (location: Coordinate, geoEnabled?: boolean) => {
     state = { ...state, location, geoEnabled }
     subject.next(state)
   },

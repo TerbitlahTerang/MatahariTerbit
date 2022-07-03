@@ -2,7 +2,7 @@ import { DownOutlined, LoadingOutlined, UpOutlined } from '@ant-design/icons'
 import { AutoComplete, Button } from 'antd'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { DEFAULT_ZOOM, GOOGLE_MAPS_KEY, INITIAL_INPUT_DATA } from '../constants'
-import { Coords, MapState, mapStore } from '../util/mapStore'
+import { Coordinate, MapState, mapStore } from '../util/mapStore'
 import { MapMarker } from './MapMarker'
 import './MapPicker.css'
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
@@ -22,7 +22,7 @@ export interface MapPickerProps {
 }
 
 interface SurtsResult {
-  value: Coords
+  value: Coordinate
   label: string
 }
 
@@ -32,7 +32,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   const { t } = useTranslation()
 
   const [mapState, setMapState] = useState<MapState>(value!)
-  const [position, setPosition] = useState<Coords>(value!.location)
+  const [position, setPosition] = useState<Coordinate>(value!.location)
   const [zoom] = useState<number>(DEFAULT_ZOOM)
   const [collapsed, setCollapsed] = useState<boolean>(true)
 
@@ -60,7 +60,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
     })
   }, [])
 
-  const updatePosition = async (location: Coords, enabled?: boolean) => {
+  const updatePosition = async (location: Coordinate, enabled?: boolean) => {
     mapStore.setLocation(location, enabled)
     console.log('mapStore.setLocation(location)', location)
     setPosition(location)
@@ -125,7 +125,7 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
   const findResults = async (s: string) => {
     const results = await provider.search({ query:  s })
     const res: SurtsResult[] = results.map((x) => {
-      const coords: Coords = { lat: x.y, lng: x.x }
+      const coords: Coordinate = { lat: x.y, lng: x.x }
       return { value: coords, label:  `${x.label}` }  })
     setOptions(res)
   }

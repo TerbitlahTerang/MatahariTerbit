@@ -15,10 +15,11 @@ import { InfoPane } from './components/InfoPane'
 import { StringParam, useQueryParam } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
-import { Coords, mapStore } from './util/mapStore'
+import { Coordinate, mapStore } from './util/mapStore'
 import ReactGA from 'react-ga4'
 import * as Analytics from './services/Analytics'
 import { Category } from './services/Analytics'
+import { VendorList } from './components/VendorsList'
 
 export enum MessageType {
   LocationFound = 'LocationFound',
@@ -35,7 +36,7 @@ interface Message {
 interface LocationMessage {
   messageType: MessageType,
   payLoad: {
-    coords: Coords
+    coords: Coordinate
   }
 }
 
@@ -67,6 +68,7 @@ export const App: React.FunctionComponent = () => {
   const [expertMode] = useQueryParam('expertMode', BooleanParam)
   const [language] = useQueryParam('lng', StringParam)
   const [mobile] = useQueryParam('mobile', BooleanParam)
+  const [vendors] = useQueryParam('vendors', BooleanParam)
 
   const [cacheBuster, setCacheBuster] = useState<number>(0)
 
@@ -224,8 +226,10 @@ export const App: React.FunctionComponent = () => {
                   <FinancialResultBreakdown results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} />
                   <Divider orientation="left">{t('chart.heading')}</Divider>
                   <ROIChart mobile={mobile === true} cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
-                  <Divider orientation="left">{t('roiTable.title')}</Divider>
-                  <ROIBreakdown yearly={resultData.projection}/>
+                  {
+                    vendors ? (<><Divider orientation="left">Vendors</Divider>
+                      <VendorList /></>) : (<><Divider orientation="left">{t('roiTable.title')}</Divider><ROIBreakdown yearly={resultData.projection}/></>)
+                  }
                 </div>}
             />
           </Steps>
