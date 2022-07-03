@@ -92,5 +92,8 @@
     "income": "Income",
     "profit": "Profit",
     "percentage": "Output"
+  },
+  "vendors": {
+    "title": "Suppliers near you"
   }
 }

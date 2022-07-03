@@ -1,8 +1,8 @@
 import Geocode from 'react-geocode'
 import { GOOGLE_MAPS_KEY } from '../constants'
-import { Coords } from './mapStore'
+import { Coordinate } from './mapStore'
 
-export async function geocode(location: Coords) {
+export async function geocode(location: Coordinate) {
   const { results } = await Geocode.fromLatLng(location.lat.toString(), location.lng.toString(), GOOGLE_MAPS_KEY)
   console.log('Got Geocode results', results)
   const res = results[0]
@@ -48,7 +48,7 @@ export interface IrradianceInfo {
   elevation: number
 }
 
-export async function irradiance({ lat, lng }: Coords): Promise<IrradianceInfo> {
+export async function irradiance({ lat, lng }: Coordinate): Promise<IrradianceInfo> {
   const result = await fetch(`https://api.globalsolaratlas.info/data/lta?loc=${lat},${lng}`, {
     method: 'GET',
     headers: { 'accept': 'application/json', 'content-type': 'application/json' }
