@@ -3,7 +3,7 @@ import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { Avatar, List, Space } from 'antd'
 import {
   FacebookOutlined,
-  InstagramOutlined,
+  InstagramOutlined, LinkedinOutlined,
   LinkOutlined,
   PhoneOutlined, WhatsAppOutlined
 } from '@ant-design/icons'
@@ -23,6 +23,7 @@ interface VendorDetails {
   instagram?: string
   facebook?: string
   whatsapp?: string
+  linkedin?: string
 }
 
 const vendors: Vendor[] = [
@@ -69,7 +70,8 @@ const vendors: Vendor[] = [
     details: {
       link: 'http://www.taiyoglobal.com/',
       phone: '+62 218-6615-774',
-      address: 'Graha Inspirasi. Jalan Manunggal Pratama No. 8, Jakarta'
+      address: 'Graha Inspirasi. Jalan Manunggal Pratama No. 8, Jakarta',
+      linkedin: 'https://www.linkedin.com/company/taiyo-global-persada-energi/'
     }
   },
   {
@@ -136,6 +138,7 @@ export const VendorList: React.FunctionComponent = () => {
         <Space><a href={item.details.link} target='_blank'><LinkOutlined /></a></Space>,
         item.details.instagram ? <Space><a href={item.details.instagram} target='_blank'><InstagramOutlined /></a></Space>: undefined,
         item.details.facebook ? <Space><a href={item.details.facebook} target='_blank'><FacebookOutlined /></a></Space>: undefined,
+        item.details.linkedin ? <Space><a href={item.details.linkedin} target='_blank'><LinkedinOutlined /></a></Space>: undefined,
         item.details.whatsapp ? <Space><a href={item.details.whatsapp} target='_blank'><WhatsAppOutlined /></a></Space>: undefined
       ].filter(x => x !== undefined)}
     >
