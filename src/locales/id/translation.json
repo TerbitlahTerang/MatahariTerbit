@@ -91,5 +91,8 @@
     "income": "Penghasilan",
     "profit": "Keuntungan",
     "percentage": "Sisa"
+  },
+  "vendors": {
+    "title": "Pemasok di dekat Anda"
   }
 }

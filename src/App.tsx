@@ -12,7 +12,7 @@ import { GOOGLE_ANALYTICS_TRACKING_ID, INITIAL_INPUT_DATA } from './constants'
 import { calculateResultData, ResultData } from './services/CalculationService'
 import { Documentation } from './services/DocumentationService'
 import { InfoPane } from './components/InfoPane'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam } from 'serialize-query-params/lib/params'
 import { FinancialResultBreakdown } from './components/FinancialResultBreakdown'
 import { Coordinate, mapStore } from './util/mapStore'
@@ -68,7 +68,7 @@ export const App: React.FunctionComponent = () => {
   const [expertMode] = useQueryParam('expertMode', BooleanParam)
   const [language] = useQueryParam('lng', StringParam)
   const [mobile] = useQueryParam('mobile', BooleanParam)
-  const [vendors] = useQueryParam('vendors', BooleanParam)
+  const [vendors] = useQueryParam('vendors', withDefault(BooleanParam, true))
 
   const [cacheBuster, setCacheBuster] = useState<number>(0)
 
@@ -227,7 +227,7 @@ export const App: React.FunctionComponent = () => {
                   <Divider orientation="left">{t('chart.heading')}</Divider>
                   <ROIChart mobile={mobile === true} cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
                   {
-                    vendors ? (<><Divider orientation="left">Vendors</Divider>
+                    vendors ? (<><Divider orientation="left">{t('vendors.title')}</Divider>
                       <VendorList /></>) : (<><Divider orientation="left">{t('roiTable.title')}</Divider><ROIBreakdown yearly={resultData.projection}/></>)
                   }
                 </div>}
