@@ -25,8 +25,8 @@ const SolarPanel: React.FunctionComponent<SolarPanelProps> = (props) => {
   return (
     <div className='panel' >
       <picture >
-        <source type="image/webp"  srcSet={imageWebp} />
-        <img src={image} />
+        <source type="image/webp" srcSet={imageWebp} />
+        <img src={image} alt='solar panel' />
       </picture>
 
       <div className='numberOverlay'>

@@ -228,7 +228,7 @@ export const App: React.FunctionComponent = () => {
                   <ROIChart mobile={mobile === true} cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
                   {
                     vendors ? (<><Divider orientation="left">{t('vendors.title')}</Divider>
-                      <VendorList /></>) : (<><Divider orientation="left">{t('roiTable.title')}</Divider><ROIBreakdown yearly={resultData.projection}/></>)
+                      <VendorList resultData={resultData} connectionPower={inputData.connectionPower} /></>) : (<><Divider orientation="left">{t('roiTable.title')}</Divider><ROIBreakdown yearly={resultData.projection}/></>)
                   }
                 </div>}
             />
