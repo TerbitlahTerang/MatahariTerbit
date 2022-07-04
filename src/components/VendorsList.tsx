@@ -3,10 +3,15 @@ import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { Avatar, List, Space } from 'antd'
 import {
   FacebookOutlined,
-  InstagramOutlined, LinkedinOutlined,
+  InstagramOutlined,
+  LinkedinOutlined,
   LinkOutlined,
-  PhoneOutlined, WhatsAppOutlined
+  PhoneOutlined,
+  WhatsAppOutlined
 } from '@ant-design/icons'
+import { ResultData } from '../services/CalculationService'
+import { useTranslation, TFunction } from 'react-i18next'
+import { formatRupiah } from '../services/Formatters'
 
 interface Vendor {
   icon: string
@@ -40,7 +45,7 @@ const vendors: Vendor[] = [
       address: 'Jl. Bypass Ngurah Rai No.180, Denpasar, Bali',
       link: 'https://www.smartenergy.tech/solar-panel-indonesia',
       instagram: 'https://www.instagram.com/smartenergy.tech/',
-      whatsapp: 'https://wa.link/4d241n'
+      whatsapp: 'https://wa.me/6281237426724'
     }
   },
   {
@@ -56,7 +61,8 @@ const vendors: Vendor[] = [
       phone: '+62 819-1671-7995',
       address: 'Jl. Antasura No.50 Denpasar Denpasar, Bali',
       instagram: 'https://www.instagram.com/bti.energy/',
-      facebook: 'https://www.facebook.com/BTI.energy/'
+      facebook: 'https://www.facebook.com/BTI.energy/',
+      whatsapp: 'https://wa.me/6281916717995'
     }
   },
   {
@@ -72,7 +78,7 @@ const vendors: Vendor[] = [
       phone: '+62 895-33814-2626',
       address: 'Graha Inspirasi. Jalan Manunggal Pratama No. 8, Jakarta',
       linkedin: 'https://www.linkedin.com/company/taiyo-global-persada-energi/',
-      whatsapp: 'https://wa.me/message/2EEDZ5ICAC4EF1'
+      whatsapp: 'https://wa.me/62895338142626'
     }
   },
   {
@@ -87,7 +93,9 @@ const vendors: Vendor[] = [
       link: 'https://frenchsolarindustry.com/',
       phone: '+62 812-3687-9516',
       address: 'Jalan Dewi Sri II A, Legian, Kuta Bali 80361',
-      facebook: 'https://www.facebook.com/French-Solar-Industry-445018702701046/'
+      facebook: 'https://www.facebook.com/French-Solar-Industry-445018702701046/',
+      whatsapp: 'https://wa.me/6281236879516'
+
     }
   }
 ]
@@ -114,19 +122,36 @@ function relativeHaversineDistance(a: Coordinate, b: Coordinate) {
   return asin(ht)
 }
 
-export const VendorList: React.FunctionComponent = () => {
+interface VendorListProps {
+  resultData: ResultData,
+  connectionPower: number
+}
+
+const toMessage = (t: TFunction, connectionPower: number, result?: ResultData, address?: string) => {
+  if (result) {
+    const { numberOfPanels, currentMonthlyCosts } = result
+    const monthlyCosts = formatRupiah(currentMonthlyCosts)
+    return encodeURI( t('vendors.message', { numberOfPanels, address, monthlyCosts, connectionPower }))
+  }
+  return ''
+}
+
+export const VendorList: React.FunctionComponent<VendorListProps> = ({ resultData, connectionPower } : VendorListProps) => {
+
+  const { t } = useTranslation()
 
   const [position, setPosition] = useState<Coordinate|undefined>(undefined)
+  const [address, setAddress] = useState<string|undefined>(undefined)
   const sortedVendors: Vendor[] = useMemo(() => {
     if (position) {
-      const res = vendors.sort((a: Vendor, b: Vendor) => relativeHaversineDistance(a.location, position) - relativeHaversineDistance(b.location, position))
-      return res
+      return vendors.sort((a: Vendor, b: Vendor) => relativeHaversineDistance(a.location, position) - relativeHaversineDistance(b.location, position))
     } else return []
   }, [position])
 
   useLayoutEffect(() => {
     mapStore.subscribe((state) => {
       setPosition(state.location)
+      setAddress(state.address)
     })
   }, [])
 
@@ -140,7 +165,7 @@ export const VendorList: React.FunctionComponent = () => {
         item.details.instagram ? <Space><a href={item.details.instagram} target='_blank'><InstagramOutlined /></a></Space>: undefined,
         item.details.facebook ? <Space><a href={item.details.facebook} target='_blank'><FacebookOutlined /></a></Space>: undefined,
         item.details.linkedin ? <Space><a href={item.details.linkedin} target='_blank'><LinkedinOutlined /></a></Space>: undefined,
-        item.details.whatsapp ? <Space><a href={item.details.whatsapp} target='_blank'><WhatsAppOutlined /></a></Space>: undefined
+        item.details.whatsapp ? <Space><a href={`${item.details.whatsapp}?text=${toMessage(t, connectionPower, resultData, address)}`} target='_blank'><WhatsAppOutlined /></a></Space>: undefined
       ].filter(x => x !== undefined)}
     >
       <List.Item.Meta avatar={<Avatar shape='square' src={item.icon} />} title={<a href={item.details.link}>{item.name}</a> }

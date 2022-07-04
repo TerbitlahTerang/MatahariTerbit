@@ -94,6 +94,7 @@
     "percentage": "Output"
   },
   "vendors": {
-    "title": "Suppliers near you"
+    "title": "Suppliers near you",
+    "message": "Halo, saya tertarik untuk memasang *{{numberOfPanels}}* panel surya di\n{{address}}\ndengan rata-rata rekening listrik per-bulan _{{monthlyCosts}}_ dan daya listrik _{{connectionPower}} VA_."
   }
 }

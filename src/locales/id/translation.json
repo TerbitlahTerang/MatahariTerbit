@@ -93,6 +93,7 @@
     "percentage": "Sisa"
   },
   "vendors": {
-    "title": "Pemasok di dekat Anda"
+    "title": "Pemasok di dekat Anda",
+    "message": "Hello I'm interested in *{{numberOfPanels}}* solar panels at\n{{address}}\nwith an electricity bill of _{{monthlyCosts}}_ and connection of _{{connectionPower}} VA_."
   }
 }
