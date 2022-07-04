@@ -29,7 +29,7 @@ interface VendorDetails {
 const vendors: Vendor[] = [
   {
     icon: 'assets/vendors/smartenergytech/icon.png',
-    description: 'Have your own smart solar energy system, anywhere in Indonesia',
+    description: 'Have your own smart solar energy system, anywhere in Indonesia.',
     name: 'Smart Energy Tech',
     location: {
       lat: -8.6728578,
@@ -45,7 +45,7 @@ const vendors: Vendor[] = [
   },
   {
     icon: 'assets/vendors/bti/icon.png',
-    description: 'Hemat Tagihan Listrik Sayangi Lingkungan Bersama BTI Energy',
+    description: 'Hemat Tagihan Listrik Sayangi Lingkungan Bersama BTI Energy.',
     name: 'BTI Solar Panel di Bali',
     location: {
       lat: -8.6728578,
@@ -61,8 +61,8 @@ const vendors: Vendor[] = [
   },
   {
     icon: 'assets/vendors/taiyo/icon.png',
-    description: 'The clean energy specialist',
-    name: 'Taiyo Global',
+    description: 'Listrik surya hijaukan dunia.\n TakaEnergi merupakan bagian dari PT Taiyo Global Persada Energi.',
+    name: 'TakaEnergi',
     location: {
       lat: -6.2486205,
       lng: 106.8812313
