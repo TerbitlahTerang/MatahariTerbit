@@ -69,9 +69,10 @@ const vendors: Vendor[] = [
     },
     details: {
       link: 'http://www.taiyoglobal.com/',
-      phone: '+62 218-6615-774',
+      phone: '+62 895-33814-2626',
       address: 'Graha Inspirasi. Jalan Manunggal Pratama No. 8, Jakarta',
-      linkedin: 'https://www.linkedin.com/company/taiyo-global-persada-energi/'
+      linkedin: 'https://www.linkedin.com/company/taiyo-global-persada-energi/',
+      whatsapp: 'https://wa.me/message/2EEDZ5ICAC4EF1'
     }
   },
   {
