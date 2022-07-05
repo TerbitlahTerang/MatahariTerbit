@@ -2,10 +2,9 @@ import { Coordinate, mapStore } from '../util/mapStore'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { Avatar, List, Space } from 'antd'
 import {
-  FacebookOutlined,
+  FacebookOutlined, GlobalOutlined,
   InstagramOutlined,
   LinkedinOutlined,
-  LinkOutlined,
   PhoneOutlined,
   WhatsAppOutlined
 } from '@ant-design/icons'
@@ -160,12 +159,12 @@ export const VendorList: React.FunctionComponent<VendorListProps> = ({ resultDat
   return (<List itemLayout="vertical" size="large" dataSource={sortedVendors}
     renderItem={(item: Vendor) =>(<List.Item key={item.name}
       actions={[
-        <Space><a href={`tel: ${item.details.phone}`}><PhoneOutlined /></a></Space>,
-        <Space><a href={item.details.link} target='_blank'><LinkOutlined /></a></Space>,
-        item.details.instagram ? <Space><a href={item.details.instagram} target='_blank'><InstagramOutlined /></a></Space>: undefined,
-        item.details.facebook ? <Space><a href={item.details.facebook} target='_blank'><FacebookOutlined /></a></Space>: undefined,
-        item.details.linkedin ? <Space><a href={item.details.linkedin} target='_blank'><LinkedinOutlined /></a></Space>: undefined,
-        item.details.whatsapp ? <Space><a href={`${item.details.whatsapp}?text=${toMessage(t, connectionPower, resultData, address)}`} target='_blank'><WhatsAppOutlined /></a></Space>: undefined
+        <Space><a href={`tel: ${item.details.phone}`}><PhoneOutlined style={{ fontSize: '16px' }} /></a></Space>,
+        <Space><a href={item.details.link} target='_blank'><GlobalOutlined style={{ fontSize: '16px' }} /></a></Space>,
+        item.details.instagram ? <Space><a href={item.details.instagram} target='_blank'><InstagramOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined,
+        item.details.facebook ? <Space><a href={item.details.facebook} target='_blank'><FacebookOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined,
+        item.details.linkedin ? <Space><a href={item.details.linkedin} target='_blank'><LinkedinOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined,
+        item.details.whatsapp ? <Space><a href={`${item.details.whatsapp}?text=${toMessage(t, connectionPower, resultData, address)}`} target='_blank'><WhatsAppOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined
       ].filter(x => x !== undefined)}
     >
       <List.Item.Meta avatar={<Avatar shape='square' src={item.icon} />} title={<a href={item.details.link}>{item.name}</a> }
