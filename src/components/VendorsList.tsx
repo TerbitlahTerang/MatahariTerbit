@@ -135,7 +135,7 @@ const toMessage = (t: TFunction, connectionPower: number, position: Coordinate, 
     urlWithParams.searchParams.set('me', `${currentMonthlyCosts}`)
     urlWithParams.searchParams.set('lat', `${position.lat}`)
     urlWithParams.searchParams.set('long', `${position.lng}`)
-    const webLink = `${urlWithParams}`.replace('&', '%24')
+    const webLink = `${urlWithParams}`.replaceAll('&', '%24')
     return encodeURI( t('vendors.message', { numberOfPanels, address, monthlyCosts, connectionPower, webLink }))
   }
   return ''
