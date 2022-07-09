@@ -126,11 +126,17 @@ interface VendorListProps {
   connectionPower: number
 }
 
-const toMessage = (t: TFunction, connectionPower: number, result?: ResultData, address?: string) => {
+const toMessage = (t: TFunction, connectionPower: number, position: Coordinate, result?: ResultData, address?: string) => {
   if (result) {
     const { numberOfPanels, currentMonthlyCosts } = result
     const monthlyCosts = formatRupiah(currentMonthlyCosts)
-    return encodeURI( t('vendors.message', { numberOfPanels, address, monthlyCosts, connectionPower }))
+    const urlWithParams = new URL(window.location.href)
+    urlWithParams.searchParams.set('cp', `${connectionPower}`)
+    urlWithParams.searchParams.set('me', `${currentMonthlyCosts}`)
+    urlWithParams.searchParams.set('lat', `${position.lat}`)
+    urlWithParams.searchParams.set('long', `${position.lng}`)
+    const webLink = `${urlWithParams}`.replace('&', '%24')
+    return encodeURI( t('vendors.message', { numberOfPanels, address, monthlyCosts, connectionPower, webLink }))
   }
   return ''
 }
@@ -164,7 +170,7 @@ export const VendorList: React.FunctionComponent<VendorListProps> = ({ resultDat
         item.details.instagram ? <Space><a href={item.details.instagram} target='_blank'><InstagramOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined,
         item.details.facebook ? <Space><a href={item.details.facebook} target='_blank'><FacebookOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined,
         item.details.linkedin ? <Space><a href={item.details.linkedin} target='_blank'><LinkedinOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined,
-        item.details.whatsapp ? <Space><a href={`${item.details.whatsapp}?text=${toMessage(t, connectionPower, resultData, address)}`} target='_blank'><WhatsAppOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined
+        item.details.whatsapp ? <Space><a href={`${item.details.whatsapp}?text=${toMessage(t, connectionPower, position, resultData, address)}`} target='_blank'><WhatsAppOutlined style={{ fontSize: '16px' }} /></a></Space>: undefined
       ].filter(x => x !== undefined)}
     >
       <List.Item.Meta avatar={<Avatar shape='square' src={item.icon} />} title={<a href={item.details.link}>{item.name}</a> }

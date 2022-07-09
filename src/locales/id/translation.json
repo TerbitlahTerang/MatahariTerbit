@@ -94,6 +94,6 @@
   },
   "vendors": {
     "title": "Pemasok di dekat Anda",
-    "message": "Halo, saya tertarik untuk memasang *{{numberOfPanels}}* panel surya di\n{{address}}\ndengan rata-rata rekening listrik per-bulan _{{monthlyCosts}}_ dan daya listrik _{{connectionPower}} VA_."
+    "message": "Halo, saya tertarik untuk memasang *{{numberOfPanels}}* panel surya di\n{{address}}\ndengan rata-rata rekening listrik per-bulan _{{monthlyCosts}}_ dan daya listrik _{{connectionPower}} VA_.\n{{webLink}}"
   }
 }
