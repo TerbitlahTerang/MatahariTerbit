@@ -108,6 +108,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const [priceOfInverterAbsolute, setPriceOfInverterAbsolute] = useQueryParam('priceOfInverterAbsolute', withDefault(NumberParam, priceSettings.priceOfInverterAbsolute))
   const [installationCosts, setInstallationCosts] = useQueryParam('installationCosts', withDefault(NumberParam, priceSettings.installationCosts))
 
+  const [connectionPower, setConnectionPower] = useQueryParam('cp', withDefault(NumberParam, init.connectionPower))
+  const [monthlyCostEstimateInRupiah, setMonthlyCostEstimateInRupiah] = useQueryParam('me', withDefault(NumberParam, init.monthlyCostEstimateInRupiah))
 
   return (
     <Form form={form} layout="vertical" name="calculator"  onFieldsChange={(changedFields) => {
@@ -117,7 +119,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const monthlyBill = form.getFieldValue('monthlyBill')
       const monthlyUsageInKwh = form.getFieldValue('monthlyUsageInKwh')
 
-      const connectionPower = form.getFieldValue('connectionPower')
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
       const targetValue = form.getFieldValue('optimizationTarget')
@@ -174,7 +175,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         <Col xs={24} sm={priorityEnabled ? 10 : 12}>
           {monthlyUsageType === MonthlyUsage.Rupiah ?
             (<Form.Item name="monthlyBill" label={<div><><span className="numberCircle"><span>2</span></span>&nbsp;{t('inputForm.monthlyBill')}</></div>}
-              initialValue={init.monthlyCostEstimateInRupiah}
+              initialValue={monthlyCostEstimateInRupiah}
               tooltip={{
                 trigger: 'click',
                 overlay: '',
@@ -184,7 +185,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
                 formatter={formatRupiah}
                 parser={parseRupiah}
-                step={100000} inputMode="numeric"/>
+                step={100000} inputMode="numeric" onChange={setMonthlyCostEstimateInRupiah}/>
             </Form.Item>) : (<Form.Item name="monthlyUsageInKwh" label={<>{t('inputForm.monthlyUsage')}</>}
               initialValue={init.monthlyUsageInKwh}
             >
@@ -197,14 +198,15 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
         <Col xs={priorityEnabled ? 15 : 24} sm={priorityEnabled ? 9 : 12}>
           <Form.Item name="connectionPower" label={<div><><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.connectionPower')}</></div>}
-            initialValue={init.connectionPower} tooltip={{
+            initialValue={connectionPower}
+            tooltip={{
               trigger: 'click',
               overlay: '',
               icon: <InfoCircleOutlined
                 onClick={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))}/>
             }}>
 
-            <Select style={{ width: '100%' }}>{powerOptions.map(renderOption)}</Select>
+            <Select style={{ width: '100%' }} defaultValue={connectionPower} onChange={ (val, _) => setConnectionPower(val)} >{powerOptions.map(renderOption)}</Select>
           </Form.Item>
         </Col>
         {priorityEnabled &&
