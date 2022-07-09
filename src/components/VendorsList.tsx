@@ -131,11 +131,12 @@ const toMessage = (t: TFunction, connectionPower: number, position: Coordinate, 
     const { numberOfPanels, currentMonthlyCosts } = result
     const monthlyCosts = formatRupiah(currentMonthlyCosts)
     const urlWithParams = new URL(window.location.href)
-    urlWithParams.searchParams.set('cp', `${connectionPower}`)
-    urlWithParams.searchParams.set('me', `${currentMonthlyCosts}`)
-    urlWithParams.searchParams.set('lat', `${position.lat}`)
-    urlWithParams.searchParams.set('long', `${position.lng}`)
-    const webLink = `${urlWithParams}`.replaceAll('&', '%24')
+    const params = new URLSearchParams()
+    params.set('cp', `${connectionPower}`)
+    params.set('me', `${currentMonthlyCosts}`)
+    params.set('lat', `${position.lat}`)
+    params.set('long', `${position.lng}`)
+    const webLink = urlWithParams.origin + urlWithParams.pathname + '?enc=' + encodeURIComponent(`${params}`)
     return encodeURI( t('vendors.message', { numberOfPanels, address, monthlyCosts, connectionPower, webLink }))
   }
   return ''
