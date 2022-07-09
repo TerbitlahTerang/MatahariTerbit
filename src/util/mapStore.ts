@@ -20,17 +20,27 @@ const subject = new Subject<MapState>()
 
 let state: MapState = INITIAL_INPUT_DATA.location
 
+const getLocation = (location: Coordinate) => {
+  const url = new URL(window.location.href)
+  const lngParam = url.searchParams.get('long')
+  const latParam = url.searchParams.get('lat')
+  if (lngParam && latParam) {
+    return { lat: parseFloat(latParam), lng: parseFloat(lngParam) }
+  }
+  return location
+}
+
 export const mapStore = {
   subscribe: (setState: SetStateFn) => {
     subject.pipe(
       debounceTime(500),
       mergeMap(({ location, geoEnabled }) => forkJoin([
-        geocode(location),
-        irradiance(location),
+        geocode(getLocation(location)),
+        irradiance(getLocation(location)),
         Promise.resolve(geoEnabled)
       ])),
       map(([geo, info, enabled]) => ({
-        location: { lat: geo.geometry.location.lat, lng: geo.geometry.location.lng } ,
+        location: { lat: getLocation(geo.geometry.location).lat, lng: getLocation(geo.geometry.location).lng },
         geoEnabled: enabled,
         address: geo.formatted_address,
         info
