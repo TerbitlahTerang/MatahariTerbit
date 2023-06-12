@@ -71,10 +71,8 @@ export default function App() {
   }
 
   useEffect(() => {
-    Linking.addEventListener('url', _handleOpenURL)
-    return () => {
-      Linking.removeEventListener('url', _handleOpenURL)
-    }
+    const subscription = Linking.addEventListener('url', _handleOpenURL)
+    return () => { subscription.remove() }
   }, [])
 
   const defaultLocation = {
@@ -144,7 +142,7 @@ export default function App() {
                 </VStack>
               </HStack>
               <HStack>
-                <IconButton icon={<Icon as={MaterialIcons} name="info" size="sm" color="white" />}
+                <IconButton icon={<Icon as={MaterialIcons} name="info" size="xl" color="white" />}
                   onPress={() => {
                     sendMessage(infoOpen ? { messageType: MessageType.InfoClosed } : { messageType: MessageType.InfoOpen })
                     setInfoOpen(!infoOpen)

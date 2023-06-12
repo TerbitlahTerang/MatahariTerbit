@@ -2,7 +2,7 @@
   "expo": {
     "name": "Solar Calculator Indonesia",
     "slug": "SolarCalculatorIndonesia",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "solarcalculatorindonesia",
@@ -18,7 +18,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "30",
+      "buildNumber": "39",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "googleServicesFile": "./firebase/GoogleService-Info.plist",
@@ -34,19 +34,30 @@
       "en": "./i18n/english.json"
     },
     "android": {
-      "versionCode": 22,
+      "versionCode": 27,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
       },
       "package": "com.sjappelodorus.MatahariTerbit",
-      "googleServicesFile": "./firebase/google-services.json"
+      "googleServicesFile": "./firebase/google-services.json",
+      "permissions": [
+        "com.google.android.gms.permission.AD_ID"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "sentry-expo"
+      "sentry-expo",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
     ],
     "hooks": {
       "postPublish": [
@@ -59,6 +70,11 @@
           }
         }
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e6cb02ba-dd16-4f9b-8231-a5d9f61b02db"
+      }
     }
   }
 }
