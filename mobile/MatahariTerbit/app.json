@@ -34,7 +34,7 @@
       "en": "./i18n/english.json"
     },
     "android": {
-      "versionCode": 31,
+      "versionCode": 33,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
@@ -55,6 +55,19 @@
         {
           "ios": {
             "useFrameworks": "static"
+          }
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
           }
         }
       ]
