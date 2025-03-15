@@ -197,3 +197,11 @@ div.ant-steps-item-subtitle {
 .ant-drawer-header {
     padding-left: 12px;
 }
+
+.ant-steps .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: $primary;
+}
+
+.ant-steps .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-tail::after {
+    background-color: $primary-light;
+}
