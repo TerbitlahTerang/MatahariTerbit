@@ -125,6 +125,20 @@ div.ant-steps-item-subtitle {
     width: 100%;
 }
 
+.ant-select-single.ant-select-lg .ant-select-selector {
+    color: white;
+    font-weight: bold;
+
+}
+
+.prioritySwitch.ant-switch.ant-switch-checked {
+    background: $primary;
+}
+
+.prioritySwitch.ant-switch  {
+    background: green;
+}
+
 .ant-steps-item-title > span {
     width: 100%;
     float: left;
@@ -138,17 +152,14 @@ div.ant-steps-item-subtitle {
     padding-bottom: 40px;
 }
 
-
 .ant-popover-inner-content {
     background-color: rgba(0, 0, 0, 0.75);
     padding: 6px 8px;
     max-width: 500px;
 }
-
 .ant-tooltip {
     max-width: 500px;
 }
-
 @media (max-width : 480px) {
     .ant-popover-inner-content {
         max-width: 360px;
@@ -158,46 +169,39 @@ div.ant-steps-item-subtitle {
     }
 }
 
+.ant-steps DIV.ant-steps-item-subtitle {
+    color: #000000d9;
+}
 .anticon-info-circle {
     color: rgba(0, 0, 0, 0.45);
 }
-
-.ant-form-item-label > label > .anticon {
+.ant-col .anticon-info-circle {
     font-size: 16px;
-}
-
-SPAN.anticon.anticon-info-circle {
-    font-size: 16px;
-}
-
-.prioritySwitch.ant-switch.ant-switch-checked {
-    background-color: $primary;
-}
-
-.prioritySwitch.ant-switch {
-    background-color: #46a171;
 }
 
 .ant-drawer {
     z-index: 10000;
 }
 
-.ant-btn-primary {
+.ant-btn-variant-solid {
     border-color: $primary-dark;
     background: $primary;
 }
-
-.ant-steps-icon {
+.ant-steps .ant-steps-item-process.ant-steps-item-custom .ant-steps-item-icon >.ant-steps-icon {
     color: $primary
 }
-
-.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
-    color: $primary
-}
-.ant-steps-item-icon .ant-steps-icon {
-    color: $primary
+.ant-steps .ant-steps-item-finish.ant-steps-item-custom .ant-steps-item-icon >.ant-steps-icon {
+    color: $primary-dark
 }
 
 .ant-drawer-header {
     padding-left: 12px;
+}
+
+.ant-steps .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: $primary;
+}
+
+.ant-steps .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-tail::after {
+    background-color: $primary-light;
 }
