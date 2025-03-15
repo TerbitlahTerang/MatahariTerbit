@@ -166,7 +166,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           trigger: 'click',
           overlay: '',
           icon: <InfoCircleOutlined
-            onClick={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
+            onClickCapture={() => props.onOpenDocumentation(Documentation.Location, t('inputForm.location'))}/>
         }}
       >
         <MapPicker mobile={props.mobile}/>
@@ -180,7 +180,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                 trigger: 'click',
                 overlay: '',
                 icon: <InfoCircleOutlined
-                  onClick={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/>
+                  onClickCapture={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/>
               }}>
               <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
                 formatter={formatRupiah}
@@ -203,7 +203,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               trigger: 'click',
               overlay: '',
               icon: <InfoCircleOutlined
-                onClick={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))}/>
+                onClickCapture={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))}/>
             }}>
 
             <Select style={{ width: '100%' }} defaultValue={connectionPower} onChange={ (val, _) => setConnectionPower(val)} >{powerOptions.map(renderOption)}</Select>
@@ -217,7 +217,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                     overlay: '',
                     trigger: 'click',
                     icon: <InfoCircleOutlined
-                      onClick={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
+                      onClickCapture={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
                   }}>
                   <Switch className='prioritySwitch'
                     checkedChildren={<>{t('inputForm.priorityMoney')}</>}
@@ -230,7 +230,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       </Row>
 
       {props.expertMode && <><Divider orientation="left"><>{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
-        onClick={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></></Divider>
+        onClickCapture={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></></Divider>
       <Row gutter={16}>
         <Col xs={24} sm={8}>
           <Form.Item name="lowTariff" label={<>{t('inputForm.expertMode.lowTariff')}</>}
