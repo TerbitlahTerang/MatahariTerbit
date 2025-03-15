@@ -163,7 +163,7 @@ export const App: React.FunctionComponent = () => {
             {language ? (<></>) :
               (<div className="app-nav-extra">
                 <Select onChange={changeLanguage} defaultValue={i18n.resolvedLanguage} bordered={false}
-                  style={{ color: '#FFFFFF' }} size="large">
+                  size="large">
                   <Select.Option key="en" value="en">🇺🇸 EN</Select.Option>
                   <Select.Option key="id" value="id">🇮🇩 ID</Select.Option>
                 </Select>
