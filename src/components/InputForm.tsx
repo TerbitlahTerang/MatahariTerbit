@@ -30,7 +30,7 @@ import {
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
-import './InputForm.css'
+import './InputForm.scss'
 import * as Analytics from '../services/Analytics'
 import { Category } from '../services/Analytics'
 

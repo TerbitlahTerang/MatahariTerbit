@@ -2,8 +2,8 @@
   "name": "matahari-terbit",
   "private": true,
   "scripts": {
-    "serve": "snowpack dev",
-    "build": "snowpack build",
+    "serve": "vite preview",
+    "build": "tsc && vite build",
     "deploy": "yarn build && yarn firebase deploy",
     "lint": "eslint --ext=.tsx,.ts src && yarn typecheck",
     "typecheck": "tsc --skipLibCheck --noEmit",
@@ -37,11 +37,6 @@
     "use-query-params": "^1.2.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-typescript": "^7.16.0",
-    "@snowpack/app-scripts-react": "^2.0.1",
-    "@snowpack/plugin-react-refresh": "^2.5.0",
-    "@snowpack/plugin-sass": "^1.4.0",
     "@types/d3-ease": "^3.0.0",
     "@types/jest": "^27.0.3",
     "@types/leaflet": "^1.7.9",
@@ -52,7 +47,7 @@
     "@types/react-geocode": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
-    "babel-plugin-import": "^1.13.3",
+    "@vitejs/plugin-react": "^4.3.4",
     "eslint": "7",
     "eslint-plugin-eslint-plugin": "^4.0.2",
     "eslint-plugin-import": "^2.25.3",
@@ -60,11 +55,13 @@
     "husky": "^7.0.4",
     "jest": "^27.4.3",
     "jest-junit": "^13.0.0",
-    "snowpack": "3.7.0",
-    "snowpack-plugin-markdown": "^1.0.0",
-    "snowpack-plugin-svgr": "^0.1.2",
+    "sass-embedded": "^1.85.1",
     "ts-node": "^10.4.0",
-    "typescript": "4.6.3"
+    "typescript": "4.6.3",
+    "vite": "^6.2.2",
+    "vite-plugin-env-compatible": "^2.0.1",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-markdown": "^2.2.0"
   },
   "jest-junit": {
     "outputDirectory": "build/test-results/test",

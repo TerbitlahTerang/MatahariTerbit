@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { App } from './App'
 import { QueryParamProvider } from 'use-query-params'
 import './i18n'
-import './index.css'
+import './index.scss'
 import { LoadingOutlined } from '@ant-design/icons'
 
 const url = new URL(window.location.href)
