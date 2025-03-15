@@ -84,7 +84,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const plnSettings = calcSettings.plnSettings
   const priceSettings = calcSettings.priceSettings
 
-  const [priorityEnabled, setPriorityEnabled] = useQueryParam('priorityEnabled', withDefault(BooleanParam, calcSettings.priorityEnabled))
+  const [offGridEnabled, setOffGridEnabled] = useQueryParam('offGridEnabled', withDefault(BooleanParam, calcSettings.offGridEnabled))
   const [monthlyUsageType, setMonthlyUsageType] = useQueryParam('monthlyUsageType', withDefault(createEnumParam(Object.values(MonthlyUsage)), priceSettings.monthlyUsageType))
 
   const [lowTariff, setLowTariff] = useQueryParam('lowTariff', withDefault(NumberParam, plnSettings.lowTariff))
@@ -122,7 +122,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
       const targetValue = form.getFieldValue('optimizationTarget')
-      const optimizationTarget = targetValue === undefined || targetValue ? OptimizationTarget.Money : OptimizationTarget.Green
+      const optimizationTarget = targetValue === undefined || targetValue ? OptimizationTarget.Green : OptimizationTarget.Money
 
       const calculatorSettings: CalculatorSettings = {
         plnSettings: {
@@ -148,7 +148,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         lossFromInverter,
         inverterLifetimeInYears,
         kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp,
-        priorityEnabled
+        offGridEnabled: offGridEnabled
       }
 
       props.onChange({
@@ -172,7 +172,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         <MapPicker mobile={props.mobile}/>
       </Form.Item>
       <Row gutter={16}>
-        <Col xs={24} sm={priorityEnabled ? 10 : 12}>
+        <Col xs={24} sm={12}>
           {monthlyUsageType === MonthlyUsage.Rupiah ?
             (<Form.Item name="monthlyBill" label={<div><><span className="numberCircle"><span>2</span></span>&nbsp;{t('inputForm.monthlyBill')}</></div>}
               initialValue={monthlyCostEstimateInRupiah}
@@ -196,37 +196,22 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             </Form.Item>)
           }
         </Col>
-        <Col xs={priorityEnabled ? 15 : 24} sm={priorityEnabled ? 9 : 12}>
-          <Form.Item name="connectionPower" label={<div><><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.connectionPower')}</></div>}
-            initialValue={connectionPower}
+        <Col xs={24} sm={12}>
+          <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
+            label={<div><><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.connectionPower')}</></div>}
             tooltip={{
-              trigger: 'click',
               overlay: '',
+              trigger: 'click',
               icon: <InfoCircleOutlined
-                onClickCapture={() => props.onOpenDocumentation(Documentation.ConnectionPower, t('inputForm.connectionPower'))}/>
+                onClickCapture={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
             }}>
-
-            <Select style={{ width: '100%' }} defaultValue={connectionPower} onChange={ (val, _) => setConnectionPower(val)} >{powerOptions.map(renderOption)}</Select>
+            <Switch className='prioritySwitch'
+              checkedChildren={<>{t('inputForm.priorityEarth')}</>}
+              unCheckedChildren={<>{t('inputForm.priorityMoney')}</>}
+              defaultChecked={true}
+            />
           </Form.Item>
         </Col>
-        {priorityEnabled &&
-              <Col xs={9} sm={5}>
-                <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
-                  label={<>{t('inputForm.priority')}</>}
-                  tooltip={{
-                    overlay: '',
-                    trigger: 'click',
-                    icon: <InfoCircleOutlined
-                      onClickCapture={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
-                  }}>
-                  <Switch className='prioritySwitch'
-                    checkedChildren={<>{t('inputForm.priorityMoney')}</>}
-                    unCheckedChildren={<>{t('inputForm.priorityEarth')}</>}
-                    defaultChecked={true}
-                  />
-                </Form.Item>
-              </Col>
-        }
       </Row>
 
       {props.expertMode && <><Divider orientation="left"><>{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
@@ -460,11 +445,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <a href={createLinkedinLink()} target='_blank' rel="noreferrer"><LinkedinOutlined  /></a>
         </Col>
         <Col xs={24} sm={8} >
-          <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={priorityEnabled}
+          <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={offGridEnabled}
             label={<>{t('inputForm.expertMode.priorityEnabled')}</>}>
             <Switch
-              defaultChecked={priorityEnabled}
-              onChange={(newValue) => setPriorityEnabled(newValue)}
+              defaultChecked={offGridEnabled}
+              onChange={(newValue) => setOffGridEnabled(newValue)}
             />
           </Form.Item>
         </Col>
