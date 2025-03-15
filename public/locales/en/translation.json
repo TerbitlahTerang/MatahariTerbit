@@ -49,14 +49,14 @@
   "inputForm": {
     "monthlyBill": "Monthly Electricity bill",
     "monthlyUsage": "Monthly Usage",
-    "connectionPower": "Connection Power (VA)",
+    "connectionPower": "On-grid VS off-grid",
     "location": "Sunlight intensity at your house",
     "findingLocation": "Finding your location...",
     "chooseLocation": "Find your location...",
     "solarIntensity": "Sunlight intensity",
     "priority": "Priority",
-    "priorityMoney": "\uD83D\uDCB0 Money",
-    "priorityEarth": "CO₂ \uD83C\uDF0F",
+    "priorityMoney": "⚡\uD83C\uDFE0 On-grid",
+    "priorityEarth": "Off-grid \uD83C\uDF1E\uD83D\uDD0B",
     "expertMode": {
       "title": {
         "plnSettings": "PLN Settings",

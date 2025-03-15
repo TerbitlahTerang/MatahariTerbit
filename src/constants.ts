@@ -84,7 +84,7 @@ export interface CalculatorSettings {
   kiloWattPeakPerPanel: number,
   kiloWattHourPerYearPerKWp: number,
   lossFromInverter: number,
-  priorityEnabled: boolean
+  offGridEnabled: boolean
 }
 
 
@@ -115,7 +115,7 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
   kiloWattHourPerYearPerKWp: 1732,
   // Based on https://globalsolaratlas.info PVOUT vs Annual average
   lossFromInverter: 0.9628,
-  priorityEnabled: true
+  offGridEnabled: true
 }
 
 export const INITIAL_INPUT_DATA: InitialInputData = {
