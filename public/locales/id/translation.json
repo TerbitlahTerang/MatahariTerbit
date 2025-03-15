@@ -54,8 +54,8 @@
     "chooseLocation": "Cari lokasi Anda...",
     "solarIntensity": "Intensitas sinar matahari",
     "priority": "Prioritas",
-    "priorityMoney": "\uD83D\uDCB0 Uang",
-    "priorityEarth": "CO₂ \uD83C\uDF0F",
+    "priorityMoney": "⚡\uD83C\uDFE0 On-grid",
+    "priorityEarth": "Off-grid \uD83C\uDF1E\uD83D\uDD0B",
     "expertMode": {
       "title": {
         "plnSettings": "PLN Settings",

@@ -122,7 +122,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
       const targetValue = form.getFieldValue('optimizationTarget')
-      const optimizationTarget = targetValue === undefined || targetValue ? OptimizationTarget.Money : OptimizationTarget.Green
+      const optimizationTarget = targetValue === undefined || targetValue ? OptimizationTarget.Green : OptimizationTarget.Money
 
       const calculatorSettings: CalculatorSettings = {
         plnSettings: {
