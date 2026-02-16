@@ -2,7 +2,7 @@
   "expo": {
     "name": "Solar Calculator Indonesia",
     "slug": "SolarCalculatorIndonesia",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "solarcalculatorindonesia",
@@ -18,7 +18,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "39",
+      "buildNumber": "49",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "googleServicesFile": "./firebase/GoogleService-Info.plist",
@@ -34,7 +34,7 @@
       "en": "./i18n/english.json"
     },
     "android": {
-      "versionCode": 33,
+      "versionCode": 42,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
@@ -49,41 +49,22 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "sentry-expo",
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "useFrameworks": "static"
-          }
-        }
-      ],
       [
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "34.0.0"
-          },
-          "ios": {
-            "deploymentTarget": "13.4"
+            "kotlinVersion": "1.9.24"
           }
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "matahariterbit",
+          "project": "matahariterbit"
         }
       ]
     ],
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "matahariterbit",
-            "project": "matahariterbit",
-            "authToken": "fe830848c59042a3bddc42cdf4d81b3f0dedf0d7dc164560bb56107425c46e65"
-          }
-        }
-      ]
-    },
     "extra": {
       "eas": {
         "projectId": "e6cb02ba-dd16-4f9b-8231-a5d9f61b02db"

@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 1.0.0"
+    "version": ">= 7.3.0"
   },
   "build": {
     "development": {
@@ -15,7 +15,8 @@
     "production": {
       "ios": {
         "autoIncrement": "buildNumber",
-        "credentialsSource": "local"
+        "credentialsSource": "local",
+        "image": "macos-sequoia-15.3-xcode-16.2"
       },
       "android": {
         "autoIncrement": "versionCode",
