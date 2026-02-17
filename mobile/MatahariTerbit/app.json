@@ -18,7 +18,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "49",
+      "buildNumber": "51",
       "supportsTablet": true,
       "bundleIdentifier": "com.sjappelodorus.MatahariTerbit",
       "googleServicesFile": "./firebase/GoogleService-Info.plist",
@@ -54,6 +54,10 @@
         {
           "android": {
             "kotlinVersion": "1.9.24"
+          },
+          "ios": {
+            "deploymentTarget": "15.1",
+            "newArchEnabled": false
           }
         }
       ],
@@ -63,7 +67,8 @@
           "organization": "matahariterbit",
           "project": "matahariterbit"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "eas": {

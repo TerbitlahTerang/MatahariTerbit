@@ -21,8 +21,11 @@ const langOnly = deviceLanguage.replace('-', '_').split('_')[0]
 
 Sentry.init({
   dsn: 'https://998a4632c8bf4f38b7b43076af956f96@o1197651.ingest.sentry.io/6320411',
-  enableInExpoDevelopment: true,
-  debug: true // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  debug: false,
+  enableAppHangTracking: false,
+  enableAutoPerformanceTracing: false,
+  enableWatchdogTerminationTracking: false,
+  enableNative: true // Keep this for actual crashes
 })
 
 export enum MessageType {
