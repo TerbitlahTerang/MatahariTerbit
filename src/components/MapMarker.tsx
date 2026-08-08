@@ -1,5 +1,5 @@
 import React from 'react'
-import MarkerIcon from '../assets/icons/sunrise-marker.svg'
+import MarkerIcon from '../assets/icons/sunrise-marker.svg?react'
 
 export interface MapMarkerProps {
 }
