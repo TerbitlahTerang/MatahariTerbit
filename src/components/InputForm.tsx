@@ -454,7 +454,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       <Divider orientation="left">{<>{t('inputForm.expertMode.title.appSettings')}</>}</Divider>
       <Row>
         <Col xs={24} sm={8} style={{ fontSize : 16 }}>
-              Share settings<br/> <a href={createLink()} target='_blank' rel="noreferrer" ><ShareAltOutlined /></a>&nbsp;
+          Share settings<br/> <a href={createLink()} target='_blank' rel="noreferrer" ><ShareAltOutlined /></a>&nbsp;
           <a href={createFacebookLink()} target='_blank' rel="noreferrer"><FacebookOutlined  /></a>&nbsp;
           <a href={createTwitterLink()} target='_blank' rel="noreferrer"><TwitterOutlined  /></a>&nbsp;
           <a href={createLinkedinLink()} target='_blank' rel="noreferrer"><LinkedinOutlined  /></a>

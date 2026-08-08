@@ -62,7 +62,7 @@ export const App: React.FunctionComponent = () => {
   }, [inputData])
 
   const [documentation, setDocumentation] = useState<Documentation | null>(null)
-  const [documentationTitle, setDocumentationTitle] = useState<String | null>(null)
+  const [documentationTitle, setDocumentationTitle] = useState<string | null>(null)
   const [documentationFullWidth, setDocumentationFullWidth] = useState(false)
 
   const [expertMode] = useQueryParam('expertMode', BooleanParam)
@@ -115,7 +115,7 @@ export const App: React.FunctionComponent = () => {
     setDocumentation(null)
   }
 
-  const openDocumentation = (doc: Documentation, title: String, fullWidth: boolean = false) => {
+  const openDocumentation = (doc: Documentation, title: string, fullWidth: boolean = false) => {
     setDocumentationTitle(title)
     setDocumentationFullWidth(fullWidth)
     setDocumentation(doc)
