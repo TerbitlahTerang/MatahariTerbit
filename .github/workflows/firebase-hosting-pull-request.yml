@@ -27,6 +27,8 @@ jobs:
           files: 'build/test-results/test/*.xml'
       - name: 'Build'
         run: yarn build
+        env:
+          VITE_GOOGLE_MAPS_KEY: '${{ secrets.GOOGLE_MAPS_KEY }}'
       - name: 'Publish'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:

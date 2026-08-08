@@ -1,6 +1,3 @@
-/// <reference types="vite/client" />
-/// <reference types="vite-plugin-svgr/client" />
-
 declare module '*.webp'
 declare module '*.css'
 declare module '*.png'
