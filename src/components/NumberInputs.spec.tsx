@@ -1,16 +1,16 @@
 /** @jest-environment jsdom */
 import React from 'react'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
-import i18n from 'i18next'
+import { use, changeLanguage } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import { DecimalInput, IntegerInput, parseDecimal, parseInteger, PercentInput } from './NumberInputs'
 
 beforeAll(async () => {
-  await i18n.use(initReactI18next).init({ lng: 'en', resources: {} })
+  await use(initReactI18next).init({ lng: 'en', resources: {} })
 })
 
 const renderIn = async (language: string, element: React.ReactElement) => {
-  await i18n.changeLanguage(language)
+  await changeLanguage(language)
   render(element)
   return screen.getByRole('spinbutton') as HTMLInputElement
 }
