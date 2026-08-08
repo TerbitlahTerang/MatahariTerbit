@@ -1,0 +1,99 @@
+{
+  "title": "Kalkulasi Solar Panel untuk Indonesia \uD83C\uDDEE\uD83C\uDDE9",
+  "titleMobile": "Kalkulasi PLTS \uD83C\uDDEE\uD83C\uDDE9",
+  "languageSelector": "Pilih Bahasa",
+  "wizard": {
+    "next": "Selanjutnya",
+    "prev": "Kembali",
+    "information": {
+      "title": "Tiga informasi yang dibutuhkan",
+      "button": "Hitung"
+    },
+    "characteristics": {
+      "title": "Sistem Solar Panel",
+      "button": "Finansial"
+    },
+    "roi": {
+      "title": "Perhitungan Finansial"
+    }
+  },
+  "resultTable": {
+    "installedCapacity": "Kapasitas terpasang",
+    "limitingFactor": "Terbatas oleh",
+    "limitingFactorEnum": {
+      "ConnectionSize": "Daya",
+      "Consumption": "Konsumpsi listrik",
+      "MinimumPayment": "Abonemen bulanan"
+    },
+    "recommendedPanels": "Sistem PLTS yang direkomendasikan",
+    "numberOfPanels": "Jumlah panel: ",
+    "areaRequired": "Luas bidang yang dibutuhkan",
+    "monthlyProduction": "Produksi bulanan dari panel",
+    "monthlyConsumption": "Konsumsi bulanan",
+    "financialHeading": "Keuangan",
+    "remainingMonthlyCosts": "Sisa biaya bulanan",
+    "currentMonthlyCosts": "Biaya bulanan saat ini",
+    "monthlyProfit": "Keuntungan bulanan",
+    "yearlyProfit": "Keuntungan tahunan",
+    "breakEven": "Periode pengembalian",
+    "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan"
+  },
+  "chart": {
+    "heading": "Return on Investment (ROI)",
+    "labelYear": "Tahun",
+    "labelProfit": "Jutaan Rp.",
+    "tooltipTitle": "Tahun {{year}}",
+    "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini"
+  },
+  "inputForm": {
+    "monthlyBill": "Biaya Bulanan",
+    "monthlyUsage": "Konsumsi Bulanan",
+    "connectionPower": "Daya Listrik Terpasang (VA)",
+    "location": "Intensitas sinar matahari di rumah Anda",
+    "findingLocation": "Sedang cari lokasi Anda...",
+    "chooseLocation": "Cari lokasi Anda...",
+    "solarIntensity": "Intensitas sinar matahari",
+    "priority": "Prioritas",
+    "priorityMoney": "\uD83D\uDCB0 Uang",
+    "priorityEarth": "CO₂ \uD83C\uDF0F",
+    "expertMode": {
+      "title": {
+        "plnSettings": "PLN Settings",
+        "systemSettings": "PLTS System settings",
+        "appSettings": "App settings"
+      },
+      "lowTariff": "Low Tariff",
+      "highTariff": "High Tariff",
+      "lowTariffThreshold": "Threshold",
+      "energyTax": "Energy tax",
+      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
+      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
+      "pricePerPanel": "Price per panel",
+      "electricityPriceInflationRate": "Electricity price inflation",
+      "priceOfInverterFactor": "Inverter price as % of total",
+      "priceOfInverterAbsolute": "Inverter price",
+      "capacityLossRate": "Capacity loss per year",
+      "kiloWattPeakPerPanel": "kWp / panel",
+      "areaPerPanel": "Luas bidang / panel",
+      "lossFromInverter": "Inverter efficiency",
+      "inverterPrice": "Inverter price",
+      "installationCosts": "Installation costs",
+      "inverterLifeTime": "Inverter lifetime in years",
+      "priorityEnabled": "Priority enabled",
+      "usageType": "Usage expressed in"
+    }
+  },
+  "roiTable" : {
+    "title": "ROI per tahun",
+    "year": "Tahun",
+    "output": "Produksi",
+    "tariff": "Tarif",
+    "income": "Penghasilan",
+    "profit": "Keuntungan",
+    "percentage": "Sisa"
+  },
+  "vendors": {
+    "title": "Pemasok di dekat Anda",
+    "message": "Halo, saya tertarik untuk memasang *{{numberOfPanels}}* panel surya di\n{{address}}\ndengan rata-rata rekening listrik per-bulan _{{monthlyCosts}}_ dan daya listrik _{{connectionPower}} VA_.\n{{webLink}}"
+  }
+}

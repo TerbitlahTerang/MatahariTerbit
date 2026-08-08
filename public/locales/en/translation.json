@@ -1,0 +1,100 @@
+{
+  "title": "Solar panel Calculator for Indonesia \uD83C\uDDEE\uD83C\uDDE9",
+  "titleMobile": "Solar Calculator \uD83C\uDDEE\uD83C\uDDE9",
+  "languageSelector": "Select Language",
+  "wizard": {
+    "next": "Continue",
+    "prev": "Back",
+    "calculate": "Calculate",
+    "information": {
+      "title": "Three things we need to know",
+      "button": "Calculate"
+    },
+    "characteristics": {
+      "title": "Solar Panel System",
+      "button": "Next"
+    },
+    "roi": {
+      "title": "Investment"
+    }
+  },
+  "resultTable": {
+    "installedCapacity": "Installed capacity",
+    "limitingFactor": "Limiting factor",
+    "limitingFactorEnum": {
+      "ConnectionSize": "Connection size",
+      "Consumption": "Electricity consumption",
+      "MinimumPayment": "Minimal monthly payment"
+    },
+    "recommendedPanels": "Recommended solar panel system",
+    "numberOfPanels": "Number of panels recommended: ",
+    "areaRequired": "Area required",
+    "monthlyProduction": "Monthly production from panels",
+    "monthlyConsumption": "Monthly consumption",
+    "remainingMonthlyCosts": "Remaining monthly bill",
+    "currentMonthlyCosts": "Current monthly bill",
+    "monthlyProfit": "Monthly result from panels",
+    "financialHeading": "Financial breakdown",
+    "yearlyProfit": "Yearly result from panels",
+    "breakEven": "Payback period",
+    "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months"
+  },
+  "chart": {
+    "heading": "Return on Investment",
+    "labelYear": "Year",
+    "labelProfit": "Profit in Millions Rp.",
+    "tooltipTitle": "Year {{year}}",
+    "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year"
+  },
+  "inputForm": {
+    "monthlyBill": "Monthly Electricity bill",
+    "monthlyUsage": "Monthly Usage",
+    "connectionPower": "Connection Power (VA)",
+    "location": "Sunlight intensity at your house",
+    "findingLocation": "Finding your location...",
+    "chooseLocation": "Find your location...",
+    "solarIntensity": "Sunlight intensity",
+    "priority": "Priority",
+    "priorityMoney": "\uD83D\uDCB0 Money",
+    "priorityEarth": "CO₂ \uD83C\uDF0F",
+    "expertMode": {
+      "title": {
+        "plnSettings": "PLN Settings",
+        "systemSettings": "Solar System settings",
+        "appSettings": "App settings"
+      },
+      "lowTariff": "Low Tariff",
+      "highTariff": "High Tariff",
+      "lowTariffThreshold": "Threshold",
+      "energyTax": "Energy tax",
+      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
+      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
+      "pricePerPanel": "Price per panel",
+      "electricityPriceInflationRate": "Electricity price inflation",
+      "priceOfInverterFactor": "Inverter price as % of total",
+      "priceOfInverterAbsolute": "Inverter price",
+      "capacityLossRate": "Capacity loss per year",
+      "kiloWattPeakPerPanel": "kWp per panel",
+      "areaPerPanel": "Area per panel",
+      "lossFromInverter": "Inverter efficiency",
+      "inverterPrice": "Inverter price",
+      "installationCosts": "Installation costs",
+      "inverterLifeTime": "Inverter lifetime in years",
+      "priorityEnabled": "Priority enabled",
+      "usageType": "Usage expressed in"
+    }
+  },
+  "roiTable": {
+    "title": "Breakdown by year",
+    "year": "Year",
+    "output": "Output",
+    "tariff": "Tariff",
+    "income": "Income",
+    "profit": "Profit",
+    "percentage": "Output"
+  },
+  "vendors": {
+    "title": "Suppliers near you",
+    "message": "Hello, I'm interested in *{{numberOfPanels}}* solar panels at\n{{address}}\nwith an electricity bill of _{{monthlyCosts}}_ and connection of _{{connectionPower}} VA_.\n{{webLink}}"
+  }
+}
