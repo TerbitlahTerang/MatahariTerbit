@@ -1,7 +1,7 @@
 import { Animate } from 'react-move'
 import { easeExpOut } from 'd3-ease'
 import React from 'react'
-import './IrradiationGauge.css'
+import './IrradiationGauge.scss'
 
 interface IrradiationGaugeProps {
   irradiation: number
