@@ -8,5 +8,12 @@ export default defineConfig({
   build: {
     outDir: 'build',
     target: 'es2018'
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern'
+      }
+    }
   }
 })
