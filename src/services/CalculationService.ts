@@ -69,7 +69,7 @@ export function calculateResultData({
   } = plnSettings
 
   const pvOutputInkWhPerkWpPerYear = pvOut
-  const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ? pvOutputInkWhPerkWpPerYear : kiloWattHourPerYearPerKWp) * lossFromInverter
+  const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ?? kiloWattHourPerYearPerKWp) * lossFromInverter
 
   const taxFactor = 1.0 + energyTax
   const pricePerKwh = connectionPower < lowTariffThreshold ? lowTariff : highTariff

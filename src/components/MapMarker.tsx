@@ -1,10 +1,7 @@
 import React from 'react'
 import MarkerIcon from '../assets/icons/sunrise-marker.svg?react'
 
-export interface MapMarkerProps {
-}
-
-export const MapMarker: React.FunctionComponent<MapMarkerProps> = (props) => {
+export const MapMarker: React.FunctionComponent = () => {
   return (
     <div style={{ width: 32, height: 48, cursor: 'pointer', transform: 'translate(-16px, -48px)' }}>
       <MarkerIcon />
