@@ -5,6 +5,7 @@
     "@babel/preset-typescript"
   ],
   "plugins": [
+    "./babel-plugins/transform-import-meta-env.js",
     ["import", {
       "libraryName": "antd11",
       "libraryDirectory": "es",

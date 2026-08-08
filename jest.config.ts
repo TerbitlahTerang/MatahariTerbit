@@ -4,6 +4,7 @@ const config: Config.InitialOptions = {
     '<rootDir>/src/**/*.spec.ts',
     '<rootDir>/src/**/*.spec.tsx'
   ],
+  setupFiles: ['<rootDir>/jest.setup.js'],
   verbose: true,
   reporters: ['default', 'jest-junit']
 }

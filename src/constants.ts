@@ -1,7 +1,12 @@
 import { InputData } from './components/InputForm'
 import { MapState } from './util/mapStore'
 
-export const GOOGLE_MAPS_KEY = 'AIzaSyAic7kcdwDSPs0xmK12o2ASzNOtr_XP0TY'
+export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY
+
+if (!GOOGLE_MAPS_KEY) {
+  // eslint-disable-next-line no-console
+  console.error('Missing VITE_GOOGLE_MAPS_KEY environment variable')
+}
 export const GOOGLE_MAPS_MOBILE_KEY = 'AIzaSyCsXHX6Yd2tY8Ppz2STVOUgCn79T5Ut0Rw'
 export const GOOGLE_ANALYTICS_TRACKING_ID = 'G-606Y7ZSBFV'
 export const DEFAULT_ZOOM = 18
