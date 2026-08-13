@@ -47,9 +47,15 @@
     "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year"
   },
   "inputForm": {
+    "systemType": "System type",
+    "systemTypeHybrid": "Grid-hybrid",
+    "systemTypeOffGrid": "Full off-grid",
     "monthlyBill": "Monthly Electricity bill",
     "monthlyUsage": "Monthly Usage",
     "connectionPower": "Connection power (VA)",
+    "peakLoad": "Peak simultaneous load (W)",
+    "daytimeUseShare": "Daytime use share",
+    "daysOfAutonomy": "Battery size (days of autonomy)",
     "location": "Sunlight intensity at your house",
     "findingLocation": "Finding your location...",
     "chooseLocation": "Find your location...",

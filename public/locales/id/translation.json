@@ -46,9 +46,15 @@
     "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini"
   },
   "inputForm": {
+    "systemType": "Jenis sistem",
+    "systemTypeHybrid": "Grid-hybrid",
+    "systemTypeOffGrid": "Off-grid penuh",
     "monthlyBill": "Biaya Bulanan",
     "monthlyUsage": "Konsumsi Bulanan",
     "connectionPower": "Daya Listrik Terpasang (VA)",
+    "peakLoad": "Beban puncak bersamaan (W)",
+    "daytimeUseShare": "Porsi penggunaan siang hari",
+    "daysOfAutonomy": "Ukuran baterai (hari otonomi)",
     "location": "Intensitas sinar matahari di rumah Anda",
     "findingLocation": "Sedang cari lokasi Anda...",
     "chooseLocation": "Cari lokasi Anda...",

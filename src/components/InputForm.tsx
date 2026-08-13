@@ -1,4 +1,4 @@
-import { Col, Divider, Form, InputNumber, Row, Select, Switch } from 'antd'
+import { Col, Divider, Form, InputNumber, Radio, Row, Select, Switch } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
@@ -113,6 +113,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const [connectionPower, setConnectionPower] = useQueryParam('cp', withDefault(NumberParam, init.connectionPower))
   const [monthlyCostEstimateInRupiah, setMonthlyCostEstimateInRupiah] = useQueryParam('me', withDefault(NumberParam, init.monthlyCostEstimateInRupiah))
 
+  const [systemType, setSystemType] = useQueryParam('systemType', withDefault(createEnumParam(Object.values(SystemType)), init.systemType ?? SystemType.GridHybrid))
+  const [daytimeUseShare, setDaytimeUseShare] = useQueryParam('daytimeUseShare', withDefault(NumberParam, calcSettings.selfConsumptionSettings.daytimeUseShare))
+  const [peakLoadInWatts, setPeakLoadInWatts] = useQueryParam('peakLoadInWatts', withDefault(NumberParam, calcSettings.selfConsumptionSettings.peakLoadInWatts))
+  const [daysOfAutonomy, setDaysOfAutonomy] = useQueryParam('daysOfAutonomy', withDefault(NumberParam, calcSettings.batterySettings.daysOfAutonomy))
+
   return (
     <Form form={form} layout="vertical" name="calculator"  onFieldsChange={(changedFields) => {
       const firstFields = changedFields[0]
@@ -149,8 +154,15 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           maintenancePercentPerYear: CALCULATOR_SETTINGS.priceSettings.maintenancePercentPerYear,
           balanceOfSystemPercent: CALCULATOR_SETTINGS.priceSettings.balanceOfSystemPercent
         },
-        batterySettings: CALCULATOR_SETTINGS.batterySettings,
-        selfConsumptionSettings: CALCULATOR_SETTINGS.selfConsumptionSettings,
+        batterySettings: {
+          ...CALCULATOR_SETTINGS.batterySettings,
+          daysOfAutonomy
+        },
+        selfConsumptionSettings: {
+          ...CALCULATOR_SETTINGS.selfConsumptionSettings,
+          daytimeUseShare,
+          peakLoadInWatts
+        },
         kiloWattPeakPerPanel,
         areaPerPanel,
         lossFromInverter,
@@ -166,11 +178,31 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         connectionPower,
         pvOut,
         optimizationTarget,
-        systemType: SystemType.GridHybrid,
+        systemType,
         calculatorSettings
       })
     }}>
-      <Row gutter={16} />
+      <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item name="systemType" label={<>{t('inputForm.systemType')}</>} initialValue={systemType}>
+            <Radio.Group
+              value={systemType}
+              optionType="button"
+              buttonStyle="solid"
+              onChange={(e) => {
+                const newSystemType = e.target.value as SystemType
+                const newDaysOfAutonomy = newSystemType === SystemType.OffGrid ? 2 : 0.5
+                setSystemType(newSystemType)
+                setDaysOfAutonomy(newDaysOfAutonomy)
+                form.setFieldValue('daysOfAutonomy', newDaysOfAutonomy)
+              }}
+            >
+              <Radio.Button value={SystemType.GridHybrid}>{t('inputForm.systemTypeHybrid')}</Radio.Button>
+              <Radio.Button value={SystemType.OffGrid}>{t('inputForm.systemTypeOffGrid')}</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+        </Col>
+      </Row>
       <Form.Item name="location" label={<div><><span className="numberCircle"><span>1</span></span>&nbsp;{t('inputForm.location')}</></div>} initialValue={INITIAL_INPUT_DATA.location}
         tooltip={{
           trigger: 'click',
@@ -219,6 +251,59 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               checkedChildren={<>{t('inputForm.priorityEarth')}</>}
               unCheckedChildren={<>{t('inputForm.priorityMoney')}</>}
               defaultChecked={true}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        {systemType === SystemType.GridHybrid &&
+          <Col xs={24} sm={8}>
+            <Form.Item name="connectionPower" label={<>{t('inputForm.connectionPower')}</>}
+              initialValue={connectionPower}
+            >
+              <Select style={{ width: '100%' }} defaultValue={connectionPower} onChange={(val) => setConnectionPower(val)}>{powerOptions.map(renderOption)}</Select>
+            </Form.Item>
+          </Col>
+        }
+        <Col xs={24} sm={systemType === SystemType.GridHybrid ? 8 : 12}>
+          <Form.Item name="peakLoadInWatts" label={<>{t('inputForm.peakLoad')}</>}
+            initialValue={peakLoadInWatts}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={peakLoadInWatts}
+              formatter={(value) => formatDigits(value, 0, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={100}
+              onChange={setPeakLoadInWatts}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={systemType === SystemType.GridHybrid ? 8 : 12}>
+          <Form.Item name="daytimeUseShare" label={<>{t('inputForm.daytimeUseShare')}</>}
+            initialValue={daytimeUseShare}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={daytimeUseShare}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.01}
+              onChange={setDaytimeUseShare}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col xs={24} sm={12}>
+          <Form.Item name="daysOfAutonomy" label={<>{t('inputForm.daysOfAutonomy')}</>}
+            initialValue={daysOfAutonomy}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={daysOfAutonomy}
+              formatter={(value) => formatDigits(value, 2, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={0.1}
+              onChange={setDaysOfAutonomy}
             />
           </Form.Item>
         </Col>
