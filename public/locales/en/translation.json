@@ -67,6 +67,7 @@
       "title": {
         "plnSettings": "PLN Settings",
         "systemSettings": "Solar System settings",
+        "batterySettings": "Battery settings",
         "appSettings": "App settings"
       },
       "lowTariff": "Low Tariff",
@@ -86,7 +87,17 @@
       "inverterPrice": "Inverter price",
       "installationCosts": "Installation costs",
       "inverterLifeTime": "Inverter lifetime in years",
-      "priorityEnabled": "Priority enabled",
+      "pvOversizeFactor": "PV oversize factor",
+      "gridBackupAllowance": "Grid backup allowance",
+      "discountRate": "Discount rate",
+      "analysisPeriodInYears": "Analysis period (years)",
+      "maintenancePercentPerYear": "Maintenance (% of system per year)",
+      "balanceOfSystemPercent": "Mounting, wiring & install (% of hardware)",
+      "chemistry": "Battery chemistry",
+      "depthOfDischarge": "Usable depth of discharge",
+      "roundTripEfficiency": "Round-trip efficiency",
+      "pricePerUsableKwh": "Price per usable kWh",
+      "batteryLifeTime": "Battery lifetime in years",
       "usageType": "Usage expressed in"
     }
   },

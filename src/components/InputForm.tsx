@@ -12,6 +12,7 @@ import {
 } from '../services/Formatters'
 import { MapPicker } from './MapPicker'
 import {
+  BatteryChemistry,
   CALCULATOR_SETTINGS,
   CalculatorSettings, INITIAL_INPUT_DATA,
   InverterPrice,
@@ -85,6 +86,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const calcSettings = init.calculatorSettings
   const plnSettings = calcSettings.plnSettings
   const priceSettings = calcSettings.priceSettings
+  const batterySettings = calcSettings.batterySettings
+  const selfConsumptionSettings = calcSettings.selfConsumptionSettings
 
   const [offGridEnabled, setOffGridEnabled] = useQueryParam('offGridEnabled', withDefault(BooleanParam, calcSettings.offGridEnabled))
   const [monthlyUsageType, setMonthlyUsageType] = useQueryParam('monthlyUsageType', withDefault(createEnumParam(Object.values(MonthlyUsage)), priceSettings.monthlyUsageType))
@@ -109,6 +112,32 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const [priceOfInverterFactor, setPriceOfInverterFactor] = useQueryParam('priceOfInverterFactor', withDefault(NumberParam, priceSettings.priceOfInverterFactor))
   const [priceOfInverterAbsolute, setPriceOfInverterAbsolute] = useQueryParam('priceOfInverterAbsolute', withDefault(NumberParam, priceSettings.priceOfInverterAbsolute))
   const [installationCosts, setInstallationCosts] = useQueryParam('installationCosts', withDefault(NumberParam, priceSettings.installationCosts))
+
+  const [pvOversizeFactor, setPvOversizeFactor] = useQueryParam('pvOversizeFactor', withDefault(NumberParam, selfConsumptionSettings.pvOversizeFactor))
+  const [gridBackupAllowance, setGridBackupAllowance] = useQueryParam('gridBackupAllowance', withDefault(NumberParam, selfConsumptionSettings.gridBackupAllowance))
+  const [discountRate, setDiscountRate] = useQueryParam('discountRate', withDefault(NumberParam, priceSettings.discountRate))
+  const [analysisPeriodInYears, setAnalysisPeriodInYears] = useQueryParam('analysisPeriodInYears', withDefault(NumberParam, priceSettings.analysisPeriodInYears))
+  const [maintenancePercentPerYear, setMaintenancePercentPerYear] = useQueryParam('maintenancePercentPerYear', withDefault(NumberParam, priceSettings.maintenancePercentPerYear))
+  const [balanceOfSystemPercent, setBalanceOfSystemPercent] = useQueryParam('balanceOfSystemPercent', withDefault(NumberParam, priceSettings.balanceOfSystemPercent))
+
+  const [chemistry, setChemistry] = useQueryParam('chemistry', withDefault(createEnumParam(Object.values(BatteryChemistry)), batterySettings.chemistry))
+  const [depthOfDischarge, setDepthOfDischarge] = useQueryParam('depthOfDischarge', withDefault(NumberParam, batterySettings.depthOfDischarge))
+  const [roundTripEfficiency, setRoundTripEfficiency] = useQueryParam('roundTripEfficiency', withDefault(NumberParam, batterySettings.roundTripEfficiency))
+  const [pricePerUsableKwh, setPricePerUsableKwh] = useQueryParam('pricePerUsableKwh', withDefault(NumberParam, batterySettings.pricePerUsableKwh))
+  const [batteryLifetimeInYears, setBatteryLifetimeInYears] = useQueryParam('batteryLifetimeInYears', withDefault(NumberParam, batterySettings.serviceLifeInYears))
+
+  const applyBatteryChemistry = (newChemistry: BatteryChemistry) => {
+    const defaults = newChemistry === BatteryChemistry.LiFePO4
+      ? { depthOfDischarge: 0.9, roundTripEfficiency: 0.95, pricePerUsableKwh: 5000000, batteryLifetimeInYears: 10 }
+      : { depthOfDischarge: 0.5, roundTripEfficiency: 0.85, pricePerUsableKwh: 2500000, batteryLifetimeInYears: 4 }
+
+    setChemistry(newChemistry)
+    setDepthOfDischarge(defaults.depthOfDischarge)
+    setRoundTripEfficiency(defaults.roundTripEfficiency)
+    setPricePerUsableKwh(defaults.pricePerUsableKwh)
+    setBatteryLifetimeInYears(defaults.batteryLifetimeInYears)
+    form.setFieldsValue(defaults)
+  }
 
   const [connectionPower, setConnectionPower] = useQueryParam('cp', withDefault(NumberParam, init.connectionPower))
   const [monthlyCostEstimateInRupiah, setMonthlyCostEstimateInRupiah] = useQueryParam('me', withDefault(NumberParam, init.monthlyCostEstimateInRupiah))
@@ -149,19 +178,24 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           capacityLossRate,
           inverterPrice,
           monthlyUsageType,
-          discountRate: CALCULATOR_SETTINGS.priceSettings.discountRate,
-          analysisPeriodInYears: CALCULATOR_SETTINGS.priceSettings.analysisPeriodInYears,
-          maintenancePercentPerYear: CALCULATOR_SETTINGS.priceSettings.maintenancePercentPerYear,
-          balanceOfSystemPercent: CALCULATOR_SETTINGS.priceSettings.balanceOfSystemPercent
+          discountRate,
+          analysisPeriodInYears,
+          maintenancePercentPerYear,
+          balanceOfSystemPercent
         },
         batterySettings: {
-          ...CALCULATOR_SETTINGS.batterySettings,
-          daysOfAutonomy
+          chemistry,
+          daysOfAutonomy,
+          depthOfDischarge,
+          roundTripEfficiency,
+          pricePerUsableKwh,
+          serviceLifeInYears: batteryLifetimeInYears
         },
         selfConsumptionSettings: {
-          ...CALCULATOR_SETTINGS.selfConsumptionSettings,
           daytimeUseShare,
-          peakLoadInWatts
+          peakLoadInWatts,
+          pvOversizeFactor,
+          gridBackupAllowance
         },
         kiloWattPeakPerPanel,
         areaPerPanel,
@@ -531,24 +565,166 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
       </Row>
+      <Row gutter={16}>
+        <Col xs={24} sm={8}>
+          <Form.Item name="pvOversizeFactor" label={<>{t('inputForm.expertMode.pvOversizeFactor')}</>}
+            initialValue={pvOversizeFactor}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={pvOversizeFactor}
+              formatter={(value) => formatDigits(value, 2, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={0.05}
+              onChange={setPvOversizeFactor}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="discountRate" label={<>{t('inputForm.expertMode.discountRate')}</>}
+            initialValue={discountRate}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={discountRate}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.01}
+              onChange={setDiscountRate}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="analysisPeriodInYears" label={<>{t('inputForm.expertMode.analysisPeriodInYears')}</>}
+            initialValue={analysisPeriodInYears}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={analysisPeriodInYears}
+              formatter={(value) => formatDigits(value, 0, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={1}
+              onChange={setAnalysisPeriodInYears}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col xs={24} sm={12}>
+          <Form.Item name="maintenancePercentPerYear" label={<>{t('inputForm.expertMode.maintenancePercentPerYear')}</>}
+            initialValue={maintenancePercentPerYear}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={maintenancePercentPerYear}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.005}
+              onChange={setMaintenancePercentPerYear}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={12}>
+          <Form.Item name="balanceOfSystemPercent" label={<>{t('inputForm.expertMode.balanceOfSystemPercent')}</>}
+            initialValue={balanceOfSystemPercent}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={balanceOfSystemPercent}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.01}
+              onChange={setBalanceOfSystemPercent}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Divider orientation="left"><>{t('inputForm.expertMode.title.batterySettings')}</></Divider>
+      <Row gutter={16}>
+        <Col xs={24} sm={8}>
+          <Form.Item name="chemistry" label={<>{t('inputForm.expertMode.chemistry')}</>}
+            initialValue={chemistry}
+          >
+            <Select style={{ width: '100%' }} defaultValue={chemistry} onChange={applyBatteryChemistry}>
+              <Select.Option value={BatteryChemistry.LiFePO4}>{BatteryChemistry.LiFePO4}</Select.Option>
+              <Select.Option value={BatteryChemistry.LeadAcid}>{BatteryChemistry.LeadAcid}</Select.Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="depthOfDischarge" label={<>{t('inputForm.expertMode.depthOfDischarge')}</>}
+            initialValue={depthOfDischarge}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={depthOfDischarge}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.01}
+              onChange={setDepthOfDischarge}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="roundTripEfficiency" label={<>{t('inputForm.expertMode.roundTripEfficiency')}</>}
+            initialValue={roundTripEfficiency}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={roundTripEfficiency}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.01}
+              onChange={setRoundTripEfficiency}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col xs={24} sm={8}>
+          <Form.Item name="pricePerUsableKwh" label={<>{t('inputForm.expertMode.pricePerUsableKwh')}</>}
+            initialValue={pricePerUsableKwh}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={pricePerUsableKwh}
+              formatter={formatRupiah}
+              parser={parseRupiah}
+              step={100000}
+              onChange={setPricePerUsableKwh}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Form.Item name="batteryLifetimeInYears" label={<>{t('inputForm.expertMode.batteryLifeTime')}</>}
+            initialValue={batteryLifetimeInYears}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={batteryLifetimeInYears}
+              formatter={(value) => formatDigits(value, 0, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={1}
+              onChange={setBatteryLifetimeInYears}
+            />
+          </Form.Item>
+        </Col>
+        {systemType === SystemType.GridHybrid &&
+          <Col xs={24} sm={8}>
+            <Form.Item name="gridBackupAllowance" label={<>{t('inputForm.expertMode.gridBackupAllowance')}</>}
+              initialValue={gridBackupAllowance}
+            >
+              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+                defaultValue={gridBackupAllowance}
+                formatter={(value) => formatPercentage(value, i18n.language)}
+                parser={(displayValue) => parsePercentage(displayValue)}
+                step={0.01}
+                onChange={setGridBackupAllowance}
+              />
+            </Form.Item>
+          </Col>
+        }
+      </Row>
       <Divider orientation="left">{<>{t('inputForm.expertMode.title.appSettings')}</>}</Divider>
       <Row>
-        <Col xs={24} sm={8} style={{ fontSize : 16 }}>
+        <Col xs={24} sm={12} style={{ fontSize : 16 }}>
           Share settings<br/> <a href={createLink()} target='_blank' rel="noreferrer" ><ShareAltOutlined /></a>&nbsp;
           <a href={createFacebookLink()} target='_blank' rel="noreferrer"><FacebookOutlined  /></a>&nbsp;
           <a href={createTwitterLink()} target='_blank' rel="noreferrer"><TwitterOutlined  /></a>&nbsp;
           <a href={createLinkedinLink()} target='_blank' rel="noreferrer"><LinkedinOutlined  /></a>
         </Col>
-        <Col xs={24} sm={8} >
-          <Form.Item name="priorityEnabled" valuePropName="checked" initialValue={offGridEnabled}
-            label={<>{t('inputForm.expertMode.priorityEnabled')}</>}>
-            <Switch
-              defaultChecked={offGridEnabled}
-              onChange={(newValue) => setOffGridEnabled(newValue)}
-            />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={8} >
+        <Col xs={24} sm={12} >
           <Form.Item name="usageType" valuePropName="checked" initialValue={monthlyUsageType === MonthlyUsage.Rupiah}
             label={<>{t('inputForm.expertMode.usageType')}</>}>
             <Switch
