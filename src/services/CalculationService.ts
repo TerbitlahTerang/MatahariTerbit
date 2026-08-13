@@ -22,6 +22,19 @@ export interface ResultData {
   breakEvenPointInMonths: number
   limitingFactor: LimitingFactor
   projection: ReturnOnInvestment[]
+  selfSufficiencyPercentage?: number
+  solarServedPerYearInKwh?: number
+  gridImportPerYearInKwh?: number
+  curtailedPerYearInKwh?: number
+  residualAnnualGridBillInRupiah?: number
+  inverterCapacityInKw?: number
+  batteryUsableCapacityInKwh?: number
+  batteryNominalCapacityInKwh?: number
+  batteryCosts?: number
+  balanceOfSystemCosts?: number
+  npv?: number
+  paybackInYears?: number | null
+  levelizedCostOfEnergyPerKwh?: number
 }
 
 const monthsInYear = 12.0
@@ -140,6 +153,13 @@ export interface ReturnOnInvestment {
   cumulativeProfit: number
   pvOutputPercentage: number
   stepSizeInMonths: number
+  solarServedInKwh?: number
+  gridImportInKwh?: number
+  curtailedInKwh?: number
+  panelReplacementCost?: number
+  inverterReplacementCost?: number
+  batteryReplacementCost?: number
+  maintenanceCost?: number
 }
 
 interface InvestmentParameters {

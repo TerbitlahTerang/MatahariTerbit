@@ -31,6 +31,16 @@ export enum MonthlyUsage {
   KWh = 'KWh'
 }
 
+export enum SystemType {
+  GridHybrid = 'GridHybrid',
+  OffGrid = 'OffGrid'
+}
+
+export enum BatteryChemistry {
+  LiFePO4 = 'LiFePO4',
+  LeadAcid = 'LeadAcid'
+}
+
 export const powerOptions: PowerOption[] = [
   { name: '450 VA', value: 450 },
   { name: '900 VA', value: 900 },
@@ -73,12 +83,34 @@ export interface PriceSettings {
   installationCosts: number,
   capacityLossRate: number,
   inverterPrice: InverterPrice,
-  monthlyUsageType: MonthlyUsage
+  monthlyUsageType: MonthlyUsage,
+  discountRate: number,
+  analysisPeriodInYears: number,
+  maintenancePercentPerYear: number,
+  balanceOfSystemPercent: number
+}
+
+export interface BatterySettings {
+  chemistry: BatteryChemistry
+  daysOfAutonomy: number        // usable kWh = daily load * daysOfAutonomy
+  depthOfDischarge: number      // 0..1, usable -> nominal capacity
+  roundTripEfficiency: number   // 0..1
+  pricePerUsableKwh: number
+  serviceLifeInYears: number
+}
+
+export interface SelfConsumptionSettings {
+  daytimeUseShare: number       // 0..1, portion of daily load served while the sun is up
+  peakLoadInWatts: number       // sizes the inverter
+  pvOversizeFactor: number      // extra array headroom, multiplier on required kWp
+  gridBackupAllowance: number   // 0..1, GridHybrid-only, informational residual-bill estimate
 }
 
 export interface CalculatorSettings {
   plnSettings: PlnSettings
   priceSettings: PriceSettings
+  batterySettings: BatterySettings
+  selfConsumptionSettings: SelfConsumptionSettings
   areaPerPanel: number,
   inverterLifetimeInYears: number,
   kiloWattPeakPerPanel: number,
@@ -105,7 +137,25 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
     installationCosts: 0,
     capacityLossRate: 0.0075,
     inverterPrice: InverterPrice.Relative,
-    monthlyUsageType: MonthlyUsage.Rupiah
+    monthlyUsageType: MonthlyUsage.Rupiah,
+    discountRate: 0.05,
+    analysisPeriodInYears: 25,
+    maintenancePercentPerYear: 0.01,
+    balanceOfSystemPercent: 0.20
+  },
+  batterySettings: {
+    chemistry: BatteryChemistry.LiFePO4,
+    daysOfAutonomy: 0.5,
+    depthOfDischarge: 0.9,
+    roundTripEfficiency: 0.95,
+    pricePerUsableKwh: 5000000,
+    serviceLifeInYears: 10
+  },
+  selfConsumptionSettings: {
+    daytimeUseShare: 0.35,
+    peakLoadInWatts: 3000,
+    pvOversizeFactor: 1.15,
+    gridBackupAllowance: 0.08
   },
   areaPerPanel: 2,
   inverterLifetimeInYears: 9,

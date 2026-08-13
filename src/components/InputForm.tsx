@@ -18,7 +18,8 @@ import {
   MonthlyUsage,
   OptimizationTarget,
   PowerOption,
-  powerOptions
+  powerOptions,
+  SystemType
 } from '../constants'
 import {
   FacebookOutlined,
@@ -40,6 +41,7 @@ export interface InputData {
   connectionPower: number
   pvOut?: number
   optimizationTarget: OptimizationTarget
+  systemType?: SystemType
   calculatorSettings: CalculatorSettings
 }
 
@@ -141,8 +143,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           installationCosts,
           capacityLossRate,
           inverterPrice,
-          monthlyUsageType
+          monthlyUsageType,
+          discountRate: CALCULATOR_SETTINGS.priceSettings.discountRate,
+          analysisPeriodInYears: CALCULATOR_SETTINGS.priceSettings.analysisPeriodInYears,
+          maintenancePercentPerYear: CALCULATOR_SETTINGS.priceSettings.maintenancePercentPerYear,
+          balanceOfSystemPercent: CALCULATOR_SETTINGS.priceSettings.balanceOfSystemPercent
         },
+        batterySettings: CALCULATOR_SETTINGS.batterySettings,
+        selfConsumptionSettings: CALCULATOR_SETTINGS.selfConsumptionSettings,
         kiloWattPeakPerPanel,
         areaPerPanel,
         lossFromInverter,
@@ -157,6 +165,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         connectionPower,
         pvOut,
         optimizationTarget,
+        systemType: SystemType.GridHybrid,
         calculatorSettings
       })
     }}>
