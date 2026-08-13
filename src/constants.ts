@@ -111,8 +111,7 @@ export interface CalculatorSettings {
   panelLifetimeInYears: number,
   kiloWattPeakPerPanel: number,
   kiloWattHourPerYearPerKWp: number,
-  lossFromInverter: number,
-  offGridEnabled: boolean
+  lossFromInverter: number
 }
 
 
@@ -161,8 +160,7 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
   kiloWattPeakPerPanel: 0.450,
   kiloWattHourPerYearPerKWp: 1732,
   // Based on https://globalsolaratlas.info PVOUT vs Annual average
-  lossFromInverter: 0.9628,
-  offGridEnabled: true
+  lossFromInverter: 0.9628
 }
 
 export const INITIAL_INPUT_DATA: InitialInputData = {

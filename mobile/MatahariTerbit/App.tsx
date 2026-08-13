@@ -47,7 +47,7 @@ export default function App() {
   const [infoOpen, setInfoOpen] = useState(false)
   const [message, setMessage] = useState<Message| undefined>(undefined)
   const [readyForLocation, setReadyForLocation] = useState(false)
-  const [urlParams, setUrlParams] = useState<QueryParams>({ 'lng' : langOnly, priorityEnabled: '0', mobile: '1' })
+  const [urlParams, setUrlParams] = useState<QueryParams>({ 'lng' : langOnly, mobile: '1' })
 
   const sendMessage = (toSend: Message) => {
     if (webViewRef.current) {

@@ -30,7 +30,7 @@ import {
 } from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
-import { BooleanParam, createEnumParam } from 'serialize-query-params/lib/params'
+import { createEnumParam } from 'serialize-query-params/lib/params'
 import './InputForm.scss'
 import * as Analytics from '../services/Analytics'
 import { Category } from '../services/Analytics'
@@ -87,7 +87,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const batterySettings = calcSettings.batterySettings
   const selfConsumptionSettings = calcSettings.selfConsumptionSettings
 
-  const [offGridEnabled, setOffGridEnabled] = useQueryParam('offGridEnabled', withDefault(BooleanParam, calcSettings.offGridEnabled))
   const [monthlyUsageType, setMonthlyUsageType] = useQueryParam('monthlyUsageType', withDefault(createEnumParam(Object.values(MonthlyUsage)), priceSettings.monthlyUsageType))
 
   const [lowTariff, setLowTariff] = useQueryParam('lowTariff', withDefault(NumberParam, plnSettings.lowTariff))
@@ -198,8 +197,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         lossFromInverter,
         inverterLifetimeInYears,
         panelLifetimeInYears: CALCULATOR_SETTINGS.panelLifetimeInYears,
-        kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp,
-        offGridEnabled: offGridEnabled
+        kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp
       }
 
       props.onChange({
