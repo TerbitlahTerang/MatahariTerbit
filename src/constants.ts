@@ -140,7 +140,7 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
     depthOfDischarge: 0.9,
     roundTripEfficiency: 0.95,
     pricePerUsableKwh: 5000000,
-    serviceLifeInYears: 10
+    serviceLifeInYears: 13
   },
   selfConsumptionSettings: {
     daytimeUseShare: 0.35,

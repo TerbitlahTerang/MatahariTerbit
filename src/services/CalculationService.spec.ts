@@ -104,9 +104,9 @@ describe('Calculate system characteristics', () => {
     const inverterReplacementYears = results.projection.filter(y => (y.inverterReplacementCost ?? 0) > 0).map(y => y.index)
     expect(inverterReplacementYears).toEqual([9, 18])
 
-    // batterySettings.serviceLifeInYears defaults to 10, so it should fire at 10 and 20.
+    // batterySettings.serviceLifeInYears defaults to 12.5, so it should fire at 10 and 20.
     const batteryReplacementYears = results.projection.filter(y => (y.batteryReplacementCost ?? 0) > 0).map(y => y.index)
-    expect(batteryReplacementYears).toEqual([10, 20])
+    expect(batteryReplacementYears).toEqual([13])
 
     // panelLifetimeInYears defaults to 25, equal to the analysis period, so it never fires
     // within the horizon (a replacement due exactly at the last year isn't purchased again).
