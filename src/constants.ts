@@ -136,7 +136,7 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
   },
   batterySettings: {
     chemistry: BatteryChemistry.LiFePO4,
-    daysOfAutonomy: 0.5,
+    daysOfAutonomy: 0.8,
     depthOfDischarge: 0.9,
     roundTripEfficiency: 0.95,
     pricePerUsableKwh: 5000000,

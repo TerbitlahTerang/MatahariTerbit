@@ -57,7 +57,7 @@ describe('Calculate system characteristics', () => {
 
     expect(results.currentMonthlyCosts).toBe(1000000)
     expect(results.numberOfPanels).toBe(7)
-    expect(Math.round(results.monthlyProfit)).toBe(825000)
+    expect(Math.round(results.monthlyProfit)).toBe(1000000)
     expect(Math.round(results.yearlyProfit)).toBe(Math.round(results.monthlyProfit * 12.0))
 
     // totalSystemCosts now covers the whole system (panels + inverter + battery + BOS +
@@ -85,7 +85,7 @@ describe('Calculate system characteristics', () => {
 
     expect(results.currentMonthlyCosts).toBeCloseTo(1000000)
     expect(results.numberOfPanels).toBe(7)
-    expect(Math.round(results.monthlyProfit)).toBe(825000)
+    expect(Math.round(results.monthlyProfit)).toBe(1000000)
     expect(Math.round(results.yearlyProfit)).toBe(Math.round(results.monthlyProfit * 12.0))
   })
 
