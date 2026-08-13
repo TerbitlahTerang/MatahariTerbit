@@ -155,6 +155,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         areaPerPanel,
         lossFromInverter,
         inverterLifetimeInYears,
+        panelLifetimeInYears: CALCULATOR_SETTINGS.panelLifetimeInYears,
         kiloWattHourPerYearPerKWp: CALCULATOR_SETTINGS.kiloWattHourPerYearPerKWp,
         offGridEnabled: offGridEnabled
       }

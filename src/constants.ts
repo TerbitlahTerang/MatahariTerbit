@@ -113,6 +113,7 @@ export interface CalculatorSettings {
   selfConsumptionSettings: SelfConsumptionSettings
   areaPerPanel: number,
   inverterLifetimeInYears: number,
+  panelLifetimeInYears: number,
   kiloWattPeakPerPanel: number,
   kiloWattHourPerYearPerKWp: number,
   lossFromInverter: number,
@@ -159,6 +160,7 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
   },
   areaPerPanel: 2,
   inverterLifetimeInYears: 9,
+  panelLifetimeInYears: 25,
   // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1
   // Square meters 450. 225 Watts / m2. Maybe add effective m2 needed vs panel surface
   kiloWattPeakPerPanel: 0.450,
