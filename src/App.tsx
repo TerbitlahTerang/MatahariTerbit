@@ -202,7 +202,7 @@ export const App: React.FunctionComponent = () => {
               title={<span>{t('wizard.characteristics.title')}</span>}
               subTitle={
                 <div ref={secondRef} className="card-body" style={{ display: current >= 1 ? 'block' : 'none' }}>
-                  <ResultTable   results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings}/>
+                  <ResultTable   results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} systemType={inputData.systemType}/>
                   {current === 1 && <Button type="primary"  style={{ marginTop: '15px', float: 'right' }} size="large"
                     onClick={() => {
                       setCurrent(2)
@@ -223,9 +223,9 @@ export const App: React.FunctionComponent = () => {
               }
               subTitle={
                 <div ref={thirdRef}  className="card-body" style={{ display: current >= 2 ? 'block' : 'none' }}>
-                  <FinancialResultBreakdown results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} />
+                  <FinancialResultBreakdown results={resultData} onOpenDocumentation={openDocumentation} calculatorSettings={inputData.calculatorSettings} systemType={inputData.systemType} />
                   <Divider orientation="left">{t('chart.heading')}</Divider>
-                  <ROIChart mobile={mobile === true} cacheBuster={cacheBuster} yearly={resultData.projection} inverterLifetimeInYears={inputData.calculatorSettings.inverterLifetimeInYears}/>
+                  <ROIChart mobile={mobile === true} cacheBuster={cacheBuster} yearly={resultData.projection}/>
                   {
                     vendors ? (<><Divider orientation="left">{t('vendors.title')}</Divider>
                       <VendorList resultData={resultData} connectionPower={inputData.connectionPower} /></>) : (<><Divider orientation="left">{t('roiTable.title')}</Divider><ROIBreakdown yearly={resultData.projection}/></>)

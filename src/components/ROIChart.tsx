@@ -7,7 +7,6 @@ import { formatRupiah } from '../services/Formatters'
 
 export interface ROIChartProps {
   yearly: ReturnOnInvestment[]
-  inverterLifetimeInYears: number
   cacheBuster: number
   mobile: boolean
 }
@@ -43,8 +42,14 @@ export const ROIChart: React.FunctionComponent<ROIChartProps> = (props) => {
   }
 
   const footer = (toolTipItems: TooltipItem<'bar'>[]) => {
-    const year = toolTipItems[0].label
-    return year === `${props.inverterLifetimeInYears + 1}` ? t('chart.inverterReplacement')  : ''
+    const index = toolTipItems[0].dataIndex
+    const year = props.yearly[index]
+    const replacements = [
+      (year?.panelReplacementCost ?? 0) > 0 ? t('chart.panelReplacement') : undefined,
+      (year?.inverterReplacementCost ?? 0) > 0 ? t('chart.inverterReplacement') : undefined,
+      (year?.batteryReplacementCost ?? 0) > 0 ? t('chart.batteryReplacement') : undefined
+    ].filter((x): x is string => x !== undefined)
+    return replacements.join('\n')
   }
 
   const options: ChartOptions<'bar'> = {

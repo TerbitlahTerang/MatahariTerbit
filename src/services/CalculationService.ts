@@ -1,45 +1,50 @@
 import { InputData } from '../components/InputForm'
-import { InverterPrice, MonthlyUsage, OptimizationTarget, PriceSettings } from '../constants'
-
-export enum LimitingFactor {
-  ConnectionSize = 'ConnectionSize',
-  Consumption = 'Consumption',
-  MinimumPayment = 'MinimumPayment'
-}
+import { InverterPrice, MonthlyUsage, PriceSettings, SystemType } from '../constants'
+import { computeDailyEnergyBalance } from './SelfConsumption'
 
 export interface ResultData {
   consumptionPerMonthInKwh: number
   taxedPricePerKwh: number
   productionPerMonthInKwh: number
   numberOfPanels: number
-  numberOfPanelsFinancial: number
-  numberOfPanelsGreen: number
   remainingMonthlyCosts: number
   currentMonthlyCosts: number
   totalSystemCosts: number
   monthlyProfit: number
   yearlyProfit: number
   breakEvenPointInMonths: number
-  limitingFactor: LimitingFactor
   projection: ReturnOnInvestment[]
+  selfSufficiencyPercentage?: number
+  solarServedPerYearInKwh?: number
+  gridImportPerYearInKwh?: number
+  curtailedPerYearInKwh?: number
+  residualAnnualGridBillInRupiah?: number
+  inverterCapacityInKw?: number
+  batteryUsableCapacityInKwh?: number
+  batteryNominalCapacityInKwh?: number
+  batteryCosts?: number
+  balanceOfSystemCosts?: number
+  npv?: number
+  paybackInYears?: number | null
+  levelizedCostOfEnergyPerKwh?: number
 }
 
 const monthsInYear = 12.0
+const daysInYear = 365.0
 
-export interface SuggestedPanels {
-  limitedByConnection: boolean
-  numberOfPanels: number
+// Connection VA is not a physical cap on installable capacity - it only ever gated the
+// financial break-even under net metering, which no longer exists. Panels are sized purely by
+// how much of the household's own load they (plus the battery) can cover.
+function calculateNumberOfPanels(expectedMonthlyProduction: number, kiloWattHourPerMonthPerPanel: number): number {
+  return Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
 }
 
-function panelsLimitedByConnection(expectedMonthlyProduction: number, kiloWattHourPerMonthPerPanel: number, kiloWattPeakPerPanel: number, connectionPower: number): SuggestedPanels {
-  const numberOfPanelsWithoutConnectionLimit = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
-  const suggestedCapacity = numberOfPanelsWithoutConnectionLimit * kiloWattPeakPerPanel * 1000
-  const installableCapacity = Math.min(suggestedCapacity, connectionPower)
-  const suggestedPanels = Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000)
-
-  const limitedByConnection = (suggestedPanels + 1) * kiloWattPeakPerPanel * 1000 > connectionPower
-  const numberOfPanels = limitedByConnection ? suggestedPanels : suggestedPanels + 1
-  return { limitedByConnection, numberOfPanels }
+// Shared across panels/inverter/battery: flat nominal replacement cost, fired every time the
+// component's lifetime elapses within the analysis horizon (not just once).
+function replacementCostForPeriod(cost: number, lifetimeInYears: number, currentPeriodIndex: number, divider: number, totalPeriods: number): number {
+  const lifetimeInPeriods = lifetimeInYears * divider
+  if (lifetimeInPeriods <= 0 || currentPeriodIndex >= totalPeriods) return 0
+  return currentPeriodIndex % lifetimeInPeriods === 0 ? cost : 0
 }
 
 export function calculateResultData({
@@ -47,12 +52,16 @@ export function calculateResultData({
   monthlyUsageInKwh,
   connectionPower,
   pvOut,
-  optimizationTarget,
+  systemType,
   calculatorSettings
 }: InputData): ResultData {
+  const isOffGrid = systemType === SystemType.OffGrid
   const {
     plnSettings,
     priceSettings,
+    batterySettings,
+    selfConsumptionSettings,
+    panelLifetimeInYears,
     inverterLifetimeInYears,
     kiloWattPeakPerPanel,
     kiloWattHourPerYearPerKWp,
@@ -63,10 +72,11 @@ export function calculateResultData({
     energyTax,
     highTariff,
     lowTariff,
-    lowTariffThreshold,
-    minimalMonthlyConsumptionHours,
-    minimalMonthlyConsumptionPrice
+    lowTariffThreshold
   } = plnSettings
+
+  const { daytimeUseShare, peakLoadInWatts, pvOversizeFactor } = selfConsumptionSettings
+  const { daysOfAutonomy, depthOfDischarge, roundTripEfficiency, pricePerUsableKwh, serviceLifeInYears: batteryLifetimeInYears } = batterySettings
 
   const pvOutputInkWhPerkWpPerYear = pvOut
   const yieldPerKWp = (pvOutputInkWhPerkWpPerYear ?? kiloWattHourPerYearPerKWp) * lossFromInverter
@@ -75,60 +85,99 @@ export function calculateResultData({
   const pricePerKwh = connectionPower < lowTariffThreshold ? lowTariff : highTariff
   const taxedPricePerKwh = pricePerKwh * taxFactor
 
-  const minimalMonthlyConsumption = minimalMonthlyConsumptionHours * (connectionPower / 1000)
-  const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * minimalMonthlyConsumptionPrice * taxFactor
-
   const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
   const costEstimate = priceSettings.monthlyUsageType === MonthlyUsage.Rupiah ? monthlyCostEstimateInRupiah : monthlyUsageInKwh * taxedPricePerKwh
-  const effectiveCostsPerMonth = costEstimate - minimalMonthlyCostsIncludingTax
-  const requiredMonthlyProduction = effectiveCostsPerMonth / taxedPricePerKwh
   const totalMonthlyConsumption = costEstimate / taxedPricePerKwh
+  const dailyLoadInKwh = totalMonthlyConsumption * monthsInYear / daysInYear
 
-  const limited = panelsLimitedByConnection(requiredMonthlyProduction, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
-  const unlimited = panelsLimitedByConnection(totalMonthlyConsumption, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
+  // Battery sized off the household's own daily load, not off panel output.
+  const usableBatteryKwh = dailyLoadInKwh * daysOfAutonomy
+  const nominalBatteryKwh = depthOfDischarge > 0 ? usableBatteryKwh / depthOfDischarge : 0
 
-  const numberOfPanels = optimizationTarget === OptimizationTarget.Money ? limited.numberOfPanels : unlimited.numberOfPanels
+  // Physical array sizing: how many kWp are needed to cover the daily load, given how much of
+  // it is used directly during the day (cheap) vs. routed through the battery at night (lossy).
+  const dailyGenerationPerKwpKwh = yieldPerKWp / daysInYear
+  const selfConsumptionEfficiencyFactor = daytimeUseShare + (1 - daytimeUseShare) * roundTripEfficiency
+  const requiredKwp = (dailyGenerationPerKwpKwh > 0 && selfConsumptionEfficiencyFactor > 0)
+    ? (dailyLoadInKwh / (dailyGenerationPerKwpKwh * selfConsumptionEfficiencyFactor)) * pvOversizeFactor
+    : 0
+  const expectedMonthlyProductionKwh = requiredKwp * yieldPerKWp / monthsInYear
 
-  const productionPerMonthInKwh = limited.numberOfPanels * kiloWattHourPerMonthPerPanel
-  const yieldPerMonthFromPanelsInRupiah = productionPerMonthInKwh * taxedPricePerKwh
-  const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, costEstimate - yieldPerMonthFromPanelsInRupiah)
+  const numberOfPanels = calculateNumberOfPanels(expectedMonthlyProductionKwh, kiloWattHourPerMonthPerPanel)
+
+  const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
+  const dailyGenerationInKwh = productionPerMonthInKwh * monthsInYear / daysInYear
+  const balance = computeDailyEnergyBalance(dailyGenerationInKwh, dailyLoadInKwh, daytimeUseShare, usableBatteryKwh, roundTripEfficiency)
+  const solarServedPerMonthInKwh = balance.solarServedKwh * daysInYear / monthsInYear
+
+  const yieldPerMonthFromPanelsInRupiah = solarServedPerMonthInKwh * taxedPricePerKwh
+  // Off-grid has no PLN bill at all. Grid-hybrid (prepaid) has no minimum-payment floor either -
+  // you only ever pay for what the grid actually supplies, never less than zero.
+  const remainingMonthlyCosts = isOffGrid ? 0 : Math.max(0, costEstimate - yieldPerMonthFromPanelsInRupiah)
 
   const monthlyProfit = costEstimate - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
+
   const panelsCosts = numberOfPanels * priceSettings.pricePerPanel
+  const inverterCapacityInKw = Math.max(peakLoadInWatts / 1000 * 1.25, requiredKwp * 0.9)
   const inverterCosts = priceSettings.inverterPrice === InverterPrice.Relative ? (panelsCosts * priceSettings.priceOfInverterFactor) : priceSettings.priceOfInverterAbsolute
+  const batteryCosts = usableBatteryKwh * pricePerUsableKwh
+  const balanceOfSystemCosts = (panelsCosts + inverterCosts + batteryCosts) * priceSettings.balanceOfSystemPercent
+  const installationCosts = priceSettings.installationCosts
+  const totalSystemCosts = panelsCosts + inverterCosts + batteryCosts + balanceOfSystemCosts + installationCosts
 
-  const flooredNumberOfPanels = monthlyProfit < 0 ? 0 : numberOfPanels
-  const limitingFactor = limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.ConnectionSize : (!limited.limitedByConnection && unlimited.limitedByConnection ? LimitingFactor.Consumption : LimitingFactor.MinimumPayment)
-
-  const range = 25
+  const analysisPeriodInYears = priceSettings.analysisPeriodInYears
   const investmentParameters: InvestmentParameters = {
     taxedPricePerKwh,
-    productionPerMonthInKwh,
+    solarServedPerMonthInKwh,
     yearlyProfit,
     panelsCosts,
     inverterCosts,
-    priceSettings
+    batteryCosts,
+    installationCosts,
+    panelLifetimeInYears,
+    inverterLifetimeInYears,
+    batteryLifetimeInYears,
+    priceSettings,
+    dailyLoadInKwh,
+    dailyGenerationInKwh,
+    daytimeUseShare,
+    usableBatteryKwh,
+    roundTripEfficiency
   }
-  const projection: ReturnOnInvestment[] = roiProjection(range, inverterLifetimeInYears, investmentParameters)
-  const firstMonthAboveZero = roiProjection(range, inverterLifetimeInYears, investmentParameters, monthsInYear).find(x => x.cumulativeProfit > 0)
-  const breakEvenPointInMonths = firstMonthAboveZero ? firstMonthAboveZero.index : range
+  const projection: ReturnOnInvestment[] = roiProjection(analysisPeriodInYears, investmentParameters)
+  const firstMonthAboveZero = roiProjection(analysisPeriodInYears, investmentParameters, monthsInYear).find(x => x.cumulativeProfit > 0)
+  const breakEvenPointInMonths = firstMonthAboveZero ? firstMonthAboveZero.index : analysisPeriodInYears * monthsInYear
+  const paybackInYears = firstMonthAboveZero ? firstMonthAboveZero.index / monthsInYear : null
+
+  const capex = panelsCosts + inverterCosts + batteryCosts + installationCosts
+  const { npv, levelizedCostOfEnergyPerKwh } = discountedMetrics(projection, capex, priceSettings.discountRate)
 
   return {
     consumptionPerMonthInKwh: totalMonthlyConsumption,
     taxedPricePerKwh,
     productionPerMonthInKwh,
-    numberOfPanels: flooredNumberOfPanels,
-    numberOfPanelsGreen: unlimited.numberOfPanels,
-    numberOfPanelsFinancial: limited.numberOfPanels,
+    numberOfPanels,
     remainingMonthlyCosts,
     currentMonthlyCosts: costEstimate,
-    totalSystemCosts: panelsCosts,
+    totalSystemCosts,
     monthlyProfit,
     yearlyProfit,
     projection,
-    limitingFactor,
-    breakEvenPointInMonths
+    breakEvenPointInMonths,
+    paybackInYears,
+    selfSufficiencyPercentage: dailyLoadInKwh > 0 ? (balance.solarServedKwh / dailyLoadInKwh) * 100 : 0,
+    solarServedPerYearInKwh: balance.solarServedKwh * daysInYear,
+    gridImportPerYearInKwh: Math.max(0, dailyLoadInKwh - balance.solarServedKwh) * daysInYear,
+    curtailedPerYearInKwh: balance.curtailedKwh * daysInYear,
+    residualAnnualGridBillInRupiah: isOffGrid ? undefined : Math.max(0, dailyLoadInKwh - balance.solarServedKwh) * daysInYear * taxedPricePerKwh,
+    inverterCapacityInKw,
+    batteryUsableCapacityInKwh: usableBatteryKwh,
+    batteryNominalCapacityInKwh: nominalBatteryKwh,
+    batteryCosts,
+    balanceOfSystemCosts,
+    npv,
+    levelizedCostOfEnergyPerKwh
   }
 }
 
@@ -140,51 +189,119 @@ export interface ReturnOnInvestment {
   cumulativeProfit: number
   pvOutputPercentage: number
   stepSizeInMonths: number
+  solarServedInKwh?: number
+  gridImportInKwh?: number
+  curtailedInKwh?: number
+  panelReplacementCost?: number
+  inverterReplacementCost?: number
+  batteryReplacementCost?: number
+  maintenanceCost?: number
 }
 
 interface InvestmentParameters {
   taxedPricePerKwh: number
-  productionPerMonthInKwh: number
+  solarServedPerMonthInKwh: number
   yearlyProfit: number
-  panelsCosts: number,
-  inverterCosts: number,
+  panelsCosts: number
+  inverterCosts: number
+  batteryCosts: number
+  installationCosts: number
+  panelLifetimeInYears: number
+  inverterLifetimeInYears: number
+  batteryLifetimeInYears: number
   priceSettings: PriceSettings
+  dailyLoadInKwh: number
+  dailyGenerationInKwh: number
+  daytimeUseShare: number
+  usableBatteryKwh: number
+  roundTripEfficiency: number
 }
 
-export function roiProjection(numberOfYears: number, lifetimeInverterInYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
-  const years = Array.from(Array(numberOfYears * divider).keys()).map(x => x + 1)
+export function roiProjection(numberOfYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
+  const totalPeriods = numberOfYears * divider
+  const years = Array.from(Array(totalPeriods).keys()).map(x => x + 1)
 
   const {
     electricityPriceInflationRate,
-    capacityLossRate
+    capacityLossRate,
+    maintenancePercentPerYear
   } = result.priceSettings
 
   const electricityPriceInflation = 1.0 + (electricityPriceInflationRate / divider)
   const capacityLoss = 1.0 - (capacityLossRate / divider)
-  const priceOfInverterIndexed = result.inverterCosts * Math.pow(electricityPriceInflation, lifetimeInverterInYears)
+  const maintainableCosts = result.panelsCosts + result.inverterCosts + result.batteryCosts
 
   const startYear = {
     index: 0,
     tariff: result.taxedPricePerKwh,
-    output: result.productionPerMonthInKwh * (monthsInYear / divider),
-    income: result.productionPerMonthInKwh * (monthsInYear / divider) * result.taxedPricePerKwh,
-    cumulativeProfit: result.yearlyProfit - result.panelsCosts - result.inverterCosts - result.priceSettings.installationCosts,
-    pvOutputPercentage: 1.0
+    output: result.solarServedPerMonthInKwh * (monthsInYear / divider),
+    income: result.solarServedPerMonthInKwh * (monthsInYear / divider) * result.taxedPricePerKwh,
+    cumulativeProfit: result.yearlyProfit - result.panelsCosts - result.inverterCosts - result.batteryCosts - result.installationCosts,
+    pvOutputPercentage: 1.0,
+    solarServedInKwh: result.solarServedPerMonthInKwh * (monthsInYear / divider),
+    gridImportInKwh: 0,
+    curtailedInKwh: 0
   } as ReturnOnInvestment
+
   return years.reduce((acc, currentValue, currentIndex) => {
     const previous = acc[currentIndex]
-    const invertReplacementCosts = currentIndex === (lifetimeInverterInYears * divider) ? priceOfInverterIndexed : 0
+    const periodIndex = currentIndex + 1
+
+    const panelReplacementCost = replacementCostForPeriod(result.panelsCosts, result.panelLifetimeInYears, periodIndex, divider, totalPeriods)
+    const inverterReplacementCost = replacementCostForPeriod(result.inverterCosts, result.inverterLifetimeInYears, periodIndex, divider, totalPeriods)
+    const batteryReplacementCost = replacementCostForPeriod(result.batteryCosts, result.batteryLifetimeInYears, periodIndex, divider, totalPeriods)
+    const maintenanceCost = maintainableCosts * (maintenancePercentPerYear / divider)
+    const replacementCosts = panelReplacementCost + inverterReplacementCost + batteryReplacementCost
+
+    const pvOutputPercentage = previous.pvOutputPercentage * capacityLoss
+    const dailyGenerationThisPeriod = result.dailyGenerationInKwh * pvOutputPercentage
+    const balance = computeDailyEnergyBalance(dailyGenerationThisPeriod, result.dailyLoadInKwh, result.daytimeUseShare, result.usableBatteryKwh, result.roundTripEfficiency)
+    // computeDailyEnergyBalance is per-day; scale to this period's length (a year, or 1/divider of one).
+    const kwhPerDayToKwhPerPeriod = daysInYear / divider
+    const solarServedInKwh = balance.solarServedKwh * kwhPerDayToKwhPerPeriod
+    const curtailedInKwh = balance.curtailedKwh * kwhPerDayToKwhPerPeriod
+    const gridImportInKwh = Math.max(0, result.dailyLoadInKwh - balance.solarServedKwh) * kwhPerDayToKwhPerPeriod
+    const tariff = previous.tariff * electricityPriceInflation
+    const income = solarServedInKwh * tariff
+
     return acc.concat({
       index: currentValue,
-      tariff: previous.tariff * electricityPriceInflation,
-      output: previous.output * capacityLoss,
-      income: previous.income * electricityPriceInflation,
-      cumulativeProfit: previous.cumulativeProfit + (previous.income * electricityPriceInflation) - invertReplacementCosts,
-      pvOutputPercentage: previous.pvOutputPercentage * capacityLoss,
-      stepSizeInMonths: monthsInYear / divider
+      tariff,
+      output: solarServedInKwh,
+      income,
+      cumulativeProfit: previous.cumulativeProfit + income - replacementCosts - maintenanceCost,
+      pvOutputPercentage,
+      stepSizeInMonths: monthsInYear / divider,
+      solarServedInKwh,
+      gridImportInKwh,
+      curtailedInKwh,
+      panelReplacementCost,
+      inverterReplacementCost,
+      batteryReplacementCost,
+      maintenanceCost
     } as ReturnOnInvestment)
   }, [startYear])
-
 }
 
+// NPV and LCOE over a *yearly* projection (divider=1): discounts each year's cash flow and
+// energy output back to present value using the configured discount rate. Year index 0 is "now"
+// (discount factor 1) and carries the full upfront capex alongside its first year of income.
+function discountedMetrics(yearlyProjection: ReturnOnInvestment[], capex: number, discountRate: number): { npv: number, levelizedCostOfEnergyPerKwh: number } {
+  let npv = -capex
+  let discountedCost = capex
+  let discountedEnergy = 0
 
+  yearlyProjection.forEach((year, index) => {
+    const discountFactor = Math.pow(1 + discountRate, index)
+    const replacementAndMaintenance = (year.panelReplacementCost ?? 0) + (year.inverterReplacementCost ?? 0) + (year.batteryReplacementCost ?? 0) + (year.maintenanceCost ?? 0)
+
+    npv += (year.income - replacementAndMaintenance) / discountFactor
+    discountedCost += replacementAndMaintenance / discountFactor
+    discountedEnergy += year.output / discountFactor
+  })
+
+  return {
+    npv,
+    levelizedCostOfEnergyPerKwh: discountedEnergy > 0 ? discountedCost / discountedEnergy : 0
+  }
+}

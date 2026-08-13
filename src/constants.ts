@@ -16,11 +16,6 @@ export interface PowerOption {
   value: number
 }
 
-export enum OptimizationTarget {
-  Money,
-  Green
-}
-
 export enum InverterPrice {
   Absolute = 'Absolute',
   Relative = 'Relative'
@@ -29,6 +24,16 @@ export enum InverterPrice {
 export enum MonthlyUsage {
   Rupiah = 'Rupiah',
   KWh = 'KWh'
+}
+
+export enum SystemType {
+  GridHybrid = 'GridHybrid',
+  OffGrid = 'OffGrid'
+}
+
+export enum BatteryChemistry {
+  LiFePO4 = 'LiFePO4',
+  LeadAcid = 'LeadAcid'
 }
 
 export const powerOptions: PowerOption[] = [
@@ -60,9 +65,7 @@ export interface PlnSettings {
   lowTariff: number
   highTariff: number,
   lowTariffThreshold: number,
-  energyTax: number,
-  minimalMonthlyConsumptionHours: number,
-  minimalMonthlyConsumptionPrice: number
+  energyTax: number
 }
 
 export interface PriceSettings {
@@ -73,49 +76,87 @@ export interface PriceSettings {
   installationCosts: number,
   capacityLossRate: number,
   inverterPrice: InverterPrice,
-  monthlyUsageType: MonthlyUsage
+  monthlyUsageType: MonthlyUsage,
+  discountRate: number,
+  analysisPeriodInYears: number,
+  maintenancePercentPerYear: number,
+  balanceOfSystemPercent: number
+}
+
+export interface BatterySettings {
+  chemistry: BatteryChemistry
+  daysOfAutonomy: number        // usable kWh = daily load * daysOfAutonomy
+  depthOfDischarge: number      // 0..1, usable -> nominal capacity
+  roundTripEfficiency: number   // 0..1
+  pricePerUsableKwh: number
+  serviceLifeInYears: number
+}
+
+export interface SelfConsumptionSettings {
+  daytimeUseShare: number       // 0..1, portion of daily load served while the sun is up
+  peakLoadInWatts: number       // sizes the inverter
+  pvOversizeFactor: number      // extra array headroom, multiplier on required kWp
+  gridBackupAllowance: number   // 0..1, GridHybrid-only, informational residual-bill estimate
 }
 
 export interface CalculatorSettings {
   plnSettings: PlnSettings
   priceSettings: PriceSettings
+  batterySettings: BatterySettings
+  selfConsumptionSettings: SelfConsumptionSettings
   areaPerPanel: number,
   inverterLifetimeInYears: number,
+  panelLifetimeInYears: number,
   kiloWattPeakPerPanel: number,
   kiloWattHourPerYearPerKWp: number,
-  lossFromInverter: number,
-  priorityEnabled: boolean
+  lossFromInverter: number
 }
 
 
 export const CALCULATOR_SETTINGS : CalculatorSettings = {
   plnSettings: {
-    lowTariff: 1300,
-    highTariff: 1444.70,
+    lowTariff: 1352,
+    highTariff: 1699.53,
     lowTariffThreshold: 1300,
-    energyTax : 0.1 + 0.05, //PPN + PPJ
-    minimalMonthlyConsumptionHours: 40, // number of hours per month * connection power
-    minimalMonthlyConsumptionPrice: 1500.0 // energy price (untaxed) for minimal monthly consumption
+    energyTax : 0.1 + 0.05 //PPN + PPJ
   },
   priceSettings: {
-    pricePerPanel: 7875000,
+    pricePerPanel: 2500000,
     electricityPriceInflationRate: 0.05,
     priceOfInverterFactor: 0.10,
     priceOfInverterAbsolute: 8000000,
     installationCosts: 0,
     capacityLossRate: 0.0075,
     inverterPrice: InverterPrice.Relative,
-    monthlyUsageType: MonthlyUsage.Rupiah
+    monthlyUsageType: MonthlyUsage.Rupiah,
+    discountRate: 0.05,
+    analysisPeriodInYears: 25,
+    maintenancePercentPerYear: 0.01,
+    balanceOfSystemPercent: 0.20
+  },
+  batterySettings: {
+    chemistry: BatteryChemistry.LiFePO4,
+    daysOfAutonomy: 0.8,
+    depthOfDischarge: 0.9,
+    roundTripEfficiency: 0.95,
+    pricePerUsableKwh: 5000000,
+    serviceLifeInYears: 13
+  },
+  selfConsumptionSettings: {
+    daytimeUseShare: 0.35,
+    peakLoadInWatts: 3000,
+    pvOversizeFactor: 1.15,
+    gridBackupAllowance: 0.08
   },
   areaPerPanel: 2,
   inverterLifetimeInYears: 9,
+  panelLifetimeInYears: 25,
   // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1
   // Square meters 450. 225 Watts / m2. Maybe add effective m2 needed vs panel surface
-  kiloWattPeakPerPanel: 0.450,
+  kiloWattPeakPerPanel: 0.625,
   kiloWattHourPerYearPerKWp: 1732,
   // Based on https://globalsolaratlas.info PVOUT vs Annual average
-  lossFromInverter: 0.9628,
-  priorityEnabled: true
+  lossFromInverter: 0.9628
 }
 
 export const INITIAL_INPUT_DATA: InitialInputData = {
@@ -123,7 +164,6 @@ export const INITIAL_INPUT_DATA: InitialInputData = {
   monthlyUsageInKwh: 1000,
   connectionPower: 7700,
   location: { location: { lat: -6.175456973926256, lng: 106.82712256908418 }, address: '' },
-  optimizationTarget: OptimizationTarget.Money,
   calculatorSettings: CALCULATOR_SETTINGS
 }
 

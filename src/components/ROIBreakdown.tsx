@@ -24,9 +24,26 @@ export const ROIBreakdown: React.FunctionComponent<ROIBreakdownProps> = (props) 
       render: ((output: number) => `${formatNumber(output, i18n.language)} kWh`)
     },
     {
+      title: t('roiTable.curtailed'),
+      dataIndex: 'curtailedInKwh',
+      render: ((curtailedInKwh?: number) => `${formatNumber(curtailedInKwh ?? 0, i18n.language)} kWh`)
+    },
+    {
       title: t('roiTable.tariff'),
       dataIndex: 'tariff',
       render: ((tariff: number) => formatRupiah(tariff))
+    },
+    {
+      title: t('roiTable.replaced'),
+      key: 'replaced',
+      render: ((_: unknown, row: ReturnOnInvestment) => {
+        const replaced = [
+          (row.panelReplacementCost ?? 0) > 0 ? t('roiTable.panels') : undefined,
+          (row.inverterReplacementCost ?? 0) > 0 ? t('roiTable.inverter') : undefined,
+          (row.batteryReplacementCost ?? 0) > 0 ? t('roiTable.battery') : undefined
+        ].filter((x): x is string => x !== undefined)
+        return replaced.join(', ')
+      })
     },
     {
       title: t('roiTable.profit'),

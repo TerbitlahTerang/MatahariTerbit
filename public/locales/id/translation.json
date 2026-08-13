@@ -19,12 +19,8 @@
   },
   "resultTable": {
     "installedCapacity": "Kapasitas terpasang",
-    "limitingFactor": "Terbatas oleh",
-    "limitingFactorEnum": {
-      "ConnectionSize": "Daya",
-      "Consumption": "Konsumpsi listrik",
-      "MinimumPayment": "Abonemen bulanan"
-    },
+    "inverterCapacity": "Kapasitas inverter",
+    "batteryCapacity": "Kapasitas baterai (dapat digunakan)",
     "recommendedPanels": "Sistem PLTS yang direkomendasikan",
     "numberOfPanels": "Jumlah panel: ",
     "areaRequired": "Luas bidang yang dibutuhkan",
@@ -36,38 +32,45 @@
     "monthlyProfit": "Keuntungan bulanan",
     "yearlyProfit": "Keuntungan tahunan",
     "breakEven": "Periode pengembalian",
-    "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan"
+    "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan",
+    "selfSufficiency": "Swasembada energi surya",
+    "curtailed": "Terbuang per tahun",
+    "residualGridBill": "Sisa tagihan PLN per tahun"
   },
   "chart": {
     "heading": "Return on Investment (ROI)",
     "labelYear": "Tahun",
     "labelProfit": "Jutaan Rp.",
     "tooltipTitle": "Tahun {{year}}",
-    "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini"
+    "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini",
+    "panelReplacement": "\uD83D\uDC49 Kita berasumsi panelnya perlu\n diganti dalam tahun ini",
+    "batteryReplacement": "\uD83D\uDC49 Kita berasumsi baterainya perlu\n diganti dalam tahun ini"
   },
   "inputForm": {
+    "systemType": "Jenis sistem",
+    "systemTypeHybrid": "Grid-hybrid",
+    "systemTypeOffGrid": "Off-grid penuh",
     "monthlyBill": "Biaya Bulanan",
     "monthlyUsage": "Konsumsi Bulanan",
     "connectionPower": "Daya Listrik Terpasang (VA)",
+    "peakLoad": "Beban puncak bersamaan (W)",
+    "daytimeUseShare": "Porsi penggunaan siang hari",
+    "daysOfAutonomy": "Ukuran baterai (hari otonomi)",
     "location": "Intensitas sinar matahari di rumah Anda",
     "findingLocation": "Sedang cari lokasi Anda...",
     "chooseLocation": "Cari lokasi Anda...",
     "solarIntensity": "Intensitas sinar matahari",
-    "priority": "Prioritas",
-    "priorityMoney": "\uD83D\uDCB0 Uang",
-    "priorityEarth": "CO₂ \uD83C\uDF0F",
     "expertMode": {
       "title": {
         "plnSettings": "PLN Settings",
         "systemSettings": "PLTS System settings",
+        "batterySettings": "Battery settings",
         "appSettings": "App settings"
       },
       "lowTariff": "Low Tariff",
       "highTariff": "High Tariff",
       "lowTariffThreshold": "Threshold",
       "energyTax": "Energy tax",
-      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
-      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
       "pricePerPanel": "Price per panel",
       "electricityPriceInflationRate": "Electricity price inflation",
       "priceOfInverterFactor": "Inverter price as % of total",
@@ -79,7 +82,17 @@
       "inverterPrice": "Inverter price",
       "installationCosts": "Installation costs",
       "inverterLifeTime": "Inverter lifetime in years",
-      "priorityEnabled": "Priority enabled",
+      "pvOversizeFactor": "PV oversize factor",
+      "gridBackupAllowance": "Grid backup allowance",
+      "discountRate": "Discount rate",
+      "analysisPeriodInYears": "Analysis period (years)",
+      "maintenancePercentPerYear": "Maintenance (% of system per year)",
+      "balanceOfSystemPercent": "Mounting, wiring & install (% of hardware)",
+      "chemistry": "Battery chemistry",
+      "depthOfDischarge": "Usable depth of discharge",
+      "roundTripEfficiency": "Round-trip efficiency",
+      "pricePerUsableKwh": "Price per usable kWh",
+      "batteryLifeTime": "Battery lifetime in years",
       "usageType": "Usage expressed in"
     }
   },
@@ -87,9 +100,14 @@
     "title": "ROI per tahun",
     "year": "Tahun",
     "output": "Produksi",
+    "curtailed": "Terbuang",
     "tariff": "Tarif",
     "income": "Penghasilan",
     "profit": "Keuntungan",
+    "replaced": "Diganti",
+    "panels": "Panel",
+    "inverter": "Inverter",
+    "battery": "Baterai",
     "percentage": "Sisa"
   },
   "vendors": {

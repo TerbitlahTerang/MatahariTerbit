@@ -132,11 +132,11 @@ div.ant-steps-item-subtitle {
 }
 
 .prioritySwitch.ant-switch.ant-switch-checked {
-    background: $primary;
+    background: green;
 }
 
 .prioritySwitch.ant-switch  {
-    background: green;
+    background: $primary;
 }
 
 .ant-steps-item-title > span {

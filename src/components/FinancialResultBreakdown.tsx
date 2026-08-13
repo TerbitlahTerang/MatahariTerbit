@@ -2,9 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultTableProps } from './ResultTable'
 import { Col, Divider, Row } from 'antd'
-import { formatRupiah } from '../services/Formatters'
+import { formatDigits, formatRupiah } from '../services/Formatters'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation } from '../services/DocumentationService'
+import { SystemType } from '../constants'
 
 
 interface BreakEvenPoint {
@@ -13,11 +14,12 @@ interface BreakEvenPoint {
 }
 
 export const FinancialResultBreakdown: React.FunctionComponent<ResultTableProps> = (props) => {
-  const { t } = useTranslation()
-  const { results, onOpenDocumentation } = props
+  const { t, i18n } = useTranslation()
+  const { results, systemType, onOpenDocumentation } = props
   if (!results) {
     return <div>Invalid Data</div>
   }
+  const isOffGrid = systemType === SystemType.OffGrid
 
   const monthsInYear = 12
   const breakEven: BreakEvenPoint = {
@@ -31,16 +33,35 @@ export const FinancialResultBreakdown: React.FunctionComponent<ResultTableProps>
       <Col span={15}>{t('resultTable.currentMonthlyCosts')}</Col>
       <Col span={9}>{formatRupiah(results.currentMonthlyCosts)}</Col>
     </Row>
-    <Row gutter={12}>
-      <Col span={15}>{t('resultTable.remainingMonthlyCosts')}&nbsp;
-        <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.MinimalPayment,t('resultTable.remainingMonthlyCosts'))}/>
-      </Col>
-      <Col span={9}>- {formatRupiah(results.remainingMonthlyCosts)}</Col>
-    </Row>
+    {!isOffGrid &&
+      <Row gutter={12}>
+        <Col span={15}>{t('resultTable.remainingMonthlyCosts')}&nbsp;
+          <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.MinimalPayment,t('resultTable.remainingMonthlyCosts'))}/>
+        </Col>
+        <Col span={9}>- {formatRupiah(results.remainingMonthlyCosts)}</Col>
+      </Row>
+    }
     <Row gutter={12}>
       <Col span={15}>{t('resultTable.monthlyProfit')}</Col>
       <Col span={9} className='total'>{formatRupiah(results.monthlyProfit)}</Col>
     </Row>
+    <Row gutter={12}>
+      <Col span={24} >&nbsp;</Col>
+    </Row>
+    <Row gutter={12}>
+      <Col span={15}>{t('resultTable.selfSufficiency')}</Col>
+      <Col span={9}>{formatDigits(results.selfSufficiencyPercentage ?? 0, 0, i18n.language)} %</Col>
+    </Row>
+    <Row gutter={12}>
+      <Col span={15}>{t('resultTable.curtailed')}</Col>
+      <Col span={9}>{`${formatDigits(results.curtailedPerYearInKwh ?? 0, 0, i18n.language)} kWh`}</Col>
+    </Row>
+    {!isOffGrid &&
+      <Row gutter={12}>
+        <Col span={15}>{t('resultTable.residualGridBill')}</Col>
+        <Col span={9}>{formatRupiah(results.residualAnnualGridBillInRupiah ?? 0)}</Col>
+      </Row>
+    }
     <Row gutter={12}>
       <Col span={24} >&nbsp;</Col>
     </Row>
@@ -59,5 +80,4 @@ export const FinancialResultBreakdown: React.FunctionComponent<ResultTableProps>
     </Row>
   </div>)
 }
-
 

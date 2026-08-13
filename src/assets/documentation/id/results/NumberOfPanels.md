@@ -1,18 +1,19 @@
 ## Rekomendasi jumlah panel surya
 
-Jumlah panel yang direkomendasikan adalah berdasarkan tiga faktor di bawah ini.
+Jumlah panel yang direkomendasikan adalah berdasarkan faktor-faktor di bawah ini.
 
-### 1 Rekening listrik bulanan
-Ini tidak menguntungkan untuk memproduksi listrik lebih dari yang Anda gunakan. Karena PLN tidak akan “membeli” 
-listrik dari Anda. Sehingga, yang paling baik dilakukan adalah menggunakan panel surya untuk mengurangi rekening 
-listrik bulanan Anda sampai sekecil mungkin, tapi jangan sampai negatif.
+### 1 Penggunaan listrik harian Anda
+Karena PLN tidak lagi bisa membeli kembali listrik yang Anda hasilkan tapi tidak digunakan, tujuannya adalah
+menyesuaikan ukuran sistem untuk memenuhi kebutuhan harian Anda sendiri - bukan memproduksi berlebih. Kami
+menghitung ukuran panel agar, bersama baterai Anda, bisa memenuhi sebanyak mungkin penggunaan siang dan
+malam hari, dengan sedikit cadangan (faktor oversize PV) untuk hari-hari yang lebih mendung.
 
-### 2 Daya listrik Anda
-
-Anda tidak diizinkan untuk memasang panel lebih dari besar daya listrik Anda. Contohnya, bila daya listrik 
-Anda 2200 _VA_ (Watt), maka Anda hanya bisa memasang sistem panel surya dengan kapasitas maksimum sampai 2200 Wp, 
-atau sekitar 5 panel paling banyak.
+### 2 Baterai Anda
+Panel surya hanya menghasilkan listrik saat matahari bersinar. Listrik yang tidak langsung Anda pakai di
+siang hari disimpan di baterai untuk dipakai malam hari; listrik yang tidak muat di baterai akan terbuang
+(curtailed), karena tidak bisa lagi dijual kembali ke PLN. Baterai yang lebih besar memungkinkan Anda
+memakai lebih banyak listrik yang dihasilkan.
 
 ### 3 Lokasi tempat tinggal Anda
-Seberapa sering matahari bersinar di daerah Anda akan mempengaruhi jumlah listrik yang akan diproduksi oleh panel 
-surya Anda. Lebih banyak sinar matahari berarti lebih sedikit panel yang dibutuhkan.
+Seberapa sering matahari bersinar di daerah Anda akan mempengaruhi jumlah listrik yang akan diproduksi oleh
+panel surya Anda. Lebih banyak sinar matahari berarti lebih sedikit panel yang dibutuhkan.

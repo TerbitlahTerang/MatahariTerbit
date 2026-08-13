@@ -20,12 +20,8 @@
   },
   "resultTable": {
     "installedCapacity": "Installed capacity",
-    "limitingFactor": "Limiting factor",
-    "limitingFactorEnum": {
-      "ConnectionSize": "Connection size",
-      "Consumption": "Electricity consumption",
-      "MinimumPayment": "Minimal monthly payment"
-    },
+    "inverterCapacity": "Inverter capacity",
+    "batteryCapacity": "Battery capacity (usable)",
     "recommendedPanels": "Recommended solar panel system",
     "numberOfPanels": "Number of panels recommended: ",
     "areaRequired": "Area required",
@@ -37,38 +33,45 @@
     "financialHeading": "Financial breakdown",
     "yearlyProfit": "Yearly result from panels",
     "breakEven": "Payback period",
-    "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months"
+    "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months",
+    "selfSufficiency": "Solar self-sufficiency",
+    "curtailed": "Curtailed (wasted) per year",
+    "residualGridBill": "Residual PLN bill per year"
   },
   "chart": {
     "heading": "Return on Investment",
     "labelYear": "Year",
     "labelProfit": "Profit in Millions Rp.",
     "tooltipTitle": "Year {{year}}",
-    "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year"
+    "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year",
+    "panelReplacement": "\uD83D\uDC49 We assume the panels need\n to be replaced in this year",
+    "batteryReplacement": "\uD83D\uDC49 We assume the battery needs\n to be replaced in this year"
   },
   "inputForm": {
+    "systemType": "System type",
+    "systemTypeHybrid": "Grid-hybrid",
+    "systemTypeOffGrid": "Full off-grid",
     "monthlyBill": "Monthly Electricity bill",
     "monthlyUsage": "Monthly Usage",
-    "connectionPower": "Connection Power (VA)",
+    "connectionPower": "Connection power (VA)",
+    "peakLoad": "Peak simultaneous load (W)",
+    "daytimeUseShare": "Daytime use share",
+    "daysOfAutonomy": "Battery size (days of autonomy)",
     "location": "Sunlight intensity at your house",
     "findingLocation": "Finding your location...",
     "chooseLocation": "Find your location...",
     "solarIntensity": "Sunlight intensity",
-    "priority": "Priority",
-    "priorityMoney": "\uD83D\uDCB0 Money",
-    "priorityEarth": "CO₂ \uD83C\uDF0F",
     "expertMode": {
       "title": {
         "plnSettings": "PLN Settings",
         "systemSettings": "Solar System settings",
+        "batterySettings": "Battery settings",
         "appSettings": "App settings"
       },
       "lowTariff": "Low Tariff",
       "highTariff": "High Tariff",
       "lowTariffThreshold": "Threshold",
       "energyTax": "Energy tax",
-      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
-      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
       "pricePerPanel": "Price per panel",
       "electricityPriceInflationRate": "Electricity price inflation",
       "priceOfInverterFactor": "Inverter price as % of total",
@@ -80,7 +83,17 @@
       "inverterPrice": "Inverter price",
       "installationCosts": "Installation costs",
       "inverterLifeTime": "Inverter lifetime in years",
-      "priorityEnabled": "Priority enabled",
+      "pvOversizeFactor": "PV oversize factor",
+      "gridBackupAllowance": "Grid backup allowance",
+      "discountRate": "Discount rate",
+      "analysisPeriodInYears": "Analysis period (years)",
+      "maintenancePercentPerYear": "Maintenance (% of system per year)",
+      "balanceOfSystemPercent": "Mounting, wiring & install (% of hardware)",
+      "chemistry": "Battery chemistry",
+      "depthOfDischarge": "Usable depth of discharge",
+      "roundTripEfficiency": "Round-trip efficiency",
+      "pricePerUsableKwh": "Price per usable kWh",
+      "batteryLifeTime": "Battery lifetime in years",
       "usageType": "Usage expressed in"
     }
   },
@@ -88,10 +101,15 @@
     "title": "Breakdown by year",
     "year": "Year",
     "output": "Output",
+    "curtailed": "Curtailed",
     "tariff": "Tariff",
     "income": "Income",
     "profit": "Profit",
-    "percentage": "Output"
+    "percentage": "Output",
+    "replaced": "Replaced",
+    "panels": "Panels",
+    "inverter": "Inverter",
+    "battery": "Battery"
   },
   "vendors": {
     "title": "Suppliers near you",
