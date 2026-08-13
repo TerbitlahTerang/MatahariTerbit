@@ -1,13 +1,8 @@
 ## Biaya listrik bulanan
 
 ### Kenapa saya masih harus membayar listrik?
-Solar panel dapat digunakan secara off-grid (disimpan di baterai) atau _on-grid_ (tersambung dengan PLN). Penggunaan 
-_on-grid_ berarti Anda harus menggunakan meteran listrik pasca bayar.
+Panel surya dan baterai Anda menutupi sebanyak mungkin penggunaan harian Anda, siang maupun malam. Sisanya -
+biasanya di hari mendung atau saat baterai hampir habis - tetap dipasok oleh PLN seperti biasa.
 
-Dengan meteran listrik pasca bayar, PLN mensyaratkan Anda untuk membayar jumlah 
-_minimum listrik_ yang tergantung dari 
-jumlah daya listrik di tempat Anda. Jumlah ini harus dibayar, meskipun dipakai ataupun tidak. Ini juga dikenal dengan 
-istilah membayar “abonemen” bulanan.
-
-Ini **tidak menguntungkan** untuk memproduksi listrik dengan solar panel yang melebihi
-jumlah minimal yang harus dibayar ke PLN tiap bulan. Jadi ini akan membatasi jumlah panel yang sebaiknya dipasang.
+Dengan meteran listrik prabayar (token), tidak ada biaya minimum bulanan: Anda hanya perlu membeli token
+sesuai dengan listrik yang benar-benar dipasok oleh PLN, tidak lebih.

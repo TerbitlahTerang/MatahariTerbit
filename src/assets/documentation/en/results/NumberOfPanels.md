@@ -13,11 +13,6 @@ Solar panels only generate while the sun is up. Anything you don't use directly 
 in your battery for use at night; anything that doesn't fit in the battery is curtailed (wasted), since it
 can no longer be sold back to the grid. A larger battery lets you use more of what you generate.
 
-### 3 Connection size *(grid-hybrid only)*
-If you're staying connected to PLN, you're not allowed to install more panels than the size of your
-electricity connection. For example, a 2.200 VA (Watt) connection allows a solar system of up to 2.200 Wp,
-or around 5 panels at most.
-
-### 4 Location of your house
+### 3 Location of your house
 How often the sun shines in your part of the country affects the amount of electricity your panels will
 produce. The more sun, the fewer panels you need.

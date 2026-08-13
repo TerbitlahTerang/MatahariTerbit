@@ -65,9 +65,7 @@ export interface PlnSettings {
   lowTariff: number
   highTariff: number,
   lowTariffThreshold: number,
-  energyTax: number,
-  minimalMonthlyConsumptionHours: number,
-  minimalMonthlyConsumptionPrice: number
+  energyTax: number
 }
 
 export interface PriceSettings {
@@ -120,9 +118,7 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
     lowTariff: 1300,
     highTariff: 1444.70,
     lowTariffThreshold: 1300,
-    energyTax : 0.1 + 0.05, //PPN + PPJ
-    minimalMonthlyConsumptionHours: 40, // number of hours per month * connection power
-    minimalMonthlyConsumptionPrice: 1500.0 // energy price (untaxed) for minimal monthly consumption
+    energyTax : 0.1 + 0.05 //PPN + PPJ
   },
   priceSettings: {
     pricePerPanel: 7875000,

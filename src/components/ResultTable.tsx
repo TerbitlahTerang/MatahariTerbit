@@ -6,7 +6,7 @@ import { formatDigits, formatNumber } from '../services/Formatters'
 import { CalculatorSettings, SystemType } from '../constants'
 import { SolarPanelPane, Panel } from './SolarPanel'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { Documentation, toExplanation } from '../services/DocumentationService'
+import { Documentation } from '../services/DocumentationService'
 
 export interface ResultTableProps {
   results?: ResultData,
@@ -17,7 +17,7 @@ export interface ResultTableProps {
 
 export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) => {
   const { t, i18n } = useTranslation()
-  const { results, calculatorSettings, systemType, onOpenDocumentation }  = props
+  const { results, calculatorSettings, onOpenDocumentation }  = props
   if (!results) {
     return <div>Invalid Data</div>
   }
@@ -44,16 +44,6 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
         <Col span={15}>{t('resultTable.batteryCapacity')}</Col>
         <Col span={9}>{formatDigits(results.batteryUsableCapacityInKwh ?? 0, 1, i18n.language)} kWh</Col>
       </Row>
-      {systemType !== SystemType.OffGrid &&
-        <Row gutter={12} justify="end">
-          <Col span={10}>{t('resultTable.limitingFactor')}
-              &nbsp;
-            <InfoCircleOutlined onClick={() => onOpenDocumentation(toExplanation(results.limitingFactor), t('resultTable.limitingFactor'))}/>
-          </Col>
-          <Col
-            span={14}>{t('resultTable.limitingFactorEnum.' + results.limitingFactor)} </Col>
-        </Row>
-      }
       <Row gutter={12} justify="center">
         <Col span={20}>{t('resultTable.areaRequired')}&nbsp;
           <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.AreaRequired,t('resultTable.areaRequired'))}/>

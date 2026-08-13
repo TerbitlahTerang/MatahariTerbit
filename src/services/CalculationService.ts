@@ -2,26 +2,17 @@ import { InputData } from '../components/InputForm'
 import { InverterPrice, MonthlyUsage, PriceSettings, SystemType } from '../constants'
 import { computeDailyEnergyBalance } from './SelfConsumption'
 
-export enum LimitingFactor {
-  ConnectionSize = 'ConnectionSize',
-  Consumption = 'Consumption',
-  MinimumPayment = 'MinimumPayment'
-}
-
 export interface ResultData {
   consumptionPerMonthInKwh: number
   taxedPricePerKwh: number
   productionPerMonthInKwh: number
   numberOfPanels: number
-  numberOfPanelsFinancial: number
-  numberOfPanelsGreen: number
   remainingMonthlyCosts: number
   currentMonthlyCosts: number
   totalSystemCosts: number
   monthlyProfit: number
   yearlyProfit: number
   breakEvenPointInMonths: number
-  limitingFactor: LimitingFactor
   projection: ReturnOnInvestment[]
   selfSufficiencyPercentage?: number
   solarServedPerYearInKwh?: number
@@ -41,20 +32,11 @@ export interface ResultData {
 const monthsInYear = 12.0
 const daysInYear = 365.0
 
-export interface SuggestedPanels {
-  limitedByConnection: boolean
-  numberOfPanels: number
-}
-
-function panelsLimitedByConnection(expectedMonthlyProduction: number, kiloWattHourPerMonthPerPanel: number, kiloWattPeakPerPanel: number, connectionPower: number): SuggestedPanels {
-  const numberOfPanelsWithoutConnectionLimit = Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
-  const suggestedCapacity = numberOfPanelsWithoutConnectionLimit * kiloWattPeakPerPanel * 1000
-  const installableCapacity = Math.min(suggestedCapacity, connectionPower)
-  const suggestedPanels = Math.floor(installableCapacity / kiloWattPeakPerPanel / 1000)
-
-  const limitedByConnection = (suggestedPanels + 1) * kiloWattPeakPerPanel * 1000 > connectionPower
-  const numberOfPanels = limitedByConnection ? suggestedPanels : suggestedPanels + 1
-  return { limitedByConnection, numberOfPanels }
+// Connection VA is not a physical cap on installable capacity - it only ever gated the
+// financial break-even under net metering, which no longer exists. Panels are sized purely by
+// how much of the household's own load they (plus the battery) can cover.
+function calculateNumberOfPanels(expectedMonthlyProduction: number, kiloWattHourPerMonthPerPanel: number): number {
+  return Math.round(Math.max(0, expectedMonthlyProduction / kiloWattHourPerMonthPerPanel))
 }
 
 // Shared across panels/inverter/battery: flat nominal replacement cost, fired every time the
@@ -90,9 +72,7 @@ export function calculateResultData({
     energyTax,
     highTariff,
     lowTariff,
-    lowTariffThreshold,
-    minimalMonthlyConsumptionHours,
-    minimalMonthlyConsumptionPrice
+    lowTariffThreshold
   } = plnSettings
 
   const { daytimeUseShare, peakLoadInWatts, pvOversizeFactor } = selfConsumptionSettings
@@ -104,9 +84,6 @@ export function calculateResultData({
   const taxFactor = 1.0 + energyTax
   const pricePerKwh = connectionPower < lowTariffThreshold ? lowTariff : highTariff
   const taxedPricePerKwh = pricePerKwh * taxFactor
-
-  const minimalMonthlyConsumption = minimalMonthlyConsumptionHours * (connectionPower / 1000)
-  const minimalMonthlyCostsIncludingTax = minimalMonthlyConsumption * minimalMonthlyConsumptionPrice * taxFactor
 
   const kiloWattHourPerMonthPerPanel = yieldPerKWp * kiloWattPeakPerPanel / monthsInYear
   const costEstimate = priceSettings.monthlyUsageType === MonthlyUsage.Rupiah ? monthlyCostEstimateInRupiah : monthlyUsageInKwh * taxedPricePerKwh
@@ -126,9 +103,7 @@ export function calculateResultData({
     : 0
   const expectedMonthlyProductionKwh = requiredKwp * yieldPerKWp / monthsInYear
 
-  // Off-grid has no PLN connection, so there's no VA cap on installable capacity.
-  const sized = panelsLimitedByConnection(expectedMonthlyProductionKwh, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, isOffGrid ? Infinity : connectionPower)
-  const numberOfPanels = sized.numberOfPanels
+  const numberOfPanels = calculateNumberOfPanels(expectedMonthlyProductionKwh, kiloWattHourPerMonthPerPanel)
 
   const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
   const dailyGenerationInKwh = productionPerMonthInKwh * monthsInYear / daysInYear
@@ -136,8 +111,9 @@ export function calculateResultData({
   const solarServedPerMonthInKwh = balance.solarServedKwh * daysInYear / monthsInYear
 
   const yieldPerMonthFromPanelsInRupiah = solarServedPerMonthInKwh * taxedPricePerKwh
-  // Off-grid has no PLN bill at all - no minimum-payment floor, nothing left to pay.
-  const remainingMonthlyCosts = isOffGrid ? 0 : Math.max(minimalMonthlyCostsIncludingTax, costEstimate - yieldPerMonthFromPanelsInRupiah)
+  // Off-grid has no PLN bill at all. Grid-hybrid (prepaid) has no minimum-payment floor either -
+  // you only ever pay for what the grid actually supplies, never less than zero.
+  const remainingMonthlyCosts = isOffGrid ? 0 : Math.max(0, costEstimate - yieldPerMonthFromPanelsInRupiah)
 
   const monthlyProfit = costEstimate - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
@@ -149,10 +125,6 @@ export function calculateResultData({
   const balanceOfSystemCosts = (panelsCosts + inverterCosts + batteryCosts) * priceSettings.balanceOfSystemPercent
   const installationCosts = priceSettings.installationCosts
   const totalSystemCosts = panelsCosts + inverterCosts + batteryCosts + balanceOfSystemCosts + installationCosts
-
-  const flooredNumberOfPanels = monthlyProfit < 0 ? 0 : numberOfPanels
-  // Off-grid is never connection-limited (no VA cap applies).
-  const limitingFactor = !isOffGrid && sized.limitedByConnection ? LimitingFactor.ConnectionSize : LimitingFactor.Consumption
 
   const analysisPeriodInYears = priceSettings.analysisPeriodInYears
   const investmentParameters: InvestmentParameters = {
@@ -185,16 +157,13 @@ export function calculateResultData({
     consumptionPerMonthInKwh: totalMonthlyConsumption,
     taxedPricePerKwh,
     productionPerMonthInKwh,
-    numberOfPanels: flooredNumberOfPanels,
-    numberOfPanelsGreen: numberOfPanels,
-    numberOfPanelsFinancial: numberOfPanels,
+    numberOfPanels,
     remainingMonthlyCosts,
     currentMonthlyCosts: costEstimate,
     totalSystemCosts,
     monthlyProfit,
     yearlyProfit,
     projection,
-    limitingFactor,
     breakEvenPointInMonths,
     paybackInYears,
     selfSufficiencyPercentage: dailyLoadInKwh > 0 ? (balance.solarServedKwh / dailyLoadInKwh) * 100 : 0,

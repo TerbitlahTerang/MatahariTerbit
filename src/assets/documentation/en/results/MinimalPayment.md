@@ -1,8 +1,8 @@
 ## Remaining monthly bill
 
 ### Why do I still have an electricity bill?
-PLN requires you to buy a _minimal amount_ of electricity that depends on the size of your connection.
-You will need to buy this electricity, whether you use it or not.
+Your solar panels and battery cover as much of your daily usage as they can, day and night. Whatever is
+left - mostly on cloudy days or when the battery runs low - is still supplied by PLN as normal.
 
-It is _not profitable_ to produce more electricity than the minimal amount you have to buy from PLN.
-This limits the amount of panels it is financially viable to install.
+With a prepaid (token) connection there is no minimum monthly payment: you simply top up tokens for
+whatever the grid actually supplies, and nothing more.

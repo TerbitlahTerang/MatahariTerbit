@@ -21,12 +21,6 @@
     "installedCapacity": "Kapasitas terpasang",
     "inverterCapacity": "Kapasitas inverter",
     "batteryCapacity": "Kapasitas baterai (dapat digunakan)",
-    "limitingFactor": "Terbatas oleh",
-    "limitingFactorEnum": {
-      "ConnectionSize": "Daya",
-      "Consumption": "Konsumpsi listrik",
-      "MinimumPayment": "Abonemen bulanan"
-    },
     "recommendedPanels": "Sistem PLTS yang direkomendasikan",
     "numberOfPanels": "Jumlah panel: ",
     "areaRequired": "Luas bidang yang dibutuhkan",
@@ -77,8 +71,6 @@
       "highTariff": "High Tariff",
       "lowTariffThreshold": "Threshold",
       "energyTax": "Energy tax",
-      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
-      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
       "pricePerPanel": "Price per panel",
       "electricityPriceInflationRate": "Electricity price inflation",
       "priceOfInverterFactor": "Inverter price as % of total",

@@ -14,11 +14,6 @@ siang hari disimpan di baterai untuk dipakai malam hari; listrik yang tidak muat
 (curtailed), karena tidak bisa lagi dijual kembali ke PLN. Baterai yang lebih besar memungkinkan Anda
 memakai lebih banyak listrik yang dihasilkan.
 
-### 3 Daya listrik Anda *(hanya untuk grid-hybrid)*
-Bila Anda tetap tersambung dengan PLN, Anda tidak diizinkan untuk memasang panel lebih dari besar daya
-listrik Anda. Contohnya, bila daya listrik Anda 2200 _VA_ (Watt), maka Anda hanya bisa memasang sistem
-panel surya dengan kapasitas maksimum sampai 2200 Wp, atau sekitar 5 panel paling banyak.
-
-### 4 Lokasi tempat tinggal Anda
+### 3 Lokasi tempat tinggal Anda
 Seberapa sering matahari bersinar di daerah Anda akan mempengaruhi jumlah listrik yang akan diproduksi oleh
 panel surya Anda. Lebih banyak sinar matahari berarti lebih sedikit panel yang dibutuhkan.

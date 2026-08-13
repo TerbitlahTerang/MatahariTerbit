@@ -22,12 +22,6 @@
     "installedCapacity": "Installed capacity",
     "inverterCapacity": "Inverter capacity",
     "batteryCapacity": "Battery capacity (usable)",
-    "limitingFactor": "Limiting factor",
-    "limitingFactorEnum": {
-      "ConnectionSize": "Connection size",
-      "Consumption": "Electricity consumption",
-      "MinimumPayment": "Minimal monthly payment"
-    },
     "recommendedPanels": "Recommended solar panel system",
     "numberOfPanels": "Number of panels recommended: ",
     "areaRequired": "Area required",
@@ -78,8 +72,6 @@
       "highTariff": "High Tariff",
       "lowTariffThreshold": "Threshold",
       "energyTax": "Energy tax",
-      "minimalMonthlyConsumptionHours": "Minimal monthly consumption hours",
-      "minimalMonthlyConsumptionPrice": "Hourly rate for minimal consumption",
       "pricePerPanel": "Price per panel",
       "electricityPriceInflationRate": "Electricity price inflation",
       "priceOfInverterFactor": "Inverter price as % of total",

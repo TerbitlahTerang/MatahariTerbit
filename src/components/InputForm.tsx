@@ -94,8 +94,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
   const [energyTax, setEnergyTax] = useQueryParam('energyTax', withDefault(NumberParam, plnSettings.energyTax))
 
   const [lowTariffThreshold, setLowTariffThreshold] = useQueryParam('lowTariffThreshold', withDefault(NumberParam, plnSettings.lowTariffThreshold))
-  const [minimalMonthlyConsumptionHours, setMinimalMonthlyConsumptionHours] = useQueryParam('minimalMonthlyConsumptionHours', withDefault(NumberParam, plnSettings.minimalMonthlyConsumptionHours))
-  const [minimalMonthlyConsumptionPrice, setMinimalMonthlyConsumptionPrice] = useQueryParam('minimalMonthlyConsumptionPrice', withDefault(NumberParam, plnSettings.minimalMonthlyConsumptionPrice))
 
   const [pricePerPanel, setPricePerPanel] = useQueryParam('pricePerPanel', withDefault(NumberParam, priceSettings.pricePerPanel))
   const [electricityPriceInflationRate, setElectricityPriceInflationRate] = useQueryParam('electricityPriceInflationRate', withDefault(NumberParam, priceSettings.electricityPriceInflationRate))
@@ -160,9 +158,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           lowTariff,
           highTariff,
           lowTariffThreshold,
-          energyTax,
-          minimalMonthlyConsumptionHours,
-          minimalMonthlyConsumptionPrice
+          energyTax
         },
         priceSettings: {
           pricePerPanel,
@@ -368,28 +364,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               parser={(displayValue) => parsePercentage(displayValue)}
               onChange={setEnergyTax}
               step={0.01}/>
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={10}>
-          <Form.Item name="minimalMonthlyConsumptionHours"
-            label={<>{t('inputForm.expertMode.minimalMonthlyConsumptionHours')}</>}
-            initialValue={minimalMonthlyConsumptionHours}
-          >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={minimalMonthlyConsumptionHours}
-              onChange={setMinimalMonthlyConsumptionHours}
-            />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={10}>
-          <Form.Item name="minimalMonthlyConsumptionPrice"
-            label={<>{t('inputForm.expertMode.minimalMonthlyConsumptionPrice')}</>}
-            initialValue={minimalMonthlyConsumptionPrice}
-          >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={minimalMonthlyConsumptionPrice}
-              onChange={setMinimalMonthlyConsumptionPrice}
-            />
           </Form.Item>
         </Col>
       </Row>
