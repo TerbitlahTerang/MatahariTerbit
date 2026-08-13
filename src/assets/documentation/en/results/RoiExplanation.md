@@ -4,23 +4,30 @@ There are many factors that influence the costs of a solar system.
 
 ### Example
 
-| Description        | Qty | Unit Price |      Total Price |
-|--------------------|----:|-----------:|-----------------:|
-| PV Panels          |   8 |  2.865.000 |       22.920.000 |
-| Inverter           |   1 |  7.496.475 |        7.496.475 |
-| Cabling            | 20m |     46.000 |        9.200.000 |
-| Mounting equipment |   8 |    450.000 |        3.600.000 |
-| Installation costs |   1 | 15.000.000 |       15.000.000 |
-| _**Total costs**_  |     |            | _**58.216.475**_ |
+| Description        | Qty  | Unit Price |      Total Price |
+|--------------------|-----:|-----------:|-----------------:|
+| PV Panels          |    8 |  2.865.000 |       22.920.000 |
+| Battery (usable)   | 5kWh |  5.000.000 |       25.000.000 |
+| Inverter           |    1 |  7.496.475 |        7.496.475 |
+| Cabling            |  20m |     46.000 |        9.200.000 |
+| Mounting equipment |    8 |    450.000 |        3.600.000 |
+| Installation costs |    1 | 15.000.000 |       15.000.000 |
+| _**Total costs**_  |      |            | _**83.216.475**_ |
 
 ---
 ### Assumptions made for calculation
 👉 Price of a panel (including all costs mentioned above) is assumed to be Rp. 7.875.000. The average
 price per panel tends to get lower the more panels you buy.
 
+👉 Battery price is per *usable* kWh (after depth-of-discharge losses), and depends heavily on chemistry -
+LiFePO₄ costs more upfront but lasts much longer than lead-acid.
+
 👉 Inverters are expected to have a lifetime of 10 - 15 years. We have assumed the inverter to last 12 years.
 
 👉 Solar panels typically have a warranty of 25 or more years. We assume their loss in efficiency to be 0,75% per year
+
+👉 Panels, inverter, and battery are each replaced again whenever their own lifetime elapses within your
+chosen analysis period, at today's price (not adjusted for inflation).
 
 <style>
 .RoiExplanation table {

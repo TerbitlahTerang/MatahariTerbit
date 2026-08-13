@@ -17,7 +17,6 @@ import {
   CalculatorSettings, INITIAL_INPUT_DATA,
   InverterPrice,
   MonthlyUsage,
-  OptimizationTarget,
   PowerOption,
   powerOptions,
   SystemType
@@ -41,7 +40,6 @@ export interface InputData {
   monthlyUsageInKwh: number
   connectionPower: number
   pvOut?: number
-  optimizationTarget: OptimizationTarget
   systemType?: SystemType
   calculatorSettings: CalculatorSettings
 }
@@ -157,8 +155,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
       const location = form.getFieldValue('location') as MapState
       const pvOut = location.info?.pvout
-      const targetValue = form.getFieldValue('optimizationTarget')
-      const optimizationTarget = targetValue === undefined || targetValue ? OptimizationTarget.Green : OptimizationTarget.Money
 
       const calculatorSettings: CalculatorSettings = {
         plnSettings: {
@@ -211,7 +207,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         monthlyUsageInKwh,
         connectionPower,
         pvOut,
-        optimizationTarget,
         systemType,
         calculatorSettings
       })
@@ -248,7 +243,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         <MapPicker mobile={props.mobile}/>
       </Form.Item>
       <Row gutter={16}>
-        <Col xs={24} sm={12}>
+        <Col xs={24} sm={24}>
           {monthlyUsageType === MonthlyUsage.Rupiah ?
             (<Form.Item name="monthlyBill" label={<div><><span className="numberCircle"><span>2</span></span>&nbsp;{t('inputForm.monthlyBill')}</></div>}
               initialValue={monthlyCostEstimateInRupiah}
@@ -271,22 +266,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                 step={10}/>
             </Form.Item>)
           }
-        </Col>
-        <Col xs={24} sm={12}>
-          <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
-            label={<div><><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.priority')}</></div>}
-            tooltip={{
-              overlay: '',
-              trigger: 'click',
-              icon: <InfoCircleOutlined
-                onClickCapture={() => props.onOpenDocumentation(Documentation.Priority, t('inputForm.priority'))}/>
-            }}>
-            <Switch className='prioritySwitch'
-              checkedChildren={<>{t('inputForm.priorityEarth')}</>}
-              unCheckedChildren={<>{t('inputForm.priorityMoney')}</>}
-              defaultChecked={true}
-            />
-          </Form.Item>
         </Col>
       </Row>
 
@@ -634,7 +613,8 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Divider orientation="left"><>{t('inputForm.expertMode.title.batterySettings')}</></Divider>
+      <Divider orientation="left"><>{t('inputForm.expertMode.title.batterySettings')}&nbsp; <InfoCircleOutlined
+        onClickCapture={() => props.onOpenDocumentation(Documentation.BatterySettings, t('inputForm.expertMode.title.batterySettings'))}/></></Divider>
       <Row gutter={16}>
         <Col xs={24} sm={8}>
           <Form.Item name="chemistry" label={<>{t('inputForm.expertMode.chemistry')}</>}

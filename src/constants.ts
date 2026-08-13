@@ -16,11 +16,6 @@ export interface PowerOption {
   value: number
 }
 
-export enum OptimizationTarget {
-  Money,
-  Green
-}
-
 export enum InverterPrice {
   Absolute = 'Absolute',
   Relative = 'Relative'
@@ -175,7 +170,6 @@ export const INITIAL_INPUT_DATA: InitialInputData = {
   monthlyUsageInKwh: 1000,
   connectionPower: 7700,
   location: { location: { lat: -6.175456973926256, lng: 106.82712256908418 }, address: '' },
-  optimizationTarget: OptimizationTarget.Money,
   calculatorSettings: CALCULATOR_SETTINGS
 }
 

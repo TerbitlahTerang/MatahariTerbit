@@ -2,9 +2,10 @@
 
 The recommended number of panels is currently limited by the amount of electricity you consume.
 
-### Electricity Consumption
+### Electricity consumption
 
-In your case, installing more solar panels means that you would start to produce more electricity than
-you consume on average.
-Because the national utility company (PLN) cannot pay you for the electricity you (over) produce,
-this is not a financially attractive option.
+Solar panels only earn their keep by offsetting electricity you actually use - directly during the day, or
+later from the battery. Installing more panels than that mostly just means more curtailed (wasted)
+generation, since PLN can no longer buy back what you don't use. If you want more self-sufficiency on
+cloudy days, a bigger battery or a higher PV oversize factor usually helps more than adding panels beyond
+this point.

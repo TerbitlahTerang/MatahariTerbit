@@ -4,6 +4,9 @@ Jumlah panel yang direkomendasikan saat ini terbatas pada jumlah listrik yang An
 
 ### Konsumsi listrik
 
-Untuk kasus Anda, memasang lebih banyak panel akan memproduksi lebih banyak listrik daripada jumlah rata-rata 
-yang Anda gunakan. Karena PLN tidak akan “membeli” kelebihan listrik yang Anda produksi, maka ini tidak menarik 
-secara finansial.
+Panel surya hanya bermanfaat secara finansial bila menggantikan listrik yang benar-benar Anda pakai -
+langsung di siang hari, atau nanti dari baterai. Memasang lebih banyak panel dari itu umumnya hanya berarti
+lebih banyak listrik yang terbuang (curtailed), karena PLN tidak lagi bisa membeli kembali listrik yang
+tidak Anda pakai. Bila Anda ingin swasembada yang lebih tinggi di hari mendung, baterai yang lebih besar
+atau faktor oversize PV yang lebih tinggi biasanya lebih membantu dibanding menambah panel melebihi titik
+ini.

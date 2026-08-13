@@ -18,10 +18,10 @@ import LocationEn from '../assets/documentation/en/inputform/Location.md'
 import LocationId from '../assets/documentation/id/inputform/Location.md'
 import RoiExplanationEn from '../assets/documentation/en/results/RoiExplanation.md'
 import RoiExplanationId from '../assets/documentation/id/results/RoiExplanation.md'
-import PriorityEn from '../assets/documentation/en/inputform/Priority.md'
-import PriorityId from '../assets/documentation/id/inputform/Priority.md'
 import PlnSettingsEn from '../assets/documentation/en/expert/PLNSettings.md'
 import PlnSettingsId from '../assets/documentation/id/expert/PLNSettings.md'
+import BatterySettingsEn from '../assets/documentation/en/expert/BatterySettings.md'
+import BatterySettingsId from '../assets/documentation/id/expert/BatterySettings.md'
 import AppInfoEn from '../assets/documentation/en/app/AppInfo.md'
 import AppInfoId from '../assets/documentation/id/app/AppInfo.md'
 import { LimitingFactor } from './CalculationService'
@@ -39,8 +39,8 @@ export enum Documentation {
   AreaRequired,
   MinimalPayment,
   RoiExplanation,
-  Priority,
   PlnSettings,
+  BatterySettings,
   AppInfo
 }
 
@@ -61,8 +61,8 @@ function getIndonesian(doc: Documentation): string {
     case Documentation.NumberOfPanelsMinimumPayment: return NumberOfPanelsMinimumPaymentId.body
     case Documentation.Location: return LocationId.body
     case Documentation.RoiExplanation: return RoiExplanationId.body
-    case Documentation.Priority: return PriorityId.body
     case Documentation.PlnSettings: return PlnSettingsId.body
+    case Documentation.BatterySettings: return BatterySettingsId.body
     case Documentation.AppInfo: return AppInfoId.body
   }
 }
@@ -79,8 +79,8 @@ function getEnglish(doc: Documentation): string {
     case Documentation.NumberOfPanelsMinimumPayment: return NumberOfPanelsMinimumPaymentEn.body
     case Documentation.Location: return LocationEn.body
     case Documentation.RoiExplanation: return RoiExplanationEn.body
-    case Documentation.Priority: return PriorityEn.body
     case Documentation.PlnSettings: return PlnSettingsEn.body
+    case Documentation.BatterySettings: return BatterySettingsEn.body
     case Documentation.AppInfo: return AppInfoEn.body
   }
 }

@@ -67,9 +67,6 @@
     "findingLocation": "Finding your location...",
     "chooseLocation": "Find your location...",
     "solarIntensity": "Sunlight intensity",
-    "priority": "Priority",
-    "priorityMoney": "💰 Lowest cost",
-    "priorityEarth": "🌍 Maximum green power",
     "expertMode": {
       "title": {
         "plnSettings": "PLN Settings",

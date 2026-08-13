@@ -1,6 +1,6 @@
 import { calculateResultData, LimitingFactor } from './CalculationService'
 import { InputData } from '../components/InputForm'
-import { CALCULATOR_SETTINGS, MonthlyUsage, OptimizationTarget, SystemType } from '../constants'
+import { CALCULATOR_SETTINGS, MonthlyUsage, SystemType } from '../constants'
 
 describe('Calculate system characteristics', () => {
   it('Should calculate system size in absence of irradiance information, using Sanur numbers', async () => {
@@ -8,7 +8,6 @@ describe('Calculate system characteristics', () => {
       monthlyCostEstimateInRupiah: 1000000.0,
       monthlyUsageInKwh: 1000,
       connectionPower: 7700.0,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const result = calculateResultData(data)
@@ -21,7 +20,6 @@ describe('Calculate system characteristics', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: 7700.0,
       pvOut: 885,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const result = calculateResultData(data)
@@ -35,7 +33,6 @@ describe('Calculate system characteristics', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: smallConnection,
       pvOut: 885,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const result = calculateResultData(data)
@@ -50,7 +47,6 @@ describe('Calculate system characteristics', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: bigConnection,
       pvOut: 885,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const result = calculateResultData(data)
@@ -65,7 +61,6 @@ describe('Calculate system characteristics', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: smallConnection,
       pvOut: 1800,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const results = calculateResultData(data)
@@ -88,7 +83,6 @@ describe('Calculate system characteristics', () => {
       monthlyUsageInKwh: 1000000.0 / (CALCULATOR_SETTINGS.plnSettings.highTariff * (1.0 + CALCULATOR_SETTINGS.plnSettings.energyTax)),
       connectionPower: smallConnection,
       pvOut: 1800,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: {
         ...CALCULATOR_SETTINGS,
         priceSettings: {
@@ -111,7 +105,6 @@ describe('Calculate system characteristics', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: 7700.0,
       pvOut: 1800,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const results = calculateResultData(data)
@@ -140,7 +133,6 @@ describe('Off-grid system sizing', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: smallConnection,
       pvOut: 1800,
-      optimizationTarget: OptimizationTarget.Money,
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const hybridResult = calculateResultData({ ...data, systemType: SystemType.GridHybrid })
@@ -157,7 +149,6 @@ describe('Off-grid system sizing', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: 7700.0,
       pvOut: 1800,
-      optimizationTarget: OptimizationTarget.Money,
       systemType: SystemType.OffGrid,
       calculatorSettings: CALCULATOR_SETTINGS
     }
@@ -173,7 +164,6 @@ describe('Off-grid system sizing', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: 7700.0,
       pvOut: 1800,
-      optimizationTarget: OptimizationTarget.Money,
       systemType: SystemType.OffGrid,
       calculatorSettings: {
         ...CALCULATOR_SETTINGS,
@@ -195,7 +185,6 @@ describe('Off-grid system sizing', () => {
       monthlyUsageInKwh: 1000,
       connectionPower: 7700.0,
       pvOut: 1800,
-      optimizationTarget: OptimizationTarget.Money,
       systemType: SystemType.GridHybrid,
       calculatorSettings: {
         ...CALCULATOR_SETTINGS,
