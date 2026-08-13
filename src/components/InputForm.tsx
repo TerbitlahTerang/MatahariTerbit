@@ -214,7 +214,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
               buttonStyle="solid"
               onChange={(e) => {
                 const newSystemType = e.target.value as SystemType
-                const newDaysOfAutonomy = newSystemType === SystemType.OffGrid ? 2 : 0.5
+                const newDaysOfAutonomy = newSystemType === SystemType.OffGrid ? 2 : calcSettings.batterySettings.daysOfAutonomy
                 setSystemType(newSystemType)
                 setDaysOfAutonomy(newDaysOfAutonomy)
                 form.setFieldValue('daysOfAutonomy', newDaysOfAutonomy)
