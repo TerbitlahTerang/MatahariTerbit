@@ -166,7 +166,12 @@ export function calculateResultData({
     panelLifetimeInYears,
     inverterLifetimeInYears,
     batteryLifetimeInYears,
-    priceSettings
+    priceSettings,
+    dailyLoadInKwh,
+    dailyGenerationInKwh,
+    daytimeUseShare,
+    usableBatteryKwh,
+    roundTripEfficiency
   }
   const projection: ReturnOnInvestment[] = roiProjection(analysisPeriodInYears, investmentParameters)
   const firstMonthAboveZero = roiProjection(analysisPeriodInYears, investmentParameters, monthsInYear).find(x => x.cumulativeProfit > 0)
@@ -236,6 +241,11 @@ interface InvestmentParameters {
   inverterLifetimeInYears: number
   batteryLifetimeInYears: number
   priceSettings: PriceSettings
+  dailyLoadInKwh: number
+  dailyGenerationInKwh: number
+  daytimeUseShare: number
+  usableBatteryKwh: number
+  roundTripEfficiency: number
 }
 
 export function roiProjection(numberOfYears: number, result: InvestmentParameters, divider: number = 1.0): ReturnOnInvestment[] {
@@ -258,7 +268,10 @@ export function roiProjection(numberOfYears: number, result: InvestmentParameter
     output: result.solarServedPerMonthInKwh * (monthsInYear / divider),
     income: result.solarServedPerMonthInKwh * (monthsInYear / divider) * result.taxedPricePerKwh,
     cumulativeProfit: result.yearlyProfit - result.panelsCosts - result.inverterCosts - result.batteryCosts - result.installationCosts,
-    pvOutputPercentage: 1.0
+    pvOutputPercentage: 1.0,
+    solarServedInKwh: result.solarServedPerMonthInKwh * (monthsInYear / divider),
+    gridImportInKwh: 0,
+    curtailedInKwh: 0
   } as ReturnOnInvestment
 
   return years.reduce((acc, currentValue, currentIndex) => {
@@ -271,14 +284,28 @@ export function roiProjection(numberOfYears: number, result: InvestmentParameter
     const maintenanceCost = maintainableCosts * (maintenancePercentPerYear / divider)
     const replacementCosts = panelReplacementCost + inverterReplacementCost + batteryReplacementCost
 
+    const pvOutputPercentage = previous.pvOutputPercentage * capacityLoss
+    const dailyGenerationThisPeriod = result.dailyGenerationInKwh * pvOutputPercentage
+    const balance = computeDailyEnergyBalance(dailyGenerationThisPeriod, result.dailyLoadInKwh, result.daytimeUseShare, result.usableBatteryKwh, result.roundTripEfficiency)
+    // computeDailyEnergyBalance is per-day; scale to this period's length (a year, or 1/divider of one).
+    const kwhPerDayToKwhPerPeriod = daysInYear / divider
+    const solarServedInKwh = balance.solarServedKwh * kwhPerDayToKwhPerPeriod
+    const curtailedInKwh = balance.curtailedKwh * kwhPerDayToKwhPerPeriod
+    const gridImportInKwh = Math.max(0, result.dailyLoadInKwh - balance.solarServedKwh) * kwhPerDayToKwhPerPeriod
+    const tariff = previous.tariff * electricityPriceInflation
+    const income = solarServedInKwh * tariff
+
     return acc.concat({
       index: currentValue,
-      tariff: previous.tariff * electricityPriceInflation,
-      output: previous.output * capacityLoss,
-      income: previous.income * electricityPriceInflation,
-      cumulativeProfit: previous.cumulativeProfit + (previous.income * electricityPriceInflation) - replacementCosts - maintenanceCost,
-      pvOutputPercentage: previous.pvOutputPercentage * capacityLoss,
+      tariff,
+      output: solarServedInKwh,
+      income,
+      cumulativeProfit: previous.cumulativeProfit + income - replacementCosts - maintenanceCost,
+      pvOutputPercentage,
       stepSizeInMonths: monthsInYear / divider,
+      solarServedInKwh,
+      gridImportInKwh,
+      curtailedInKwh,
       panelReplacementCost,
       inverterReplacementCost,
       batteryReplacementCost,

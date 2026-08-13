@@ -19,6 +19,8 @@
   },
   "resultTable": {
     "installedCapacity": "Kapasitas terpasang",
+    "inverterCapacity": "Kapasitas inverter",
+    "batteryCapacity": "Kapasitas baterai (dapat digunakan)",
     "limitingFactor": "Terbatas oleh",
     "limitingFactorEnum": {
       "ConnectionSize": "Daya",
@@ -36,14 +38,19 @@
     "monthlyProfit": "Keuntungan bulanan",
     "yearlyProfit": "Keuntungan tahunan",
     "breakEven": "Periode pengembalian",
-    "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan"
+    "breakEvenExplanation": "{{breakEven.years}} tahun dan {{breakEven.months}} bulan",
+    "selfSufficiency": "Swasembada energi surya",
+    "curtailed": "Terbuang per tahun",
+    "residualGridBill": "Sisa tagihan PLN per tahun"
   },
   "chart": {
     "heading": "Return on Investment (ROI)",
     "labelYear": "Tahun",
     "labelProfit": "Jutaan Rp.",
     "tooltipTitle": "Tahun {{year}}",
-    "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini"
+    "inverterReplacement": "\uD83D\uDC49 Kita berasumsi inverternya perlu\n diganti dalam tahun ini",
+    "panelReplacement": "\uD83D\uDC49 Kita berasumsi panelnya perlu\n diganti dalam tahun ini",
+    "batteryReplacement": "\uD83D\uDC49 Kita berasumsi baterainya perlu\n diganti dalam tahun ini"
   },
   "inputForm": {
     "systemType": "Jenis sistem",
@@ -104,9 +111,14 @@
     "title": "ROI per tahun",
     "year": "Tahun",
     "output": "Produksi",
+    "curtailed": "Terbuang",
     "tariff": "Tarif",
     "income": "Penghasilan",
     "profit": "Keuntungan",
+    "replaced": "Diganti",
+    "panels": "Panel",
+    "inverter": "Inverter",
+    "battery": "Baterai",
     "percentage": "Sisa"
   },
   "vendors": {

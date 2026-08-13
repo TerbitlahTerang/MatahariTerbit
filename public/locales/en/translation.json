@@ -20,6 +20,8 @@
   },
   "resultTable": {
     "installedCapacity": "Installed capacity",
+    "inverterCapacity": "Inverter capacity",
+    "batteryCapacity": "Battery capacity (usable)",
     "limitingFactor": "Limiting factor",
     "limitingFactorEnum": {
       "ConnectionSize": "Connection size",
@@ -37,14 +39,19 @@
     "financialHeading": "Financial breakdown",
     "yearlyProfit": "Yearly result from panels",
     "breakEven": "Payback period",
-    "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months"
+    "breakEvenExplanation": "{{breakEven.years}} years and {{breakEven.months}} months",
+    "selfSufficiency": "Solar self-sufficiency",
+    "curtailed": "Curtailed (wasted) per year",
+    "residualGridBill": "Residual PLN bill per year"
   },
   "chart": {
     "heading": "Return on Investment",
     "labelYear": "Year",
     "labelProfit": "Profit in Millions Rp.",
     "tooltipTitle": "Year {{year}}",
-    "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year"
+    "inverterReplacement": "\uD83D\uDC49 We assume the inverter needs\n to be replaced in this year",
+    "panelReplacement": "\uD83D\uDC49 We assume the panels need\n to be replaced in this year",
+    "batteryReplacement": "\uD83D\uDC49 We assume the battery needs\n to be replaced in this year"
   },
   "inputForm": {
     "systemType": "System type",
@@ -105,10 +112,15 @@
     "title": "Breakdown by year",
     "year": "Year",
     "output": "Output",
+    "curtailed": "Curtailed",
     "tariff": "Tariff",
     "income": "Income",
     "profit": "Profit",
-    "percentage": "Output"
+    "percentage": "Output",
+    "replaced": "Replaced",
+    "panels": "Panels",
+    "inverter": "Inverter",
+    "battery": "Battery"
   },
   "vendors": {
     "title": "Suppliers near you",

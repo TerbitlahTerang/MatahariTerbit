@@ -188,4 +188,30 @@ describe('Off-grid system sizing', () => {
     expect(result.selfSufficiencyPercentage).toBeLessThan(100)
     expect(result.gridImportPerYearInKwh).toBeGreaterThan(0)
   })
+
+  it('populates per-year solar-served/curtailed/grid-import figures in the projection, not just the year-1 summary', async () => {
+    const data: InputData = {
+      monthlyCostEstimateInRupiah: 1000000.0,
+      monthlyUsageInKwh: 1000,
+      connectionPower: 7700.0,
+      pvOut: 1800,
+      optimizationTarget: OptimizationTarget.Money,
+      systemType: SystemType.GridHybrid,
+      calculatorSettings: {
+        ...CALCULATOR_SETTINGS,
+        selfConsumptionSettings: {
+          ...CALCULATOR_SETTINGS.selfConsumptionSettings,
+          pvOversizeFactor: 1.5
+        }
+      }
+    }
+    const result = calculateResultData(data)
+
+    for (const year of result.projection) {
+      expect(year.solarServedInKwh).toBeGreaterThan(0)
+      expect(year.curtailedInKwh).toBeGreaterThanOrEqual(0)
+    }
+    // A sizeable oversize factor with default self-consumption settings should curtail something.
+    expect(result.projection.some(year => (year.curtailedInKwh ?? 0) > 0)).toBe(true)
+  })
 })

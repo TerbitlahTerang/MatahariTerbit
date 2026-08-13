@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ResultData } from '../services/CalculationService'
 import { formatDigits, formatNumber } from '../services/Formatters'
-import { CalculatorSettings, OptimizationTarget } from '../constants'
+import { CalculatorSettings, SystemType } from '../constants'
 import { SolarPanelPane, Panel } from './SolarPanel'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Documentation, toExplanation } from '../services/DocumentationService'
@@ -11,18 +11,19 @@ import { Documentation, toExplanation } from '../services/DocumentationService'
 export interface ResultTableProps {
   results?: ResultData,
   calculatorSettings: CalculatorSettings,
+  systemType?: SystemType,
   onOpenDocumentation:  (d: Documentation, title: string) => void
 }
 
 export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) => {
   const { t, i18n } = useTranslation()
-  const { results, calculatorSettings, onOpenDocumentation }  = props
+  const { results, calculatorSettings, systemType, onOpenDocumentation }  = props
   if (!results) {
     return <div>Invalid Data</div>
   }
 
   const panels: Panel[] = Array.from(Array(results?.numberOfPanels).keys())
-    .map(x =>{ return { index: (x + 1), panelType: x >= results.numberOfPanelsFinancial ? OptimizationTarget.Green: OptimizationTarget.Money } } )
+    .map(x => { return { index: (x + 1) } })
 
   return (
     <div className="ant-table">
@@ -36,13 +37,23 @@ export const ResultTable: React.FunctionComponent<ResultTableProps> = (props) =>
           span={9}>{formatDigits(results.numberOfPanels * calculatorSettings.kiloWattPeakPerPanel, 2, i18n.language)} kWp</Col>
       </Row>
       <Row gutter={12} justify="end">
-        <Col span={10}>{t('resultTable.limitingFactor')}
-            &nbsp;
-          <InfoCircleOutlined onClick={() => onOpenDocumentation(toExplanation(results.limitingFactor), t('resultTable.limitingFactor'))}/>
-        </Col>
-        <Col
-          span={14}>{t('resultTable.limitingFactorEnum.' + results.limitingFactor)} </Col>
+        <Col span={15}>{t('resultTable.inverterCapacity')}</Col>
+        <Col span={9}>{formatDigits(results.inverterCapacityInKw ?? 0, 1, i18n.language)} kW</Col>
       </Row>
+      <Row gutter={12} justify="end">
+        <Col span={15}>{t('resultTable.batteryCapacity')}</Col>
+        <Col span={9}>{formatDigits(results.batteryUsableCapacityInKwh ?? 0, 1, i18n.language)} kWh</Col>
+      </Row>
+      {systemType !== SystemType.OffGrid &&
+        <Row gutter={12} justify="end">
+          <Col span={10}>{t('resultTable.limitingFactor')}
+              &nbsp;
+            <InfoCircleOutlined onClick={() => onOpenDocumentation(toExplanation(results.limitingFactor), t('resultTable.limitingFactor'))}/>
+          </Col>
+          <Col
+            span={14}>{t('resultTable.limitingFactorEnum.' + results.limitingFactor)} </Col>
+        </Row>
+      }
       <Row gutter={12} justify="center">
         <Col span={20}>{t('resultTable.areaRequired')}&nbsp;
           <InfoCircleOutlined onClick={() => onOpenDocumentation(Documentation.AreaRequired,t('resultTable.areaRequired'))}/>
