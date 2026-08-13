@@ -11,7 +11,7 @@ describe('Calculate system characteristics', () => {
       calculatorSettings: CALCULATOR_SETTINGS
     }
     const result = calculateResultData(data)
-    expect(result.numberOfPanels).toBe(11)
+    expect(result.numberOfPanels).toBe(7)
   })
 
   it('Should require more panels when location is Jakarta', async () => {
@@ -25,7 +25,7 @@ describe('Calculate system characteristics', () => {
     const result = calculateResultData(data)
     // Jakarta's lower irradiance used to bump into the 7700 VA connection cap at 17 panels;
     // with connection size no longer limiting, the physical sizing formula alone recommends 22.
-    expect(result.numberOfPanels).toBe(22)
+    expect(result.numberOfPanels).toBe(14)
   })
 
   it('Should not cap the number of panels to a small connection size', async () => {
@@ -56,7 +56,7 @@ describe('Calculate system characteristics', () => {
     const results = calculateResultData(data)
 
     expect(results.currentMonthlyCosts).toBe(1000000)
-    expect(results.numberOfPanels).toBe(11)
+    expect(results.numberOfPanels).toBe(7)
     expect(Math.round(results.monthlyProfit)).toBe(825000)
     expect(Math.round(results.yearlyProfit)).toBe(Math.round(results.monthlyProfit * 12.0))
 
@@ -84,7 +84,7 @@ describe('Calculate system characteristics', () => {
     const results = calculateResultData(data)
 
     expect(results.currentMonthlyCosts).toBeCloseTo(1000000)
-    expect(results.numberOfPanels).toBe(11)
+    expect(results.numberOfPanels).toBe(7)
     expect(Math.round(results.monthlyProfit)).toBe(825000)
     expect(Math.round(results.yearlyProfit)).toBe(Math.round(results.monthlyProfit * 12.0))
   })

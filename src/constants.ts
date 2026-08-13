@@ -115,13 +115,13 @@ export interface CalculatorSettings {
 
 export const CALCULATOR_SETTINGS : CalculatorSettings = {
   plnSettings: {
-    lowTariff: 1300,
-    highTariff: 1444.70,
+    lowTariff: 1352,
+    highTariff: 1699.53,
     lowTariffThreshold: 1300,
     energyTax : 0.1 + 0.05 //PPN + PPJ
   },
   priceSettings: {
-    pricePerPanel: 7875000,
+    pricePerPanel: 2500000,
     electricityPriceInflationRate: 0.05,
     priceOfInverterFactor: 0.10,
     priceOfInverterAbsolute: 8000000,
@@ -153,7 +153,7 @@ export const CALCULATOR_SETTINGS : CalculatorSettings = {
   panelLifetimeInYears: 25,
   // https://globalsolaratlas.info/map?c=-8.674473,115.030093,11&s=-8.702747,115.26267&m=site&pv=small,0,12,1
   // Square meters 450. 225 Watts / m2. Maybe add effective m2 needed vs panel surface
-  kiloWattPeakPerPanel: 0.450,
+  kiloWattPeakPerPanel: 0.625,
   kiloWattHourPerYearPerKWp: 1732,
   // Based on https://globalsolaratlas.info PVOUT vs Annual average
   lossFromInverter: 0.9628
