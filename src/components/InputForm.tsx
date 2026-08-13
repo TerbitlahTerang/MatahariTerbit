@@ -198,7 +198,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
         </Col>
         <Col xs={24} sm={12}>
           <Form.Item name="optimizationTarget" valuePropName="checked" initialValue={true}
-            label={<div><><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.connectionPower')}</></div>}
+            label={<div><><span className="numberCircle"><span>3</span></span>&nbsp;{t('inputForm.priority')}</></div>}
             tooltip={{
               overlay: '',
               trigger: 'click',
