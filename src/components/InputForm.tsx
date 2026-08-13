@@ -264,16 +264,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       </Row>
 
       <Row gutter={16}>
-        {systemType === SystemType.GridHybrid &&
-          <Col xs={24} sm={8}>
-            <Form.Item name="connectionPower" label={<>{t('inputForm.connectionPower')}</>}
-              initialValue={connectionPower}
-            >
-              <Select style={{ width: '100%' }} defaultValue={connectionPower} onChange={(val) => setConnectionPower(val)}>{powerOptions.map(renderOption)}</Select>
-            </Form.Item>
-          </Col>
-        }
-        <Col xs={24} sm={systemType === SystemType.GridHybrid ? 8 : 12}>
+        <Col xs={24} sm={12}>
           <Form.Item name="peakLoadInWatts" label={<>{t('inputForm.peakLoad')}</>}
             initialValue={peakLoadInWatts}
           >
@@ -286,7 +277,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={24} sm={systemType === SystemType.GridHybrid ? 8 : 12}>
+        <Col xs={24} sm={12}>
           <Form.Item name="daytimeUseShare" label={<>{t('inputForm.daytimeUseShare')}</>}
             initialValue={daytimeUseShare}
           >
@@ -319,7 +310,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       {props.expertMode && <><Divider orientation="left"><>{t('inputForm.expertMode.title.plnSettings')}&nbsp; <InfoCircleOutlined
         onClickCapture={() => props.onOpenDocumentation(Documentation.PlnSettings, t('inputForm.expertMode.title.plnSettings'))}/></></Divider>
       <Row gutter={16}>
-        <Col xs={24} sm={8}>
+        <Col xs={24} sm={6}>
+          <Form.Item name="connectionPower" label={<>{t('inputForm.connectionPower')}</>}
+            initialValue={connectionPower}
+          >
+            <Select style={{ width: '100%' }} defaultValue={connectionPower} onChange={(val) => setConnectionPower(val)}>{powerOptions.map(renderOption)}</Select>
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={6}>
           <Form.Item name="lowTariff" label={<>{t('inputForm.expertMode.lowTariff')}</>}
             initialValue={lowTariff}
           >
@@ -331,7 +329,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={24} sm={8}>
+        <Col xs={24} sm={6}>
           <Form.Item name="highTariff" label={<>{t('inputForm.expertMode.highTariff')}</>}
             initialValue={highTariff}
           >
@@ -343,7 +341,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={24} sm={8}>
+        <Col xs={24} sm={6}>
           <Form.Item name="lowTariffThreshold" label={<>{t('inputForm.expertMode.lowTariffThreshold')}</>}
             initialValue={lowTariffThreshold}
           >
@@ -354,7 +352,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           </Form.Item>
         </Col>
       </Row><Row gutter={16}>
-        <Col xs={24} sm={4}>
+        <Col xs={24} sm={6}>
           <Form.Item name="energyTax" label={<>{t('inputForm.expertMode.energyTax')}</>}
             initialValue={energyTax}
           >
