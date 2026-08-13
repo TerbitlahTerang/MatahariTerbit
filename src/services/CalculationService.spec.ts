@@ -1,6 +1,6 @@
-import { calculateResultData } from './CalculationService'
+import { calculateResultData, LimitingFactor } from './CalculationService'
 import { InputData } from '../components/InputForm'
-import { CALCULATOR_SETTINGS, MonthlyUsage, OptimizationTarget } from '../constants'
+import { CALCULATOR_SETTINGS, MonthlyUsage, OptimizationTarget, SystemType } from '../constants'
 
 describe('Calculate system characteristics', () => {
   it('Should calculate system size in absence of irradiance information, using Sanur numbers', async () => {
@@ -129,5 +129,63 @@ describe('Calculate system characteristics', () => {
     // within the horizon (a replacement due exactly at the last year isn't purchased again).
     const panelReplacementYears = results.projection.filter(y => (y.panelReplacementCost ?? 0) > 0).map(y => y.index)
     expect(panelReplacementYears).toEqual([])
+  })
+})
+
+describe('Off-grid system sizing', () => {
+  it('is never capped by connection size, unlike grid-hybrid', async () => {
+    const smallConnection = 900.0
+    const data: InputData = {
+      monthlyCostEstimateInRupiah: 1000000.0,
+      monthlyUsageInKwh: 1000,
+      connectionPower: smallConnection,
+      pvOut: 1800,
+      optimizationTarget: OptimizationTarget.Money,
+      calculatorSettings: CALCULATOR_SETTINGS
+    }
+    const hybridResult = calculateResultData({ ...data, systemType: SystemType.GridHybrid })
+    const offGridResult = calculateResultData({ ...data, systemType: SystemType.OffGrid })
+
+    expect(hybridResult.limitingFactor).toBe(LimitingFactor.ConnectionSize)
+    expect(hybridResult.numberOfPanels * CALCULATOR_SETTINGS.kiloWattPeakPerPanel).toBeLessThan(smallConnection)
+    expect(offGridResult.numberOfPanels).toBeGreaterThan(hybridResult.numberOfPanels)
+  })
+
+  it('has no PLN bill and no residual grid bill', async () => {
+    const data: InputData = {
+      monthlyCostEstimateInRupiah: 1000000.0,
+      monthlyUsageInKwh: 1000,
+      connectionPower: 7700.0,
+      pvOut: 1800,
+      optimizationTarget: OptimizationTarget.Money,
+      systemType: SystemType.OffGrid,
+      calculatorSettings: CALCULATOR_SETTINGS
+    }
+    const result = calculateResultData(data)
+
+    expect(result.remainingMonthlyCosts).toBe(0)
+    expect(result.residualAnnualGridBillInRupiah).toBeUndefined()
+  })
+
+  it('reports unmet load risk when the battery is too small to ride out the night', async () => {
+    const data: InputData = {
+      monthlyCostEstimateInRupiah: 1000000.0,
+      monthlyUsageInKwh: 1000,
+      connectionPower: 7700.0,
+      pvOut: 1800,
+      optimizationTarget: OptimizationTarget.Money,
+      systemType: SystemType.OffGrid,
+      calculatorSettings: {
+        ...CALCULATOR_SETTINGS,
+        batterySettings: {
+          ...CALCULATOR_SETTINGS.batterySettings,
+          daysOfAutonomy: 0.05
+        }
+      }
+    }
+    const result = calculateResultData(data)
+
+    expect(result.selfSufficiencyPercentage).toBeLessThan(100)
+    expect(result.gridImportPerYearInKwh).toBeGreaterThan(0)
   })
 })

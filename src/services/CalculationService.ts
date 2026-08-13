@@ -1,5 +1,5 @@
 import { InputData } from '../components/InputForm'
-import { InverterPrice, MonthlyUsage, PriceSettings } from '../constants'
+import { InverterPrice, MonthlyUsage, PriceSettings, SystemType } from '../constants'
 import { computeDailyEnergyBalance } from './SelfConsumption'
 
 export enum LimitingFactor {
@@ -70,8 +70,10 @@ export function calculateResultData({
   monthlyUsageInKwh,
   connectionPower,
   pvOut,
+  systemType,
   calculatorSettings
 }: InputData): ResultData {
+  const isOffGrid = systemType === SystemType.OffGrid
   const {
     plnSettings,
     priceSettings,
@@ -124,7 +126,8 @@ export function calculateResultData({
     : 0
   const expectedMonthlyProductionKwh = requiredKwp * yieldPerKWp / monthsInYear
 
-  const sized = panelsLimitedByConnection(expectedMonthlyProductionKwh, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, connectionPower)
+  // Off-grid has no PLN connection, so there's no VA cap on installable capacity.
+  const sized = panelsLimitedByConnection(expectedMonthlyProductionKwh, kiloWattHourPerMonthPerPanel, kiloWattPeakPerPanel, isOffGrid ? Infinity : connectionPower)
   const numberOfPanels = sized.numberOfPanels
 
   const productionPerMonthInKwh = numberOfPanels * kiloWattHourPerMonthPerPanel
@@ -133,7 +136,8 @@ export function calculateResultData({
   const solarServedPerMonthInKwh = balance.solarServedKwh * daysInYear / monthsInYear
 
   const yieldPerMonthFromPanelsInRupiah = solarServedPerMonthInKwh * taxedPricePerKwh
-  const remainingMonthlyCosts = Math.max(minimalMonthlyCostsIncludingTax, costEstimate - yieldPerMonthFromPanelsInRupiah)
+  // Off-grid has no PLN bill at all - no minimum-payment floor, nothing left to pay.
+  const remainingMonthlyCosts = isOffGrid ? 0 : Math.max(minimalMonthlyCostsIncludingTax, costEstimate - yieldPerMonthFromPanelsInRupiah)
 
   const monthlyProfit = costEstimate - remainingMonthlyCosts
   const yearlyProfit = monthlyProfit * monthsInYear
@@ -147,7 +151,8 @@ export function calculateResultData({
   const totalSystemCosts = panelsCosts + inverterCosts + batteryCosts + balanceOfSystemCosts + installationCosts
 
   const flooredNumberOfPanels = monthlyProfit < 0 ? 0 : numberOfPanels
-  const limitingFactor = sized.limitedByConnection ? LimitingFactor.ConnectionSize : LimitingFactor.Consumption
+  // Off-grid is never connection-limited (no VA cap applies).
+  const limitingFactor = !isOffGrid && sized.limitedByConnection ? LimitingFactor.ConnectionSize : LimitingFactor.Consumption
 
   const analysisPeriodInYears = priceSettings.analysisPeriodInYears
   const investmentParameters: InvestmentParameters = {
@@ -191,7 +196,7 @@ export function calculateResultData({
     solarServedPerYearInKwh: balance.solarServedKwh * daysInYear,
     gridImportPerYearInKwh: Math.max(0, dailyLoadInKwh - balance.solarServedKwh) * daysInYear,
     curtailedPerYearInKwh: balance.curtailedKwh * daysInYear,
-    residualAnnualGridBillInRupiah: Math.max(0, dailyLoadInKwh - balance.solarServedKwh) * daysInYear * taxedPricePerKwh,
+    residualAnnualGridBillInRupiah: isOffGrid ? undefined : Math.max(0, dailyLoadInKwh - balance.solarServedKwh) * daysInYear * taxedPricePerKwh,
     inverterCapacityInKw,
     batteryUsableCapacityInKwh: usableBatteryKwh,
     batteryNominalCapacityInKwh: nominalBatteryKwh,
