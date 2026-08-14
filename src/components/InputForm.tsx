@@ -265,34 +265,6 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
       <Row gutter={16}>
         <Col xs={24} sm={12}>
-          <Form.Item name="peakLoadInWatts" label={<>{t('inputForm.peakLoad')}</>}
-            initialValue={peakLoadInWatts}
-          >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={peakLoadInWatts}
-              formatter={(value) => formatDigits(value, 0, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={100}
-              onChange={setPeakLoadInWatts}
-            />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={12}>
-          <Form.Item name="daytimeUseShare" label={<>{t('inputForm.daytimeUseShare')}</>}
-            initialValue={daytimeUseShare}
-          >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={daytimeUseShare}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.01}
-              onChange={setDaytimeUseShare}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col xs={24} sm={12}>
           <Form.Item name="daysOfAutonomy" label={<>{t('inputForm.daysOfAutonomy')}</>}
             initialValue={daysOfAutonomy}
           >
@@ -585,6 +557,34 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
       </Row>
       <Divider orientation="left"><>{t('inputForm.expertMode.title.batterySettings')}&nbsp; <InfoCircleOutlined
         onClickCapture={() => props.onOpenDocumentation(Documentation.BatterySettings, t('inputForm.expertMode.title.batterySettings'))}/></></Divider>
+      <Row gutter={16}>
+        <Col xs={24} sm={12}>
+          <Form.Item name="peakLoadInWatts" label={<>{t('inputForm.peakLoad')}</>}
+            initialValue={peakLoadInWatts}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={peakLoadInWatts}
+              formatter={(value) => formatDigits(value, 0, i18n.language)}
+              parser={(displayValue) => parseNumber(displayValue)}
+              step={100}
+              onChange={setPeakLoadInWatts}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} sm={12}>
+          <Form.Item name="daytimeUseShare" label={<>{t('inputForm.daytimeUseShare')}</>}
+            initialValue={daytimeUseShare}
+          >
+            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
+              defaultValue={daytimeUseShare}
+              formatter={(value) => formatPercentage(value, i18n.language)}
+              parser={(displayValue) => parsePercentage(displayValue)}
+              step={0.01}
+              onChange={setDaytimeUseShare}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
       <Row gutter={16}>
         <Col xs={24} sm={8}>
           <Form.Item name="chemistry" label={<>{t('inputForm.expertMode.chemistry')}</>}
