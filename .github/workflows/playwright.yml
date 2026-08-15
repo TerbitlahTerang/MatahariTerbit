@@ -1,0 +1,86 @@
+name: Playwright wizard screenshot
+'on': pull_request
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  screenshot:
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out'
+        uses: actions/checkout@v4
+      - name: 'Install node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 'Load dependencies'
+        run: yarn
+      - name: 'Install Playwright browsers'
+        run: npx playwright install --with-deps chromium
+      - name: 'Click through the wizard and screenshot it'
+        run: yarn test-e2e
+        env:
+          VITE_GOOGLE_MAPS_KEY: '${{ secrets.GOOGLE_MAPS_KEY }}'
+      - name: 'Upload Playwright report'
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - name: 'Publish screenshot to the pr-screenshots branch'
+        if: success()
+        id: publish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          screenshot_path="pr-${{ github.event.pull_request.number }}/wizard.png"
+
+          git fetch origin pr-screenshots 2>/dev/null || true
+          if git show-ref --verify --quiet refs/remotes/origin/pr-screenshots; then
+            git checkout -b pr-screenshots origin/pr-screenshots
+          else
+            git checkout --orphan pr-screenshots
+            # --orphan carries the source branch's index over; drop it so we don't commit the
+            # whole app tree, leaving just-built files (like the screenshot) on disk untouched.
+            git rm -rf --cached . > /dev/null
+          fi
+
+          mkdir -p "pr-${{ github.event.pull_request.number }}"
+          cp e2e/screenshots/wizard.png "$screenshot_path"
+          git add "$screenshot_path"
+          git commit -m "Update wizard screenshot for PR #${{ github.event.pull_request.number }}" --allow-empty
+          git push origin pr-screenshots
+
+          echo "path=$screenshot_path" >> "$GITHUB_OUTPUT"
+      - name: 'Comment on the pull request'
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- playwright-wizard-screenshot -->'
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+
+            let body
+            if ('${{ steps.publish.outcome }}' === 'success') {
+              // Cache-bust with the run id so the image updates on every push, since the path is
+              // reused across runs for the same PR.
+              const imageUrl = `${context.serverUrl.replace('github.com', 'raw.githubusercontent.com')}/${context.repo.owner}/${context.repo.repo}/pr-screenshots/${{ steps.publish.outputs.path }}?run=${context.runId}`
+              body = `${marker}\n📸 Wizard screenshot:\n\n![Wizard screenshot](${imageUrl})\n\n[View run](${runUrl})`
+            } else {
+              body = `${marker}\n📸 The wizard screenshot test failed. [View run](${runUrl}) for details.`
+            }
+
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: context.issue.number
+            })
+            const existing = comments.find((c) => c.body.includes(marker))
+
+            if (existing) {
+              await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body })
+            } else {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body })
+            }
