@@ -1,0 +1,59 @@
+name: Playwright wizard screenshot
+'on': pull_request
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  screenshot:
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out'
+        uses: actions/checkout@v4
+      - name: 'Install node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 'Load dependencies'
+        run: yarn
+      - name: 'Install Playwright browsers'
+        run: npx playwright install --with-deps chromium
+      - name: 'Click through the wizard and screenshot it'
+        run: yarn test-e2e
+        env:
+          VITE_GOOGLE_MAPS_KEY: '${{ secrets.GOOGLE_MAPS_KEY }}'
+      - name: 'Upload screenshot'
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wizard-screenshot
+          path: e2e/screenshots/*.png
+          retention-days: 30
+      - name: 'Upload Playwright report'
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      - name: 'Comment on the pull request'
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- playwright-wizard-screenshot -->'
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            const outcome = '${{ job.status }}' === 'success' ? 'took' : 'attempted to take (the test failed, see the run for details)'
+            const body = `${marker}\n📸 This run ${outcome} a screenshot of the wizard. [View it in the run's artifacts](${runUrl}#artifacts).`
+
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: context.issue.number
+            })
+            const existing = comments.find((c) => c.body.includes(marker))
+
+            if (existing) {
+              await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body })
+            } else {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body })
+            }
