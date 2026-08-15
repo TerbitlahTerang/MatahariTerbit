@@ -23,5 +23,8 @@ test('clicking through the wizard reaches the investment step', async ({ page })
   // a moment to populate before capturing the full page.
   await expect(page.getByText('Smart Energy Tech')).toBeVisible({ timeout: 15_000 })
 
+  // Wait for graph animation to finish
+  await page.waitForTimeout(2000)
+
   await page.screenshot({ path: 'e2e/screenshots/wizard.png', fullPage: true })
 })
