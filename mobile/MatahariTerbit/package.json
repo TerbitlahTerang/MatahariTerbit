@@ -22,6 +22,7 @@
     "@expo/vector-icons": "^15.0.3",
     "@sentry/react-native": "~7.2.0",
     "@types/qs": "^6.9.7",
+    "babel-preset-expo": "~54.0.10",
     "expo": "~54.0.37",
     "expo-application": "~7.0.8",
     "expo-build-properties": "~1.0.10",

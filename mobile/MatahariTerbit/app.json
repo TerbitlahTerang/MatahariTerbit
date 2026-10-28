@@ -34,7 +34,7 @@
       "en": "./i18n/english.json"
     },
     "android": {
-      "versionCode": 44,
+      "versionCode": 46,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
