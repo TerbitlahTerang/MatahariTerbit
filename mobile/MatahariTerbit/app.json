@@ -34,7 +34,7 @@
       "en": "./i18n/english.json"
     },
     "android": {
-      "versionCode": 42,
+      "versionCode": 46,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1890ff"
@@ -52,9 +52,7 @@
       [
         "expo-build-properties",
         {
-          "android": {
-            "kotlinVersion": "1.9.24"
-          },
+          "android": {},
           "ios": {
             "deploymentTarget": "15.1",
             "newArchEnabled": false

@@ -3,7 +3,7 @@ import { Box, Heading, HStack, Icon, IconButton, NativeBaseProvider, View, VStac
 import WebView from 'react-native-webview'
 import { ActivityIndicator, NativeModules, Platform } from 'react-native'
 import * as Linking from 'expo-linking'
-import * as Sentry from 'sentry-expo'
+import * as Sentry from '@sentry/react-native'
 import SunriseLogo from './components/SunriseLogo'
 import { MaterialIcons } from '@expo/vector-icons'
 import { WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes'

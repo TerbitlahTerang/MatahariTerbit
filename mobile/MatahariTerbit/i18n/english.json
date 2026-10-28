@@ -1,6 +1,11 @@
 {
-  "NSLocationAlwaysUsageDescription": "To determine the amount of sunshine at your house ",
-  "NSLocationWhenInUseUsageDescription": "To determine the amount of sunshine at your house ",
-  "CFBundleDisplayName": "Solar Calculator Indonesia",
-  "CFBundleName": "Solar Calculator Indonesia"
+  "ios": {
+    "NSLocationAlwaysUsageDescription": "To determine the amount of sunshine at your house ",
+    "NSLocationWhenInUseUsageDescription": "To determine the amount of sunshine at your house ",
+    "CFBundleDisplayName": "Solar Calculator Indonesia",
+    "CFBundleName": "Solar Calculator Indonesia"
+  },
+  "android": {
+    "app_name": "Solar Calculator Indonesia"
+  }
 }
