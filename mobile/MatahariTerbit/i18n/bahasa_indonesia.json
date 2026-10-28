@@ -1,6 +1,11 @@
 {
-  "NSLocationAlwaysUsageDescription": "Untuk pastikan intensitas sinar mata hari di rmah Anda",
-  "NSLocationWhenInUseUsageDescription": "Untuk pastikan intensitas sinar mata hari di rumah Anda",
-  "CFBundleDisplayName": "Kalkulator Solar Panel",
-  "CFBundleName": "Kalkulator Solar Panel"
+  "ios": {
+    "NSLocationAlwaysUsageDescription": "Untuk pastikan intensitas sinar mata hari di rmah Anda",
+    "NSLocationWhenInUseUsageDescription": "Untuk pastikan intensitas sinar mata hari di rumah Anda",
+    "CFBundleDisplayName": "Kalkulator Solar Panel",
+    "CFBundleName": "Kalkulator Solar Panel"
+  },
+  "android": {
+    "app_name": "Kalkulator Solar Panel"
+  }
 }
