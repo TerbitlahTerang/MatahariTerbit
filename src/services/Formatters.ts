@@ -1,3 +1,4 @@
+import i18n from 'i18next'
 
 export const formatRupiah = (value: string | number | undefined): string => {
   const amount = +`${value ?? 0}`
@@ -19,12 +20,16 @@ export const formatNumber = (value: string | number | undefined, locale: string)
   return formatDigits(value, 0, locale)
 }
 
-export const parseNumber = (value: string | number | undefined): number => {
+export const parseNumber = (value: string | number | undefined, locale: string = i18n.language): number => {
   if (value === undefined) {
     return 0
   }
   if (typeof value === 'string') {
-    return parseFloat(value.replace(',', '.'))
+    // undo formatDigits: drop the locale's thousands separator, then turn its decimal separator into '.'
+    const parts = Intl.NumberFormat(locale).formatToParts(1000.1)
+    const group = parts.find((part) => part.type === 'group')?.value ?? ','
+    const decimal = parts.find((part) => part.type === 'decimal')?.value ?? '.'
+    return parseFloat(value.split(group).join('').replace(decimal, '.'))
   }
   return value
 }
