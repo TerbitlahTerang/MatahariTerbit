@@ -1,5 +1,7 @@
 name: Playwright wizard screenshot
-'on': pull_request
+'on':
+  pull_request:
+      types: [opened, synchronize, reopened, labeled]
 permissions:
   contents: write
   pull-requests: write
