@@ -5,7 +5,9 @@ permissions:
   pull-requests: write
 jobs:
   screenshot:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository ||
+      contains(github.event.pull_request.labels.*.name, 'safe-to-test')
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out'
