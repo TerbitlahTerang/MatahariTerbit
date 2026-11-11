@@ -20,23 +20,30 @@ export const parseInteger = (text = ''): number => {
 // Decimals are shown without thousands separators, so '.' or ',' can only be the decimal point.
 export const parseDecimal = (text = ''): number => parseFloat(text.replace(',', '.'))
 
-
 export const IntegerInput = ({ before = '', after = '', ...props }: Props & { before?: string, after?: string }) => {
   const { i18n } = useTranslation()
   return (
     <InputNumber<number> style={style} autoComplete="off" {...props}
       precision={0}
+      // Never show decimals: parseInteger would read "1.699,53" back as 169953.
       formatter={(value, { userTyping, input }) =>
-        userTyping || isEmpty(value) ? input : `${before}${new Intl.NumberFormat(i18n.language).format(Number(value))}${after}`}
+        userTyping || isEmpty(value)
+          ? input
+          : `${before}${new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 0 }).format(Number(value))}${after}`}
       parser={parseInteger}
     />
   )
 }
 
-export const DecimalInput = ({ digits = 2, ...props }: InputNumberProps<number> & { digits?: number }) => {
+export const DecimalInput = ({ digits = 2, ...props }: Props & { digits?: number }) => {
   const { i18n } = useTranslation()
-  const decimal = new Intl.NumberFormat(i18n.language).formatToParts(0.1).find((p) => p.type === 'decimal')!.value
-  return <InputNumber<number> {...props} precision={digits} decimalSeparator={decimal} parser={parseDecimal}/>
+  return (
+    <InputNumber<number> style={style} autoComplete="off" {...props}
+      precision={digits}
+      decimalSeparator={decimalSeparatorOf(i18n.language)}
+      parser={parseDecimal}
+    />
+  )
 }
 
 /** A fraction (0.35) shown as a percentage ("35 %"). */

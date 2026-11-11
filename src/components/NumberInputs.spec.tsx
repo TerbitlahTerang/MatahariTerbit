@@ -1,3 +1,4 @@
+/** @jest-environment jsdom */
 import React from 'react'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import i18n from 'i18next'
@@ -93,6 +94,18 @@ describe('IntegerInput', () => {
     typeInto(input, 'Rp. 1.500.000')
 
     expect(lastValue(onChange)).toBe(1500000)
+  })
+
+  it('does not inflate a fractional value when the field is focused and left', async () => {
+    const onChange = jest.fn()
+    const input = await renderIn('id', <IntegerInput before="Rp. " defaultValue={1699.53} onChange={onChange}/>)
+
+    expect(input.value).toBe('Rp. 1.700')
+    fireEvent.focus(input)
+    fireEvent.blur(input)
+
+    expect(onChange.mock.calls.flat()).not.toContain(169953)
+    expect(input.value).toBe('Rp. 1.700')
   })
 })
 
