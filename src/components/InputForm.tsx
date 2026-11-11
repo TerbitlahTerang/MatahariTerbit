@@ -2,14 +2,7 @@ import { Col, Divider, Form, InputNumber, Radio, Row, Select, Switch } from 'ant
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MapState } from '../util/mapStore'
-import {
-  formatDigits, formatKwh,
-  formatPercentage,
-  formatRupiah, parseKwh,
-  parseNumber,
-  parsePercentage,
-  parseRupiah
-} from '../services/Formatters'
+import { DecimalInput, IntegerInput, PercentInput } from './NumberInputs'
 import { MapPicker } from './MapPicker'
 import {
   BatteryChemistry,
@@ -73,7 +66,7 @@ const createLinkedinLink = () => {
 
 export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [form] = Form.useForm()
 
   const renderOption = (option: PowerOption) => {
@@ -247,17 +240,11 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
                 icon: <InfoCircleOutlined
                   onClickCapture={() => props.onOpenDocumentation(Documentation.MonthlyBill, t('inputForm.monthlyBill'))}/>
               }}>
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                formatter={formatRupiah}
-                parser={parseRupiah}
-                step={100000} inputMode="numeric" onChange={setMonthlyCostEstimateInRupiah}/>
+              <IntegerInput before="Rp. " step={100000} inputMode="numeric" onChange={setMonthlyCostEstimateInRupiah}/>
             </Form.Item>) : (<Form.Item name="monthlyUsageInKwh" label={<>{t('inputForm.monthlyUsage')}</>}
               initialValue={init.monthlyUsageInKwh}
             >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                formatter={(value) => formatKwh(value)}
-                parser={(displayValue) => parseKwh(displayValue)}
-                step={10}/>
+              <IntegerInput after=" kWh" step={10}/>
             </Form.Item>)
           }
         </Col>
@@ -268,13 +255,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="daysOfAutonomy" label={<>{t('inputForm.daysOfAutonomy')}</>}
             initialValue={daysOfAutonomy}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={daysOfAutonomy}
-              formatter={(value) => formatDigits(value, 2, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={0.1}
-              onChange={setDaysOfAutonomy}
-            />
+            <DecimalInput digits={2} step={0.1} onChange={setDaysOfAutonomy}/>
           </Form.Item>
         </Col>
       </Row>
@@ -293,24 +274,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="lowTariff" label={<>{t('inputForm.expertMode.lowTariff')}</>}
             initialValue={lowTariff}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={lowTariff}
-              formatter={formatRupiah}
-              parser={parseRupiah}
-              onChange={setLowTariff}
-            />
+            <IntegerInput before="Rp. " onChange={setLowTariff}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
           <Form.Item name="highTariff" label={<>{t('inputForm.expertMode.highTariff')}</>}
             initialValue={highTariff}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={highTariff}
-              formatter={formatRupiah}
-              parser={parseRupiah}
-              onChange={setHighTariff}
-            />
+            <IntegerInput before="Rp. " onChange={setHighTariff}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
@@ -328,12 +299,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="energyTax" label={<>{t('inputForm.expertMode.energyTax')}</>}
             initialValue={energyTax}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={energyTax}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              onChange={setEnergyTax}
-              step={0.01}/>
+            <PercentInput onChange={setEnergyTax} step={0.01}/>
           </Form.Item>
         </Col>
       </Row>
@@ -343,13 +309,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="pricePerPanel" label={<>{t('inputForm.expertMode.pricePerPanel')}</>}
             initialValue={pricePerPanel}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={pricePerPanel}
-              formatter={formatRupiah}
-              parser={parseRupiah}
-              step={100000}
-              onChange={setPricePerPanel}
-            />
+            <IntegerInput before="Rp. " step={100000} onChange={setPricePerPanel}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={8}>
@@ -357,13 +317,7 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             label={<>{t('inputForm.expertMode.electricityPriceInflationRate')}</>}
             initialValue={electricityPriceInflationRate}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={electricityPriceInflationRate}
-              formatter={(value) => formatPercentage(value, i18n.language, 2)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.01}
-              onChange={setElectricityPriceInflationRate}
-            />
+            <PercentInput digits={2} step={0.01} onChange={setElectricityPriceInflationRate}/>
           </Form.Item>
         </Col>
       </Row><Row gutter={16}>
@@ -371,51 +325,28 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="kiloWattPeakPerPanel" label={<>{t('inputForm.expertMode.kiloWattPeakPerPanel')}</>}
             initialValue={kiloWattPeakPerPanel}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={kiloWattPeakPerPanel}
-              formatter={(value) => formatDigits(value, 3, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              onChange={setKiloWattPeakPerPanel}
-              step={0.01}/>
+            <DecimalInput digits={3} onChange={setKiloWattPeakPerPanel} step={0.01}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
           <Form.Item name="areaPerPanel" label={<>{t('inputForm.expertMode.areaPerPanel')}</>}
             initialValue={areaPerPanel}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={areaPerPanel}
-              formatter={(value) => formatDigits(value, 2, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={0.1}
-              onChange={setAreaPerPanel}
-            />
+            <DecimalInput digits={2} step={0.1} onChange={setAreaPerPanel}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
           <Form.Item name="lossFromInverter" label={<>{t('inputForm.expertMode.lossFromInverter')}</>}
             initialValue={lossFromInverter}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={lossFromInverter}
-              formatter={(value) => formatDigits(value, 4, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={0.1}
-              onChange={setLossFromInverter}
-            />
+            <DecimalInput digits={4} step={0.1} onChange={setLossFromInverter}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
           <Form.Item name="capacityLossRate" label={<>{t('inputForm.expertMode.capacityLossRate')}</>}
             initialValue={capacityLossRate}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={capacityLossRate}
-              formatter={(value) => formatPercentage(value, i18n.language, 2)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.001}
-              onChange={setCapacityLossRate}
-            />
+            <PercentInput digits={2} step={0.001} onChange={setCapacityLossRate}/>
           </Form.Item>
         </Col>
       </Row>
@@ -436,26 +367,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
             <Form.Item name="priceOfInverterAbsolute" label={<>{t('inputForm.expertMode.priceOfInverterAbsolute')}</>}
               initialValue={priceOfInverterAbsolute}
             >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={priceOfInverterAbsolute}
-                formatter={formatRupiah}
-                parser={parseRupiah}
-                step={100000}
-                onChange={setPriceOfInverterAbsolute}
-              />
+              <IntegerInput before="Rp. " step={100000} onChange={setPriceOfInverterAbsolute}/>
             </Form.Item>
           </Col> :
           <Col xs={24} sm={8}>
             <Form.Item name="priceOfInverterFactor" label={<>{t('inputForm.expertMode.priceOfInverterFactor')}</>}
               initialValue={priceOfInverterFactor}
             >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={priceOfInverterFactor}
-                formatter={(value) => formatPercentage(value, i18n.language)}
-                parser={(displayValue) => parsePercentage(displayValue)}
-                step={0.01}
-                onChange={setPriceOfInverterFactor}
-              />
+              <PercentInput step={0.01} onChange={setPriceOfInverterFactor}/>
             </Form.Item>
           </Col>
         }
@@ -463,26 +382,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="installationCosts" label={<>{t('inputForm.expertMode.installationCosts')}</>}
             initialValue={installationCosts}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={installationCosts}
-              formatter={formatRupiah}
-              parser={parseRupiah}
-              step={100000}
-              onChange={setInstallationCosts}
-            />
+            <IntegerInput before="Rp. " step={100000} onChange={setInstallationCosts}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={6}>
           <Form.Item name="inverterLifetime" label={<>{t('inputForm.expertMode.inverterLifeTime')}</>}
             initialValue={inverterLifetimeInYears}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={inverterLifetimeInYears}
-              formatter={(value) => formatDigits(value, 1, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={1}
-              onChange={setInverterLifetimeInYears}
-            />
+            <DecimalInput digits={1} step={1} onChange={setInverterLifetimeInYears}/>
           </Form.Item>
         </Col>
       </Row>
@@ -491,39 +398,21 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="pvOversizeFactor" label={<>{t('inputForm.expertMode.pvOversizeFactor')}</>}
             initialValue={pvOversizeFactor}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={pvOversizeFactor}
-              formatter={(value) => formatDigits(value, 2, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={0.05}
-              onChange={setPvOversizeFactor}
-            />
+            <DecimalInput digits={2} step={0.05} onChange={setPvOversizeFactor}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={8}>
           <Form.Item name="discountRate" label={<>{t('inputForm.expertMode.discountRate')}</>}
             initialValue={discountRate}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={discountRate}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.01}
-              onChange={setDiscountRate}
-            />
+            <PercentInput step={0.01} onChange={setDiscountRate}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={8}>
           <Form.Item name="analysisPeriodInYears" label={<>{t('inputForm.expertMode.analysisPeriodInYears')}</>}
             initialValue={analysisPeriodInYears}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={analysisPeriodInYears}
-              formatter={(value) => formatDigits(value, 0, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={1}
-              onChange={setAnalysisPeriodInYears}
-            />
+            <IntegerInput step={1} onChange={setAnalysisPeriodInYears}/>
           </Form.Item>
         </Col>
       </Row>
@@ -532,26 +421,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="maintenancePercentPerYear" label={<>{t('inputForm.expertMode.maintenancePercentPerYear')}</>}
             initialValue={maintenancePercentPerYear}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={maintenancePercentPerYear}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.005}
-              onChange={setMaintenancePercentPerYear}
-            />
+            <PercentInput step={0.005} onChange={setMaintenancePercentPerYear}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={12}>
           <Form.Item name="balanceOfSystemPercent" label={<>{t('inputForm.expertMode.balanceOfSystemPercent')}</>}
             initialValue={balanceOfSystemPercent}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={balanceOfSystemPercent}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.01}
-              onChange={setBalanceOfSystemPercent}
-            />
+            <PercentInput step={0.01} onChange={setBalanceOfSystemPercent}/>
           </Form.Item>
         </Col>
       </Row>
@@ -562,26 +439,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="peakLoadInWatts" label={<>{t('inputForm.peakLoad')}</>}
             initialValue={peakLoadInWatts}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={peakLoadInWatts}
-              formatter={(value) => formatDigits(value, 0, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={100}
-              onChange={setPeakLoadInWatts}
-            />
+            <IntegerInput step={100} onChange={setPeakLoadInWatts}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={12}>
           <Form.Item name="daytimeUseShare" label={<>{t('inputForm.daytimeUseShare')}</>}
             initialValue={daytimeUseShare}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={daytimeUseShare}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.01}
-              onChange={setDaytimeUseShare}
-            />
+            <PercentInput step={0.01} onChange={setDaytimeUseShare}/>
           </Form.Item>
         </Col>
       </Row>
@@ -600,26 +465,14 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="depthOfDischarge" label={<>{t('inputForm.expertMode.depthOfDischarge')}</>}
             initialValue={depthOfDischarge}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={depthOfDischarge}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.01}
-              onChange={setDepthOfDischarge}
-            />
+            <PercentInput step={0.01} onChange={setDepthOfDischarge}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={8}>
           <Form.Item name="roundTripEfficiency" label={<>{t('inputForm.expertMode.roundTripEfficiency')}</>}
             initialValue={roundTripEfficiency}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={roundTripEfficiency}
-              formatter={(value) => formatPercentage(value, i18n.language)}
-              parser={(displayValue) => parsePercentage(displayValue)}
-              step={0.01}
-              onChange={setRoundTripEfficiency}
-            />
+            <PercentInput step={0.01} onChange={setRoundTripEfficiency}/>
           </Form.Item>
         </Col>
       </Row>
@@ -628,42 +481,24 @@ export const InputForm: React.FunctionComponent<InputFormProps> = (props) => {
           <Form.Item name="pricePerUsableKwh" label={<>{t('inputForm.expertMode.pricePerUsableKwh')}</>}
             initialValue={pricePerUsableKwh}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={pricePerUsableKwh}
-              formatter={formatRupiah}
-              parser={parseRupiah}
-              step={100000}
-              onChange={setPricePerUsableKwh}
-            />
+            <IntegerInput before="Rp. " step={100000} onChange={setPricePerUsableKwh}/>
           </Form.Item>
         </Col>
         <Col xs={24} sm={8}>
           <Form.Item name="batteryLifetimeInYears" label={<>{t('inputForm.expertMode.batteryLifeTime')}</>}
             initialValue={batteryLifetimeInYears}
           >
-            <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-              defaultValue={batteryLifetimeInYears}
-              formatter={(value) => formatDigits(value, 0, i18n.language)}
-              parser={(displayValue) => parseNumber(displayValue)}
-              step={1}
-              onChange={setBatteryLifetimeInYears}
-            />
+            <IntegerInput step={1} onChange={setBatteryLifetimeInYears}/>
           </Form.Item>
         </Col>
         {systemType === SystemType.GridHybrid &&
-          <Col xs={24} sm={8}>
-            <Form.Item name="gridBackupAllowance" label={<>{t('inputForm.expertMode.gridBackupAllowance')}</>}
-              initialValue={gridBackupAllowance}
-            >
-              <InputNumber style={{ width: '100%', textAlign: 'right' }} autoComplete="off"
-                defaultValue={gridBackupAllowance}
-                formatter={(value) => formatPercentage(value, i18n.language)}
-                parser={(displayValue) => parsePercentage(displayValue)}
-                step={0.01}
-                onChange={setGridBackupAllowance}
-              />
-            </Form.Item>
-          </Col>
+                <Col xs={24} sm={8}>
+                  <Form.Item name="gridBackupAllowance" label={<>{t('inputForm.expertMode.gridBackupAllowance')}</>}
+                    initialValue={gridBackupAllowance}
+                  >
+                    <PercentInput step={0.01} onChange={setGridBackupAllowance}/>
+                  </Form.Item>
+                </Col>
         }
       </Row>
       <Divider orientation="left">{<>{t('inputForm.expertMode.title.appSettings')}</>}</Divider>
