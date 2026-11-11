@@ -10,8 +10,14 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: yarn && yarn build
+      - name: 'Check out'
+        uses: actions/checkout@v2
+      - name: 'Install node'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: 'Build'
+        run: yarn && yarn build
         env:
           VITE_GOOGLE_MAPS_KEY: '${{ secrets.GOOGLE_MAPS_KEY }}'
       - uses: FirebaseExtended/action-hosting-deploy@v0
