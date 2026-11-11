@@ -5,11 +5,19 @@ name: Playwright wizard screenshot
 permissions:
   contents: write
   pull-requests: write
+concurrency:
+  # Labels other than safe-to-test get a group of their own (the run id), so the skipped run they start
+  # cannot cancel a real run for the same PR.
+  group: >-
+    ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{
+    github.event.action == 'labeled' && github.event.label.name != 'safe-to-test' && github.run_id || 'screenshot' }}
+  cancel-in-progress: true
 jobs:
   screenshot:
     if: >-
-      github.event.pull_request.head.repo.full_name == github.repository ||
-      contains(github.event.pull_request.labels.*.name, 'safe-to-test')
+      (github.event.action != 'labeled' || github.event.label.name == 'safe-to-test') &&
+      (github.event.pull_request.head.repo.full_name == github.repository ||
+      contains(github.event.pull_request.labels.*.name, 'safe-to-test'))
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out'
