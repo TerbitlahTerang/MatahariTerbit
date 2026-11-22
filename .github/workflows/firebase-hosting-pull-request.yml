@@ -13,6 +13,9 @@ name: Deploy to Firebase Hosting on PR
     types: [opened, synchronize, reopened]
 permissions:
   contents: read
+# Nothing here uses the Actions cache. Turning it off also keeps code from a fork from writing to, or
+# reading from, main's cache scope with the runner's cache token.
+cache-mode: none
 concurrency:
   # The event name keeps the skipped run of one event from cancelling the real run of the other.
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number }}
@@ -34,6 +37,10 @@ jobs:
           # The commit that was approved, not whatever the branch points at by the time the job starts.
           ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
+          # Required to check out a fork on pull_request_target. Safe here because this job only runs
+          # after approval of the preview-external environment, and it holds no write token and no
+          # secret other than the public Maps key.
+          allow-unsafe-pr-checkout: true
       - name: 'Install node'
         uses: actions/setup-node@v4
         with:
