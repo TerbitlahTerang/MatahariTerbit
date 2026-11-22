@@ -1,27 +1,40 @@
 name: Playwright wizard screenshot
 'on':
+  # Same set-up as firebase-hosting-pull-request.yml: branches in this repository run on `pull_request`,
+  # forks on `pull_request_target` after a reviewer approves the preview-external environment.
   pull_request:
-      types: [opened, synchronize, reopened, labeled]
+    types: [opened, synchronize, reopened]
+  pull_request_target:
+    types: [opened, synchronize, reopened]
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+# Nothing here uses the Actions cache. Turning it off also keeps code from a fork from writing to, or
+# reading from, main's cache scope with the runner's cache token.
+cache-mode: none
 concurrency:
-  # Labels other than safe-to-test get a group of their own (the run id), so the skipped run they start
-  # cannot cancel a real run for the same PR.
-  group: >-
-    ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{
-    github.event.action == 'labeled' && github.event.label.name != 'safe-to-test' && github.run_id || 'screenshot' }}
+  # The event name keeps the skipped run of one event from cancelling the real run of the other.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 jobs:
+  # Runs the pull request's code with a read-only token. Pushing the screenshot and commenting happen in
+  # `publish`, which never runs code from the pull request.
   screenshot:
     if: >-
-      (github.event.action != 'labeled' || github.event.label.name == 'safe-to-test') &&
-      (github.event.pull_request.head.repo.full_name == github.repository ||
-      contains(github.event.pull_request.labels.*.name, 'safe-to-test'))
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository)
+    environment: ${{ github.event_name == 'pull_request_target' && 'preview-external' || 'preview' }}
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out'
         uses: actions/checkout@v4
+        with:
+          # The commit that was approved, not whatever the branch points at by the time the job starts.
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          # Required to check out a fork on pull_request_target. Safe here because this job only runs
+          # after approval of the preview-external environment, and it holds no write token and no
+          # secret other than the public Maps key.
+          allow-unsafe-pr-checkout: true
       - name: 'Install node'
         uses: actions/setup-node@v4
         with:
@@ -34,6 +47,12 @@ jobs:
         run: yarn test-e2e
         env:
           VITE_GOOGLE_MAPS_KEY: '${{ secrets.GOOGLE_MAPS_KEY }}'
+      - name: 'Upload screenshot'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wizard-screenshot
+          path: e2e/screenshots/wizard.png
+          if-no-files-found: error
       - name: 'Upload Playwright report'
         if: failure()
         uses: actions/upload-artifact@v4
@@ -41,9 +60,29 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+  publish:
+    needs: screenshot
+    if: always() && (needs.screenshot.result == 'success' || needs.screenshot.result == 'failure')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: 'Check out'
+        # On pull_request_target this is main, never the fork's code.
+        if: needs.screenshot.result == 'success'
+        uses: actions/checkout@v4
+      - name: 'Download screenshot'
+        if: needs.screenshot.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: wizard-screenshot
+          path: ${{ runner.temp }}/screenshot
       - name: 'Publish screenshot to the pr-screenshots branch'
-        if: success()
+        if: needs.screenshot.result == 'success'
         id: publish
+        env:
+          SCREENSHOT: ${{ runner.temp }}/screenshot/wizard.png
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -56,12 +95,12 @@ jobs:
           else
             git checkout --orphan pr-screenshots
             # --orphan carries the source branch's index over; drop it so we don't commit the
-            # whole app tree, leaving just-built files (like the screenshot) on disk untouched.
+            # whole app tree.
             git rm -rf --cached . > /dev/null
           fi
 
           mkdir -p "pr-${{ github.event.pull_request.number }}"
-          cp e2e/screenshots/wizard.png "$screenshot_path"
+          cp "$SCREENSHOT" "$screenshot_path"
           git add "$screenshot_path"
           git commit -m "Update wizard screenshot for PR #${{ github.event.pull_request.number }}" --allow-empty
           git push origin pr-screenshots
