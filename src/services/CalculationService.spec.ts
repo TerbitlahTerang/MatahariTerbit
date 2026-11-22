@@ -113,6 +113,27 @@ describe('Calculate system characteristics', () => {
     const panelReplacementYears = results.projection.filter(y => (y.panelReplacementCost ?? 0) > 0).map(y => y.index)
     expect(panelReplacementYears).toEqual([])
   })
+
+  it('Should include balance-of-system costs in the break-even point and NPV', async () => {
+    const dataWithBalanceOfSystem = (balanceOfSystemPercent: number): InputData => ({
+      monthlyCostEstimateInRupiah: 1000000.0,
+      monthlyUsageInKwh: 1000,
+      connectionPower: 2200.0,
+      pvOut: 1800,
+      calculatorSettings: {
+        ...CALCULATOR_SETTINGS,
+        priceSettings: {
+          ...CALCULATOR_SETTINGS.priceSettings,
+          balanceOfSystemPercent
+        }
+      }
+    })
+    const withoutBalanceOfSystem = calculateResultData(dataWithBalanceOfSystem(0))
+    const withBalanceOfSystem = calculateResultData(dataWithBalanceOfSystem(1.0))
+
+    expect(withBalanceOfSystem.breakEvenPointInMonths).toBeGreaterThan(withoutBalanceOfSystem.breakEvenPointInMonths)
+    expect(withoutBalanceOfSystem.npv! - withBalanceOfSystem.npv!).toBeCloseTo(withBalanceOfSystem.balanceOfSystemCosts!)
+  })
 })
 
 describe('Off-grid system sizing', () => {

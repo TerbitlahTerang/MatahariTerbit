@@ -134,6 +134,7 @@ export function calculateResultData({
     panelsCosts,
     inverterCosts,
     batteryCosts,
+    balanceOfSystemCosts,
     installationCosts,
     panelLifetimeInYears,
     inverterLifetimeInYears,
@@ -150,7 +151,7 @@ export function calculateResultData({
   const breakEvenPointInMonths = firstMonthAboveZero ? firstMonthAboveZero.index : analysisPeriodInYears * monthsInYear
   const paybackInYears = firstMonthAboveZero ? firstMonthAboveZero.index / monthsInYear : null
 
-  const capex = panelsCosts + inverterCosts + batteryCosts + installationCosts
+  const capex = panelsCosts + inverterCosts + batteryCosts + balanceOfSystemCosts + installationCosts
   const { npv, levelizedCostOfEnergyPerKwh } = discountedMetrics(projection, capex, priceSettings.discountRate)
 
   return {
@@ -205,6 +206,7 @@ interface InvestmentParameters {
   panelsCosts: number
   inverterCosts: number
   batteryCosts: number
+  balanceOfSystemCosts: number
   installationCosts: number
   panelLifetimeInYears: number
   inverterLifetimeInYears: number
@@ -236,7 +238,7 @@ export function roiProjection(numberOfYears: number, result: InvestmentParameter
     tariff: result.taxedPricePerKwh,
     output: result.solarServedPerMonthInKwh * (monthsInYear / divider),
     income: result.solarServedPerMonthInKwh * (monthsInYear / divider) * result.taxedPricePerKwh,
-    cumulativeProfit: result.yearlyProfit - result.panelsCosts - result.inverterCosts - result.batteryCosts - result.installationCosts,
+    cumulativeProfit: result.yearlyProfit - result.panelsCosts - result.inverterCosts - result.batteryCosts - result.balanceOfSystemCosts - result.installationCosts,
     pvOutputPercentage: 1.0,
     solarServedInKwh: result.solarServedPerMonthInKwh * (monthsInYear / divider),
     gridImportInKwh: 0,
