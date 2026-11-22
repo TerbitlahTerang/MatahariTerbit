@@ -3,25 +3,37 @@
 
 name: Deploy to Firebase Hosting on PR
 'on':
+  # Pull requests from branches in this repository run on `pull_request`, so a change to this workflow is
+  # tested in its own PR. Pull requests from forks get no secrets on `pull_request`, so they run on
+  # `pull_request_target` instead: the workflow as it is on main, and only after a reviewer approves the
+  # preview-external environment. Each PR starts both events, and the one that doesn't apply is skipped.
   pull_request:
-    types: [opened, synchronize, reopened, labeled]
+    types: [opened, synchronize, reopened]
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
 concurrency:
-  # Labels other than safe-to-test get a group of their own (the run id), so the skipped run they start
-  # cannot cancel a real run for the same PR.
-  group: >-
-    ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{
-    github.event.action == 'labeled' && github.event.label.name != 'safe-to-test' && github.run_id || 'build' }}
+  # The event name keeps the skipped run of one event from cancelling the real run of the other.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 jobs:
-  build_and_preview:
+  # Runs the pull request's code, so it gets a read-only token and only the Maps key, which ends up in
+  # the public bundle anyway. Everything that needs write access or the Firebase service account runs in
+  # `publish`, which never runs code from the pull request.
+  build:
     if: >-
-      (github.event.action != 'labeled' || github.event.label.name == 'safe-to-test') &&
-      (github.event.pull_request.head.repo.full_name == github.repository ||
-      contains(github.event.pull_request.labels.*.name, 'safe-to-test'))
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository)
+    environment: ${{ github.event_name == 'pull_request_target' && 'preview-external' || 'preview' }}
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          # The commit that was approved, not whatever the branch points at by the time the job starts.
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
       - name: 'Install node'
         uses: actions/setup-node@v4
         with:
@@ -32,16 +44,57 @@ jobs:
         run: yarn lint
       - name: 'Run tests'
         run: yarn test-ci
-      - name: Publish Test Report
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always() # always run even if the previous step fails
+      - name: 'Upload test results'
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          files: 'build/test-results/test/*.xml'
+          name: test-results
+          path: build/test-results/test/*.xml
+          if-no-files-found: ignore
       - name: 'Build'
         run: yarn build
         env:
           VITE_GOOGLE_MAPS_KEY: '${{ secrets.GOOGLE_MAPS_KEY }}'
+      - name: 'Upload build'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: |
+            build
+            !build/test-results
+  publish:
+    needs: build
+    if: always() && (needs.build.result == 'success' || needs.build.result == 'failure')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+    steps:
+      - name: 'Check out'
+        # On pull_request_target this is main, so firebase.json comes from main and not from the fork.
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: 'Download test results'
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: test-results
+          path: test-results
+      - name: Publish Test Report
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          commit: ${{ github.event.pull_request.head.sha }}
+          files: 'test-results/*.xml'
+      - name: 'Download build'
+        if: needs.build.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
       - name: 'Publish'
+        if: needs.build.result == 'success'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
