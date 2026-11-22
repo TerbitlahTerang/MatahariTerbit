@@ -43,10 +43,8 @@ export const MapPicker: React.FunctionComponent<MapPickerProps> = ({ value, onCh
 
 
   const provider = new GoogleProvider({
-    params: {
-      key: GOOGLE_MAPS_KEY,
-      region: 'id'
-    }
+    apiKey: GOOGLE_MAPS_KEY,
+    region: 'id'
   })
 
   useLayoutEffect(() => {

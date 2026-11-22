@@ -1660,6 +1660,13 @@
   dependencies:
     googleapis-common "^8.0.0"
 
+"@googlemaps/js-api-loader@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-2.1.3.tgz#a7b00331d5f89f4f7254bed53564b2eb03dd4a45"
+  integrity sha512-1t6umwRufEGzIPjHPjPeuuY1dCal0zU2bZeomkf4OA0MprFdlKCnXY3zeFkzDaCvKjwbFubeapm61P5+EbrAoA==
+  dependencies:
+    "@types/google.maps" "^3.65.3"
+
 "@grpc/grpc-js@^1.10.9":
   version "1.14.4"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.14.4.tgz#e73ff57d97802f063999545f43ebb2b1eca65d9d"
@@ -2657,6 +2664,11 @@
   version "7946.0.8"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
   integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
+
+"@types/google.maps@^3.53.1", "@types/google.maps@^3.65.3":
+  version "3.67.0"
+  resolved "https://registry.yarnpkg.com/@types/google.maps/-/google.maps-3.67.0.tgz#6772ae3fe1ec660512406ffb072b6367b8a9abf5"
+  integrity sha512-LQ+kWi0BOWeEUpcMaag/cqOMI3DmOPCE34aST1jpeCw5mjoS0hI0P7eV1PUk+8PwpqXeO31Cy+HzBN3dSz103g==
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
@@ -7170,14 +7182,22 @@ lazystream@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
-leaflet-geosearch@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/leaflet-geosearch/-/leaflet-geosearch-3.6.0.tgz#1e2da4152e473df24467ca019334a981af9330c9"
-  integrity sha512-TkJOi+eVbsQB7wC0ssGzV9eGQv5BgEwDyb0QOunYA64qe53lB+ostUemvQD7Cmari0shtgBr3Patn5galjr3WA==
+leaflet-geosearch@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/leaflet-geosearch/-/leaflet-geosearch-5.3.0.tgz#50b30f7b6e2e973c39b7b7cc6f9a1a4df6d21420"
+  integrity sha512-CtX+vkB+9VIvdFvSgoth10WsGAkGm9WO00v7sdRzoSoB/YmlDkGj1ScBHAxbW6szm7mBdgxEm7tno/DHtLTHNA==
+  dependencies:
+    "@types/google.maps" "^3.53.1"
   optionalDependencies:
-    leaflet "^1.6.0"
+    "@googlemaps/js-api-loader" "^2.1.3"
+    leaflet "^1.6.0 || ^2.0.0-alpha.1"
 
-leaflet@^1.6.0, leaflet@^1.8.0:
+"leaflet@^1.6.0 || ^2.0.0-alpha.1":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
+  integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
+
+leaflet@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.8.0.tgz#4615db4a22a304e8e692cae9270b983b38a2055e"
   integrity sha512-gwhMjFCQiYs3x/Sf+d49f10ERXaEFCPr+nVTryhAW8DWbMGqJqt9G4XuIaHmFW08zYvhgdzqXGr8AlW8v8dQkA==
