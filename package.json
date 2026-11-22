@@ -1,6 +1,9 @@
 {
   "name": "matahari-terbit",
   "private": true,
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "scripts": {
     "serve": "vite",
     "build": "vite build",
