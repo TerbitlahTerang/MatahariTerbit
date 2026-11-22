@@ -13,9 +13,9 @@ jobs:
       - name: 'Check out'
         uses: actions/checkout@v2
       - name: 'Install node'
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
       - name: 'Build'
         run: yarn && yarn build
         env:
