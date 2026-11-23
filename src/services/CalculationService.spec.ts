@@ -134,6 +134,28 @@ describe('Calculate system characteristics', () => {
     expect(withBalanceOfSystem.breakEvenPointInMonths).toBeGreaterThan(withoutBalanceOfSystem.breakEvenPointInMonths)
     expect(withoutBalanceOfSystem.npv! - withBalanceOfSystem.npv!).toBeCloseTo(withBalanceOfSystem.balanceOfSystemCosts!)
   })
+
+  it('Should break even once the monthly savings have paid back the system costs', async () => {
+    const data: InputData = {
+      monthlyCostEstimateInRupiah: 1000000.0,
+      monthlyUsageInKwh: 1000,
+      connectionPower: 2200.0,
+      pvOut: 1800,
+      calculatorSettings: {
+        ...CALCULATOR_SETTINGS,
+        priceSettings: {
+          ...CALCULATOR_SETTINGS.priceSettings,
+          electricityPriceInflationRate: 0,
+          maintenancePercentPerYear: 0,
+          capacityLossRate: 0,
+          balanceOfSystemPercent: 0
+        }
+      }
+    }
+    const results = calculateResultData(data)
+
+    expect(results.breakEvenPointInMonths).toBe(Math.floor(results.totalSystemCosts / results.monthlyProfit))
+  })
 })
 
 describe('Off-grid system sizing', () => {

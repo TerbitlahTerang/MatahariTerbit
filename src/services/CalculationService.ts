@@ -238,7 +238,7 @@ export function roiProjection(numberOfYears: number, result: InvestmentParameter
     tariff: result.taxedPricePerKwh,
     output: result.solarServedPerMonthInKwh * (monthsInYear / divider),
     income: result.solarServedPerMonthInKwh * (monthsInYear / divider) * result.taxedPricePerKwh,
-    cumulativeProfit: result.yearlyProfit - result.panelsCosts - result.inverterCosts - result.batteryCosts - result.balanceOfSystemCosts - result.installationCosts,
+    cumulativeProfit: result.yearlyProfit / divider - result.panelsCosts - result.inverterCosts - result.batteryCosts - result.balanceOfSystemCosts - result.installationCosts,
     pvOutputPercentage: 1.0,
     solarServedInKwh: result.solarServedPerMonthInKwh * (monthsInYear / divider),
     gridImportInKwh: 0,
